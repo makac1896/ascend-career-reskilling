@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import MainDashboard from './components/MainDashboard';
 import IngestionDashboard from './components/IngestionDashboard';
 import ObserveDashboard from './components/ObserveDashboard';
+import CurriculumDashboard from './components/CurriculumDashboard';
 import DesignWorkshopModal from './components/DesignWorkshopModal';
 import Toast, { ToastProps } from './components/Toast';
 import { 
@@ -124,6 +125,8 @@ const App: React.FC = () => {
               return <IngestionDashboard onAction={handleMarketAction} />;
           case 'Observation Deck':
               return <ObserveDashboard />;
+          case 'Curriculum':
+              return <CurriculumDashboard />;
           default:
               return (
                   <div className="flex items-center justify-center h-[60vh] flex-col gap-4 text-center">
