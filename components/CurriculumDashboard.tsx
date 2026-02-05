@@ -17,11 +17,13 @@ import {
     List,
     Sparkles,
     Tag,
-    Hash
+    Hash,
+    Trophy,
+    Lightbulb
 } from 'lucide-react';
 import { GlassDNA, ClayCube, GlassGlobe, GlassLightning } from './GlassIcons';
 
-// --- Mock Data with High-Fidelity Imagery ---
+// --- Mock Data with Fixed Imagery & Rationale ---
 const initiatives = [
     {
         id: 1,
@@ -33,7 +35,9 @@ const initiatives = [
         image: "https://images.unsplash.com/photo-1639322537228-f710d846310a?q=80&w=2832&auto=format&fit=crop",
         tags: ["FinTech", "Verification"],
         partner: "Deloitte",
-        nextSession: "Tomorrow, 2:00 PM"
+        nextSession: "Tomorrow, 2:00 PM",
+        theme: "violet",
+        rationale: "Audit firms reveal 80% of entry-level analyst roles now require Python validation skills, displacing Excel."
     },
     {
         id: 2,
@@ -45,7 +49,9 @@ const initiatives = [
         image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=2070&auto=format&fit=crop",
         tags: ["Bio-Ethics", "Human Agency"],
         partner: "Pfizer",
-        nextSession: "Pending Approval"
+        nextSession: "Pending Approval",
+        theme: "teal",
+        rationale: "Patient advocacy groups flagged 'AI Triage' as a high-risk failure point in recent clinical trials. Critical gap."
     },
     {
         id: 3,
@@ -57,7 +63,9 @@ const initiatives = [
         image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2070&auto=format&fit=crop",
         tags: ["Supply Chain", "3D Modeling"],
         partner: "Tesla",
-        nextSession: "In Progress"
+        nextSession: "In Progress",
+        theme: "orange",
+        rationale: "Automotive supply chains are shifting to generative parts; current syllabus focuses only on traditional casting."
     },
     {
         id: 4,
@@ -69,7 +77,9 @@ const initiatives = [
         image: "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=2070&auto=format&fit=crop",
         tags: ["Law", "Logic"],
         partner: "Baker McKenzie",
-        nextSession: "Cohort Closed"
+        nextSession: "Cohort Closed",
+        theme: "blue",
+        rationale: "Associates spend 40% of time prompting LLMs. ABA guidance suggests new ethics standard for AI interaction."
     },
     {
         id: 5,
@@ -78,10 +88,12 @@ const initiatives = [
         status: "Active",
         enrolled: 320,
         gapClosure: 65,
-        image: "https://images.unsplash.com/photo-1494412574643-35d324698428?q=80&w=2053&auto=format&fit=crop",
+        image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2070&auto=format&fit=crop",
         tags: ["Logistics", "Strategy"],
         partner: "Maersk",
-        nextSession: "Live Now"
+        nextSession: "Live Now",
+        theme: "pink",
+        rationale: "Global disruptions require real-time scenario planning. Static case studies are failing to prepare grads."
     },
     {
         id: 6,
@@ -93,42 +105,104 @@ const initiatives = [
         image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop",
         tags: ["Media", "Verification"],
         partner: "NY Times",
-        nextSession: "Needs Funding"
+        nextSession: "Needs Funding",
+        theme: "yellow",
+        rationale: "Verification is now a primary skill for investigative desks. Deepfake detection tools are absent in current lab."
     }
 ];
 
+// Helper for "Juicy" Color Themes
+const getThemeStyles = (theme: string) => {
+    switch (theme) {
+        case 'violet': return {
+            bg: 'bg-violet-50',
+            border: 'border-violet-100',
+            accent: 'bg-violet-500',
+            text: 'text-violet-700',
+            lightAccent: 'bg-violet-200',
+            gradient: 'from-violet-500 to-purple-600',
+            shadow: 'shadow-violet-200'
+        };
+        case 'teal': return {
+            bg: 'bg-teal-50',
+            border: 'border-teal-100',
+            accent: 'bg-teal-500',
+            text: 'text-teal-700',
+            lightAccent: 'bg-teal-200',
+            gradient: 'from-teal-500 to-emerald-500',
+            shadow: 'shadow-teal-200'
+        };
+        case 'orange': return {
+            bg: 'bg-orange-50',
+            border: 'border-orange-100',
+            accent: 'bg-orange-500',
+            text: 'text-orange-700',
+            lightAccent: 'bg-orange-200',
+            gradient: 'from-orange-500 to-red-500',
+            shadow: 'shadow-orange-200'
+        };
+        case 'pink': return {
+            bg: 'bg-pink-50',
+            border: 'border-pink-100',
+            accent: 'bg-pink-500',
+            text: 'text-pink-700',
+            lightAccent: 'bg-pink-200',
+            gradient: 'from-pink-500 to-rose-600',
+            shadow: 'shadow-pink-200'
+        };
+        case 'yellow': return {
+            bg: 'bg-yellow-50',
+            border: 'border-yellow-200', // slightly darker border for visibility
+            accent: 'bg-yellow-500',
+            text: 'text-yellow-700',
+            lightAccent: 'bg-yellow-200',
+            gradient: 'from-yellow-400 to-orange-400',
+            shadow: 'shadow-yellow-200'
+        };
+        default: return {
+            bg: 'bg-blue-50',
+            border: 'border-blue-100',
+            accent: 'bg-blue-500',
+            text: 'text-blue-700',
+            lightAccent: 'bg-blue-200',
+            gradient: 'from-blue-500 to-indigo-600',
+            shadow: 'shadow-blue-200'
+        };
+    }
+};
+
 const StatusBadge: React.FC<{ status: string }> = ({ status }) => {
-    // Glass Capsule Style
-    const glassStyles = {
-        Active: "bg-green-500 text-white border-green-400 shadow-[0_0_15px_rgba(34,197,94,0.4)]",
-        Proposed: "bg-blue-500 text-white border-blue-400 shadow-[0_0_15px_rgba(59,130,246,0.4)]",
-        Completed: "bg-gray-800 text-gray-200 border-gray-600",
+    const styles = {
+        Active: "bg-green-500 text-white shadow-[0_4px_0_#15803d]",
+        Proposed: "bg-blue-500 text-white shadow-[0_4px_0_#1d4ed8]",
+        Completed: "bg-slate-700 text-slate-200 shadow-[0_4px_0_#0f172a]",
     };
     
     return (
-        <span className={`px-3 py-1.5 rounded-xl text-[10px] font-extrabold uppercase tracking-widest border backdrop-blur-md flex items-center gap-2 ${glassStyles[status as keyof typeof glassStyles] || glassStyles.Active}`}>
-            {status === 'Active' && <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse shadow-[0_0_8px_white]"></span>}
+        <span className={`px-4 py-1.5 rounded-xl text-[11px] font-black uppercase tracking-wider flex items-center gap-2 transform active:translate-y-[2px] active:shadow-none transition-all ${styles[status as keyof typeof styles] || styles.Active}`}>
+            {status === 'Active' && <Zap className="w-3.5 h-3.5 fill-current" />}
             {status}
         </span>
     );
 };
 
 const InitiativeCard: React.FC<{ data: typeof initiatives[0] }> = ({ data }) => {
+    const styles = getThemeStyles(data.theme);
     const isLive = data.status === 'Active';
 
     return (
-        <div className="group relative bg-white rounded-[32px] border-2 border-gray-100 hover:border-blue-200 shadow-sm hover:shadow-[0_20px_50px_rgba(8,_112,_184,_0.1)] transition-all duration-300 flex flex-col h-[520px] overflow-hidden">
+        <div className={`group relative bg-white rounded-[32px] border-2 ${styles.border} hover:border-transparent hover:ring-4 hover:ring-offset-2 ${styles.text.replace('text-', 'ring-')} shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-[650px] overflow-hidden`}>
             
-            {/* Image Header - Taller for impact */}
-            <div className="h-52 relative shrink-0 overflow-hidden">
+            {/* Image Header */}
+            <div className="h-48 relative shrink-0 overflow-hidden">
                 <img 
                     src={data.image} 
                     alt={data.title} 
                     className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out"
                 />
                 
-                {/* Cinematic Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40 to-transparent/10 opacity-90 group-hover:opacity-100 transition-opacity"></div>
+                {/* Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80"></div>
 
                 {/* Status Badge */}
                 <div className="absolute top-5 left-5 z-20">
@@ -137,106 +211,105 @@ const InitiativeCard: React.FC<{ data: typeof initiatives[0] }> = ({ data }) => 
 
                 {/* Menu Button */}
                 <div className="absolute top-5 right-5 z-20">
-                    <button className="w-10 h-10 rounded-xl bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white transition-all flex items-center justify-center">
-                        <MoreHorizontal className="w-5 h-5" />
+                    <button className="w-10 h-10 rounded-xl bg-black/20 hover:bg-black/40 backdrop-blur-md border border-white/20 text-white transition-all flex items-center justify-center">
+                        <MoreHorizontal className="w-6 h-6" />
                     </button>
                 </div>
 
-                {/* Title & Dept Overlay */}
+                {/* Title Overlay */}
                 <div className="absolute bottom-0 left-0 p-6 w-full z-20">
-                    <div className="flex items-center gap-2 mb-2 text-white/80">
-                         <GraduationCap className="w-4 h-4 text-blue-300" />
-                         <span className="text-xs font-bold uppercase tracking-widest">{data.dept}</span>
+                    <div className="flex items-center gap-2 mb-2">
+                         <span className={`px-2 py-0.5 rounded-md bg-white/20 backdrop-blur-md border border-white/30 text-white text-[10px] font-extrabold uppercase tracking-widest`}>
+                            {data.dept}
+                         </span>
                     </div>
-                    <h3 className="text-2xl font-bold text-white leading-tight shadow-sm line-clamp-2">{data.title}</h3>
+                    <h3 className="text-2xl font-extrabold text-white leading-tight shadow-sm line-clamp-2 drop-shadow-md">{data.title}</h3>
                 </div>
             </div>
 
-            {/* Body Content */}
-            <div className="p-6 flex flex-col flex-1 bg-white relative">
+            {/* Body Content - Now tinted based on theme */}
+            <div className={`p-6 flex flex-col flex-1 ${styles.bg} relative`}>
                 
-                {/* Partner & Context - Technical Divider */}
-                <div className="flex items-start justify-between mb-6 pb-6 border-b-2 border-dashed border-gray-100">
-                    <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-blue-50 border-2 border-blue-100 flex items-center justify-center text-blue-600 font-bold text-lg">
-                            {data.partner.charAt(0)}
-                        </div>
-                        <div>
-                            <span className="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest block mb-0.5">Powered By</span>
-                            <span className="text-sm font-bold text-slate-800">{data.partner}</span>
-                        </div>
+                {/* Partner Info */}
+                <div className="flex items-center gap-3 mb-5">
+                    <div className="w-10 h-10 rounded-xl bg-white border-2 border-white shadow-sm flex items-center justify-center text-xl font-black text-slate-700">
+                        {data.partner.charAt(0)}
                     </div>
-                     <div className="text-right">
-                        <span className="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest block mb-0.5">Next Session</span>
-                        <div className="flex items-center gap-1.5 justify-end">
-                            <Clock className="w-3.5 h-3.5 text-blue-500" />
-                            <span className="text-xs font-bold text-slate-700">{data.nextSession}</span>
-                        </div>
+                    <div>
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wide">Powered By</span>
+                        <h4 className="text-sm font-bold text-slate-800">{data.partner}</h4>
+                    </div>
+                    <div className="ml-auto flex items-center gap-1.5 px-3 py-1.5 bg-white rounded-lg border border-slate-100 shadow-sm">
+                        <Clock className={`w-3.5 h-3.5 ${styles.text}`} />
+                        <span className="text-xs font-bold text-slate-600">{data.status === 'Active' ? 'Live Now' : 'Pending'}</span>
                     </div>
                 </div>
 
-                {/* Data Grid */}
-                <div className="grid grid-cols-2 gap-4 mb-6">
-                    {/* Enrollment Stat */}
-                    <div className="p-3.5 rounded-2xl bg-gray-50 border border-gray-100 flex flex-col justify-center">
-                         <div className="flex items-center gap-2 mb-1">
-                            <Users className="w-3.5 h-3.5 text-gray-400" />
-                            <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wide">Enrolled</span>
-                         </div>
-                         <span className="text-xl font-extrabold text-slate-900">{data.enrolled}</span>
+                {/* Signal Intelligence Box - The "Why" */}
+                <div className="mb-5 bg-white/60 p-4 rounded-2xl border border-white/50 shadow-sm backdrop-blur-sm relative overflow-hidden group/box">
+                    <div className={`absolute top-0 left-0 w-1 h-full ${styles.accent} opacity-40`}></div>
+                    <div className="flex items-center gap-2 mb-2">
+                        <div className={`p-1 rounded-md ${styles.lightAccent}`}>
+                            <Sparkles className={`w-3 h-3 ${styles.text}`} />
+                        </div>
+                        <span className={`text-[10px] font-extrabold uppercase tracking-wider ${styles.text} opacity-80`}>
+                            Signal Intelligence
+                        </span>
+                    </div>
+                    <p className="text-xs font-semibold text-slate-700 leading-relaxed relative z-10">
+                        "{data.rationale}"
+                    </p>
+                </div>
+
+                {/* Data Grid - Floating White Cards */}
+                <div className="grid grid-cols-2 gap-3 mb-6">
+                    <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
+                        <div className="flex items-center gap-2 mb-1">
+                            <Users className="w-4 h-4 text-slate-400" />
+                            <span className="text-[10px] font-bold text-slate-400 uppercase">Enrolled</span>
+                        </div>
+                        <span className="text-2xl font-black text-slate-800">{data.enrolled}</span>
                     </div>
                     
-                    {/* Tags */}
-                    <div className="p-3.5 rounded-2xl bg-gray-50 border border-gray-100 flex flex-col justify-center">
-                         <div className="flex items-center gap-2 mb-1.5">
-                            <Hash className="w-3.5 h-3.5 text-gray-400" />
-                            <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wide">Focus Area</span>
-                         </div>
+                    <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
+                         <div className="flex items-center gap-2 mb-1">
+                            <Hash className="w-4 h-4 text-slate-400" />
+                            <span className="text-[10px] font-bold text-slate-400 uppercase">Tag</span>
+                        </div>
                          <div className="flex flex-wrap gap-1">
-                            {data.tags.slice(0, 1).map((t, i) => (
-                                <span key={i} className="text-xs font-bold text-slate-700 truncate">
-                                    {t}
-                                </span>
-                            ))}
-                            {data.tags.length > 1 && <span className="text-xs text-gray-400 font-bold">+{data.tags.length - 1}</span>}
+                            <span className={`text-xs font-bold ${styles.text} truncate`}>
+                                {data.tags[0]}
+                            </span>
                          </div>
                     </div>
                 </div>
 
-                {/* Linear Progress Section - Bottom Anchor */}
+                {/* Juicy Progress Section */}
                 <div className="mt-auto">
                     <div className="flex justify-between items-end mb-2">
-                        <span className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
-                            <Zap className="w-4 h-4 text-ascend-blue" /> Gap Closure
-                        </span>
-                        <div className="text-right flex items-baseline gap-2">
-                            <span className="text-2xl font-extrabold text-slate-900">{data.gapClosure}%</span>
-                            <span className="text-xs font-bold text-green-500">+5% this wk</span>
+                        <div className="flex items-center gap-1.5">
+                            <Trophy className={`w-4 h-4 ${styles.text}`} />
+                            <span className="text-xs font-black text-slate-500 uppercase tracking-wider">Gap Closure</span>
                         </div>
+                        <span className={`text-xl font-black ${styles.text}`}>{data.gapClosure}%</span>
                     </div>
                     
-                    {/* Progress Track */}
-                    <div className="w-full h-3 bg-gray-100 rounded-full overflow-hidden border border-gray-100">
+                    {/* The "Tube" Progress Bar */}
+                    <div className={`w-full h-4 ${styles.lightAccent} rounded-full overflow-hidden relative mb-6`}>
                         <div 
-                            className={`h-full rounded-full transition-all duration-1000 ${
-                                isLive 
-                                ? 'bg-gradient-to-r from-blue-500 to-indigo-600 shadow-[0_0_10px_rgba(59,130,246,0.5)]' 
-                                : 'bg-gray-300'
-                            }`} 
+                            className={`h-full rounded-full bg-gradient-to-r ${styles.gradient} relative`} 
                             style={{ width: `${data.gapClosure}%` }}
                         >
-                            {/* Animated Shine Effect */}
-                            {isLive && <div className="w-full h-full bg-white/20 animate-pulse"></div>}
+                            {/* Inner Highlight for 3D effect */}
+                            <div className="absolute top-1 left-1 right-1 h-1 bg-white/30 rounded-full"></div>
                         </div>
                     </div>
-                </div>
 
-                 {/* Hover Action - Manage Button */}
-                 <div className="absolute bottom-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300 translate-x-4 group-hover:translate-x-0">
-                    <button className="flex items-center gap-1 text-xs font-bold text-blue-600 bg-blue-50 px-3 py-1.5 rounded-lg border border-blue-100 hover:bg-blue-100">
-                        Manage <ArrowUpRight className="w-3.5 h-3.5" />
+                    {/* Persistent Action Button */}
+                    <button className={`w-full py-4 rounded-xl font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2 text-white ${styles.accent} hover:brightness-110 active:scale-95 group-hover:shadow-lg`}>
+                        Manage Curriculum <ArrowUpRight className="w-4 h-4" />
                     </button>
-                 </div>
+                </div>
             </div>
         </div>
     );
@@ -346,12 +419,12 @@ const CurriculumDashboard: React.FC = () => {
             ))}
 
             {/* "Add New" Placeholder Card */}
-            <div className="group rounded-[32px] border-2 border-dashed border-gray-200 bg-gray-50/50 hover:bg-blue-50/30 hover:border-ascend-blue/50 flex flex-col items-center justify-center cursor-pointer transition-all duration-300 h-[520px]">
-                <div className="w-20 h-20 rounded-full bg-white shadow-sm border border-gray-100 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform group-hover:shadow-md group-hover:border-blue-100">
-                    <Plus className="w-8 h-8 text-gray-300 group-hover:text-ascend-blue transition-colors" />
+            <div className="group rounded-[32px] border-4 border-dashed border-gray-200 bg-gray-50/50 hover:bg-blue-50 hover:border-blue-300 flex flex-col items-center justify-center cursor-pointer transition-all duration-300 h-[650px]">
+                <div className="w-24 h-24 rounded-3xl bg-white shadow-sm border border-gray-100 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform group-hover:shadow-lg group-hover:rotate-3">
+                    <Plus className="w-10 h-10 text-gray-300 group-hover:text-blue-500 transition-colors" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-400 group-hover:text-ascend-blue transition-colors">Draft New Intervention</h3>
-                <p className="text-xs font-bold text-gray-300 mt-2 uppercase tracking-widest">Orchestrate a new lab</p>
+                <h3 className="text-xl font-black text-gray-400 group-hover:text-blue-600 transition-colors">Draft Intervention</h3>
+                <p className="text-xs font-bold text-gray-300 mt-2 uppercase tracking-widest group-hover:text-blue-400">Orchestrate a new lab</p>
             </div>
         </div>
 
