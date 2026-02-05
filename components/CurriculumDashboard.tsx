@@ -15,7 +15,9 @@ import {
     GraduationCap,
     LayoutGrid,
     List,
-    Sparkles
+    Sparkles,
+    Tag,
+    Hash
 } from 'lucide-react';
 import { GlassDNA, ClayCube, GlassGlobe, GlassLightning } from './GlassIcons';
 
@@ -96,103 +98,145 @@ const initiatives = [
 ];
 
 const StatusBadge: React.FC<{ status: string }> = ({ status }) => {
-    const styles = {
-        Active: "bg-green-500/20 text-green-300 border-green-500/30 backdrop-blur-md",
-        Proposed: "bg-blue-500/20 text-blue-300 border-blue-500/30 backdrop-blur-md",
-        Completed: "bg-gray-500/20 text-gray-300 border-gray-500/30 backdrop-blur-md",
+    // Glass Capsule Style
+    const glassStyles = {
+        Active: "bg-green-500 text-white border-green-400 shadow-[0_0_15px_rgba(34,197,94,0.4)]",
+        Proposed: "bg-blue-500 text-white border-blue-400 shadow-[0_0_15px_rgba(59,130,246,0.4)]",
+        Completed: "bg-gray-800 text-gray-200 border-gray-600",
     };
     
     return (
-        <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border flex items-center gap-1.5 ${styles[status as keyof typeof styles] || styles.Active}`}>
-            {status === 'Active' && <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>}
+        <span className={`px-3 py-1.5 rounded-xl text-[10px] font-extrabold uppercase tracking-widest border backdrop-blur-md flex items-center gap-2 ${glassStyles[status as keyof typeof glassStyles] || glassStyles.Active}`}>
+            {status === 'Active' && <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse shadow-[0_0_8px_white]"></span>}
             {status}
         </span>
     );
 };
 
 const InitiativeCard: React.FC<{ data: typeof initiatives[0] }> = ({ data }) => {
+    const isLive = data.status === 'Active';
+
     return (
-        <div className="group relative bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-ascend-border h-[420px] flex flex-col">
+        <div className="group relative bg-white rounded-[32px] border-2 border-gray-100 hover:border-blue-200 shadow-sm hover:shadow-[0_20px_50px_rgba(8,_112,_184,_0.1)] transition-all duration-300 flex flex-col h-[520px] overflow-hidden">
             
-            {/* Image Banner */}
-            <div className="h-56 relative overflow-hidden">
+            {/* Image Header - Taller for impact */}
+            <div className="h-52 relative shrink-0 overflow-hidden">
                 <img 
                     src={data.image} 
                     alt={data.title} 
-                    className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-in-out"
+                    className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out"
                 />
                 
-                {/* Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"></div>
+                {/* Cinematic Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40 to-transparent/10 opacity-90 group-hover:opacity-100 transition-opacity"></div>
 
-                {/* Floating Tags */}
-                <div className="absolute top-4 left-4 flex gap-2 z-10">
+                {/* Status Badge */}
+                <div className="absolute top-5 left-5 z-20">
                     <StatusBadge status={data.status} />
                 </div>
 
-                <div className="absolute top-4 right-4 z-10">
-                    <button className="p-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white hover:text-black transition-all">
+                {/* Menu Button */}
+                <div className="absolute top-5 right-5 z-20">
+                    <button className="w-10 h-10 rounded-xl bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white transition-all flex items-center justify-center">
                         <MoreHorizontal className="w-5 h-5" />
                     </button>
                 </div>
 
-                {/* Title Overlay */}
-                <div className="absolute bottom-0 left-0 p-6 w-full translate-y-2 group-hover:translate-y-0 transition-transform duration-300 z-10">
-                    <span className="text-xs font-bold text-white/80 uppercase tracking-wider mb-1 block flex items-center gap-2">
-                       <GraduationCap className="w-3.5 h-3.5" /> {data.dept}
-                    </span>
-                    <h3 className="text-xl font-bold text-white leading-tight mb-2 shadow-sm">{data.title}</h3>
-                    
-                    {/* Partner Pill */}
-                    <div className="flex items-center gap-2">
-                        <span className="text-[10px] font-bold text-white/90 bg-white/20 backdrop-blur-sm px-2 py-1 rounded-md border border-white/10 flex items-center gap-1">
-                            Powered by {data.partner}
-                        </span>
+                {/* Title & Dept Overlay */}
+                <div className="absolute bottom-0 left-0 p-6 w-full z-20">
+                    <div className="flex items-center gap-2 mb-2 text-white/80">
+                         <GraduationCap className="w-4 h-4 text-blue-300" />
+                         <span className="text-xs font-bold uppercase tracking-widest">{data.dept}</span>
                     </div>
+                    <h3 className="text-2xl font-bold text-white leading-tight shadow-sm line-clamp-2">{data.title}</h3>
                 </div>
             </div>
 
             {/* Body Content */}
-            <div className="flex-1 p-6 flex flex-col bg-white relative z-10">
+            <div className="p-6 flex flex-col flex-1 bg-white relative">
                 
-                <div className="flex justify-between items-end mb-6">
-                    {/* Stats */}
-                    <div className="flex flex-col gap-1">
-                         <span className="text-[10px] font-bold text-ascend-subtext uppercase tracking-wider">Gap Closure</span>
-                         <div className="flex items-end gap-1">
-                            <span className="text-2xl font-bold text-ascend-text">{data.gapClosure}%</span>
-                            <span className="text-[10px] font-bold text-green-500 mb-1">+5% this wk</span>
-                         </div>
+                {/* Partner & Context - Technical Divider */}
+                <div className="flex items-start justify-between mb-6 pb-6 border-b-2 border-dashed border-gray-100">
+                    <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-xl bg-blue-50 border-2 border-blue-100 flex items-center justify-center text-blue-600 font-bold text-lg">
+                            {data.partner.charAt(0)}
+                        </div>
+                        <div>
+                            <span className="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest block mb-0.5">Powered By</span>
+                            <span className="text-sm font-bold text-slate-800">{data.partner}</span>
+                        </div>
                     </div>
-
-                    {/* Radial Progress */}
-                    <div className="relative w-12 h-12 flex items-center justify-center">
-                        <svg className="w-full h-full transform -rotate-90">
-                            <circle cx="24" cy="24" r="20" stroke="#E0E5F2" strokeWidth="4" fill="transparent" />
-                            <circle cx="24" cy="24" r="20" stroke="#4318FF" strokeWidth="4" fill="transparent" strokeDasharray={126} strokeDashoffset={126 - (126 * data.gapClosure) / 100} strokeLinecap="round" />
-                        </svg>
-                        <Zap className="w-4 h-4 text-ascend-blue absolute" />
+                     <div className="text-right">
+                        <span className="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest block mb-0.5">Next Session</span>
+                        <div className="flex items-center gap-1.5 justify-end">
+                            <Clock className="w-3.5 h-3.5 text-blue-500" />
+                            <span className="text-xs font-bold text-slate-700">{data.nextSession}</span>
+                        </div>
                     </div>
                 </div>
 
-                {/* Bottom Metadata */}
-                <div className="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between">
-                    <div className="flex items-center gap-2 text-ascend-subtext">
-                        <Users className="w-4 h-4" />
-                        <span className="text-xs font-bold">{data.enrolled > 0 ? `${data.enrolled} Students` : 'Not Launched'}</span>
+                {/* Data Grid */}
+                <div className="grid grid-cols-2 gap-4 mb-6">
+                    {/* Enrollment Stat */}
+                    <div className="p-3.5 rounded-2xl bg-gray-50 border border-gray-100 flex flex-col justify-center">
+                         <div className="flex items-center gap-2 mb-1">
+                            <Users className="w-3.5 h-3.5 text-gray-400" />
+                            <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wide">Enrolled</span>
+                         </div>
+                         <span className="text-xl font-extrabold text-slate-900">{data.enrolled}</span>
                     </div>
                     
-                    <button className="flex items-center gap-1.5 text-xs font-bold text-ascend-blue hover:text-blue-700 transition-colors">
-                        Manage <ArrowUpRight className="w-3.5 h-3.5" />
-                    </button>
+                    {/* Tags */}
+                    <div className="p-3.5 rounded-2xl bg-gray-50 border border-gray-100 flex flex-col justify-center">
+                         <div className="flex items-center gap-2 mb-1.5">
+                            <Hash className="w-3.5 h-3.5 text-gray-400" />
+                            <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wide">Focus Area</span>
+                         </div>
+                         <div className="flex flex-wrap gap-1">
+                            {data.tags.slice(0, 1).map((t, i) => (
+                                <span key={i} className="text-xs font-bold text-slate-700 truncate">
+                                    {t}
+                                </span>
+                            ))}
+                            {data.tags.length > 1 && <span className="text-xs text-gray-400 font-bold">+{data.tags.length - 1}</span>}
+                         </div>
+                    </div>
                 </div>
 
-                {/* Hover Action - "Play" Button Effect */}
-                {data.status === 'Active' && (
-                    <div className="absolute -top-6 right-6 w-12 h-12 bg-ascend-blue rounded-full flex items-center justify-center shadow-glow text-white opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 z-20">
-                        <Play className="w-5 h-5 ml-1 fill-current" />
+                {/* Linear Progress Section - Bottom Anchor */}
+                <div className="mt-auto">
+                    <div className="flex justify-between items-end mb-2">
+                        <span className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
+                            <Zap className="w-4 h-4 text-ascend-blue" /> Gap Closure
+                        </span>
+                        <div className="text-right flex items-baseline gap-2">
+                            <span className="text-2xl font-extrabold text-slate-900">{data.gapClosure}%</span>
+                            <span className="text-xs font-bold text-green-500">+5% this wk</span>
+                        </div>
                     </div>
-                )}
+                    
+                    {/* Progress Track */}
+                    <div className="w-full h-3 bg-gray-100 rounded-full overflow-hidden border border-gray-100">
+                        <div 
+                            className={`h-full rounded-full transition-all duration-1000 ${
+                                isLive 
+                                ? 'bg-gradient-to-r from-blue-500 to-indigo-600 shadow-[0_0_10px_rgba(59,130,246,0.5)]' 
+                                : 'bg-gray-300'
+                            }`} 
+                            style={{ width: `${data.gapClosure}%` }}
+                        >
+                            {/* Animated Shine Effect */}
+                            {isLive && <div className="w-full h-full bg-white/20 animate-pulse"></div>}
+                        </div>
+                    </div>
+                </div>
+
+                 {/* Hover Action - Manage Button */}
+                 <div className="absolute bottom-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300 translate-x-4 group-hover:translate-x-0">
+                    <button className="flex items-center gap-1 text-xs font-bold text-blue-600 bg-blue-50 px-3 py-1.5 rounded-lg border border-blue-100 hover:bg-blue-100">
+                        Manage <ArrowUpRight className="w-3.5 h-3.5" />
+                    </button>
+                 </div>
             </div>
         </div>
     );
@@ -206,56 +250,56 @@ const CurriculumDashboard: React.FC = () => {
     <div className="flex flex-col gap-8 w-full max-w-[1600px] mx-auto pb-10 animate-in fade-in duration-500">
         
         {/* Cinematic Hero Section */}
-        <div className="w-full h-[280px] rounded-3xl relative overflow-hidden group shadow-lg">
+        <div className="w-full h-[280px] rounded-[40px] relative overflow-hidden group shadow-xl">
             <img 
                 src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=2070&auto=format&fit=crop" 
-                className="w-full h-full object-cover" 
+                className="w-full h-full object-cover transform scale-100 group-hover:scale-105 transition-transform duration-[2s]" 
                 alt="Hero"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-900/90 via-indigo-900/80 to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-950/95 via-indigo-950/80 to-transparent"></div>
             
-            <div className="absolute inset-0 p-10 flex flex-col justify-center max-w-2xl z-20">
-                <div className="flex items-center gap-2 mb-3">
-                    <span className="px-3 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/20 text-white text-[10px] font-bold uppercase tracking-widest">
-                        Curriculum OS
+            <div className="absolute inset-0 p-12 flex flex-col justify-center max-w-2xl z-20">
+                <div className="flex items-center gap-3 mb-4">
+                    <span className="px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-blue-100 text-[10px] font-bold uppercase tracking-widest shadow-lg">
+                        Curriculum OS 2.0
                     </span>
-                    <span className="px-3 py-1 rounded-full bg-green-500/20 backdrop-blur-md border border-green-500/30 text-green-300 text-[10px] font-bold uppercase tracking-widest flex items-center gap-1">
+                    <span className="px-3 py-1 rounded-full bg-green-500/20 backdrop-blur-md border border-green-500/30 text-green-300 text-[10px] font-bold uppercase tracking-widest flex items-center gap-1.5 shadow-lg">
                         <Zap className="w-3 h-3" /> System Optimal
                     </span>
                 </div>
-                <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-4 leading-tight tracking-tight">
+                <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-6 leading-tight tracking-tight">
                     Bridging the <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">Latency Gap</span>
                 </h1>
-                <p className="text-white/80 text-lg font-medium mb-8 leading-relaxed max-w-lg">
+                <p className="text-blue-100/80 text-lg font-medium mb-8 leading-relaxed max-w-lg">
                     Orchestrate live interventions across 14 departments. Current closing velocity: <span className="text-white font-bold">12% week-over-week.</span>
                 </p>
                 
                 <div className="flex gap-4">
-                    <button className="px-6 py-3 bg-white text-ascend-blue rounded-xl font-bold text-sm shadow-glow hover:bg-gray-50 transition-all flex items-center gap-2">
+                    <button className="px-6 py-3.5 bg-white text-ascend-blue rounded-xl font-bold text-sm shadow-glow hover:bg-blue-50 transition-all flex items-center gap-2 hover:scale-105 active:scale-95">
                         <Plus className="w-4 h-4" /> New Initiative
                     </button>
-                    <button className="px-6 py-3 bg-white/10 text-white border border-white/20 rounded-xl font-bold text-sm hover:bg-white/20 transition-all backdrop-blur-md">
+                    <button className="px-6 py-3.5 bg-white/10 text-white border border-white/20 rounded-xl font-bold text-sm hover:bg-white/20 transition-all backdrop-blur-md">
                         View Analytics Report
                     </button>
                 </div>
             </div>
 
-            {/* Decorative Floating Glass Elements - Corrected Positioning and Z-Index */}
+            {/* Decorative Floating Glass Elements */}
             <div className="absolute right-20 top-1/2 -translate-y-1/2 hidden lg:block z-10 pointer-events-none">
                  <div className="w-24 h-24 bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 flex items-center justify-center shadow-2xl animate-bounce duration-[3000ms]">
-                    <GlassGlobe className="w-16 h-16" />
+                    <GlassGlobe className="w-16 h-16 opacity-80" />
                  </div>
             </div>
              <div className="absolute right-60 bottom-10 hidden lg:block z-10 pointer-events-none">
                  <div className="w-20 h-20 bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 flex items-center justify-center shadow-2xl animate-pulse duration-[4000ms]">
-                    <GlassDNA className="w-14 h-14" />
+                    <GlassDNA className="w-14 h-14 opacity-80" />
                  </div>
             </div>
         </div>
 
         {/* Controls Bar */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4 sticky top-0 z-20 py-2 backdrop-blur-sm bg-ascend-bg/50">
-            <div className="flex items-center gap-1 bg-white p-1 rounded-xl shadow-sm border border-ascend-border">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4 sticky top-0 z-30 py-4 backdrop-blur-xl bg-ascend-bg/80 -mx-4 px-4 border-b border-ascend-border/50">
+            <div className="flex items-center gap-1.5 bg-white p-1.5 rounded-xl shadow-sm border border-ascend-border">
                 {['All', 'Active', 'Proposed', 'Completed'].map(tab => (
                     <button 
                         key={tab}
@@ -294,7 +338,7 @@ const CurriculumDashboard: React.FC = () => {
         </div>
 
         {/* The Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {initiatives
                 .filter(i => filter === 'All' || i.status === filter)
                 .map(item => (
@@ -302,12 +346,12 @@ const CurriculumDashboard: React.FC = () => {
             ))}
 
             {/* "Add New" Placeholder Card */}
-            <div className="group rounded-3xl border-2 border-dashed border-ascend-border bg-gray-50/50 hover:bg-blue-50/50 hover:border-ascend-blue/50 flex flex-col items-center justify-center cursor-pointer transition-all duration-300 h-[420px]">
-                <div className="w-16 h-16 rounded-full bg-white shadow-sm flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <Plus className="w-8 h-8 text-ascend-subtext group-hover:text-ascend-blue" />
+            <div className="group rounded-[32px] border-2 border-dashed border-gray-200 bg-gray-50/50 hover:bg-blue-50/30 hover:border-ascend-blue/50 flex flex-col items-center justify-center cursor-pointer transition-all duration-300 h-[520px]">
+                <div className="w-20 h-20 rounded-full bg-white shadow-sm border border-gray-100 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform group-hover:shadow-md group-hover:border-blue-100">
+                    <Plus className="w-8 h-8 text-gray-300 group-hover:text-ascend-blue transition-colors" />
                 </div>
-                <h3 className="text-lg font-bold text-ascend-subtext group-hover:text-ascend-blue">Draft New Intervention</h3>
-                <p className="text-xs text-ascend-subtext mt-1">Orchestrate a new lab or course</p>
+                <h3 className="text-xl font-bold text-gray-400 group-hover:text-ascend-blue transition-colors">Draft New Intervention</h3>
+                <p className="text-xs font-bold text-gray-300 mt-2 uppercase tracking-widest">Orchestrate a new lab</p>
             </div>
         </div>
 

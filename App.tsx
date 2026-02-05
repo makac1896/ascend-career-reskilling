@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import MainDashboard from './components/MainDashboard';
-import IngestionDashboard from './components/IngestionDashboard';
+import InsightsDashboard from './components/InsightsDashboard';
 import ObserveDashboard from './components/ObserveDashboard';
 import CurriculumDashboard from './components/CurriculumDashboard';
 import LandingPage from './components/LandingPage';
@@ -127,8 +127,8 @@ const App: React.FC = () => {
                     onViewPipeline={handleViewPipeline}
                 />
               );
-          case 'Ingestion Engine':
-              return <IngestionDashboard onAction={handleMarketAction} />;
+          case 'Insights Engine':
+              return <InsightsDashboard onAction={handleMarketAction} />;
           case 'Observation Deck':
               return <ObserveDashboard />;
           case 'Curriculum':
@@ -189,10 +189,10 @@ const App: React.FC = () => {
              />
              <SidebarItem 
                 icon={<BarChart2 />} 
-                label="Ingestion Engine" 
-                active={activeTab === 'Ingestion Engine'} 
+                label="Insights Engine" 
+                active={activeTab === 'Insights Engine'} 
                 collapsed={isSidebarCollapsed} 
-                onClick={() => { setActiveTab('Ingestion Engine'); }}
+                onClick={() => { setActiveTab('Insights Engine'); }}
              />
              <SidebarItem 
                 icon={<Eye />} 
