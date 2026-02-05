@@ -3,6 +3,7 @@ import MainDashboard from './components/MainDashboard';
 import InsightsDashboard from './components/InsightsDashboard';
 import ObserveDashboard from './components/ObserveDashboard';
 import CurriculumDashboard from './components/CurriculumDashboard';
+import ReportsDashboard from './components/ReportsDashboard';
 import LandingPage from './components/LandingPage';
 import DesignWorkshopModal from './components/DesignWorkshopModal';
 import Toast, { ToastProps } from './components/Toast';
@@ -133,6 +134,8 @@ const App: React.FC = () => {
               return <ObserveDashboard />;
           case 'Curriculum':
               return <CurriculumDashboard />;
+          case 'Reports':
+              return <ReportsDashboard />;
           default:
               return (
                   <div className="flex items-center justify-center h-[60vh] flex-col gap-4 text-center">
