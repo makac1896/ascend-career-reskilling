@@ -3,6 +3,7 @@ import MainDashboard from './components/MainDashboard';
 import IngestionDashboard from './components/IngestionDashboard';
 import ObserveDashboard from './components/ObserveDashboard';
 import CurriculumDashboard from './components/CurriculumDashboard';
+import LandingPage from './components/LandingPage';
 import DesignWorkshopModal from './components/DesignWorkshopModal';
 import Toast, { ToastProps } from './components/Toast';
 import { 
@@ -39,6 +40,7 @@ const SidebarItem: React.FC<{ icon: React.ReactNode; label: string; active?: boo
 );
 
 const App: React.FC = () => {
+  const [showLanding, setShowLanding] = useState(true);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isWorkshopOpen, setIsWorkshopOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('Dashboard');
@@ -106,6 +108,10 @@ const App: React.FC = () => {
       }
   };
 
+  const handleEnterApp = () => {
+      setShowLanding(false);
+  };
+
   const renderContent = () => {
       switch(activeTab) {
           case 'Dashboard':
@@ -140,8 +146,12 @@ const App: React.FC = () => {
       }
   };
 
+  if (showLanding) {
+      return <LandingPage onEnter={handleEnterApp} />;
+  }
+
   return (
-    <div className="min-h-screen flex bg-ascend-bg font-sans overflow-hidden">
+    <div className="min-h-screen flex bg-ascend-bg font-sans overflow-hidden animate-in fade-in duration-700">
       
       <Toast 
         message={toast.message} 

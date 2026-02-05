@@ -126,18 +126,18 @@ const InitiativeCard: React.FC<{ data: typeof initiatives[0] }> = ({ data }) => 
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"></div>
 
                 {/* Floating Tags */}
-                <div className="absolute top-4 left-4 flex gap-2">
+                <div className="absolute top-4 left-4 flex gap-2 z-10">
                     <StatusBadge status={data.status} />
                 </div>
 
-                <div className="absolute top-4 right-4">
+                <div className="absolute top-4 right-4 z-10">
                     <button className="p-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white hover:text-black transition-all">
                         <MoreHorizontal className="w-5 h-5" />
                     </button>
                 </div>
 
                 {/* Title Overlay */}
-                <div className="absolute bottom-0 left-0 p-6 w-full translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                <div className="absolute bottom-0 left-0 p-6 w-full translate-y-2 group-hover:translate-y-0 transition-transform duration-300 z-10">
                     <span className="text-xs font-bold text-white/80 uppercase tracking-wider mb-1 block flex items-center gap-2">
                        <GraduationCap className="w-3.5 h-3.5" /> {data.dept}
                     </span>
@@ -165,7 +165,7 @@ const InitiativeCard: React.FC<{ data: typeof initiatives[0] }> = ({ data }) => 
                          </div>
                     </div>
 
-                    {/* Radial Progress (Visual Only for aesthetic) */}
+                    {/* Radial Progress */}
                     <div className="relative w-12 h-12 flex items-center justify-center">
                         <svg className="w-full h-full transform -rotate-90">
                             <circle cx="24" cy="24" r="20" stroke="#E0E5F2" strokeWidth="4" fill="transparent" />
@@ -189,7 +189,7 @@ const InitiativeCard: React.FC<{ data: typeof initiatives[0] }> = ({ data }) => 
 
                 {/* Hover Action - "Play" Button Effect */}
                 {data.status === 'Active' && (
-                    <div className="absolute -top-6 right-6 w-12 h-12 bg-ascend-blue rounded-full flex items-center justify-center shadow-glow text-white opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
+                    <div className="absolute -top-6 right-6 w-12 h-12 bg-ascend-blue rounded-full flex items-center justify-center shadow-glow text-white opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 z-20">
                         <Play className="w-5 h-5 ml-1 fill-current" />
                     </div>
                 )}
@@ -214,7 +214,7 @@ const CurriculumDashboard: React.FC = () => {
             />
             <div className="absolute inset-0 bg-gradient-to-r from-blue-900/90 via-indigo-900/80 to-transparent"></div>
             
-            <div className="absolute inset-0 p-10 flex flex-col justify-center max-w-2xl">
+            <div className="absolute inset-0 p-10 flex flex-col justify-center max-w-2xl z-20">
                 <div className="flex items-center gap-2 mb-3">
                     <span className="px-3 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/20 text-white text-[10px] font-bold uppercase tracking-widest">
                         Curriculum OS
@@ -240,13 +240,13 @@ const CurriculumDashboard: React.FC = () => {
                 </div>
             </div>
 
-            {/* Decorative Floating Glass Elements */}
-            <div className="absolute right-20 top-1/2 -translate-y-1/2 hidden lg:block">
+            {/* Decorative Floating Glass Elements - Corrected Positioning and Z-Index */}
+            <div className="absolute right-20 top-1/2 -translate-y-1/2 hidden lg:block z-10 pointer-events-none">
                  <div className="w-24 h-24 bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 flex items-center justify-center shadow-2xl animate-bounce duration-[3000ms]">
                     <GlassGlobe className="w-16 h-16" />
                  </div>
             </div>
-             <div className="absolute right-60 bottom-10 hidden lg:block">
+             <div className="absolute right-60 bottom-10 hidden lg:block z-10 pointer-events-none">
                  <div className="w-20 h-20 bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 flex items-center justify-center shadow-2xl animate-pulse duration-[4000ms]">
                     <GlassDNA className="w-14 h-14" />
                  </div>
