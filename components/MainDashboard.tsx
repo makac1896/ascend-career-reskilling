@@ -72,7 +72,7 @@ const MainDashboard: React.FC<MainDashboardProps> = ({
     onViewPipeline
 }) => {
   return (
-    <div className="flex flex-col gap-10 w-full max-w-[1600px] mx-auto pb-10 animate-in fade-in duration-500">
+    <div className="flex flex-col gap-14 w-full max-w-[1600px] mx-auto pb-10 animate-in fade-in duration-500">
         
         {/* HERO SECTION: The Command Bridge */}
         <div className="relative w-full h-[340px] rounded-[40px] overflow-hidden shadow-2xl group shrink-0">
@@ -184,7 +184,8 @@ const MainDashboard: React.FC<MainDashboardProps> = ({
                 subtitle="Module 1: Plan" 
                 icon={<Cpu className="w-5 h-5" />} 
             />
-            <div className="bg-white rounded-[32px] p-1 border border-ascend-border shadow-soft min-h-[500px] h-auto">
+            {/* Added p-8 padding here to fix spacing issues inside the card */}
+            <div className="bg-white rounded-[32px] p-8 border border-ascend-border shadow-soft min-h-[500px] h-auto">
                  <MarketAnalytics onDeepAnalysis={onDeepAnalysis} />
             </div>
         </div>

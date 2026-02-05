@@ -48,12 +48,12 @@ const MarketAnalytics: React.FC<MarketAnalyticsProps> = ({ onDeepAnalysis }) => 
   const [filter, setFilter] = useState<'1W' | '1M' | '1Y'>('1M');
 
   return (
-    <div className="h-full flex flex-col w-full">
+    <div className="flex flex-col w-full gap-8">
       
-      {/* Top Section: Chart (Takes available height minus the bottom bar) */}
-      <div className="flex-1 flex flex-col min-h-0 w-full mb-6">
+      {/* Top Section: Chart */}
+      <div className="flex flex-col w-full">
           {/* Header */}
-          <div className="flex justify-between items-center mb-4">
+          <div className="flex justify-between items-center mb-6">
             <div>
                 <h3 className="text-2xl font-bold text-ascend-text tracking-tight flex items-center gap-2">
                     Market Trajectory
@@ -73,8 +73,8 @@ const MarketAnalytics: React.FC<MarketAnalyticsProps> = ({ onDeepAnalysis }) => 
             </div>
           </div>
 
-          {/* Chart - Now spans full width */}
-          <div className="flex-1 w-full min-h-[220px] relative">
+          {/* Chart - Fixed Height for Stability */}
+          <div className="w-full h-[320px] relative">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={data} margin={{ top: 10, right: 0, left: -20, bottom: 0 }}>
                 <defs>
@@ -129,7 +129,7 @@ const MarketAnalytics: React.FC<MarketAnalyticsProps> = ({ onDeepAnalysis }) => 
           <div className="absolute top-0 right-0 w-64 h-64 bg-white opacity-40 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none group-hover:opacity-50 transition-opacity"></div>
 
           {/* AI Header */}
-          <div className="flex items-center gap-4 min-w-max relative z-10 border-r border-blue-200 pr-8">
+          <div className="flex items-center gap-4 min-w-max relative z-10 md:border-r border-blue-200 md:pr-8 border-b md:border-b-0 pb-6 md:pb-0 w-full md:w-auto">
               <div className="w-12 h-12 rounded-xl bg-white shadow-sm flex items-center justify-center text-ascend-blue border border-blue-100 group-hover:scale-110 transition-transform">
                   <BrainCircuit className="w-6 h-6" />
               </div>
@@ -169,10 +169,10 @@ const MarketAnalytics: React.FC<MarketAnalyticsProps> = ({ onDeepAnalysis }) => 
           </div>
 
           {/* Action Button */}
-          <div className="relative z-10">
+          <div className="relative z-10 w-full md:w-auto">
               <button 
                 onClick={onDeepAnalysis}
-                className="whitespace-nowrap bg-white border border-blue-200 text-ascend-blue text-xs font-bold py-3 px-5 rounded-xl shadow-sm hover:shadow-md hover:bg-blue-50 transition-all flex items-center justify-center gap-2 hover:scale-105"
+                className="w-full md:w-auto whitespace-nowrap bg-white border border-blue-200 text-ascend-blue text-xs font-bold py-3 px-5 rounded-xl shadow-sm hover:shadow-md hover:bg-blue-50 transition-all flex items-center justify-center gap-2 hover:scale-105"
               >
                   <Lightbulb className="w-4 h-4" />
                   Deep Analysis
