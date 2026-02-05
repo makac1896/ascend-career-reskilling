@@ -48,7 +48,7 @@ const MarketAnalytics: React.FC<MarketAnalyticsProps> = ({ onDeepAnalysis }) => 
   const [filter, setFilter] = useState<'1W' | '1M' | '1Y'>('1M');
 
   return (
-    <div className="flex flex-col w-full gap-8">
+    <div className="flex flex-col w-full gap-8 pb-4">
       
       {/* Top Section: Chart */}
       <div className="flex flex-col w-full">

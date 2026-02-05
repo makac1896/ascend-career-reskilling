@@ -24,40 +24,40 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 
 const FrictionLogs: React.FC = () => {
   return (
-    <div className="bg-white rounded-2xl p-6 border border-ascend-border shadow-sm h-full flex flex-col relative overflow-hidden group hover:border-ascend-blue/30 transition-all">
+    <div className="bg-white rounded-[32px] p-10 border border-ascend-border shadow-soft h-full flex flex-col relative overflow-hidden group hover:border-ascend-blue/30 transition-all">
         {/* Header */}
-        <div className="flex justify-between items-start mb-6">
+        <div className="flex justify-between items-start mb-8">
             <div>
-                <div className="flex items-center gap-2 mb-1">
-                    <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse"></span>
-                    <span className="text-[10px] font-bold text-ascend-subtext uppercase tracking-widest">Module: Observe</span>
+                <div className="flex items-center gap-2 mb-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-orange-500 animate-pulse"></span>
+                    <span className="text-[11px] font-extrabold text-ascend-subtext uppercase tracking-widest">Module: Observe</span>
                 </div>
-                <h3 className="text-xl font-bold text-ascend-text tracking-tight">Friction Engine</h3>
+                <h3 className="text-2xl font-bold text-ascend-text tracking-tight">Friction Engine</h3>
             </div>
-            <div className="bg-orange-50 text-orange-600 p-2 rounded-lg">
-                <Activity className="w-5 h-5" />
+            <div className="bg-orange-50 text-orange-600 p-3 rounded-2xl">
+                <Activity className="w-6 h-6" />
             </div>
         </div>
 
         {/* Main Metric */}
-        <div className="flex items-end gap-3 mb-6">
-            <h2 className="text-4xl font-bold text-ascend-text">5.2x</h2>
-            <p className="text-sm font-medium text-ascend-subtext mb-1.5">Avg. AI Refinements per Task</p>
+        <div className="flex items-baseline gap-4 mb-8">
+            <h2 className="text-5xl font-extrabold text-ascend-text tracking-tighter">5.2x</h2>
+            <p className="text-sm font-bold text-ascend-subtext">Avg. AI Refinements per Task</p>
         </div>
 
-        {/* Chart */}
-        <div className="h-32 w-full mb-6">
+        {/* Chart - Increased Height for Breathing Room */}
+        <div className="h-64 w-full mb-8">
             <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={data}>
                     <XAxis 
                         dataKey="name" 
                         axisLine={false} 
                         tickLine={false} 
-                        tick={{fill: '#A3AED0', fontSize: 10, fontWeight: 600}} 
-                        dy={5}
+                        tick={{fill: '#A3AED0', fontSize: 11, fontWeight: 700}} 
+                        dy={10}
                     />
-                    <Tooltip content={<CustomTooltip />} cursor={{fill: '#F4F7FE'}} />
-                    <Bar dataKey="iterations" radius={[4, 4, 0, 0]}>
+                    <Tooltip content={<CustomTooltip />} cursor={{fill: '#F4F7FE', radius: 4}} />
+                    <Bar dataKey="iterations" radius={[6, 6, 0, 0]} barSize={40}>
                         {data.map((entry, index) => (
                             <Cell key={`cell-${index}`} fill={index === 4 ? '#F97316' : '#E0E5F2'} />
                         ))}
@@ -67,11 +67,11 @@ const FrictionLogs: React.FC = () => {
         </div>
 
         {/* Insight Item */}
-        <div className="mt-auto bg-gray-50 rounded-xl p-4 border border-gray-100 flex items-start gap-3">
-            <RefreshCw className="w-5 h-5 text-orange-500 mt-0.5" />
+        <div className="mt-auto bg-gray-50 rounded-2xl p-6 border border-gray-100 flex items-start gap-4">
+            <RefreshCw className="w-6 h-6 text-orange-500 mt-1 shrink-0" />
             <div>
-                <h5 className="text-sm font-bold text-ascend-text mb-1">Process Alert</h5>
-                <p className="text-xs text-ascend-subtext leading-relaxed">
+                <h5 className="text-sm font-bold text-ascend-text mb-2">Process Alert</h5>
+                <p className="text-sm text-ascend-subtext leading-relaxed">
                     Students in <span className="font-bold text-ascend-text">Bio-Ethics</span> are regenerating outputs <span className="font-bold text-orange-500">30% more</span> than average. Curriculum intervention recommended.
                 </p>
             </div>

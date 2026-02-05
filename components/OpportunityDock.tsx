@@ -54,11 +54,11 @@ const InterventionCard: React.FC<InterventionProps> = ({
     }[theme];
 
     return (
-        <div className="min-w-[450px] h-full bg-white rounded-2xl shadow-crisp border border-ascend-border hover:shadow-xl hover:border-ascend-blue/40 transition-all duration-300 flex flex-col group overflow-hidden relative">
+        <div className="min-w-[420px] bg-white rounded-2xl shadow-crisp border border-ascend-border hover:shadow-xl hover:border-ascend-blue/40 transition-all duration-300 flex flex-col group overflow-hidden relative">
              {/* Top Accent Line */}
             <div className={`h-1.5 w-full ${themeColors.bar}`}></div>
 
-            <div className="p-7 flex-1 flex flex-col">
+            <div className="p-7 flex-1 flex flex-col h-full">
                 {/* Header */}
                 <div className="flex justify-between items-start mb-6">
                     <div className="flex items-center gap-5">
@@ -151,8 +151,8 @@ interface OpportunityDockProps {
 
 const OpportunityDock: React.FC<OpportunityDockProps> = ({ onLaunchWorkshop, onDismiss, onViewDeck, onAutoDraft }) => {
   return (
-    <div className="h-full flex flex-col w-full">
-      <div className="flex items-center justify-between mb-6 px-1">
+    <div className="flex flex-col w-full gap-6">
+      <div className="flex items-center justify-between px-1">
           <div className="flex items-center gap-4">
             <h3 className="text-xl font-bold text-ascend-text tracking-tight">Strategic Opportunities</h3>
             <span className="bg-red-50 text-red-600 text-xs font-bold px-3 py-1.5 rounded-full border border-red-100 flex items-center gap-1.5">
@@ -176,71 +176,76 @@ const OpportunityDock: React.FC<OpportunityDockProps> = ({ onLaunchWorkshop, onD
           </div>
       </div>
 
-      <div className="flex-1 pb-4 overflow-x-auto scrollbar-hide flex gap-8 items-stretch w-full px-1">
-         
-         <InterventionCard 
-            title="Gen-AI Ethics Pulse"
-            provider="Detected via OpenAI"
-            demandMetric="High Engagement"
-            supplyMetric="Low Awareness"
-            actionType="Student Email Blast"
-            actionName="Send 'Red Team' Prompting Guide to CS Dept."
-            matchScore={99}
-            theme="purple"
-            icon={<GlassLightning className="w-8 h-8" />}
-            ctaLabel="Deploy Blast"
-            ctaIcon={<Mail className="w-4 h-4" />}
-            onLaunch={onLaunchWorkshop}
-            onAutoDraft={onAutoDraft}
-         />
+      {/* 
+        Scroll container with generous padding-bottom (pb-6) to ensure shadows don't get cut off 
+        or overlap the element below in the main dashboard flow. 
+      */}
+      <div className="w-full overflow-x-auto pb-8 pt-2 scrollbar-hide">
+         <div className="flex gap-8 items-stretch w-max px-2">
+            <InterventionCard 
+                title="Gen-AI Ethics Pulse"
+                provider="Detected via OpenAI"
+                demandMetric="High Engagement"
+                supplyMetric="Low Awareness"
+                actionType="Student Email Blast"
+                actionName="Send 'Red Team' Prompting Guide to CS Dept."
+                matchScore={99}
+                theme="purple"
+                icon={<GlassLightning className="w-8 h-8" />}
+                ctaLabel="Deploy Blast"
+                ctaIcon={<Mail className="w-4 h-4" />}
+                onLaunch={onLaunchWorkshop}
+                onAutoDraft={onAutoDraft}
+            />
 
-         <InterventionCard 
-            title="Sustainable Finance"
-            provider="Detected via BlackRock"
-            demandMetric="450 Open Roles"
-            supplyMetric="12 Active Grads"
-            actionType="Micro-Course"
-            actionName="Deploy 'ESG Investing' Module to Finance Dept."
-            matchScore={94}
-            theme="green"
-            icon={<GlassLeaf className="w-8 h-8" />}
-            ctaLabel="Configure Module"
-            ctaIcon={<Layers className="w-4 h-4" />}
-            onLaunch={onLaunchWorkshop}
-            onAutoDraft={onAutoDraft}
-         />
+            <InterventionCard 
+                title="Sustainable Finance"
+                provider="Detected via BlackRock"
+                demandMetric="450 Open Roles"
+                supplyMetric="12 Active Grads"
+                actionType="Micro-Course"
+                actionName="Deploy 'ESG Investing' Module to Finance Dept."
+                matchScore={94}
+                theme="green"
+                icon={<GlassLeaf className="w-8 h-8" />}
+                ctaLabel="Configure Module"
+                ctaIcon={<Layers className="w-4 h-4" />}
+                onLaunch={onLaunchWorkshop}
+                onAutoDraft={onAutoDraft}
+            />
 
-         <InterventionCard 
-            title="Crisis Response Ops"
-            provider="Detected via Tesla"
-            demandMetric="Spike in Risk Roles"
-            supplyMetric="Theory Only"
-            actionType="Live Simulation"
-            actionName="Host 'Supply Chain Shortage' War Room Event."
-            matchScore={88}
-            theme="blue"
-            icon={<ClayCube className="w-8 h-8" />}
-            ctaLabel="Schedule Live Event"
-            ctaIcon={<Calendar className="w-4 h-4" />}
-            onLaunch={onLaunchWorkshop}
-            onAutoDraft={onAutoDraft}
-         />
+            <InterventionCard 
+                title="Crisis Response Ops"
+                provider="Detected via Tesla"
+                demandMetric="Spike in Risk Roles"
+                supplyMetric="Theory Only"
+                actionType="Live Simulation"
+                actionName="Host 'Supply Chain Shortage' War Room Event."
+                matchScore={88}
+                theme="blue"
+                icon={<ClayCube className="w-8 h-8" />}
+                ctaLabel="Schedule Live Event"
+                ctaIcon={<Calendar className="w-4 h-4" />}
+                onLaunch={onLaunchWorkshop}
+                onAutoDraft={onAutoDraft}
+            />
 
-          <InterventionCard 
-            title="Telehealth Protocols"
-            provider="Detected via CVS Health"
-            demandMetric="Urgent Shift"
-            supplyMetric="Outdated Labs"
-            actionType="Capstone Project"
-            actionName="Launch 'Remote Care' Design Sprint Semester."
-            matchScore={82}
-            theme="orange"
-            icon={<GlassDNA className="w-8 h-8" />}
-            ctaLabel="Initialize Semester"
-            ctaIcon={<PenTool className="w-4 h-4" />}
-            onLaunch={onLaunchWorkshop}
-            onAutoDraft={onAutoDraft}
-         />
+            <InterventionCard 
+                title="Telehealth Protocols"
+                provider="Detected via CVS Health"
+                demandMetric="Urgent Shift"
+                supplyMetric="Outdated Labs"
+                actionType="Capstone Project"
+                actionName="Launch 'Remote Care' Design Sprint Semester."
+                matchScore={82}
+                theme="orange"
+                icon={<GlassDNA className="w-8 h-8" />}
+                ctaLabel="Initialize Semester"
+                ctaIcon={<PenTool className="w-4 h-4" />}
+                onLaunch={onLaunchWorkshop}
+                onAutoDraft={onAutoDraft}
+            />
+         </div>
       </div>
     </div>
   );

@@ -50,7 +50,7 @@ const GlassStatCard: React.FC<{ label: string; value: string; sub: string; icon:
 );
 
 const SectionHeader: React.FC<{ title: string; subtitle: string; icon: React.ReactNode }> = ({ title, subtitle, icon }) => (
-    <div className="flex items-center gap-4 mb-6">
+    <div className="flex items-center gap-4 mb-10">
         <div className="w-10 h-10 rounded-xl bg-ascend-text text-white flex items-center justify-center shadow-lg">
             {icon}
         </div>
@@ -72,10 +72,10 @@ const MainDashboard: React.FC<MainDashboardProps> = ({
     onViewPipeline
 }) => {
   return (
-    <div className="flex flex-col gap-14 w-full max-w-[1600px] mx-auto pb-10 animate-in fade-in duration-500">
+    <div className="flex flex-col gap-24 w-full max-w-[1600px] mx-auto pb-32 animate-in fade-in duration-500">
         
         {/* HERO SECTION: The Command Bridge */}
-        <div className="relative w-full h-[340px] rounded-[40px] overflow-hidden shadow-2xl group shrink-0">
+        <section className="relative w-full h-[340px] rounded-[40px] overflow-hidden shadow-2xl group shrink-0">
              {/* Background Image with Parallax Feel */}
              <div className="absolute inset-0 bg-gray-900">
                 <img 
@@ -139,10 +139,10 @@ const MainDashboard: React.FC<MainDashboardProps> = ({
                      </button>
                  </div>
              </div>
-        </div>
+        </section>
         
         {/* Module 0: System Vital Signs (Levitating Cards) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 -mt-8 px-4">
+        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 -mt-20 px-4 relative z-20">
             <GlassStatCard 
                 label="Skills Tracked" 
                 value="2,543" 
@@ -175,29 +175,28 @@ const MainDashboard: React.FC<MainDashboardProps> = ({
                 color="bg-indigo-500"
                 trend="+3 New"
             />
-        </div>
+        </section>
 
         {/* Intelligence Layer 1: PLAN */}
-        <div>
+        <section className="w-full">
             <SectionHeader 
                 title="Intelligence Layer" 
                 subtitle="Module 1: Plan" 
                 icon={<Cpu className="w-5 h-5" />} 
             />
-            {/* Added p-8 padding here to fix spacing issues inside the card */}
-            <div className="bg-white rounded-[32px] p-8 border border-ascend-border shadow-soft min-h-[500px] h-auto">
+            <div className="bg-white rounded-[32px] p-8 border border-ascend-border shadow-soft w-full h-auto">
                  <MarketAnalytics onDeepAnalysis={onDeepAnalysis} />
             </div>
-        </div>
+        </section>
 
         {/* Intelligence Layer 2: COORDINATE */}
-        <div>
+        <section className="w-full">
              <SectionHeader 
                 title="Orchestration Layer" 
                 subtitle="Module 2: Coordinate" 
                 icon={<Command className="w-5 h-5" />} 
             />
-            <div className="bg-white rounded-[32px] p-8 border border-ascend-border shadow-soft w-full">
+            <div className="bg-white rounded-[32px] p-8 border border-ascend-border shadow-soft w-full h-auto">
                 <OpportunityDock 
                     onLaunchWorkshop={onLaunchWorkshop} 
                     onDismiss={onDismissOpportunity}
@@ -205,30 +204,30 @@ const MainDashboard: React.FC<MainDashboardProps> = ({
                     onAutoDraft={onAutoDraft}
                 />
             </div>
-        </div>
+        </section>
 
         {/* Intelligence Layer 3: OBSERVE & MONITOR */}
-        <div>
+        <section className="w-full">
             <SectionHeader 
                 title="Telemetry Layer" 
                 subtitle="Modules 3 & 4: Observe / Monitor" 
                 icon={<Activity className="w-5 h-5" />} 
             />
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 w-full h-auto">
                 {/* Observe: Friction Logs */}
-                <div className="min-h-[500px] h-auto">
+                <div className="w-full h-auto">
                         <FrictionLogs />
                 </div>
                 
                 {/* Monitor: Draft Board */}
-                <div className="min-h-[500px] h-auto">
+                <div className="w-full h-auto">
                         <TalentDraftBoard 
                         onCandidateClick={onCandidateClick} 
                         onViewPipeline={onViewPipeline}
                     />
                 </div>
             </div>
-        </div>
+        </section>
 
     </div>
   );
