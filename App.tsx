@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import MarketAnalytics from './components/MarketAnalytics';
-import MarketStream from './components/MarketStream';
-import OpportunityDock from './components/OpportunityDock';
-import FrictionLogs from './components/FrictionLogs';
-import TalentDraftBoard from './components/TalentDraftBoard';
+import MainDashboard from './components/MainDashboard';
+import IngestionDashboard from './components/IngestionDashboard';
+import ObserveDashboard from './components/ObserveDashboard';
 import DesignWorkshopModal from './components/DesignWorkshopModal';
 import Toast, { ToastProps } from './components/Toast';
 import { 
@@ -15,13 +13,11 @@ import {
     Layers, 
     FileText,
     HelpCircle,
-    Users,
-    Briefcase,
     PanelLeftClose,
     PanelLeftOpen,
     ChevronLeft,
     ChevronRight,
-    LogOut
+    Eye
 } from 'lucide-react';
 
 const SidebarItem: React.FC<{ icon: React.ReactNode; label: string; active?: boolean; collapsed?: boolean; onClick?: () => void }> = ({ icon, label, active, collapsed, onClick }) => (
@@ -41,22 +37,10 @@ const SidebarItem: React.FC<{ icon: React.ReactNode; label: string; active?: boo
     </div>
 );
 
-const StatCard: React.FC<{ label: string; value: string; icon: React.ReactNode }> = ({ label, value, icon }) => (
-    <div className="bg-white rounded-card p-6 flex items-center gap-6 shadow-sm border border-ascend-border hover:shadow-lg hover:border-ascend-blue/30 transition-all cursor-default group">
-        <div className="w-16 h-16 rounded-full bg-ascend-light-blue flex items-center justify-center text-ascend-blue group-hover:bg-ascend-blue group-hover:text-white transition-colors">
-            {icon}
-        </div>
-        <div>
-            <p className="text-ascend-subtext text-sm font-bold uppercase tracking-wider mb-1">{label}</p>
-            <h4 className="text-3xl font-bold text-ascend-text">{value}</h4>
-        </div>
-    </div>
-);
-
 const App: React.FC = () => {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isWorkshopOpen, setIsWorkshopOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState('Ingestion Engine');
+  const [activeTab, setActiveTab] = useState('Dashboard');
   
   // Toast State
   const [toast, setToast] = useState<Omit<ToastProps, 'onClose'>>({
@@ -121,6 +105,38 @@ const App: React.FC = () => {
       }
   };
 
+  const renderContent = () => {
+      switch(activeTab) {
+          case 'Dashboard':
+              return (
+                <MainDashboard 
+                    onAction={handleMarketAction}
+                    onDeepAnalysis={handleDeepAnalysis}
+                    onLaunchWorkshop={() => setIsWorkshopOpen(true)}
+                    onDismissOpportunity={handleDismissOpportunity}
+                    onViewDeck={handleViewDeck}
+                    onAutoDraft={handleAutoDraft}
+                    onCandidateClick={handleCandidateClick}
+                    onViewPipeline={handleViewPipeline}
+                />
+              );
+          case 'Ingestion Engine':
+              return <IngestionDashboard onAction={handleMarketAction} />;
+          case 'Observation Deck':
+              return <ObserveDashboard />;
+          default:
+              return (
+                  <div className="flex items-center justify-center h-[60vh] flex-col gap-4 text-center">
+                      <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center">
+                          <Layers className="w-8 h-8 text-ascend-subtext" />
+                      </div>
+                      <h3 className="text-xl font-bold text-ascend-text">Module Loading...</h3>
+                      <p className="text-ascend-subtext max-w-sm">The {activeTab} module is currently being provisioned by the orchestration engine.</p>
+                  </div>
+              );
+      }
+  };
+
   return (
     <div className="min-h-screen flex bg-ascend-bg font-sans overflow-hidden">
       
@@ -156,7 +172,7 @@ const App: React.FC = () => {
                 label="Dashboard" 
                 active={activeTab === 'Dashboard'} 
                 collapsed={isSidebarCollapsed} 
-                onClick={() => { setActiveTab('Dashboard'); showToast("Dashboard View Updated", "info"); }}
+                onClick={() => { setActiveTab('Dashboard'); showToast("System Overview Loaded", "info"); }}
              />
              <SidebarItem 
                 icon={<BarChart2 />} 
@@ -164,6 +180,13 @@ const App: React.FC = () => {
                 active={activeTab === 'Ingestion Engine'} 
                 collapsed={isSidebarCollapsed} 
                 onClick={() => { setActiveTab('Ingestion Engine'); }}
+             />
+             <SidebarItem 
+                icon={<Eye />} 
+                label="Observation Deck" 
+                active={activeTab === 'Observation Deck'} 
+                collapsed={isSidebarCollapsed} 
+                onClick={() => { setActiveTab('Observation Deck'); showToast("Syncing with Active Labs...", "loading"); }}
              />
              <SidebarItem 
                 icon={<Layers />} 
@@ -204,8 +227,8 @@ const App: React.FC = () => {
         {/* Header */}
         <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
             <div>
-                <p className="text-ascend-subtext text-xs font-bold uppercase tracking-wider mb-1">Pages / {activeTab}</p>
-                <h2 className="text-4xl font-bold text-ascend-text tracking-tight">Ingestion Control</h2>
+                <p className="text-ascend-subtext text-xs font-bold uppercase tracking-wider mb-1">Ascend OS / {activeTab}</p>
+                <h2 className="text-4xl font-bold text-ascend-text tracking-tight">{activeTab === 'Dashboard' ? 'System Overview' : activeTab}</h2>
             </div>
 
             <div className="bg-white p-2 rounded-full shadow-sm border border-ascend-border flex items-center gap-3">
@@ -236,54 +259,8 @@ const App: React.FC = () => {
             </div>
         </header>
 
-        {/* Content Grid */}
-        <div className="flex flex-col gap-8 w-full max-w-[1600px] mx-auto pb-10">
-            
-            {/* Top Stats Row */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <StatCard label="Skills Tracked" value="2,543" icon={<BarChart2 className="w-8 h-8"/>} />
-                <StatCard label="Human Gaps" value="12" icon={<Settings className="w-8 h-8"/>} />
-                <StatCard label="Curriculums" value="48" icon={<Layers className="w-8 h-8"/>} />
-                <StatCard label="Industry Partners" value="142" icon={<Briefcase className="w-8 h-8"/>} />
-            </div>
-
-            {/* Middle Row: Analytics (Plan) + Stream (Ingestion) */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 h-auto lg:h-[540px]">
-                <div className="lg:col-span-8 panel-base p-8 h-[540px] flex flex-col">
-                    <MarketAnalytics onDeepAnalysis={handleDeepAnalysis} />
-                </div>
-                <div className="lg:col-span-4 panel-base p-8 h-[540px] flex flex-col">
-                    <MarketStream onAction={handleMarketAction} />
-                </div>
-            </div>
-
-            {/* Row 3: Coordinate (Opportunities) */}
-            <div className="panel-base p-8 w-full">
-                <OpportunityDock 
-                    onLaunchWorkshop={() => setIsWorkshopOpen(true)} 
-                    onDismiss={handleDismissOpportunity}
-                    onViewDeck={handleViewDeck}
-                    onAutoDraft={handleAutoDraft}
-                />
-            </div>
-
-            {/* Row 4: Observe & Monitor (New Modules) */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-[400px]">
-                {/* Module: Observe (Friction Logs) */}
-                <div className="h-full">
-                     <FrictionLogs />
-                </div>
-                
-                {/* Module: Monitor (Draft Board) */}
-                <div className="h-full">
-                     <TalentDraftBoard 
-                        onCandidateClick={handleCandidateClick} 
-                        onViewPipeline={handleViewPipeline}
-                    />
-                </div>
-            </div>
-
-        </div>
+        {/* Content Render Logic */}
+        {renderContent()}
 
       </main>
     </div>
