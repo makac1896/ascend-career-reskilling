@@ -82,6 +82,7 @@ import {
   Tag,
   ExternalLink,
   Bookmark,
+  Minus,
 } from "lucide-react";
 import { GlassGlobe, GlassDNA, ClayCube } from "./GlassIcons";
 
@@ -473,16 +474,37 @@ const ReflectionModal: React.FC<{
   const [isRecording, setIsRecording] = useState(false);
   const [recordingTime, setRecordingTime] = useState(0);
 
-  const moodEmojis = [
-    { emoji: "😫", label: "Struggling", color: "bg-red-100 border-red-300" },
+  const moodOptions = [
     {
-      emoji: "😕",
+      icon: "frown",
+      label: "Struggling",
+      color: "bg-red-100 border-red-300",
+      iconColor: "text-red-500",
+    },
+    {
+      icon: "meh",
       label: "Confused",
       color: "bg-orange-100 border-orange-300",
+      iconColor: "text-orange-500",
     },
-    { emoji: "😐", label: "Neutral", color: "bg-slate-100 border-slate-300" },
-    { emoji: "🙂", label: "Good", color: "bg-blue-100 border-blue-300" },
-    { emoji: "🔥", label: "On Fire", color: "bg-green-100 border-green-300" },
+    {
+      icon: "minus",
+      label: "Neutral",
+      color: "bg-slate-100 border-slate-300",
+      iconColor: "text-slate-500",
+    },
+    {
+      icon: "smile",
+      label: "Good",
+      color: "bg-blue-100 border-blue-300",
+      iconColor: "text-blue-500",
+    },
+    {
+      icon: "zap",
+      label: "On Fire",
+      color: "bg-green-100 border-green-300",
+      iconColor: "text-green-500",
+    },
   ];
 
   const quickTags = [
@@ -635,7 +657,7 @@ const ReflectionModal: React.FC<{
               </h3>
 
               <div className='flex justify-center gap-3 mb-8'>
-                {moodEmojis.map((m, i) => (
+                {moodOptions.map((m, i) => (
                   <button
                     key={i}
                     onClick={() => setMood(i)}
@@ -645,7 +667,15 @@ const ReflectionModal: React.FC<{
                         : "border-slate-200 hover:border-slate-300"
                     }`}
                   >
-                    <span className='text-3xl'>{m.emoji}</span>
+                    <div
+                      className={`w-8 h-8 flex items-center justify-center ${m.iconColor}`}
+                    >
+                      {m.icon === "frown" && <Frown className='w-8 h-8' />}
+                      {m.icon === "meh" && <Meh className='w-8 h-8' />}
+                      {m.icon === "minus" && <Minus className='w-8 h-8' />}
+                      {m.icon === "smile" && <Smile className='w-8 h-8' />}
+                      {m.icon === "zap" && <Zap className='w-8 h-8' />}
+                    </div>
                     <span className='text-[10px] font-bold text-slate-600'>
                       {m.label}
                     </span>
@@ -1139,7 +1169,7 @@ const StreamTab: React.FC = () => {
             time: "Yesterday",
             likes: 12,
             comments: 3,
-            mood: "😕",
+            moodIcon: "confused",
           },
           {
             text: "Professor talked about AI writing today. If ChatGPT can write better essays than me in seconds, what exactly am I building here? I need skills that won't disappear.",
@@ -1147,7 +1177,7 @@ const StreamTab: React.FC = () => {
             time: "2 days ago",
             likes: 24,
             comments: 8,
-            mood: "🤔",
+            moodIcon: "thinking",
           },
         ].map((entry, i) => (
           <div
@@ -1168,8 +1198,15 @@ const StreamTab: React.FC = () => {
                   {entry.time}
                 </span>
               </div>
-              {entry.mood && (
-                <span className='ml-auto text-2xl'>{entry.mood}</span>
+              {entry.moodIcon && (
+                <div className='ml-auto w-8 h-8 flex items-center justify-center'>
+                  {entry.moodIcon === "confused" && (
+                    <Meh className='w-6 h-6 text-orange-400' />
+                  )}
+                  {entry.moodIcon === "thinking" && (
+                    <BrainCircuit className='w-6 h-6 text-purple-400' />
+                  )}
+                </div>
               )}
             </div>
 
@@ -1235,10 +1272,10 @@ const ConnectionsTab: React.FC = () => {
       id: "career-coach",
       name: "Career Coach",
       role: "AI Career Advisor",
-      avatar: "🎯",
-      color: "bg-blue-500",
+      icon: "target",
+      color: "bg-orange-500",
       status: "online",
-      specialty: "Job search, resume, interviews",
+      specialty: "JOB SEARCH, RESUME, INTERVIEWS",
       description:
         "Get personalized career guidance and job search strategies.",
     },
@@ -1246,20 +1283,20 @@ const ConnectionsTab: React.FC = () => {
       id: "skill-mentor",
       name: "Skill Mentor",
       role: "AI Learning Guide",
-      avatar: "🧠",
-      color: "bg-purple-500",
+      icon: "brain",
+      color: "bg-blue-500",
       status: "online",
-      specialty: "Skill development, learning paths",
+      specialty: "SKILL DEVELOPMENT, LEARNING PATHS",
       description: "Build the right skills for your career goals.",
     },
     {
       id: "wellness-advisor",
       name: "Wellness Guide",
       role: "AI Well-being Support",
-      avatar: "💚",
+      icon: "heart",
       color: "bg-emerald-500",
       status: "online",
-      specialty: "Stress, balance, motivation",
+      specialty: "STRESS, BALANCE, MOTIVATION",
       description: "Navigate challenges and maintain well-being.",
     },
   ];
@@ -1301,7 +1338,7 @@ const ConnectionsTab: React.FC = () => {
     {
       id: "partner-1",
       name: "Deloitte",
-      logo: "https://ui-avatars.com/api/?name=Deloitte&background=86BC25&color=fff&size=128&bold=true",
+      color: "bg-green-600",
       type: "Consulting",
       opportunities: 12,
       description: "Audit, consulting, tax, and advisory services",
@@ -1309,7 +1346,7 @@ const ConnectionsTab: React.FC = () => {
     {
       id: "partner-2",
       name: "Government of Canada",
-      logo: "https://ui-avatars.com/api/?name=Gov&background=EF4444&color=fff&size=128&bold=true",
+      color: "bg-red-500",
       type: "Public Sector",
       opportunities: 28,
       description: "Federal public service opportunities",
@@ -1317,7 +1354,7 @@ const ConnectionsTab: React.FC = () => {
     {
       id: "partner-3",
       name: "RBC",
-      logo: "https://ui-avatars.com/api/?name=RBC&background=005DAA&color=fff&size=128&bold=true",
+      color: "bg-blue-600",
       type: "Finance",
       opportunities: 8,
       description: "Banking, wealth management, insurance",
@@ -1325,7 +1362,7 @@ const ConnectionsTab: React.FC = () => {
     {
       id: "partner-4",
       name: "Shopify",
-      logo: "https://ui-avatars.com/api/?name=Shopify&background=96BF48&color=fff&size=128&bold=true",
+      color: "bg-lime-500",
       type: "Technology",
       opportunities: 15,
       description: "E-commerce platform and merchant services",
@@ -1368,7 +1405,7 @@ const ConnectionsTab: React.FC = () => {
   };
 
   return (
-    <div className='animate-in fade-in duration-500 max-w-5xl mx-auto'>
+    <div className='animate-in fade-in duration-500 max-w-5xl mx-auto px-4 py-6'>
       {/* Active Chat View */}
       {activeChat && (
         <div className='fixed inset-0 z-[100] flex items-center justify-center p-6'>
@@ -1387,9 +1424,17 @@ const ConnectionsTab: React.FC = () => {
                 return advisor ? (
                   <>
                     <div
-                      className={`w-12 h-12 ${advisor.color} rounded-2xl flex items-center justify-center text-2xl`}
+                      className={`w-12 h-12 ${advisor.color} rounded-2xl flex items-center justify-center`}
                     >
-                      {advisor.avatar}
+                      {advisor.icon === "target" && (
+                        <Target className='w-6 h-6 text-white' />
+                      )}
+                      {advisor.icon === "brain" && (
+                        <BrainCircuit className='w-6 h-6 text-white' />
+                      )}
+                      {advisor.icon === "heart" && (
+                        <Heart className='w-6 h-6 text-white' />
+                      )}
                     </div>
                     <div className='flex-1'>
                       <h3 className='font-black text-slate-900'>
@@ -1423,9 +1468,24 @@ const ConnectionsTab: React.FC = () => {
             <div className='flex-1 overflow-y-auto p-5 space-y-4'>
               {chatMessages.length === 0 && (
                 <div className='text-center py-12'>
-                  <div className='w-16 h-16 bg-slate-100 rounded-2xl flex items-center justify-center mx-auto mb-4 text-3xl'>
-                    {aiAdvisors.find((a) => a.id === activeChat)?.avatar}
-                  </div>
+                  {(() => {
+                    const advisor = aiAdvisors.find((a) => a.id === activeChat);
+                    return advisor ? (
+                      <div
+                        className={`w-16 h-16 ${advisor.color} rounded-2xl flex items-center justify-center mx-auto mb-4`}
+                      >
+                        {advisor.icon === "target" && (
+                          <Target className='w-8 h-8 text-white' />
+                        )}
+                        {advisor.icon === "brain" && (
+                          <BrainCircuit className='w-8 h-8 text-white' />
+                        )}
+                        {advisor.icon === "heart" && (
+                          <Heart className='w-8 h-8 text-white' />
+                        )}
+                      </div>
+                    ) : null;
+                  })()}
                   <h4 className='font-bold text-slate-800 mb-2'>
                     Start a conversation
                   </h4>
@@ -1515,48 +1575,58 @@ const ConnectionsTab: React.FC = () => {
       )}
 
       {/* AI Advisors Section */}
-      <div className='mb-8'>
-        <div className='flex items-center gap-3 mb-5'>
-          <div className='w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center'>
-            <Bot className='w-5 h-5 text-blue-600' />
+      <div className='mb-10'>
+        <div className='flex items-center gap-4 mb-6'>
+          <div className='w-12 h-12 bg-blue-100 rounded-2xl flex items-center justify-center'>
+            <Bot className='w-6 h-6 text-blue-600' />
           </div>
           <div>
-            <h3 className='font-black text-slate-800 text-lg'>AI Advisors</h3>
-            <p className='text-xs text-slate-500 font-medium'>
+            <h3 className='font-black text-slate-900 text-xl'>AI Advisors</h3>
+            <p className='text-sm text-slate-600 font-medium'>
               24/7 personalized guidance
             </p>
           </div>
         </div>
 
-        <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
+        <div className='grid grid-cols-1 md:grid-cols-3 gap-5'>
           {aiAdvisors.map((advisor) => (
             <button
               key={advisor.id}
               onClick={() => setActiveChat(advisor.id)}
-              className='bg-white rounded-3xl p-5 border border-slate-200 hover:border-slate-300 hover:shadow-lg transition-all text-left group'
+              className='bg-white rounded-3xl p-6 border-2 border-slate-200 hover:border-slate-300 hover:shadow-xl transition-all text-left group'
             >
               <div className='flex items-start gap-4'>
                 <div
-                  className={`w-14 h-14 ${advisor.color} rounded-2xl flex items-center justify-center text-2xl shadow-lg group-hover:scale-110 transition-transform`}
+                  className={`w-14 h-14 ${advisor.color} rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform`}
                 >
-                  {advisor.avatar}
+                  {advisor.icon === "target" && (
+                    <Target className='w-7 h-7 text-white' />
+                  )}
+                  {advisor.icon === "brain" && (
+                    <BrainCircuit className='w-7 h-7 text-white' />
+                  )}
+                  {advisor.icon === "heart" && (
+                    <Heart className='w-7 h-7 text-white' />
+                  )}
                 </div>
                 <div className='flex-1 min-w-0'>
                   <div className='flex items-center gap-2 mb-1'>
-                    <h4 className='font-bold text-slate-900'>{advisor.name}</h4>
-                    <span className='w-2 h-2 bg-emerald-500 rounded-full'></span>
+                    <h4 className='font-bold text-slate-900 text-base'>
+                      {advisor.name}
+                    </h4>
+                    <span className='w-2.5 h-2.5 bg-emerald-500 rounded-full'></span>
                   </div>
-                  <p className='text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2'>
+                  <p className='text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2'>
                     {advisor.specialty}
                   </p>
-                  <p className='text-xs text-slate-500 leading-relaxed'>
+                  <p className='text-sm text-slate-600 leading-relaxed'>
                     {advisor.description}
                   </p>
                 </div>
               </div>
-              <div className='mt-4 flex items-center gap-2 text-blue-600 font-bold text-xs group-hover:gap-3 transition-all'>
+              <div className='mt-5 flex items-center gap-2 text-blue-600 font-bold text-sm group-hover:gap-3 transition-all'>
                 <MessageCircle className='w-4 h-4' /> Start Chat
-                <ArrowRight className='w-3 h-3' />
+                <ArrowRight className='w-4 h-4' />
               </div>
             </button>
           ))}
@@ -1564,64 +1634,64 @@ const ConnectionsTab: React.FC = () => {
       </div>
 
       {/* Alumni Network */}
-      <div className='mb-8'>
-        <div className='flex items-center gap-3 mb-5'>
-          <div className='w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center'>
-            <Users className='w-5 h-5 text-purple-600' />
+      <div className='mb-10'>
+        <div className='flex items-center gap-4 mb-6'>
+          <div className='w-12 h-12 bg-purple-100 rounded-2xl flex items-center justify-center'>
+            <Users className='w-6 h-6 text-purple-600' />
           </div>
           <div>
-            <h3 className='font-black text-slate-800 text-lg'>
+            <h3 className='font-black text-slate-900 text-xl'>
               Alumni Network
             </h3>
-            <p className='text-xs text-slate-500 font-medium'>
+            <p className='text-sm text-slate-600 font-medium'>
               Connect with graduates in your field
             </p>
           </div>
         </div>
 
-        <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
+        <div className='grid grid-cols-1 md:grid-cols-3 gap-5'>
           {alumni.map((person) => (
             <div
               key={person.id}
-              className='bg-white rounded-3xl p-5 border border-slate-200 hover:shadow-lg transition-all group'
+              className='bg-white rounded-3xl p-6 border-2 border-slate-200 hover:shadow-xl transition-all group'
             >
               <div className='flex items-start gap-4'>
                 <div className='relative'>
                   <img
                     src={person.avatar}
                     alt={person.name}
-                    className='w-14 h-14 rounded-2xl object-cover'
+                    className='w-16 h-16 rounded-2xl object-cover'
                   />
                   {person.available && (
-                    <span className='absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 rounded-full border-2 border-white'></span>
+                    <span className='absolute -bottom-1 -right-1 w-5 h-5 bg-emerald-500 rounded-full border-2 border-white'></span>
                   )}
                 </div>
                 <div className='flex-1 min-w-0'>
-                  <h4 className='font-bold text-slate-900 text-sm'>
+                  <h4 className='font-bold text-slate-900 text-base'>
                     {person.name}
                   </h4>
-                  <p className='text-xs text-slate-600 font-medium mb-1'>
+                  <p className='text-sm text-slate-700 font-medium mb-1'>
                     {person.role}
                   </p>
-                  <p className='text-[10px] text-slate-400 font-bold'>
+                  <p className='text-xs text-slate-500 font-bold'>
                     {person.graduated} • {person.field}
                   </p>
                 </div>
               </div>
-              <div className='mt-4 flex gap-2'>
+              <div className='mt-5 flex gap-3'>
                 <button
-                  className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 ${
+                  className={`flex-1 py-3 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2 ${
                     person.available
                       ? "bg-purple-600 text-white hover:bg-purple-700"
                       : "bg-slate-100 text-slate-400 cursor-not-allowed"
                   }`}
                   disabled={!person.available}
                 >
-                  <MessageCircle className='w-3.5 h-3.5' />
+                  <MessageCircle className='w-4 h-4' />
                   {person.available ? "Message" : "Unavailable"}
                 </button>
-                <button className='py-2.5 px-4 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors'>
-                  <Eye className='w-3.5 h-3.5' />
+                <button className='py-3 px-4 rounded-xl text-sm font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors'>
+                  <Eye className='w-4 h-4' />
                 </button>
               </div>
             </div>
@@ -1630,41 +1700,41 @@ const ConnectionsTab: React.FC = () => {
       </div>
 
       {/* Industry Partners */}
-      <div className='mb-8'>
-        <div className='flex items-center gap-3 mb-5'>
-          <div className='w-10 h-10 bg-orange-100 rounded-xl flex items-center justify-center'>
-            <Building2 className='w-5 h-5 text-orange-600' />
+      <div className='mb-10'>
+        <div className='flex items-center gap-4 mb-6'>
+          <div className='w-12 h-12 bg-orange-100 rounded-2xl flex items-center justify-center'>
+            <Building2 className='w-6 h-6 text-orange-600' />
           </div>
           <div>
-            <h3 className='font-black text-slate-800 text-lg'>
+            <h3 className='font-black text-slate-900 text-xl'>
               Industry Partners
             </h3>
-            <p className='text-xs text-slate-500 font-medium'>
+            <p className='text-sm text-slate-600 font-medium'>
               Companies hiring from our network
             </p>
           </div>
         </div>
 
-        <div className='grid grid-cols-2 md:grid-cols-4 gap-4'>
+        <div className='grid grid-cols-2 md:grid-cols-4 gap-5'>
           {industryPartners.map((partner) => (
             <div
               key={partner.id}
-              className='bg-white rounded-3xl p-5 border border-slate-200 hover:shadow-lg transition-all group cursor-pointer'
+              className='bg-white rounded-3xl p-6 border-2 border-slate-200 hover:shadow-xl transition-all group cursor-pointer'
             >
               <div className='flex flex-col items-center text-center'>
-                <img
-                  src={partner.logo}
-                  alt={partner.name}
-                  className='w-16 h-16 rounded-2xl mb-3 group-hover:scale-110 transition-transform'
-                />
-                <h4 className='font-bold text-slate-900 text-sm mb-1'>
+                <div
+                  className={`w-16 h-16 ${partner.color} rounded-2xl mb-4 flex items-center justify-center text-white text-xl font-black group-hover:scale-110 transition-transform shadow-lg`}
+                >
+                  {partner.name.slice(0, 2).toUpperCase()}
+                </div>
+                <h4 className='font-bold text-slate-900 text-base mb-1'>
                   {partner.name}
                 </h4>
-                <p className='text-[10px] text-slate-400 font-bold uppercase mb-2'>
+                <p className='text-xs text-slate-500 font-bold uppercase mb-3'>
                   {partner.type}
                 </p>
-                <div className='px-3 py-1.5 bg-orange-100 rounded-full'>
-                  <span className='text-[10px] font-bold text-orange-700'>
+                <div className='px-4 py-2 bg-green-100 rounded-full'>
+                  <span className='text-xs font-bold text-green-700'>
                     {partner.opportunities} open roles
                   </span>
                 </div>
@@ -1940,6 +2010,107 @@ const SignalInterface: React.FC = () => {
                   </span>
                 </div>
               ))}
+            </div>
+          </div>
+
+          {/* Your Growth Coach - Encouraging Card */}
+          <div className='bg-gradient-to-br from-blue-600 to-indigo-700 rounded-[32px] p-5 shadow-lg text-white relative overflow-hidden'>
+            {/* Background decoration */}
+            <div className='absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl'></div>
+            <div className='absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full blur-xl'></div>
+
+            {/* Avatar & Header */}
+            <div className='relative z-10 flex items-start gap-3 mb-4'>
+              <div className='w-12 h-12 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center border border-white/30'>
+                <Sparkles className='w-6 h-6 text-yellow-300' />
+              </div>
+              <div>
+                <h4 className='font-black text-sm'>Your Progress Coach</h4>
+                <p className='text-[10px] text-blue-200 font-medium'>
+                  Here to cheer you on!
+                </p>
+              </div>
+            </div>
+
+            {/* Personalized Message */}
+            <div className='relative z-10 bg-white/10 backdrop-blur-sm rounded-2xl p-4 mb-4 border border-white/20'>
+              <p className='text-sm font-medium leading-relaxed'>
+                "Hey Aiyana! You've grown{" "}
+                <span className='font-black text-yellow-300'>23%</span> in
+                Communication this month. That's ahead of{" "}
+                <span className='font-black text-green-300'>78%</span> of
+                first-years! Keep going!"
+              </p>
+            </div>
+
+            {/* Recent Wins */}
+            <div className='relative z-10 space-y-2 mb-4'>
+              <p className='text-[10px] font-bold text-blue-200 uppercase tracking-widest'>
+                Recent Wins
+              </p>
+              <div className='flex items-center gap-2 bg-white/10 rounded-xl px-3 py-2'>
+                <Target className='w-4 h-4 text-yellow-300' />
+                <span className='text-xs font-bold flex-1'>
+                  Completed 3 workshops
+                </span>
+                <span className='text-[10px] font-bold text-green-300'>
+                  +150 XP
+                </span>
+              </div>
+              <div className='flex items-center gap-2 bg-white/10 rounded-xl px-3 py-2'>
+                <FileText className='w-4 h-4 text-blue-300' />
+                <span className='text-xs font-bold flex-1'>
+                  5-day reflection streak
+                </span>
+                <span className='text-[10px] font-bold text-green-300'>
+                  +50 XP
+                </span>
+              </div>
+              <div className='flex items-center gap-2 bg-white/10 rounded-xl px-3 py-2'>
+                <Briefcase className='w-4 h-4 text-purple-300' />
+                <span className='text-xs font-bold flex-1'>
+                  Applied to 2 roles
+                </span>
+                <span className='text-[10px] font-bold text-green-300'>
+                  Brave!
+                </span>
+              </div>
+            </div>
+
+            {/* Encouragement for Rejections */}
+            <div className='relative z-10 bg-amber-500/20 border border-amber-400/30 rounded-2xl p-3'>
+              <div className='flex items-start gap-2'>
+                <Lightbulb className='w-4 h-4 text-amber-300 shrink-0 mt-0.5' />
+                <div>
+                  <p className='text-xs font-bold text-amber-200 mb-1'>
+                    First-Year Reality Check
+                  </p>
+                  <p className='text-[10px] text-blue-100 leading-relaxed'>
+                    Most first-years apply to 15+ roles before landing one.
+                    You're building skills that matter. Every "no" teaches
+                    something new.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Quick Resume Score */}
+            <div className='relative z-10 mt-4 pt-4 border-t border-white/20'>
+              <div className='flex items-center justify-between mb-2'>
+                <span className='text-xs font-bold text-blue-200'>
+                  Resume Strength
+                </span>
+                <span className='text-xs font-black text-white'>72/100</span>
+              </div>
+              <div className='w-full h-2 bg-white/20 rounded-full overflow-hidden'>
+                <div
+                  className='h-full bg-gradient-to-r from-green-400 to-emerald-400 rounded-full'
+                  style={{ width: "72%" }}
+                ></div>
+              </div>
+              <button className='mt-3 w-full py-2.5 bg-white/20 hover:bg-white/30 rounded-xl text-xs font-bold transition-colors flex items-center justify-center gap-2 border border-white/30'>
+                <FileText className='w-3.5 h-3.5' /> Improve My Resume
+              </button>
             </div>
           </div>
         </div>

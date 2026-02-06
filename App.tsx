@@ -7,6 +7,7 @@ import ReportsDashboard from "./components/ReportsDashboard";
 import StudentDashboard from "./components/StudentDashboard";
 import LandingPage from "./components/LandingPage";
 import DesignWorkshopModal from "./components/DesignWorkshopModal";
+import AdvisorJourneyDashboard from "./components/AdvisorJourneyDashboard";
 import Toast, { ToastProps } from "./components/Toast";
 import {
   Search,
@@ -22,6 +23,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Eye,
+  Compass,
 } from "lucide-react";
 
 const SidebarItem: React.FC<{
@@ -117,7 +119,7 @@ const App: React.FC = () => {
 
   const handleWorkshopComplete = () => {
     setIsWorkshopOpen(false);
-    showToast("🚀 Intervention Launched Successfully!", "success");
+    showToast("Intervention Launched Successfully!", "success");
   };
 
   const handleCandidateClick = (name: string) => {
@@ -165,6 +167,8 @@ const App: React.FC = () => {
         return <InsightsDashboard onAction={handleMarketAction} />;
       case "Observation Deck":
         return <ObserveDashboard />;
+      case "Advisor Journey":
+        return <AdvisorJourneyDashboard />;
       case "Curriculum":
         return <CurriculumDashboard />;
       case "Reports":
@@ -264,7 +268,6 @@ const App: React.FC = () => {
             collapsed={isSidebarCollapsed}
             onClick={() => {
               setActiveTab("Dashboard");
-              showToast("System Overview Loaded", "info");
             }}
           />
           <SidebarItem
@@ -283,7 +286,15 @@ const App: React.FC = () => {
             collapsed={isSidebarCollapsed}
             onClick={() => {
               setActiveTab("Observation Deck");
-              showToast("Syncing with Active Labs...", "loading");
+            }}
+          />
+          <SidebarItem
+            icon={<Compass />}
+            label='Advisor Journey'
+            active={activeTab === "Advisor Journey"}
+            collapsed={isSidebarCollapsed}
+            onClick={() => {
+              setActiveTab("Advisor Journey");
             }}
           />
           <SidebarItem
@@ -293,7 +304,6 @@ const App: React.FC = () => {
             collapsed={isSidebarCollapsed}
             onClick={() => {
               setActiveTab("Curriculum");
-              showToast("Loading Curriculum Modules...", "loading");
             }}
           />
           <SidebarItem
@@ -303,7 +313,6 @@ const App: React.FC = () => {
             collapsed={isSidebarCollapsed}
             onClick={() => {
               setActiveTab("Reports");
-              showToast("Fetching Report Data...", "loading");
             }}
           />
         </nav>
