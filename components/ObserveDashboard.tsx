@@ -111,7 +111,7 @@ const ObserveDashboard: React.FC = () => {
         {/* Top KPI Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <StatCard 
-                label="Human Agency Score" 
+                label="Student Agency Score" 
                 value="78/100" 
                 sub="Students actively directing the tool."
                 icon={<BrainCircuit className="w-6 h-6" />}
@@ -146,11 +146,11 @@ const ObserveDashboard: React.FC = () => {
                 <div className="flex justify-between items-center mb-6">
                     <div>
                         <h3 className="text-xl font-bold text-ascend-text">Agency vs. Automation</h3>
-                        <p className="text-xs text-ascend-subtext font-medium">Monitoring the balance of Human Input (Green) vs Raw AI Output (Purple).</p>
+                        <p className="text-xs text-ascend-subtext font-medium">Monitoring the balance of Student Input (Green) vs Raw AI Output (Purple).</p>
                     </div>
                     <div className="flex gap-2">
                         <div className="flex items-center gap-2 text-xs font-bold text-ascend-subtext">
-                            <div className="w-3 h-3 rounded-full bg-green-500"></div> Human
+                            <div className="w-3 h-3 rounded-full bg-green-500"></div> Student
                         </div>
                         <div className="flex items-center gap-2 text-xs font-bold text-ascend-subtext">
                             <div className="w-3 h-3 rounded-full bg-ascend-blue"></div> AI Tool

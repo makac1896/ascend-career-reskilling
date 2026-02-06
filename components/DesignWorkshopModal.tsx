@@ -60,7 +60,7 @@ const resources = [
 const legoModules = [
   { id: 'rubric', title: 'Orchestration Rubric', desc: 'Grades the process, not just output.' },
   { id: 'guardrails', title: 'AI Guardrails', desc: 'System prompts to prevent hallucinations.' },
-  { id: 'reflection', title: 'Agency Reflection', desc: 'Post-task survey on human control.' },
+  { id: 'reflection', title: 'Agency Reflection', desc: 'Post-task survey on student control.' },
 ];
 
 const DesignWorkshopModal: React.FC<DesignWorkshopModalProps> = ({ isOpen, onClose, onComplete }) => {
@@ -235,7 +235,7 @@ const DesignWorkshopModal: React.FC<DesignWorkshopModalProps> = ({ isOpen, onClo
                 <div className="max-w-3xl mx-auto animate-in slide-in-from-right-8 fade-in duration-300">
                     <div className="text-center mb-10">
                         <h3 className="text-3xl font-bold text-ascend-text mb-2">Resource Provisioning</h3>
-                        <p className="text-ascend-subtext">Attach the "Human Value" assets to this intervention.</p>
+                        <p className="text-ascend-subtext">Attach the "Core Value" assets to this intervention.</p>
                     </div>
 
                     <div className="bg-white rounded-2xl border border-ascend-border shadow-sm overflow-hidden">

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import MainDashboard from './components/MainDashboard';
+import MainDashboard from './MainDashboard';
 import InsightsDashboard from './components/InsightsDashboard';
 import ObserveDashboard from './components/ObserveDashboard';
 import CurriculumDashboard from './components/CurriculumDashboard';
@@ -186,17 +186,11 @@ const App: React.FC = () => {
         {/* Logo Area */}
         <div className={`flex items-center ${isSidebarCollapsed ? 'justify-center' : 'justify-between'} mb-10 px-1 mt-2 transition-all`}>
              <div className="flex items-center gap-3">
-                 {/* Waypoint Icon */}
-                 <div className="w-10 h-10 flex-shrink-0 flex items-center justify-center">
-                    <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-ascend-blue">
-                        <path d="M8 11L14 29L20 11L26 29L32 11" stroke="currentColor" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                 </div>
-                 
+                 <div className="w-9 h-9 flex-shrink-0 bg-gradient-to-br from-ascend-blue to-[#663CFF] rounded-xl flex items-center justify-center text-white font-extrabold text-xl shadow-lg">W</div>
                  {!isSidebarCollapsed && (
-                     <div className="flex flex-col justify-center">
-                        <span className="text-3xl font-black text-ascend-text tracking-tighter leading-none lowercase" style={{ fontFamily: '"DM Sans", sans-serif' }}>waypoint</span>
-                        <span className="text-[9px] font-bold text-ascend-subtext uppercase tracking-[0.15em] ml-0.5 mt-0.5">An Ascend Careers Platform</span>
+                     <div>
+                        <span className="text-2xl font-bold text-ascend-text tracking-tight whitespace-nowrap block lowercase">waypoint</span>
+                        <span className="text-[9px] text-ascend-subtext font-bold uppercase tracking-wider block">An Ascend Platform</span>
                      </div>
                  )}
              </div>

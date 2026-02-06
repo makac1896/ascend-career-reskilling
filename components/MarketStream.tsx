@@ -149,7 +149,7 @@ const MarketStream: React.FC<MarketStreamProps> = ({ onAction }) => {
     <div className="h-full flex flex-col">
       <div className="flex items-center justify-between mb-6 px-1">
         <div>
-            <h3 className="text-2xl font-bold text-ascend-text tracking-tight">Human Capability Stream</h3>
+            <h3 className="text-2xl font-bold text-ascend-text tracking-tight">Capability Stream</h3>
             <p className="text-xs text-ascend-subtext font-medium mt-1">Live feed of enduring skill gaps.</p>
         </div>
         <button className="bg-white border border-ascend-border text-ascend-text p-2.5 rounded-xl hover:bg-gray-50 transition-colors shadow-sm">

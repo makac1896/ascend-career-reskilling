@@ -2,10 +2,10 @@ import React from 'react';
 import { Award, CheckCircle, ExternalLink, ChevronRight, User } from 'lucide-react';
 
 const candidates = [
-    { name: "J. Anderson", artifact: "Crisis Response Plan", verifiedBy: "Deloitte", score: 98, img: "https://i.pravatar.cc/150?u=1" },
-    { name: "S. Chen", artifact: "Ethical AI Framework", verifiedBy: "Pfizer", score: 96, img: "https://i.pravatar.cc/150?u=2" },
-    { name: "M. Davids", artifact: "Supply Chain Audit", verifiedBy: "Tesla", score: 94, img: "https://i.pravatar.cc/150?u=3" },
-    { name: "A. Patel", artifact: "ESG Risk Model", verifiedBy: "BlackRock", score: 92, img: "https://i.pravatar.cc/150?u=4" },
+    { name: "J. Anderson", project: "Crisis Response Plan", verifiedBy: "Deloitte", score: 98, img: "https://i.pravatar.cc/150?u=1" },
+    { name: "S. Chen", project: "Ethical AI Framework", verifiedBy: "Pfizer", score: 96, img: "https://i.pravatar.cc/150?u=2" },
+    { name: "M. Davids", project: "Supply Chain Audit", verifiedBy: "Tesla", score: 94, img: "https://i.pravatar.cc/150?u=3" },
+    { name: "A. Patel", project: "ESG Risk Model", verifiedBy: "BlackRock", score: 92, img: "https://i.pravatar.cc/150?u=4" },
 ];
 
 interface TalentDraftBoardProps {
@@ -24,7 +24,7 @@ const CandidateRow: React.FC<{ data: typeof candidates[0], onClick?: () => void 
             </div>
             <div>
                 <h5 className="text-base font-bold text-ascend-text group-hover:text-ascend-blue transition-colors mb-0.5">{data.name}</h5>
-                <p className="text-xs font-semibold text-ascend-subtext">{data.artifact}</p>
+                <p className="text-xs font-semibold text-ascend-subtext">{data.project}</p>
             </div>
         </div>
         <div className="flex items-center gap-6">
@@ -69,7 +69,7 @@ const TalentDraftBoard: React.FC<TalentDraftBoardProps> = ({ onCandidateClick, o
                 />
             ))}
              <div className="p-4 border-2 border-dashed border-gray-100 rounded-2xl mt-4 text-center hover:bg-gray-50 transition-colors cursor-pointer">
-                 <span className="text-xs text-ascend-subtext font-bold">+ 142 Verified Artifacts pending review</span>
+                 <span className="text-xs text-ascend-subtext font-bold">+ 142 Verified Projects pending review</span>
             </div>
         </div>
 

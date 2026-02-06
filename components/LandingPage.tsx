@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { ArrowRight, Play, CheckCircle2, Zap, BrainCircuit, Heart, Shield, TrendingUp, Users, BookOpen } from 'lucide-react';
+import { ArrowRight, Play, CheckCircle2, Zap, BrainCircuit, Heart, Shield, TrendingUp, Users, BookOpen, UserCircle2, Building2 } from 'lucide-react';
 import { GlassDNA, GlassGlobe, ClayCube } from './GlassIcons';
 
 interface LandingPageProps {
-    onEnter: () => void;
+    onEnterAdmin: () => void;
+    onEnterStudent: () => void;
 }
 
-const LandingPage: React.FC<LandingPageProps> = ({ onEnter }) => {
+const LandingPage: React.FC<LandingPageProps> = ({ onEnterAdmin, onEnterStudent }) => {
     const [scrolled, setScrolled] = useState(false);
 
     useEffect(() => {
@@ -23,26 +24,39 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnter }) => {
                 <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
                     <div className="flex items-center gap-3">
                         <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-lg">
-                            <span className="font-bold text-xl">A</span>
+                            <span className="font-bold text-xl">W</span>
                         </div>
-                        <span className={`text-xl font-bold tracking-tight transition-colors ${scrolled ? 'text-slate-900' : 'text-slate-900 lg:text-white'}`}>
-                            Ascend<span className="font-normal">CareerLab</span>
+                        <span className={`text-xl font-bold tracking-tight transition-colors lowercase ${scrolled ? 'text-slate-900' : 'text-slate-900 lg:text-white'}`}>
+                            waypoint
                         </span>
                     </div>
                     <div className="hidden md:flex items-center gap-8">
                         <a href="#mission" className={`text-sm font-medium transition-colors ${scrolled ? 'text-slate-600 hover:text-blue-600' : 'text-white/80 hover:text-white'}`}>Our Mission</a>
                         <a href="#crisis" className={`text-sm font-medium transition-colors ${scrolled ? 'text-slate-600 hover:text-blue-600' : 'text-white/80 hover:text-white'}`}>The Triple Crisis</a>
                         <a href="#solution" className={`text-sm font-medium transition-colors ${scrolled ? 'text-slate-600 hover:text-blue-600' : 'text-white/80 hover:text-white'}`}>The Platform</a>
-                        <button 
-                            onClick={onEnter}
-                            className={`px-6 py-2.5 rounded-full text-sm font-bold transition-all ${
-                                scrolled 
-                                ? 'bg-blue-600 text-white hover:bg-blue-700 shadow-md' 
-                                : 'bg-white text-blue-900 hover:bg-gray-100'
-                            }`}
-                        >
-                            Career Center Login
-                        </button>
+                        
+                        <div className="flex gap-3">
+                             <button 
+                                onClick={onEnterStudent}
+                                className={`px-5 py-2.5 rounded-full text-sm font-bold transition-all flex items-center gap-2 ${
+                                    scrolled 
+                                    ? 'bg-slate-100 text-slate-900 hover:bg-slate-200' 
+                                    : 'bg-white/10 text-white hover:bg-white/20 backdrop-blur-md'
+                                }`}
+                            >
+                                <UserCircle2 className="w-4 h-4" /> Student
+                            </button>
+                            <button 
+                                onClick={onEnterAdmin}
+                                className={`px-5 py-2.5 rounded-full text-sm font-bold transition-all flex items-center gap-2 ${
+                                    scrolled 
+                                    ? 'bg-blue-600 text-white hover:bg-blue-700 shadow-md' 
+                                    : 'bg-white text-blue-900 hover:bg-gray-100'
+                                }`}
+                            >
+                                <Building2 className="w-4 h-4" /> Staff Portal
+                            </button>
+                        </div>
                     </div>
                 </div>
             </nav>
@@ -68,15 +82,15 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnter }) => {
                         Navigating the Age of Disruption.
                     </h1>
                     <p className="text-xl md:text-2xl text-gray-200 max-w-3xl mx-auto mb-10 leading-relaxed font-light animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
-                        Empower your undergraduates to move from operational overwhelm to human agency. 
+                        Empower your undergraduates to move from operational overwhelm to student agency. 
                         The operating system for the next generation of career centers.
                     </p>
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-in fade-in slide-in-from-bottom-10 duration-1000 delay-300">
                         <button 
-                            onClick={onEnter}
+                            onClick={onEnterAdmin}
                             className="px-8 py-4 bg-white text-blue-900 rounded-full font-bold text-lg hover:bg-blue-50 transition-all shadow-xl flex items-center gap-2 hover:scale-105"
                         >
-                            Launch Ascend OS <ArrowRight className="w-5 h-5" />
+                            Launch Waypoint <ArrowRight className="w-5 h-5" />
                         </button>
                         <button className="px-8 py-4 bg-transparent border border-white/30 text-white rounded-full font-bold text-lg hover:bg-white/10 transition-all backdrop-blur-sm flex items-center gap-2">
                             <Play className="w-5 h-5 fill-current" /> Read the Case Brief
@@ -149,14 +163,14 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnter }) => {
                                 The Empowerment Platform.
                             </h2>
                             <p className="text-lg text-slate-600 mb-8 leading-relaxed">
-                                Ascend OS isn't just a job board. It's a comprehensive resilience engine designed to move students from 
+                                Waypoint isn't just a job board. It's a comprehensive resilience engine designed to move students from 
                                 anxiety to agency through four strategic pillars.
                             </p>
                             
                             <div className="space-y-6">
                                 {[
                                     { title: "Discover Superpowers", desc: "Identify core strengths and values to build a coherent sense of purpose.", icon: <Users className="w-5 h-5 text-blue-600" /> },
-                                    { title: "Future-Ready Skills", desc: "Prioritize human capabilities: Empathy, Ethics, and Strategic Foresight.", icon: <Shield className="w-5 h-5 text-blue-600" /> },
+                                    { title: "Future-Ready Skills", desc: "Prioritize core capabilities: Empathy, Ethics, and Strategic Foresight.", icon: <Shield className="w-5 h-5 text-blue-600" /> },
                                     { title: "Build Anti-Fragility", desc: "Develop personal growth plans that balance technical and reflective competencies.", icon: <TrendingUp className="w-5 h-5 text-blue-600" /> },
                                     { title: "Continuous Growth Loops", desc: "Turn uncertainty into opportunity through cycles of feedback and reflection.", icon: <BookOpen className="w-5 h-5 text-blue-600" /> }
                                 ].map((item, i) => (
@@ -214,13 +228,13 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnter }) => {
                     <h2 className="text-4xl md:text-6xl font-bold mb-8">The crisis of today is your opportunity.</h2>
                     <p className="text-xl text-blue-100 mb-12 max-w-2xl mx-auto leading-relaxed">
                         Join Ascend Career Lab and build a new promise for higher education. 
-                        Help students build meaningful, resilient, and human-centric lives.
+                        Help students build meaningful, resilient, and student-centric lives.
                     </p>
                     <button 
-                        onClick={onEnter}
+                        onClick={onEnterAdmin}
                         className="px-10 py-5 bg-white text-blue-900 rounded-full font-bold text-lg hover:bg-blue-50 transition-all shadow-glow hover:scale-105"
                     >
-                        Enter Ascend OS
+                        Enter Waypoint
                     </button>
                     <p className="mt-6 text-sm text-slate-400">
                         Copyright © 2026 Haskayne School of Business. University of Calgary.

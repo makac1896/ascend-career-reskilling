@@ -152,7 +152,7 @@ const MainDashboard: React.FC<MainDashboardProps> = ({
                 trend="+12% Signals"
             />
             <GlassStatCard 
-                label="Human Gaps" 
+                label="Skill Gaps" 
                 value="12" 
                 sub="Critical interventions needed"
                 icon={<Settings className="w-6 h-6"/>} 

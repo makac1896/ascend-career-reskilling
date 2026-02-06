@@ -11,15 +11,15 @@ import {
     CheckCircle2, 
     AlertCircle, 
     ArrowUpRight, 
-    BookOpen,
-    GraduationCap,
-    LayoutGrid,
-    List,
-    Sparkles,
-    Tag,
-    Hash,
-    Trophy,
-    Lightbulb
+    BookOpen, 
+    GraduationCap, 
+    LayoutGrid, 
+    List, 
+    Sparkles, 
+    Tag, 
+    Hash, 
+    Trophy, 
+    Lightbulb 
 } from 'lucide-react';
 import { GlassDNA, ClayCube, GlassGlobe, GlassLightning } from './GlassIcons';
 
@@ -47,7 +47,7 @@ const initiatives = [
         enrolled: 0,
         gapClosure: 45,
         image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=2070&auto=format&fit=crop",
-        tags: ["Bio-Ethics", "Human Agency"],
+        tags: ["Bio-Ethics", "Student Agency"],
         partner: "Pfizer",
         nextSession: "Pending Approval",
         theme: "teal",
