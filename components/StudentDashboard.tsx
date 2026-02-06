@@ -78,7 +78,9 @@ import {
     BookMarked,
     Flag,
     Shield,
-    Tag
+    Tag,
+    ExternalLink,
+    Bookmark
 } from 'lucide-react';
 import { GlassGlobe, GlassDNA, ClayCube } from './GlassIcons';
 
@@ -202,7 +204,7 @@ const ResourcesTab: React.FC = () => {
         { title: "Black Student Support", desc: "Community networks, mentorship, and advocacy.", image: "https://images.unsplash.com/photo-1571260899304-425eee4c7efc?q=80&w=2070&auto=format&fit=crop" },
         { title: "Disabilities & Well-being", desc: "Accommodations, accessibility tech, and counseling.", image: "https://images.unsplash.com/photo-1573497620053-ea5300f94f21?q=80&w=2070&auto=format&fit=crop" },
         { title: "2SLGBTQIA+ Resources", desc: "Safe spaces, peer support, and health resources.", image: "https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?q=80&w=2069&auto=format&fit=crop" },
-        { title: "Indigenous Student Centre", desc: "Cultural connection, elders, and academic support.", image: "https://images.unsplash.com/photo-1535657602683-9526068227e6?q=80&w=2070&auto=format&fit=crop" },
+        { title: "Indigenous Student Centre", desc: "Cultural connection, elders, and academic support.", image: "https://images.unsplash.com/photo-1603510526083-20739999026d?q=80&w=2070&auto=format&fit=crop" },
         { title: "Newcomer & International", desc: "Visa help, language labs, and settlement services.", image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop" },
         { title: "Sex Work Support", desc: "Confidential, non-judgmental health & safety resources.", image: "https://images.unsplash.com/photo-1527689368864-3a821dbccc34?q=80&w=2070&auto=format&fit=crop" }
     ];
@@ -378,43 +380,71 @@ const StreamTab: React.FC = () => {
 const StudentJournalInterface: React.FC = () => {
     const [activeTab, setActiveTab] = useState<'stream' | 'profile' | 'resources'>('stream');
 
+    const navItems = [
+        { id: 'stream', label: 'Experience Stream', icon: <History className="w-4 h-4"/> },
+        { id: 'profile', label: 'Superpowers', icon: <Fingerprint className="w-4 h-4"/> },
+        { id: 'resources', label: 'Student Resources', icon: <Heart className="w-4 h-4"/> }
+    ];
+
     return (
         <div className="absolute inset-0 z-20 pointer-events-none px-6 lg:px-12 pb-6 pt-28 lg:pt-32 flex justify-center">
-              <div className="pointer-events-auto w-full max-w-6xl h-full bg-[#F8FAFC] rounded-[40px] shadow-[0_40px_100px_rgba(0,0,0,0.15)] border border-white flex flex-col overflow-hidden animate-in zoom-in duration-500 relative">
+              <div className="pointer-events-auto w-full max-w-6xl h-full bg-[#F8FAFC] rounded-[40px] shadow-[0_40px_100px_rgba(0,0,0,0.15)] border border-white flex overflow-hidden animate-in zoom-in duration-500 relative">
                 
-                {/* Header & Tabs */}
-                <div className="px-8 pt-8 pb-4 bg-white border-b border-slate-200 flex justify-between items-end">
-                    <div>
-                        <h2 className="text-3xl font-black text-slate-900 tracking-tight mb-1">Reflection Engine</h2>
-                        <p className="text-slate-500 font-medium text-sm">Capture experiences, synthesize identity, and access support.</p>
+                {/* Side Navbar */}
+                <div className="w-72 bg-white border-r border-slate-200 p-6 flex flex-col gap-2">
+                    <div className="mb-8 px-2 pt-2">
+                        <div className="w-12 h-12 bg-cyan-100 text-cyan-600 rounded-2xl flex items-center justify-center mb-3 shadow-sm">
+                            <Wind className="w-6 h-6" />
+                        </div>
+                        <h3 className="font-black text-slate-800 text-lg leading-tight">Career Journal</h3>
+                        <p className="text-xs text-slate-500 font-medium mt-1">Log & synthesize growth.</p>
                     </div>
-                    <div className="flex bg-slate-100/50 p-1.5 rounded-xl border border-slate-200">
-                        {[
-                            { id: 'stream', label: 'Experience Stream', icon: <History className="w-4 h-4"/> },
-                            { id: 'profile', label: 'Superpowers', icon: <Fingerprint className="w-4 h-4"/> },
-                            { id: 'resources', label: 'Student Resources', icon: <Heart className="w-4 h-4"/> }
-                        ].map(tab => (
+
+                    <div className="space-y-1">
+                        {navItems.map(item => (
                             <button
-                                key={tab.id}
-                                onClick={() => setActiveTab(tab.id as any)}
-                                className={`px-4 py-2.5 rounded-lg text-xs font-bold flex items-center gap-2 transition-all ${
-                                    activeTab === tab.id 
-                                    ? 'bg-white text-slate-900 shadow-sm ring-1 ring-slate-200' 
-                                    : 'text-slate-500 hover:text-slate-700 hover:bg-slate-200/50'
+                                key={item.id}
+                                onClick={() => setActiveTab(item.id as any)}
+                                className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-xl text-sm font-bold transition-all ${
+                                    activeTab === item.id 
+                                    ? 'bg-slate-900 text-white shadow-lg' 
+                                    : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'
                                 }`}
                             >
-                                {tab.icon}
-                                {tab.label}
+                                {item.icon}
+                                {item.label}
                             </button>
                         ))}
                     </div>
                 </div>
 
-                {/* Content Area */}
-                <div className="flex-1 overflow-y-auto bg-[#F8FAFC] p-8 custom-scrollbar">
-                    {activeTab === 'resources' && <ResourcesTab />}
-                    {activeTab === 'profile' && <ProfileTab />}
-                    {activeTab === 'stream' && <StreamTab />}
+                {/* Main Content */}
+                <div className="flex-1 flex flex-col h-full bg-[#F8FAFC]">
+                    {/* Header - Centered */}
+                    <div className="h-24 border-b border-slate-200 bg-white flex items-center justify-center relative shrink-0">
+                        <div className="text-center">
+                            <h2 className="text-2xl font-black text-slate-900 tracking-tight">Reflection Engine</h2>
+                            <p className="text-slate-500 font-bold text-xs uppercase tracking-widest mt-1">
+                                {activeTab === 'stream' && 'Recent Activity'}
+                                {activeTab === 'profile' && 'Identity Matrix'}
+                                {activeTab === 'resources' && 'Support Network'}
+                            </p>
+                        </div>
+                        
+                        {/* Optional Right Action */}
+                        <div className="absolute right-8 top-1/2 -translate-y-1/2">
+                            <button className="p-2.5 rounded-xl hover:bg-slate-50 text-slate-400 hover:text-slate-700 transition-colors">
+                                <Settings className="w-5 h-5" />
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Scrollable Content */}
+                    <div className="flex-1 overflow-y-auto p-8 custom-scrollbar">
+                        {activeTab === 'resources' && <ResourcesTab />}
+                        {activeTab === 'profile' && <ProfileTab />}
+                        {activeTab === 'stream' && <StreamTab />}
+                    </div>
                 </div>
 
             </div>
@@ -516,12 +546,13 @@ const SignalInterface: React.FC = () => {
 
     return (
         <div className="absolute inset-0 z-20 pointer-events-none px-6 lg:px-12 pb-6 pt-28 lg:pt-32 flex justify-center">
-            <div className="pointer-events-auto w-full h-full max-w-7xl flex gap-6 animate-in fade-in zoom-in duration-500">
+            {/* Widened Container from max-w-7xl to max-w-[1600px] */}
+            <div className="pointer-events-auto w-full h-full max-w-[1600px] flex gap-6 animate-in fade-in zoom-in duration-500">
                 
                 {/* --- LEFT COLUMN: MACRO INTELLIGENCE --- */}
-                <div className="w-[320px] flex flex-col gap-6 h-full">
+                <div className="w-[320px] flex flex-col gap-6 h-full shrink-0">
                     
-                    {/* Radar Card */}
+                    {/* Radar Card - Removed Scanning Animation */}
                     <div className="bg-white/80 backdrop-blur-xl border border-white/60 p-6 rounded-[32px] shadow-lg flex-1 flex flex-col relative overflow-hidden group hover:bg-white/90 transition-all">
                          <div className="flex items-center gap-3 mb-6">
                             <div className="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center shadow-lg">
@@ -552,19 +583,6 @@ const SignalInterface: React.FC = () => {
                                 </div>
                             ))}
                          </div>
-
-                         {/* Decorative Radar Element */}
-                         <div className="h-32 mt-6 relative border-t border-slate-200 pt-6 flex items-center justify-center">
-                            <div className="absolute inset-0 bg-gradient-to-t from-blue-50/50 to-transparent pointer-events-none"></div>
-                            <div className="w-24 h-24 rounded-full border border-blue-200 flex items-center justify-center relative">
-                                <div className="w-16 h-16 rounded-full border border-blue-300 flex items-center justify-center">
-                                    <div className="w-2 h-2 rounded-full bg-blue-500 animate-ping"></div>
-                                </div>
-                                <div className="absolute top-0 right-0 w-2 h-2 bg-green-500 rounded-full"></div>
-                                <div className="absolute bottom-2 left-1 w-2 h-2 bg-purple-500 rounded-full"></div>
-                            </div>
-                            <div className="absolute bottom-2 text-[9px] font-bold text-slate-400 uppercase tracking-widest text-center w-full">Scanning 14 Sources...</div>
-                         </div>
                     </div>
 
                     {/* Filter Widget */}
@@ -582,15 +600,17 @@ const SignalInterface: React.FC = () => {
                     </div>
                 </div>
 
-                {/* --- CENTER COLUMN: JOB FEED --- */}
-                <div className="flex-1 flex flex-col h-full bg-white/60 backdrop-blur-xl border border-white/60 rounded-[40px] shadow-2xl overflow-hidden relative">
-                     {/* Header */}
-                     <div className="p-6 border-b border-white/50 bg-white/40 flex justify-between items-center backdrop-blur-md sticky top-0 z-10">
-                        <div>
+                {/* --- CENTER COLUMN: JOB FEED (Beefed Up) --- */}
+                <div className="flex-1 flex flex-col h-full bg-white/60 backdrop-blur-xl border border-white/60 rounded-[40px] shadow-2xl overflow-hidden relative min-w-0">
+                     {/* Header - Centered Title */}
+                     <div className="p-6 border-b border-white/50 bg-white/40 flex items-center justify-center relative backdrop-blur-md sticky top-0 z-10">
+                        <div className="text-center">
                             <h2 className="text-xl font-black text-slate-900">Live Opportunities</h2>
                             <p className="text-xs text-slate-500 font-bold mt-1">Sorted by AI-Resilience Score</p>
                         </div>
-                        <div className="flex gap-2">
+                        
+                        {/* Right Aligned Badge */}
+                        <div className="absolute right-6 top-1/2 -translate-y-1/2">
                              <div className="bg-white/80 px-3 py-1.5 rounded-lg border border-white/60 text-[10px] font-bold text-slate-600 shadow-sm flex items-center gap-1.5">
                                 <Globe className="w-3 h-3 text-blue-500" /> Global
                              </div>
@@ -598,54 +618,84 @@ const SignalInterface: React.FC = () => {
                      </div>
 
                      {/* Feed */}
-                     <div className="flex-1 overflow-y-auto p-4 space-y-3 custom-scrollbar">
+                     <div className="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar">
                         {jobs.map(job => (
                             <div 
                                 key={job.id} 
                                 onClick={() => setSelectedJobId(job.id)}
-                                className={`p-5 rounded-3xl border transition-all cursor-pointer group relative overflow-hidden ${
+                                className={`p-8 rounded-[36px] border transition-all cursor-pointer group relative overflow-hidden flex flex-col gap-6 ${
                                     selectedJobId === job.id 
-                                    ? 'bg-white border-blue-500 shadow-lg ring-1 ring-blue-500' 
-                                    : 'bg-white/80 border-white/50 hover:bg-white hover:border-blue-200 hover:shadow-md'
+                                    ? 'bg-white border-blue-500 shadow-[0_20px_50px_rgba(59,130,246,0.15)] ring-1 ring-blue-500' 
+                                    : 'bg-white border-slate-200 hover:border-slate-300 hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)]'
                                 }`}
                             >
-                                <div className="flex justify-between items-start mb-3 relative z-10">
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-12 h-12 rounded-xl bg-white border border-slate-100 shadow-sm p-1">
-                                            <img src={job.logo} className="w-full h-full object-contain rounded-lg" alt="Logo" />
-                                        </div>
-                                        <div>
-                                            <h3 className="font-black text-slate-800 text-base leading-tight group-hover:text-blue-600 transition-colors">{job.title}</h3>
-                                            <p className="text-xs font-bold text-slate-500">{job.company} • {job.location}</p>
-                                        </div>
+                                {/* Top Row: Logo + Match Pill */}
+                                <div className="flex justify-between items-start">
+                                    <div className="w-16 h-16 rounded-2xl bg-white border border-slate-200 shadow-sm p-1.5 shrink-0 flex items-center justify-center">
+                                        <img src={job.logo} className="w-full h-full object-contain rounded-xl" alt="Logo" />
                                     </div>
-                                    <div className="flex flex-col items-end">
-                                        <div className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider mb-1 ${
-                                            job.matchScore >= 90 ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'
-                                        }`}>
-                                            {job.matchScore}% Match
-                                        </div>
-                                        <span className="text-[10px] font-bold text-slate-400">{job.posted}</span>
+                                    <div className={`px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest flex items-center gap-2 ${
+                                        job.matchScore >= 90 ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'
+                                    }`}>
+                                        <Sparkles className="w-4 h-4 fill-current" />
+                                        {job.matchScore}% Match
                                     </div>
                                 </div>
 
-                                <div className="flex gap-2 mb-4 relative z-10">
+                                {/* Main Content */}
+                                <div>
+                                    <h3 className="text-2xl font-black text-slate-900 tracking-tight leading-tight mb-2 group-hover:text-blue-600 transition-colors">
+                                        {job.title}
+                                    </h3>
+                                    <div className="flex items-center gap-3 text-sm font-bold text-slate-500">
+                                        <span className="flex items-center gap-1.5"><Building2 className="w-4 h-4" /> {job.company}</span>
+                                        <span className="w-1 h-1 rounded-full bg-slate-300"></span>
+                                        <span className="flex items-center gap-1.5"><MapPin className="w-4 h-4" /> {job.location}</span>
+                                        <span className="w-1 h-1 rounded-full bg-slate-300"></span>
+                                        <span className="text-slate-400">{job.posted}</span>
+                                    </div>
+                                </div>
+
+                                {/* Description */}
+                                <p className="text-base font-medium text-slate-600 leading-relaxed">
+                                    {job.desc}
+                                </p>
+
+                                {/* Tags */}
+                                <div className="flex flex-wrap gap-2">
                                     {job.tags.map(tag => (
-                                        <span key={tag} className="px-2 py-1 bg-slate-100 rounded-lg text-[10px] font-bold text-slate-600 border border-slate-200">
+                                        <span key={tag} className="px-4 py-2 bg-slate-50 rounded-xl text-xs font-bold text-slate-600 border border-slate-200">
                                             {tag}
                                         </span>
                                     ))}
                                 </div>
 
-                                {/* Hover Reveal: Why you match */}
-                                <div className="flex items-center gap-2 text-xs font-bold text-blue-600 opacity-80 group-hover:opacity-100 transition-opacity">
-                                    <Sparkles className="w-3.5 h-3.5 fill-blue-600" />
-                                    Why: {job.matchReason}
+                                {/* Action Footer - Bold & Wide */}
+                                <div className="pt-4 mt-auto flex flex-wrap items-center justify-between gap-4">
+                                    <div className="flex gap-2 shrink-0">
+                                        <button className="p-3 rounded-2xl text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors border border-transparent hover:border-blue-100" title="Save Job">
+                                            <Bookmark className="w-6 h-6" />
+                                        </button>
+                                        <button className="p-3 rounded-2xl text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors border border-transparent hover:border-blue-100" title="Share">
+                                            <Share2 className="w-6 h-6" />
+                                        </button>
+                                    </div>
+                                    
+                                    <div className="flex items-center gap-3 flex-1 justify-end min-w-0">
+                                        <button className="text-xs font-bold text-slate-500 hover:text-blue-600 px-4 py-3 rounded-xl hover:bg-blue-50 transition-colors flex items-center gap-2 whitespace-nowrap shrink-0">
+                                            <FileText className="w-4 h-4" />
+                                            Resume Prep
+                                        </button>
+                                        
+                                        <button className="flex-1 max-w-[240px] py-4 bg-[#0A0A0A] text-white rounded-2xl font-bold text-base shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all flex items-center justify-center gap-2 active:scale-95 whitespace-nowrap">
+                                            Apply Now <ExternalLink className="w-4 h-4" />
+                                        </button>
+                                    </div>
                                 </div>
 
-                                {/* Active Selection Indicator Bar */}
+                                {/* Selection Indicator Line */}
                                 {selectedJobId === job.id && (
-                                    <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-blue-500"></div>
+                                    <div className="absolute left-0 top-10 bottom-10 w-1.5 bg-blue-500 rounded-r-full"></div>
                                 )}
                             </div>
                         ))}
@@ -653,7 +703,8 @@ const SignalInterface: React.FC = () => {
                 </div>
 
                 {/* --- RIGHT COLUMN: FIT ANALYSIS (THE GAP ENGINE) --- */}
-                <div className="w-[400px] flex flex-col h-full bg-slate-900 text-white rounded-[40px] shadow-2xl p-8 relative overflow-hidden border border-slate-700">
+                {/* Reduced width from 400px to 350px to allow more space for feed */}
+                <div className="w-[350px] flex flex-col h-full bg-slate-900 text-white rounded-[40px] shadow-2xl p-8 relative overflow-hidden border border-slate-700 shrink-0">
                      {/* Background Glow */}
                      <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500 rounded-full blur-[100px] opacity-20 pointer-events-none"></div>
 
@@ -1132,8 +1183,34 @@ const StudentDashboard: React.FC = () => {
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/10 via-transparent to-transparent"></div>
             </div>
 
-            {/* --- 2. THE UI LAYER (HUD) --- */}
-            <div className={`absolute inset-0 z-10 transition-opacity duration-500 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
+            {/* --- 2. GLOBAL GRADIENTS & TITLE (The "Vibe" Layer) --- */}
+            {/* Right Gradient for Title Readability */}
+            <div className="absolute top-0 right-0 h-full w-[60%] bg-gradient-to-l from-white/95 via-white/70 to-transparent pointer-events-none z-10"></div>
+            
+            {/* Left Gradient for Logo Visibility */}
+            <div className="absolute top-0 left-0 h-full w-[40%] bg-gradient-to-r from-white/80 via-white/40 to-transparent pointer-events-none z-10"></div>
+
+            {/* Global Page Title - Conditioned for Room Type */}
+            <div className={`absolute pointer-events-none z-10 flex flex-col transition-all duration-1000 ${
+                currentRoom === 'Atrium' 
+                ? 'top-28 right-12 text-right items-end' 
+                : 'top-24 left-0 w-full items-center text-center'
+            }`}>
+                <div className={`flex mb-4 ${currentRoom === 'Atrium' ? 'justify-end' : 'justify-center'}`}>
+                    <span key={`tag-${currentRoom}`} className="px-5 py-2 rounded-full bg-white/50 backdrop-blur-md border border-slate-900/10 text-slate-900 text-xs font-bold uppercase tracking-widest animate-in slide-in-from-top duration-1000 shadow-sm">
+                        {currentRoom === 'Atrium' ? 'Student Hub' : 'Active Module'}
+                    </span>
+                </div>
+                <h1 key={`title-${currentRoom}`} className={`${currentRoom === 'Atrium' ? 'text-7xl md:text-9xl' : 'text-4xl md:text-6xl'} font-black text-slate-900 leading-[0.85] tracking-tighter mb-6 animate-in fade-in zoom-in duration-1000 delay-200 drop-shadow-2xl opacity-90`}>
+                    {room.title}
+                </h1>
+                <p key={`desc-${currentRoom}`} className={`text-xl text-slate-800 font-bold leading-relaxed animate-in fade-in slide-in-from-bottom duration-1000 delay-400 max-w-md ${currentRoom === 'Atrium' ? '' : 'text-center opacity-80'}`}>
+                    {room.description}
+                </p>
+            </div>
+
+            {/* --- 3. THE UI LAYER (HUD) --- */}
+            <div className={`absolute inset-0 z-20 transition-opacity duration-500 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
                 
                 {/* Top Bar - Minimalist & Glass */}
                 <nav className="absolute top-0 w-full p-10 flex justify-between items-start z-50 pointer-events-none">
@@ -1153,41 +1230,20 @@ const StudentDashboard: React.FC = () => {
                     </div>
                 </nav>
 
-                {/* --- 3. ROOM SPECIFIC INTERFACES --- */}
-                
-                {/* Title Overlay for Atrium - Adjusted Position to Top Right */}
-                {currentRoom === 'Atrium' && (
-                    <>
-                        <StudentProfileHUD />
-                        
-                        {/* Gradient Backdrop for Readability */}
-                        <div className="absolute top-0 right-0 h-full w-[60%] bg-gradient-to-l from-white/90 via-white/40 to-transparent pointer-events-none z-10"></div>
-                        
-                        <div className="absolute top-28 right-20 text-right max-w-2xl pointer-events-none z-20 flex flex-col items-end">
-                            <div className="flex justify-end mb-6">
-                                <span className="px-5 py-2 rounded-full bg-white/50 backdrop-blur-md border border-slate-900/10 text-slate-900 text-xs font-bold uppercase tracking-widest animate-in slide-in-from-right duration-1000 shadow-sm">
-                                    Student Hub
-                                </span>
-                            </div>
-                            <h1 className="text-8xl md:text-9xl font-black text-slate-900 leading-[0.85] tracking-tighter mb-6 animate-in fade-in slide-in-from-right duration-1000 delay-200 drop-shadow-2xl">
-                                {room.title}
-                            </h1>
-                            <p className="text-xl text-slate-800 font-bold leading-relaxed animate-in fade-in slide-in-from-right duration-1000 delay-400 max-w-md">
-                                {room.description}
-                            </p>
-                        </div>
-                    </>
-                )}
-                
-                {/* --- NAVIGATION: WALLET FOR ATRIUM vs PORTALS FOR OTHERS --- */}
+                {/* Profile HUD (Kept Global for Consistency but can overlap if window small) */}
+                {currentRoom === 'Atrium' && <StudentProfileHUD />}
+
+                {/* --- NAVIGATION & CONTENT --- */}
                 {currentRoom === 'Atrium' ? (
                     <WalletCarousel onNavigate={handleNavigate} />
                 ) : (
                     <>
-                        {/* Interactive Room Components */}
-                        {currentRoom === 'QuietRoom' && <StudentJournalInterface />}
-                        {currentRoom === 'SignalTower' && <SignalInterface />}
-                        {currentRoom === 'GrowthLab' && <GrowthInterface />}
+                        {/* Interactive Room Components - Z-Index 30 to sit above title layer if needed */}
+                        <div className="relative z-30 w-full h-full">
+                            {currentRoom === 'QuietRoom' && <StudentJournalInterface />}
+                            {currentRoom === 'SignalTower' && <SignalInterface />}
+                            {currentRoom === 'GrowthLab' && <GrowthInterface />}
+                        </div>
 
                         {/* AR Hotspots */}
                         {room.hotspots.map((h, i) => (
