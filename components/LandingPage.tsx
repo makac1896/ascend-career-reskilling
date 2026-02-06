@@ -39,13 +39,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
         className={`fixed top-0 w-full z-50 transition-all duration-500 ${scrolled ? "bg-white/90 backdrop-blur-md shadow-sm py-4" : "bg-transparent py-6"}`}
       >
         <div className='max-w-7xl mx-auto px-6 flex justify-between items-center'>
-          <div className='flex items-center'>
-            <img
-              src='/waypoint.png'
-              alt='Waypoint'
-              className={`h-40 w-auto transition-all ${scrolled ? "" : "brightness-0 invert lg:brightness-100 lg:invert-0"}`}
-            />
-          </div>
+          <div className='flex items-center'>{/* Logo removed */}</div>
           <div className='hidden md:flex items-center gap-8'>
             <a
               href='#mission'
