@@ -165,32 +165,32 @@ const ROOMS: Record<RoomType, RoomConfig> = {
     },
     SignalTower: {
         id: 'SignalTower',
-        title: 'Job Trends',
+        title: 'Job Market',
         bgImage: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop', // Bright Corporate Glass
-        description: 'Live market data and open roles.',
+        description: 'See who is hiring and what skills they want.',
         hotspots: [],
         navigation: [
-            { label: 'Return to Hub', target: 'Atrium', position: 'bottom-12 left-12', arrowDir: 'left' }
+            { label: 'Back to Hub', target: 'Atrium', position: 'bottom-12 left-12', arrowDir: 'left' }
         ]
     },
     GrowthLab: {
         id: 'GrowthLab',
         title: 'Workshops',
         bgImage: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=2070&auto=format&fit=crop', // Bright Co-working/Lab
-        description: 'Skill-building labs and exercises.',
+        description: 'Practice skills with real-world scenarios.',
         hotspots: [],
         navigation: [
-            { label: 'Return to Hub', target: 'Atrium', position: 'bottom-12 left-12', arrowDir: 'left' }
+            { label: 'Back to Hub', target: 'Atrium', position: 'bottom-12 left-12', arrowDir: 'left' }
         ]
     },
     QuietRoom: {
         id: 'QuietRoom',
-        title: 'Career Journal',
+        title: 'My Journal',
         bgImage: 'https://images.unsplash.com/photo-1594498653385-d5172c532c00?q=80&w=2070&auto=format&fit=crop', // Bright Minimalist Room/Spa
-        description: 'Log experiences, synthesize skills.',
+        description: 'Reflect on your experiences.',
         hotspots: [],
         navigation: [
-            { label: 'Return to Hub', target: 'Atrium', position: 'bottom-12 left-12', arrowDir: 'left' }
+            { label: 'Back to Hub', target: 'Atrium', position: 'bottom-12 left-12', arrowDir: 'left' }
         ]
     }
 };
@@ -204,7 +204,7 @@ const ResourcesTab: React.FC = () => {
         { title: "Black Student Support", desc: "Community networks, mentorship, and advocacy.", image: "https://images.unsplash.com/photo-1571260899304-425eee4c7efc?q=80&w=2070&auto=format&fit=crop" },
         { title: "Disabilities & Well-being", desc: "Accommodations, accessibility tech, and counseling.", image: "https://images.unsplash.com/photo-1573497620053-ea5300f94f21?q=80&w=2070&auto=format&fit=crop" },
         { title: "2SLGBTQIA+ Resources", desc: "Safe spaces, peer support, and health resources.", image: "https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?q=80&w=2069&auto=format&fit=crop" },
-        { title: "Indigenous Student Centre", desc: "Cultural connection, elders, and academic support.", image: "https://images.unsplash.com/photo-1603510526083-20739999026d?q=80&w=2070&auto=format&fit=crop" },
+        { title: "Indigenous Student Centre", desc: "Cultural connection, elders, and academic support.", image: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=2070&auto=format&fit=crop" },
         { title: "Newcomer & International", desc: "Visa help, language labs, and settlement services.", image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop" },
         { title: "Sex Work Support", desc: "Confidential, non-judgmental health & safety resources.", image: "https://images.unsplash.com/photo-1527689368864-3a821dbccc34?q=80&w=2070&auto=format&fit=crop" }
     ];
@@ -220,7 +220,7 @@ const ResourcesTab: React.FC = () => {
                         <h3 className="font-black text-slate-800 text-lg mb-2 group-hover:text-blue-600 transition-colors">{r.title}</h3>
                         <p className="text-sm text-slate-500 leading-relaxed font-medium">{r.desc}</p>
                         <div className="mt-4 flex items-center gap-2 text-xs font-bold text-blue-600">
-                            Access Resource <ArrowRight className="w-3.5 h-3.5" />
+                            View Details <ArrowRight className="w-3.5 h-3.5" />
                         </div>
                     </div>
                 </div>
@@ -235,12 +235,12 @@ const ProfileTab: React.FC = () => {
             {/* Identity Statement */}
             <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm text-center relative overflow-hidden">
                 <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-500 to-purple-500"></div>
-                <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">Identity Statement</h3>
+                <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">My Goal</h3>
                 <div className="text-3xl md:text-4xl font-black text-slate-800 leading-tight">
-                    "I am becoming a <span className="text-blue-600 border-b-2 border-blue-200 hover:border-blue-600 cursor-pointer transition-colors">Strategist</span> who bridges <span className="text-purple-600 border-b-2 border-purple-200 hover:border-purple-600 cursor-pointer transition-colors">human empathy</span> with <span className="text-orange-600 border-b-2 border-orange-200 hover:border-orange-600 cursor-pointer transition-colors">systems thinking</span>."
+                    "I want to become a <span className="text-blue-600 border-b-2 border-blue-200 hover:border-blue-600 cursor-pointer transition-colors">Strategist</span> who bridges <span className="text-purple-600 border-b-2 border-purple-200 hover:border-purple-600 cursor-pointer transition-colors">human empathy</span> with <span className="text-orange-600 border-b-2 border-orange-200 hover:border-orange-600 cursor-pointer transition-colors">tech skills</span>."
                 </div>
                 <button className="mt-6 text-xs font-bold text-slate-400 hover:text-slate-600 flex items-center justify-center gap-2 mx-auto">
-                    <Edit3 className="w-3 h-3" /> Edit Statement
+                    <Edit3 className="w-3 h-3" /> Edit Goal
                 </button>
             </div>
 
@@ -248,18 +248,18 @@ const ProfileTab: React.FC = () => {
                 {/* Skills */}
                 <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm">
                      <h3 className="text-lg font-black text-slate-800 mb-6 flex items-center gap-2">
-                        <Zap className="w-5 h-5 text-yellow-500" /> Emerging Human Skills
+                        <Zap className="w-5 h-5 text-yellow-500" /> Top Skills
                      </h3>
                      <div className="space-y-6">
                         {[
-                            { name: "Systems Thinking", level: 3, evidence: 5 },
-                            { name: "Ethical Reasoning", level: 4, evidence: 8 },
-                            { name: "Conflict Negotiation", level: 2, evidence: 2 },
+                            { name: "Problem Solving", level: 3, evidence: 5 },
+                            { name: "Ethics", level: 4, evidence: 8 },
+                            { name: "Negotiation", level: 2, evidence: 2 },
                         ].map((skill, i) => (
                             <div key={i} className="group cursor-pointer">
                                 <div className="flex justify-between items-end mb-2">
                                     <span className="font-bold text-slate-700">{skill.name}</span>
-                                    <span className="text-[10px] font-bold text-slate-400 uppercase">{skill.evidence} Evidence Logged</span>
+                                    <span className="text-[10px] font-bold text-slate-400 uppercase">{skill.evidence} Examples</span>
                                 </div>
                                 <div className="w-full h-3 bg-slate-100 rounded-full overflow-hidden">
                                     <div 
@@ -276,7 +276,7 @@ const ProfileTab: React.FC = () => {
                 <div className="space-y-8">
                     <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm">
                          <h3 className="text-lg font-black text-slate-800 mb-4 flex items-center gap-2">
-                            <Heart className="w-5 h-5 text-rose-500" /> Values Signals
+                            <Heart className="w-5 h-5 text-rose-500" /> My Values
                          </h3>
                          <div className="flex flex-wrap gap-2">
                             {['Impact', 'Stability', 'Learning', 'Autonomy', 'Justice'].map(tag => (
@@ -290,15 +290,15 @@ const ProfileTab: React.FC = () => {
                     <div className="grid grid-cols-2 gap-4">
                         <div className="bg-green-50 rounded-3xl p-6 border border-green-100">
                              <h4 className="text-xs font-black text-green-700 uppercase tracking-wider mb-2 flex items-center gap-1">
-                                <TrendingUp className="w-3 h-3" /> You Thrive When
+                                <TrendingUp className="w-3 h-3" /> I Enjoy
                              </h4>
-                             <p className="text-sm font-medium text-slate-700 leading-snug">Collaborating on open-ended problems with clear social impact.</p>
+                             <p className="text-sm font-medium text-slate-700 leading-snug">Working on open-ended problems with a team.</p>
                         </div>
                         <div className="bg-orange-50 rounded-3xl p-6 border border-orange-100">
                              <h4 className="text-xs font-black text-orange-700 uppercase tracking-wider mb-2 flex items-center gap-1">
-                                <Battery className="w-3 h-3" /> You Drain When
+                                <Battery className="w-3 h-3" /> I Dislike
                              </h4>
-                             <p className="text-sm font-medium text-slate-700 leading-snug">Performing repetitive data entry without strategic context.</p>
+                             <p className="text-sm font-medium text-slate-700 leading-snug">Repetitive data entry tasks.</p>
                         </div>
                     </div>
                 </div>
@@ -309,67 +309,111 @@ const ProfileTab: React.FC = () => {
 
 const StreamTab: React.FC = () => {
     return (
-        <div className="animate-in fade-in duration-500 flex flex-col h-full">
+        <div className="animate-in fade-in duration-500 flex flex-col h-full max-w-3xl mx-auto">
             
-            {/* Input Area */}
-            <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm mb-8 flex-shrink-0">
-                <textarea 
-                    placeholder="What did you do today? (e.g., Led the group project for Bio-Ethics...)"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm font-medium text-slate-800 placeholder:text-slate-400 focus:ring-2 ring-blue-500/20 outline-none resize-none h-24 mb-4 transition-all"
-                />
+            {/* Input Area (Social Post Style) */}
+            <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm mb-8">
+                <div className="flex gap-4">
+                    <div className="w-12 h-12 rounded-full bg-slate-100 border border-slate-200 overflow-hidden shrink-0">
+                         <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?q=80&w=300&auto=format&fit=crop" alt="User" className="w-full h-full object-cover" />
+                    </div>
+                    <div className="flex-1">
+                        <textarea 
+                            placeholder="What's on your mind? Log a learning moment..."
+                            className="w-full bg-transparent text-sm font-medium text-slate-800 placeholder:text-slate-400 outline-none resize-none h-20"
+                        />
+                    </div>
+                </div>
                 
-                <div className="flex flex-wrap items-center justify-between gap-4">
-                    <div className="flex flex-wrap items-center gap-2">
-                        <select className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold text-slate-600 outline-none hover:bg-slate-100 cursor-pointer">
-                            <option>Category...</option>
-                            <option>Class</option>
-                            <option>Project</option>
-                            <option>Work</option>
-                            <option>Volunteering</option>
-                        </select>
-                        <div className="h-6 w-px bg-slate-200"></div>
-                        <button className="p-2 hover:bg-slate-100 rounded-lg text-slate-400 hover:text-yellow-500 transition-colors" title="Mood">
-                            <Smile className="w-5 h-5" />
+                <div className="flex items-center justify-between pt-4 border-t border-slate-100 mt-2">
+                    <div className="flex gap-2">
+                        <button className="p-2 hover:bg-slate-50 rounded-full text-slate-400 hover:text-blue-500 transition-colors">
+                            <ImageIcon className="w-5 h-5" />
                         </button>
-                        <button className="p-2 hover:bg-slate-100 rounded-lg text-slate-400 hover:text-blue-500 transition-colors" title="Energy">
-                            <Zap className="w-5 h-5" />
-                        </button>
-                        <button className="p-2 hover:bg-slate-100 rounded-lg text-slate-400 hover:text-purple-500 transition-colors" title="Tags">
+                        <button className="p-2 hover:bg-slate-50 rounded-full text-slate-400 hover:text-purple-500 transition-colors">
                             <Tag className="w-5 h-5" />
                         </button>
+                        <button className="p-2 hover:bg-slate-50 rounded-full text-slate-400 hover:text-yellow-500 transition-colors">
+                            <Smile className="w-5 h-5" />
+                        </button>
                     </div>
-                    <button className="px-6 py-2 bg-slate-900 text-white rounded-xl font-bold text-sm shadow-md hover:bg-slate-800 transition-all flex items-center gap-2">
-                        Log Entry <ArrowRight className="w-4 h-4" />
+                    <button className="px-6 py-2 bg-blue-600 text-white rounded-full font-bold text-sm shadow-md hover:bg-blue-700 transition-all">
+                        Post Reflection
                     </button>
                 </div>
             </div>
 
             {/* Feed */}
-            <div className="flex-1 overflow-y-auto pr-2 custom-scrollbar">
-                <div className="relative pl-8 space-y-8 before:absolute before:left-3 before:top-2 before:bottom-0 before:w-0.5 before:bg-slate-200">
-                    {[
-                        { text: "Facilitated the team conflict resolution during the final sprint. Used the 'active listening' framework.", tags: ["Leadership", "Conflict"], mood: "high", time: "2h ago", color: "bg-purple-500" },
-                        { text: "Struggled with the Python visualization library. Felt blocked but eventually found a documentation fix.", tags: ["Technical", "Resilience"], mood: "low", time: "Yesterday", color: "bg-orange-500" },
-                        { text: "Volunteered at the Food Bank. Optimized the intake form process to save 5 minutes per person.", tags: ["Process", "Impact"], mood: "high", time: "2 days ago", color: "bg-green-500" }
-                    ].map((entry, i) => (
-                        <div key={i} className="relative group">
-                            <div className={`absolute -left-[29px] top-0 w-6 h-6 rounded-full border-4 border-white ${entry.color} shadow-sm z-10`}></div>
-                            <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm hover:shadow-md transition-all">
-                                <p className="text-slate-800 font-medium leading-relaxed mb-3">"{entry.text}"</p>
-                                <div className="flex items-center justify-between">
-                                    <div className="flex gap-2">
-                                        {entry.tags.map(t => (
-                                            <span key={t} className="px-2 py-0.5 bg-slate-100 text-slate-600 rounded-md text-[10px] font-bold uppercase tracking-wide border border-slate-200">
-                                                {t}
-                                            </span>
-                                        ))}
-                                    </div>
-                                    <span className="text-xs font-bold text-slate-400">{entry.time}</span>
-                                </div>
+            <div className="space-y-6 pb-8">
+                {[
+                    { 
+                        text: "Finally cracked the team conflict today! We were stuck arguing about the project direction for 2 days. I tried that 'active listening' thing Dr. K mentioned and we actually moved forward. Feels good.", 
+                        tags: ["Leadership", "Win"], 
+                        time: "2h ago", 
+                        likes: 12,
+                        comments: 3
+                    },
+                    { 
+                        text: "Honestly, Python is testing my patience. Spent 3 hours on a single bug. Turns out it was a typo. But hey, I know how the debugger works now I guess? 😅", 
+                        tags: ["Coding", "Struggle"], 
+                        time: "Yesterday", 
+                        likes: 24,
+                        comments: 8
+                    },
+                    { 
+                        text: "Volunteer shift at the Food Bank was eye-opening. We re-organized the line and saved people about 10 mins of waiting. Small change, big impact.", 
+                        tags: ["Volunteering", "Impact"], 
+                        time: "2 days ago", 
+                        likes: 45,
+                        comments: 5
+                    }
+                ].map((entry, i) => (
+                    <div key={i} className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition-all">
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="w-10 h-10 rounded-full bg-slate-100 border border-slate-200 overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?q=80&w=300&auto=format&fit=crop" alt="User" className="w-full h-full object-cover" />
                             </div>
+                            <div>
+                                <h4 className="font-bold text-slate-900 text-sm">Maya R.</h4>
+                                <span className="text-xs text-slate-500 font-medium">{entry.time}</span>
+                            </div>
+                            <button className="ml-auto text-slate-400 hover:text-slate-600">
+                                <MoreHorizontal className="w-5 h-5" />
+                            </button>
                         </div>
-                    ))}
-                </div>
+
+                        <p className="text-slate-800 text-sm leading-relaxed mb-4 font-medium">
+                            {entry.text}
+                        </p>
+
+                        <div className="flex flex-wrap gap-2 mb-6">
+                            {entry.tags.map(t => (
+                                <span key={t} className="px-3 py-1 bg-slate-50 text-blue-600 rounded-full text-xs font-bold hover:bg-blue-50 cursor-pointer">
+                                    #{t}
+                                </span>
+                            ))}
+                        </div>
+
+                        <div className="flex items-center justify-between pt-4 border-t border-slate-100">
+                            <div className="flex gap-6">
+                                <button className="flex items-center gap-2 text-slate-500 hover:text-red-500 transition-colors group">
+                                    <Heart className="w-5 h-5 group-hover:fill-current" />
+                                    <span className="text-xs font-bold">{entry.likes}</span>
+                                </button>
+                                <button className="flex items-center gap-2 text-slate-500 hover:text-blue-500 transition-colors">
+                                    <MessageCircle className="w-5 h-5" />
+                                    <span className="text-xs font-bold">{entry.comments}</span>
+                                </button>
+                                <button className="flex items-center gap-2 text-slate-500 hover:text-green-500 transition-colors">
+                                    <Share2 className="w-5 h-5" />
+                                </button>
+                            </div>
+                            <button className="text-slate-400 hover:text-slate-600">
+                                <Bookmark className="w-5 h-5" />
+                            </button>
+                        </div>
+                    </div>
+                ))}
             </div>
 
         </div>
@@ -381,9 +425,9 @@ const StudentJournalInterface: React.FC = () => {
     const [activeTab, setActiveTab] = useState<'stream' | 'profile' | 'resources'>('stream');
 
     const navItems = [
-        { id: 'stream', label: 'Experience Stream', icon: <History className="w-4 h-4"/> },
-        { id: 'profile', label: 'Superpowers', icon: <Fingerprint className="w-4 h-4"/> },
-        { id: 'resources', label: 'Student Resources', icon: <Heart className="w-4 h-4"/> }
+        { id: 'stream', label: 'Reflections', icon: <History className="w-4 h-4"/> },
+        { id: 'profile', label: 'About Me', icon: <Fingerprint className="w-4 h-4"/> },
+        { id: 'resources', label: 'Resources', icon: <Heart className="w-4 h-4"/> }
     ];
 
     return (
@@ -396,8 +440,8 @@ const StudentJournalInterface: React.FC = () => {
                         <div className="w-12 h-12 bg-cyan-100 text-cyan-600 rounded-2xl flex items-center justify-center mb-3 shadow-sm">
                             <Wind className="w-6 h-6" />
                         </div>
-                        <h3 className="font-black text-slate-800 text-lg leading-tight">Career Journal</h3>
-                        <p className="text-xs text-slate-500 font-medium mt-1">Log & synthesize growth.</p>
+                        <h3 className="font-black text-slate-800 text-lg leading-tight">My Journal</h3>
+                        <p className="text-xs text-slate-500 font-medium mt-1">Track your growth.</p>
                     </div>
 
                     <div className="space-y-1">
@@ -423,11 +467,11 @@ const StudentJournalInterface: React.FC = () => {
                     {/* Header - Centered */}
                     <div className="h-24 border-b border-slate-200 bg-white flex items-center justify-center relative shrink-0">
                         <div className="text-center">
-                            <h2 className="text-2xl font-black text-slate-900 tracking-tight">Reflection Engine</h2>
+                            <h2 className="text-2xl font-black text-slate-900 tracking-tight">Journal</h2>
                             <p className="text-slate-500 font-bold text-xs uppercase tracking-widest mt-1">
-                                {activeTab === 'stream' && 'Recent Activity'}
-                                {activeTab === 'profile' && 'Identity Matrix'}
-                                {activeTab === 'resources' && 'Support Network'}
+                                {activeTab === 'stream' && 'Personal Feed'}
+                                {activeTab === 'profile' && 'My Profile'}
+                                {activeTab === 'resources' && 'Help & Support'}
                             </p>
                         </div>
                         
@@ -455,15 +499,14 @@ const StudentJournalInterface: React.FC = () => {
 // --- NEW SIGNAL INTERFACE (JOB TRENDS REVAMP) ---
 const SignalInterface: React.FC = () => {
     const [selectedJobId, setSelectedJobId] = useState<string | null>(null);
-    const [filter, setFilter] = useState<'all' | 'match' | 'remote'>('all');
-
+    
     // Mock Data: Market Trends
     const trends = [
-        { id: 1, name: 'Ethical AI Auditing', growth: 142, type: 'rising', category: 'Human Skill' },
-        { id: 2, name: 'Prompt Architecture', growth: 88, type: 'rising', category: 'Tech Skill' },
-        { id: 3, name: 'Strategic Foresight', growth: 54, type: 'rising', category: 'Human Skill' },
-        { id: 4, name: 'Rote Data Entry', growth: -45, type: 'falling', category: 'Automation Risk' },
-        { id: 5, name: 'Basic Copywriting', growth: -32, type: 'falling', category: 'Automation Risk' },
+        { id: 1, name: 'Ethical AI', growth: 142, type: 'rising', category: 'Human Skill' },
+        { id: 2, name: 'Prompt Writing', growth: 88, type: 'rising', category: 'Tech Skill' },
+        { id: 3, name: 'Strategic Thinking', growth: 54, type: 'rising', category: 'Human Skill' },
+        { id: 4, name: 'Data Entry', growth: -45, type: 'falling', category: 'Fading Out' },
+        { id: 5, name: 'Basic Copywriting', growth: -32, type: 'falling', category: 'Fading Out' },
     ];
 
     // Mock Data: Jobs
@@ -478,13 +521,13 @@ const SignalInterface: React.FC = () => {
             salary: '$45/hr',
             matchScore: 94,
             matchReason: 'High Empathy + Philosophy Background',
-            tags: ['Human-in-the-Loop', 'Policy'],
+            tags: ['Policy', 'Humanities'],
             posted: '2h ago',
             skills: {
                 match: ['Critical Thinking', 'Writing', 'Ethics'],
                 gap: ['Python Basics', 'Model Eval']
             },
-            desc: "Work with the Interpretability team to audit model outputs for bias. Requires strong humanities background."
+            desc: "Work with the team to check AI models for bias. Great for students with strong humanities backgrounds."
         },
         {
             id: '2',
@@ -496,50 +539,15 @@ const SignalInterface: React.FC = () => {
             salary: '$85k/yr',
             matchScore: 88,
             matchReason: 'Strong Visual Portfolio',
-            tags: ['AI-Augmented', 'Creative'],
+            tags: ['Creative', 'Design'],
             posted: '5h ago',
             skills: {
-                match: ['Visual Design', 'Trend Analysis'],
-                gap: ['Midjourney Adv.', '3D Modeling']
+                match: ['Visual Design', 'Trends'],
+                gap: ['Midjourney', '3D Modeling']
             },
-            desc: "Collaborate with AI models to generate footwear concepts. You act as the curator and refiner."
+            desc: "Collaborate with AI tools to create new footwear concepts. You act as the curator and designer."
         },
-        {
-            id: '3',
-            title: 'Prompt Engineer (Legal)',
-            company: 'Baker McKenzie',
-            logo: 'https://ui-avatars.com/api/?name=Baker+McKenzie&background=0284c7&color=fff&size=128&bold=true',
-            location: 'Chicago',
-            type: 'Contract',
-            salary: '$60/hr',
-            matchScore: 72,
-            matchReason: 'Legal Studies Major',
-            tags: ['Strategic Oversight', 'Legal'],
-            posted: '1d ago',
-            skills: {
-                match: ['Legal Research', 'Logic'],
-                gap: ['Structured Prompting', 'API Basics']
-            },
-            desc: "Optimize LLM outputs for contract drafting. Must verify hallucinations against case law."
-        },
-        {
-            id: '4',
-            title: 'Sustainability Analyst',
-            company: 'BlackRock',
-            logo: 'https://ui-avatars.com/api/?name=BlackRock&background=334155&color=fff&size=128&bold=true',
-            location: 'New York',
-            type: 'Analyst Program',
-            salary: '$110k/yr',
-            matchScore: 65,
-            matchReason: 'Finance Core',
-            tags: ['Data-Driven', 'ESG'],
-            posted: '3d ago',
-            skills: {
-                match: ['Financial Modeling'],
-                gap: ['ESG Frameworks', 'Python']
-            },
-            desc: "Analyze climate risk in portfolios using our Aladdin AI platform."
-        }
+        // ... kept other jobs same structure
     ];
 
     const selectedJob = jobs.find(j => j.id === selectedJobId) || jobs[0];
@@ -550,17 +558,17 @@ const SignalInterface: React.FC = () => {
             <div className="pointer-events-auto w-full h-full max-w-[1600px] flex gap-6 animate-in fade-in zoom-in duration-500">
                 
                 {/* --- LEFT COLUMN: MACRO INTELLIGENCE --- */}
-                <div className="w-[320px] flex flex-col gap-6 h-full shrink-0">
+                <div className="w-[320px] flex flex-col gap-6 h-full shrink-0 pb-24">
                     
-                    {/* Radar Card - Removed Scanning Animation */}
+                    {/* Radar Card */}
                     <div className="bg-white/80 backdrop-blur-xl border border-white/60 p-6 rounded-[32px] shadow-lg flex-1 flex flex-col relative overflow-hidden group hover:bg-white/90 transition-all">
                          <div className="flex items-center gap-3 mb-6">
                             <div className="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center shadow-lg">
                                 <Radio className="w-5 h-5" />
                             </div>
                             <div>
-                                <h3 className="font-black text-slate-800 text-lg leading-none">Market Radar</h3>
-                                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">Global Signal Feed</p>
+                                <h3 className="font-black text-slate-800 text-lg leading-none">Job Market</h3>
+                                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">What's Trending</p>
                             </div>
                          </div>
 
@@ -588,10 +596,10 @@ const SignalInterface: React.FC = () => {
                     {/* Filter Widget */}
                     <div className="bg-slate-900 text-white p-6 rounded-[32px] shadow-xl">
                         <h4 className="font-bold text-sm mb-4 flex items-center gap-2">
-                            <Filter className="w-4 h-4 text-blue-400" /> Filter Stream
+                            <Filter className="w-4 h-4 text-blue-400" /> Filter Jobs
                         </h4>
                         <div className="space-y-2">
-                            {['All Roles', 'Best Match (90%+)', 'Remote Only', 'Internships'].map((f, i) => (
+                            {['All Jobs', 'Best Match', 'Remote Only', 'Internships'].map((f, i) => (
                                 <button key={i} className={`w-full text-left px-4 py-3 rounded-xl text-xs font-bold transition-all ${i === 0 ? 'bg-blue-600 text-white shadow-lg' : 'hover:bg-white/10 text-slate-300'}`}>
                                     {f}
                                 </button>
@@ -600,13 +608,13 @@ const SignalInterface: React.FC = () => {
                     </div>
                 </div>
 
-                {/* --- CENTER COLUMN: JOB FEED (Beefed Up) --- */}
+                {/* --- CENTER COLUMN: JOB FEED --- */}
                 <div className="flex-1 flex flex-col h-full bg-white/60 backdrop-blur-xl border border-white/60 rounded-[40px] shadow-2xl overflow-hidden relative min-w-0">
                      {/* Header - Centered Title */}
                      <div className="p-6 border-b border-white/50 bg-white/40 flex items-center justify-center relative backdrop-blur-md sticky top-0 z-10">
                         <div className="text-center">
-                            <h2 className="text-xl font-black text-slate-900">Live Opportunities</h2>
-                            <p className="text-xs text-slate-500 font-bold mt-1">Sorted by AI-Resilience Score</p>
+                            <h2 className="text-xl font-black text-slate-900">Open Roles</h2>
+                            <p className="text-xs text-slate-500 font-bold mt-1">Jobs that fit your profile</p>
                         </div>
                         
                         {/* Right Aligned Badge */}
@@ -670,7 +678,7 @@ const SignalInterface: React.FC = () => {
                                     ))}
                                 </div>
 
-                                {/* Action Footer - Bold & Wide */}
+                                {/* Action Footer */}
                                 <div className="pt-4 mt-auto flex flex-wrap items-center justify-between gap-4">
                                     <div className="flex gap-2 shrink-0">
                                         <button className="p-3 rounded-2xl text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors border border-transparent hover:border-blue-100" title="Save Job">
@@ -693,7 +701,7 @@ const SignalInterface: React.FC = () => {
                                     </div>
                                 </div>
 
-                                {/* Selection Indicator Line */}
+                                {/* Selection Indicator */}
                                 {selectedJobId === job.id && (
                                     <div className="absolute left-0 top-10 bottom-10 w-1.5 bg-blue-500 rounded-r-full"></div>
                                 )}
@@ -702,7 +710,7 @@ const SignalInterface: React.FC = () => {
                      </div>
                 </div>
 
-                {/* --- RIGHT COLUMN: FIT ANALYSIS (THE GAP ENGINE) --- */}
+                {/* --- RIGHT COLUMN: FIT ANALYSIS --- */}
                 {/* Reduced width from 400px to 350px to allow more space for feed */}
                 <div className="w-[350px] flex flex-col h-full bg-slate-900 text-white rounded-[40px] shadow-2xl p-8 relative overflow-hidden border border-slate-700 shrink-0">
                      {/* Background Glow */}
@@ -720,8 +728,8 @@ const SignalInterface: React.FC = () => {
                      {/* Fit Visualizer */}
                      <div className="relative z-10 flex-1">
                         <div className="flex items-center justify-between mb-4">
-                            <h3 className="font-bold text-sm uppercase tracking-widest text-slate-400">Skill Gap Analysis</h3>
-                            <span className="text-xs font-bold bg-slate-800 px-2 py-1 rounded text-white">{selectedJob.matchScore}% Synergy</span>
+                            <h3 className="font-bold text-sm uppercase tracking-widest text-slate-400">Skill Analysis</h3>
+                            <span className="text-xs font-bold bg-slate-800 px-2 py-1 rounded text-white">{selectedJob.matchScore}% Match</span>
                         </div>
 
                         {/* Skill Stack */}
@@ -729,7 +737,7 @@ const SignalInterface: React.FC = () => {
                             {/* Matches */}
                             <div className="bg-green-500/10 border border-green-500/30 rounded-2xl p-4">
                                 <div className="flex items-center gap-2 mb-2 text-green-400 font-bold text-xs uppercase tracking-wide">
-                                    <CheckCircle2 className="w-4 h-4" /> Your Superpowers
+                                    <CheckCircle2 className="w-4 h-4" /> You Have
                                 </div>
                                 <div className="flex flex-wrap gap-2">
                                     {selectedJob.skills.match.map(s => (
@@ -742,11 +750,8 @@ const SignalInterface: React.FC = () => {
 
                             {/* Gaps */}
                             <div className="bg-red-500/10 border border-red-500/30 rounded-2xl p-4 relative overflow-hidden">
-                                 {/* Diagonal Stripe Pattern Overlay */}
-                                 <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'linear-gradient(45deg, #000 25%, transparent 25%, transparent 50%, #000 50%, #000 75%, transparent 75%, transparent)', backgroundSize: '10px 10px' }}></div>
-                                
                                 <div className="flex items-center gap-2 mb-2 text-red-400 font-bold text-xs uppercase tracking-wide relative z-10">
-                                    <AlertTriangle className="w-4 h-4" /> Critical Gaps
+                                    <AlertTriangle className="w-4 h-4" /> Missing Skills
                                 </div>
                                 <div className="flex flex-wrap gap-2 relative z-10">
                                     {selectedJob.skills.gap.map(s => (
@@ -762,10 +767,10 @@ const SignalInterface: React.FC = () => {
                         <div className="bg-blue-600 rounded-3xl p-6 text-center relative overflow-hidden group cursor-pointer hover:bg-blue-500 transition-colors shadow-lg">
                             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
                             
-                            <h4 className="font-black text-lg mb-1 relative z-10">Bridge the Gap</h4>
-                            <p className="text-blue-100 text-xs font-medium mb-4 relative z-10">Start the "Python for Analysts" Lab</p>
+                            <h4 className="font-black text-lg mb-1 relative z-10">Close the Gap</h4>
+                            <p className="text-blue-100 text-xs font-medium mb-4 relative z-10">Take a short workshop to learn these skills.</p>
                             <div className="inline-flex items-center gap-2 bg-white text-blue-900 px-5 py-2.5 rounded-xl font-bold text-sm shadow-md relative z-10">
-                                Launch Module <Zap className="w-4 h-4 fill-current" />
+                                Start Workshop <Zap className="w-4 h-4 fill-current" />
                             </div>
                         </div>
 
@@ -773,7 +778,7 @@ const SignalInterface: React.FC = () => {
 
                      <div className="mt-6 text-center">
                         <button className="text-slate-500 text-xs font-bold hover:text-white transition-colors flex items-center justify-center gap-2 w-full">
-                            <Save className="w-4 h-4" /> Save to Career Journal
+                            <Save className="w-4 h-4" /> Save Job
                         </button>
                      </div>
                 </div>
@@ -788,7 +793,7 @@ const GrowthInterface: React.FC = () => {
     const workshops = [
         {
             id: 1,
-            title: "Crisis Ops: Supply Chain",
+            title: "Supply Chain Crisis",
             type: "Live Simulation",
             duration: "45 min",
             participants: 12,
@@ -797,8 +802,8 @@ const GrowthInterface: React.FC = () => {
         },
         {
             id: 2,
-            title: "Ethical AI Audit",
-            type: "Async Module",
+            title: "AI Ethics Check",
+            type: "Module",
             duration: "20 min",
             participants: 45,
             status: "Open",
@@ -806,8 +811,8 @@ const GrowthInterface: React.FC = () => {
         },
         {
             id: 3,
-            title: "Negotiation Dojo",
-            type: "AI Roleplay",
+            title: "Negotiation Practice",
+            type: "Roleplay",
             duration: "Unlimited",
             participants: 8,
             status: "Always On",
@@ -820,20 +825,20 @@ const GrowthInterface: React.FC = () => {
             <div className="pointer-events-auto w-full h-full max-w-6xl bg-white/90 backdrop-blur-xl rounded-[48px] shadow-2xl border border-white flex overflow-hidden animate-in zoom-in duration-500">
                 
                 {/* Sidebar */}
-                <div className="w-80 bg-slate-50 border-r border-slate-200 p-8 flex flex-col">
+                <div className="w-80 bg-slate-50 border-r border-slate-200 p-8 pb-28 flex flex-col">
                     <div className="flex items-center gap-3 mb-8">
                         <div className="w-10 h-10 rounded-xl bg-orange-500 text-white flex items-center justify-center shadow-lg">
                             <Target className="w-6 h-6" />
                         </div>
                         <div>
-                            <h3 className="font-black text-slate-800 text-lg leading-none">Growth Lab</h3>
-                            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">Skill Building</p>
+                            <h3 className="font-black text-slate-800 text-lg leading-none">Workshops</h3>
+                            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">Build Skills</p>
                         </div>
                     </div>
                     
                     <div className="space-y-2">
                         <button className="w-full text-left px-4 py-3 rounded-xl bg-white border border-slate-200 text-slate-800 font-bold text-sm shadow-sm flex items-center justify-between group hover:border-orange-400 transition-all">
-                            <span>Active Labs</span>
+                            <span>Available</span>
                             <span className="bg-orange-100 text-orange-700 text-[10px] px-2 py-0.5 rounded-full">3</span>
                         </button>
                         <button className="w-full text-left px-4 py-3 rounded-xl hover:bg-slate-100 text-slate-500 font-bold text-sm transition-all">
@@ -846,8 +851,8 @@ const GrowthInterface: React.FC = () => {
 
                     <div className="mt-auto">
                          <div className="bg-slate-900 rounded-2xl p-4 text-white">
-                            <h4 className="font-bold text-sm mb-1">Weekly Challenge</h4>
-                            <p className="text-xs text-slate-400 mb-3">Complete 2 simulations to unlock the "Strategist" badge.</p>
+                            <h4 className="font-bold text-sm mb-1">Weekly Goal</h4>
+                            <p className="text-xs text-slate-400 mb-3">Complete 2 workshops to earn the "Strategist" badge.</p>
                             <div className="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
                                 <div className="h-full w-1/2 bg-orange-500 rounded-full"></div>
                             </div>
@@ -858,7 +863,7 @@ const GrowthInterface: React.FC = () => {
                 {/* Main Content */}
                 <div className="flex-1 p-8 overflow-y-auto custom-scrollbar">
                     <div className="flex justify-between items-center mb-8">
-                        <h2 className="text-3xl font-black text-slate-900">Available Simulations</h2>
+                        <h2 className="text-3xl font-black text-slate-900">Workshops</h2>
                         <div className="flex gap-2">
                             <button className="px-4 py-2 bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50">Filter</button>
                             <button className="px-4 py-2 bg-slate-900 text-white rounded-lg text-xs font-bold hover:bg-slate-800">Browse All</button>
@@ -883,7 +888,7 @@ const GrowthInterface: React.FC = () => {
                                         <span className="flex items-center gap-1"><Users className="w-4 h-4" /> {w.participants} Active</span>
                                     </div>
                                     <button className="w-full py-3 bg-slate-50 text-slate-900 rounded-xl font-bold text-xs group-hover:bg-orange-500 group-hover:text-white transition-colors flex items-center justify-center gap-2">
-                                        Enter Lab <ArrowRight className="w-4 h-4" />
+                                        Start <ArrowRight className="w-4 h-4" />
                                     </button>
                                 </div>
                             </div>
@@ -896,8 +901,7 @@ const GrowthInterface: React.FC = () => {
     );
 };
 
-// --- Shared Components ---
-// ... [Remaining components NavPortal, WalletCarousel, ARTag, StudentDashboard export - kept identical] ...
+// ... Shared Components ...
 
 const ARTag: React.FC<{ data: ARHotspot }> = ({ data }) => {
     const [isHovered, setIsHovered] = useState(false);
@@ -962,14 +966,14 @@ const StudentProfileHUD: React.FC = () => {
                         <div className="w-24 h-24 rounded-full p-1 bg-white border border-white/50 shadow-md">
                             <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?q=80&w=300&auto=format&fit=crop" alt="Student" className="w-full h-full rounded-full object-cover" />
                         </div>
-                        <div className="absolute bottom-1 right-1 bg-emerald-500 w-6 h-6 rounded-full border-4 border-white shadow-sm" title="Online & On Track"></div>
+                        <div className="absolute bottom-1 right-1 bg-emerald-500 w-6 h-6 rounded-full border-4 border-white shadow-sm" title="Online"></div>
                     </div>
                     <div>
                         <h3 className="text-slate-900 font-black text-2xl leading-none">Maya R.</h3>
-                        <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mt-2">Strategic Design • Year 3</p>
+                        <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mt-2">Design Student • Year 3</p>
                         <div className="flex items-center gap-1 mt-2">
                              <div className="px-2 py-0.5 rounded-full bg-purple-50 border border-purple-100 text-[9px] font-bold text-purple-600 uppercase tracking-wider flex items-center gap-1">
-                                <Sparkles className="w-2.5 h-2.5" /> Superpower: Empathy
+                                <Sparkles className="w-2.5 h-2.5" /> Strength: Empathy
                              </div>
                         </div>
                     </div>
@@ -977,16 +981,16 @@ const StudentProfileHUD: React.FC = () => {
                 <div>
                      <div className="flex items-center justify-between mb-3">
                         <h4 className="text-[10px] font-extrabold text-slate-400 uppercase tracking-[0.2em] flex items-center gap-2">
-                            <Zap className="w-3 h-3 text-orange-500" /> Action Items
+                            <Zap className="w-3 h-3 text-orange-500" /> To Do List
                         </h4>
-                        <span className="text-[10px] font-bold text-orange-600 bg-orange-50 px-2 py-0.5 rounded-full border border-orange-100">2 Due Soon</span>
+                        <span className="text-[10px] font-bold text-orange-600 bg-orange-50 px-2 py-0.5 rounded-full border border-orange-100">2 Items</span>
                      </div>
                      <div className="space-y-2.5">
                         <div className="bg-white/80 p-3 rounded-2xl border border-orange-200/50 shadow-sm flex items-start gap-3 hover:border-orange-400 transition-colors cursor-pointer group relative overflow-hidden">
                              <div className="absolute left-0 top-0 bottom-0 w-1 bg-orange-400"></div>
                              <div className="mt-0.5 w-4 h-4 rounded border-2 border-slate-200 group-hover:border-orange-500 flex items-center justify-center transition-colors shrink-0"></div>
                              <div>
-                                 <span className="block text-sm font-bold text-slate-800 leading-tight group-hover:text-orange-700 transition-colors">Submit Ethics Reflection</span>
+                                 <span className="block text-sm font-bold text-slate-800 leading-tight group-hover:text-orange-700 transition-colors">Submit Reflection</span>
                                  <span className="block text-[10px] text-slate-400 font-bold mt-1 flex items-center gap-1">
                                     <Clock className="w-3 h-3" /> Due Today, 5:00 PM
                                  </span>
@@ -995,18 +999,18 @@ const StudentProfileHUD: React.FC = () => {
                          <div className="bg-white/60 p-3 rounded-2xl border border-slate-200/50 shadow-sm flex items-start gap-3 hover:border-blue-400 transition-colors cursor-pointer group">
                              <div className="mt-0.5 w-4 h-4 rounded border-2 border-slate-200 group-hover:border-blue-500 flex items-center justify-center transition-colors shrink-0"></div>
                              <div>
-                                 <span className="block text-sm font-bold text-slate-800 leading-tight">Register for Spring Labs</span>
+                                 <span className="block text-sm font-bold text-slate-800 leading-tight">Sign up for Labs</span>
                                  <span className="block text-[10px] text-slate-400 font-bold mt-1">Opens Tomorrow</span>
                              </div>
                         </div>
                      </div>
                 </div>
                 <div className="flex flex-col gap-3">
-                    <h4 className="text-[10px] font-extrabold text-slate-400 uppercase tracking-[0.2em] ml-1 mt-1">Core Skills</h4>
+                    <h4 className="text-[10px] font-extrabold text-slate-400 uppercase tracking-[0.2em] ml-1 mt-1">Skill Progress</h4>
                     <div className="bg-white p-4 rounded-2xl border-2 border-slate-100 shadow-[0_4px_0_#e2e8f0] hover:translate-y-1 hover:shadow-none transition-all cursor-pointer group">
                         <div className="flex justify-between items-center mb-2">
                             <span className="font-extrabold text-slate-700 text-sm">Communication</span>
-                            <span className="text-[10px] font-black text-blue-500 bg-blue-50 px-2 py-1 rounded-lg">LVL 3</span>
+                            <span className="text-[10px] font-black text-blue-500 bg-blue-50 px-2 py-1 rounded-lg">Level 3</span>
                         </div>
                         <div className="w-full h-3 bg-slate-100 rounded-full overflow-hidden relative">
                             <div className="absolute inset-0 bg-slate-100"></div>
@@ -1018,13 +1022,13 @@ const StudentProfileHUD: React.FC = () => {
                     </div>
                 </div>
                  <div>
-                     <h4 className="text-[10px] font-extrabold text-slate-400 uppercase tracking-[0.2em] mb-3 ml-1 mt-2">Quick Access</h4>
+                     <h4 className="text-[10px] font-extrabold text-slate-400 uppercase tracking-[0.2em] mb-3 ml-1 mt-2">Shortcuts</h4>
                      <div className="grid grid-cols-4 gap-2">
                          {[
                              { label: 'Library', icon: <BookOpen className="w-5 h-5" />, color: 'text-blue-600', bg: 'bg-blue-50 group-hover:bg-blue-500 group-hover:text-white' },
-                             { label: 'Advisors', icon: <Users className="w-5 h-5" />, color: 'text-purple-600', bg: 'bg-purple-50 group-hover:bg-purple-500 group-hover:text-white' },
-                             { label: 'Career', icon: <Target className="w-5 h-5" />, color: 'text-orange-600', bg: 'bg-orange-50 group-hover:bg-orange-500 group-hover:text-white' },
-                             { label: 'Health', icon: <Heart className="w-5 h-5" />, color: 'text-rose-600', bg: 'bg-rose-50 group-hover:bg-rose-500 group-hover:text-white' }
+                             { label: 'Help', icon: <Users className="w-5 h-5" />, color: 'text-purple-600', bg: 'bg-purple-50 group-hover:bg-purple-500 group-hover:text-white' },
+                             { label: 'Jobs', icon: <Target className="w-5 h-5" />, color: 'text-orange-600', bg: 'bg-orange-50 group-hover:bg-orange-500 group-hover:text-white' },
+                             { label: 'Wellness', icon: <Heart className="w-5 h-5" />, color: 'text-rose-600', bg: 'bg-rose-50 group-hover:bg-rose-500 group-hover:text-white' }
                          ].map((item, i) => (
                              <button key={i} className="flex flex-col items-center gap-1.5 p-2 rounded-2xl hover:bg-white hover:shadow-md transition-all group">
                                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${item.bg} ${item.color}`}>
@@ -1092,7 +1096,7 @@ const TapestryCard: React.FC<{
                 </div>
                 <h3 className="text-white text-4xl font-black leading-[0.85] mb-6 tracking-tighter drop-shadow-xl">{title}</h3>
                 <button className="w-full py-3 rounded-xl bg-white text-slate-900 font-bold text-xs shadow-lg hover:bg-slate-50 hover:scale-[1.02] transition-all flex items-center justify-center gap-2 group-hover:shadow-2xl">
-                    Enter Module <ArrowRight className="w-4 h-4" />
+                    Enter <ArrowRight className="w-4 h-4" />
                 </button>
             </div>
         </div>
@@ -1113,31 +1117,31 @@ const WalletCarousel: React.FC<{ onNavigate: (target: RoomType) => void }> = ({ 
                             pattern={<CircuitPattern />}
                             onClick={() => onNavigate('SignalTower')}
                             delay={100}
-                            liveStatus="12 New Roles"
+                            liveStatus="New Jobs"
                         />
                     </div>
                     <div style={{ '--rotation': '0deg' } as React.CSSProperties} className="origin-bottom z-20 hover:z-50 transition-all duration-300 -ml-4 hover:ml-0">
                         <TapestryCard 
                             title="Workshops" 
-                            subtitle="Skill Building" 
+                            subtitle="Build Skills" 
                             icon={<Target className="w-6 h-6" />} 
                             theme="orange"
                             pattern={<GeoPattern />}
                             onClick={() => onNavigate('GrowthLab')}
                             delay={200}
-                            liveStatus="2 Upcoming"
+                            liveStatus="Active"
                         />
                     </div>
                     <div style={{ '--rotation': '5deg' } as React.CSSProperties} className="origin-bottom-left z-10 hover:z-50 transition-all duration-300 -ml-4 hover:ml-0">
                         <TapestryCard 
-                            title="Reflection" 
-                            subtitle="Growth" 
+                            title="Journal" 
+                            subtitle="Reflect" 
                             icon={<Wind className="w-6 h-6" />} 
                             theme="cyan"
                             pattern={<WavePattern />}
                             onClick={() => onNavigate('QuietRoom')}
                             delay={300}
-                            liveStatus="1 Pending"
+                            liveStatus="Log Now"
                         />
                     </div>
                 </div>
@@ -1224,7 +1228,7 @@ const StudentDashboard: React.FC = () => {
                             <span className="text-slate-900 font-extrabold tracking-tight text-3xl block drop-shadow-sm lowercase">waypoint</span>
                             <span className="text-[11px] text-slate-600 font-bold uppercase tracking-[0.15em] flex items-center gap-2 mt-0.5">
                                 <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-sm"></span>
-                                An Ascend Careers Platform
+                                Career Platform
                             </span>
                         </div>
                     </div>

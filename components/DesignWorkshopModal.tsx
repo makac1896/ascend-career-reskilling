@@ -58,9 +58,9 @@ const resources = [
 ];
 
 const legoModules = [
-  { id: 'rubric', title: 'Orchestration Rubric', desc: 'Grades the process, not just output.' },
-  { id: 'guardrails', title: 'AI Guardrails', desc: 'System prompts to prevent hallucinations.' },
-  { id: 'reflection', title: 'Agency Reflection', desc: 'Post-task survey on student control.' },
+  { id: 'rubric', title: 'Grading Rubric', desc: 'Grades the process, not just output.' },
+  { id: 'guardrails', title: 'AI Rules', desc: 'System prompts to prevent errors.' },
+  { id: 'reflection', title: 'Reflection', desc: 'Post-task survey on student control.' },
 ];
 
 const DesignWorkshopModal: React.FC<DesignWorkshopModalProps> = ({ isOpen, onClose, onComplete }) => {
@@ -105,11 +105,11 @@ const DesignWorkshopModal: React.FC<DesignWorkshopModalProps> = ({ isOpen, onClo
             <div>
                 <div className="flex items-center gap-3 mb-1">
                     <span className="bg-gradient-to-r from-ascend-blue to-purple-600 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-sm">
-                        Orchestration Engine
+                        Project Builder
                     </span>
-                    <span className="text-ascend-subtext text-xs font-bold">Phase {step} of {totalSteps}</span>
+                    <span className="text-ascend-subtext text-xs font-bold">Step {step} of {totalSteps}</span>
                 </div>
-                <h2 className="text-2xl font-bold text-ascend-text">Intervention Designer</h2>
+                <h2 className="text-2xl font-bold text-ascend-text">Create Activity</h2>
             </div>
             <button onClick={onClose} className="p-2 rounded-full hover:bg-gray-100 transition-colors">
                 <X className="w-6 h-6 text-ascend-subtext" />
@@ -131,8 +131,8 @@ const DesignWorkshopModal: React.FC<DesignWorkshopModalProps> = ({ isOpen, onClo
             {step === 1 && (
                 <div className="max-w-4xl mx-auto animate-in slide-in-from-right-8 fade-in duration-300">
                     <div className="text-center mb-8">
-                        <h3 className="text-3xl font-bold text-ascend-text mb-2">The Intelligence Brief</h3>
-                        <p className="text-ascend-subtext">Review the detected gap between Tool Capability and Student Maturity.</p>
+                        <h3 className="text-3xl font-bold text-ascend-text mb-2">The Brief</h3>
+                        <p className="text-ascend-subtext">Review the detected gap between Employer Needs and Student Skills.</p>
                     </div>
                     
                     <div className="bg-white rounded-2xl p-8 border border-ascend-border shadow-soft flex items-start gap-8">
@@ -143,17 +143,17 @@ const DesignWorkshopModal: React.FC<DesignWorkshopModalProps> = ({ isOpen, onClo
                         <div className="flex-1">
                             <div className="flex items-center gap-3 mb-3">
                                 <h4 className="text-2xl font-bold text-ascend-text">Clinical Empathy Gap</h4>
-                                <span className="bg-red-50 text-red-600 text-xs font-bold px-2 py-1 rounded-md border border-red-100">Critical Severity</span>
+                                <span className="bg-red-50 text-red-600 text-xs font-bold px-2 py-1 rounded-md border border-red-100">Urgent</span>
                             </div>
                             
                             <div className="grid grid-cols-2 gap-6 mb-6">
                                 <div className="p-4 bg-gray-50 rounded-xl border border-gray-100">
-                                    <span className="text-[10px] font-bold text-ascend-subtext uppercase block mb-1">Market Signal (Input A)</span>
-                                    <p className="text-sm font-medium text-ascend-text">Employers need Junior Analysts who can audit AI patient logs for bias.</p>
+                                    <span className="text-[10px] font-bold text-ascend-subtext uppercase block mb-1">What Employers Want</span>
+                                    <p className="text-sm font-medium text-ascend-text">Employers need Junior Analysts who can check AI patient logs for bias.</p>
                                 </div>
                                 <div className="p-4 bg-gray-50 rounded-xl border border-gray-100">
-                                    <span className="text-[10px] font-bold text-ascend-subtext uppercase block mb-1">Student Reality (Input B)</span>
-                                    <p className="text-sm font-medium text-ascend-text">Students are using AI passively to write papers, lacking verification skills.</p>
+                                    <span className="text-[10px] font-bold text-ascend-subtext uppercase block mb-1">Student Reality</span>
+                                    <p className="text-sm font-medium text-ascend-text">Students are using AI passively to write papers without checking facts.</p>
                                 </div>
                             </div>
 
@@ -174,8 +174,8 @@ const DesignWorkshopModal: React.FC<DesignWorkshopModalProps> = ({ isOpen, onClo
             {step === 2 && (
                 <div className="max-w-4xl mx-auto animate-in slide-in-from-right-8 fade-in duration-300">
                     <div className="text-center mb-10">
-                        <h3 className="text-3xl font-bold text-ascend-text mb-2">Orchestration Strategy</h3>
-                        <p className="text-ascend-subtext">Who is the customer, and what is the vehicle?</p>
+                        <h3 className="text-3xl font-bold text-ascend-text mb-2">Project Plan</h3>
+                        <p className="text-ascend-subtext">How do we want to solve this?</p>
                     </div>
 
                     <div className="grid grid-cols-3 gap-6 mb-10">
@@ -201,7 +201,7 @@ const DesignWorkshopModal: React.FC<DesignWorkshopModalProps> = ({ isOpen, onClo
 
                     {selectedChannel && (
                         <div className="animate-in fade-in slide-in-from-bottom-4 duration-300">
-                            <h5 className="font-bold text-ascend-text text-sm uppercase tracking-wide mb-4 text-center">Select Intervention Model</h5>
+                            <h5 className="font-bold text-ascend-text text-sm uppercase tracking-wide mb-4 text-center">Select Format</h5>
                             <div className="grid grid-cols-2 gap-4 max-w-2xl mx-auto">
                                 {/* @ts-ignore */}
                                 {interventionFormats[selectedChannel].map((f: any) => (
@@ -234,13 +234,13 @@ const DesignWorkshopModal: React.FC<DesignWorkshopModalProps> = ({ isOpen, onClo
             {step === 3 && (
                 <div className="max-w-3xl mx-auto animate-in slide-in-from-right-8 fade-in duration-300">
                     <div className="text-center mb-10">
-                        <h3 className="text-3xl font-bold text-ascend-text mb-2">Resource Provisioning</h3>
-                        <p className="text-ascend-subtext">Attach the "Core Value" assets to this intervention.</p>
+                        <h3 className="text-3xl font-bold text-ascend-text mb-2">Resources</h3>
+                        <p className="text-ascend-subtext">Add real-world assets to this project.</p>
                     </div>
 
                     <div className="bg-white rounded-2xl border border-ascend-border shadow-sm overflow-hidden">
                         <div className="p-4 bg-gray-50 border-b border-gray-100 flex justify-between items-center">
-                            <span className="text-xs font-bold text-ascend-subtext uppercase tracking-wider">Available Grants & Assets</span>
+                            <span className="text-xs font-bold text-ascend-subtext uppercase tracking-wider">Available Assets</span>
                             <span className="text-xs font-bold text-ascend-blue bg-blue-50 px-2 py-1 rounded-md">3 Matches Found</span>
                         </div>
                         <div className="divide-y divide-gray-100">
@@ -275,7 +275,7 @@ const DesignWorkshopModal: React.FC<DesignWorkshopModalProps> = ({ isOpen, onClo
                 <div className="max-w-4xl mx-auto animate-in slide-in-from-right-8 fade-in duration-300">
                     <div className="text-center mb-8">
                         <h3 className="text-3xl font-bold text-ascend-text mb-2">The Blueprint</h3>
-                        <p className="text-ascend-subtext">Configure the functional modules for the {selectedFormat ? 'selected intervention' : 'intervention'}.</p>
+                        <p className="text-ascend-subtext">Configure the tools for the {selectedFormat ? 'selected activity' : 'activity'}.</p>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -283,7 +283,7 @@ const DesignWorkshopModal: React.FC<DesignWorkshopModalProps> = ({ isOpen, onClo
                         <div className="bg-white rounded-2xl border border-ascend-border shadow-sm p-6 flex flex-col">
                             <h5 className="font-bold text-ascend-text mb-4 flex items-center gap-2">
                                 <Layers className="w-5 h-5 text-ascend-blue" />
-                                Intervention Stack
+                                Activity Stack
                             </h5>
                             
                             <div className="flex-1 bg-gray-50 rounded-xl border border-dashed border-gray-200 p-4 space-y-3">
@@ -320,7 +320,7 @@ const DesignWorkshopModal: React.FC<DesignWorkshopModalProps> = ({ isOpen, onClo
 
                         {/* Module Library */}
                         <div>
-                             <h5 className="font-bold text-xs text-ascend-subtext uppercase tracking-wider mb-4">Lego Catalogue</h5>
+                             <h5 className="font-bold text-xs text-ascend-subtext uppercase tracking-wider mb-4">Module Library</h5>
                              <div className="space-y-3">
                                 {legoModules.map((mod) => (
                                     <div 
@@ -369,7 +369,7 @@ const DesignWorkshopModal: React.FC<DesignWorkshopModalProps> = ({ isOpen, onClo
                 }`}
             >
                 {step === totalSteps ? (
-                    <>Launch Orchestration <Zap className="w-4 h-4" /></>
+                    <>Launch Project <Zap className="w-4 h-4" /></>
                 ) : (
                     <>Continue <ArrowRight className="w-4 h-4" /></>
                 )}

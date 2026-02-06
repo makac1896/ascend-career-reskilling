@@ -15,7 +15,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
       return (
         <div className="bg-white p-2 rounded-lg shadow-lg border border-ascend-border text-xs">
           <p className="font-bold text-ascend-text">{label}</p>
-          <p className="text-ascend-blue font-medium">Avg. {payload[0].value} refinements</p>
+          <p className="text-ascend-blue font-medium">Avg. {payload[0].value} attempts</p>
         </div>
       );
     }
@@ -30,9 +30,9 @@ const FrictionLogs: React.FC = () => {
             <div>
                 <div className="flex items-center gap-2 mb-2">
                     <span className="w-2.5 h-2.5 rounded-full bg-orange-500 animate-pulse"></span>
-                    <span className="text-[11px] font-extrabold text-ascend-subtext uppercase tracking-widest">Module: Observe</span>
+                    <span className="text-[11px] font-extrabold text-ascend-subtext uppercase tracking-widest">Module: Tracking</span>
                 </div>
-                <h3 className="text-2xl font-bold text-ascend-text tracking-tight">Friction Engine</h3>
+                <h3 className="text-2xl font-bold text-ascend-text tracking-tight">Challenge Tracker</h3>
             </div>
             <div className="bg-orange-50 text-orange-600 p-3 rounded-2xl">
                 <Activity className="w-6 h-6" />
@@ -42,7 +42,7 @@ const FrictionLogs: React.FC = () => {
         {/* Main Metric */}
         <div className="flex items-baseline gap-4 mb-8">
             <h2 className="text-5xl font-extrabold text-ascend-text tracking-tighter">5.2x</h2>
-            <p className="text-sm font-bold text-ascend-subtext">Avg. AI Refinements per Task</p>
+            <p className="text-sm font-bold text-ascend-subtext">Avg. Attempts per Task</p>
         </div>
 
         {/* Chart - Increased Height for Breathing Room */}
@@ -70,9 +70,9 @@ const FrictionLogs: React.FC = () => {
         <div className="mt-auto bg-gray-50 rounded-2xl p-6 border border-gray-100 flex items-start gap-4">
             <RefreshCw className="w-6 h-6 text-orange-500 mt-1 shrink-0" />
             <div>
-                <h5 className="text-sm font-bold text-ascend-text mb-2">Process Alert</h5>
+                <h5 className="text-sm font-bold text-ascend-text mb-2">Alert</h5>
                 <p className="text-sm text-ascend-subtext leading-relaxed">
-                    Students in <span className="font-bold text-ascend-text">Bio-Ethics</span> are regenerating outputs <span className="font-bold text-orange-500">30% more</span> than average. Curriculum intervention recommended.
+                    Students in <span className="font-bold text-ascend-text">Bio-Ethics</span> are struggling <span className="font-bold text-orange-500">30% more</span> than average. They might need more help.
                 </p>
             </div>
         </div>

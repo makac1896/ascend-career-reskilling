@@ -31,9 +31,9 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnterAdmin, onEnterStudent 
                         </span>
                     </div>
                     <div className="hidden md:flex items-center gap-8">
-                        <a href="#mission" className={`text-sm font-medium transition-colors ${scrolled ? 'text-slate-600 hover:text-blue-600' : 'text-white/80 hover:text-white'}`}>Our Mission</a>
-                        <a href="#crisis" className={`text-sm font-medium transition-colors ${scrolled ? 'text-slate-600 hover:text-blue-600' : 'text-white/80 hover:text-white'}`}>The Triple Crisis</a>
-                        <a href="#solution" className={`text-sm font-medium transition-colors ${scrolled ? 'text-slate-600 hover:text-blue-600' : 'text-white/80 hover:text-white'}`}>The Platform</a>
+                        <a href="#mission" className={`text-sm font-medium transition-colors ${scrolled ? 'text-slate-600 hover:text-blue-600' : 'text-white/80 hover:text-white'}`}>Mission</a>
+                        <a href="#crisis" className={`text-sm font-medium transition-colors ${scrolled ? 'text-slate-600 hover:text-blue-600' : 'text-white/80 hover:text-white'}`}>The Challenge</a>
+                        <a href="#solution" className={`text-sm font-medium transition-colors ${scrolled ? 'text-slate-600 hover:text-blue-600' : 'text-white/80 hover:text-white'}`}>The Solution</a>
                         
                         <div className="flex gap-3">
                              <button 
@@ -78,12 +78,12 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnterAdmin, onEnterStudent 
                         <span className="text-xs font-bold uppercase tracking-widest text-blue-100">For Modern Universities</span>
                     </div>
                     <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-tight animate-in fade-in slide-in-from-bottom-6 duration-1000 delay-100">
-                        Becoming <span className="text-blue-400">AI-Resilient.</span><br />
-                        Navigating the Age of Disruption.
+                        Becoming <span className="text-blue-400">Future-Ready.</span><br />
+                        Navigating the New Job Market.
                     </h1>
                     <p className="text-xl md:text-2xl text-gray-200 max-w-3xl mx-auto mb-10 leading-relaxed font-light animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
-                        Empower your undergraduates to move from operational overwhelm to student agency. 
-                        The operating system for the next generation of career centers.
+                        Helping students move from stress to success. 
+                        The platform for the next generation of career centers.
                     </p>
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-in fade-in slide-in-from-bottom-10 duration-1000 delay-300">
                         <button 
@@ -100,10 +100,9 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnterAdmin, onEnterStudent 
             <section id="crisis" className="py-24 bg-slate-50 relative overflow-hidden">
                 <div className="max-w-7xl mx-auto px-6">
                     <div className="text-center mb-20 max-w-3xl mx-auto">
-                        <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-6">A Generation on the Edge</h2>
+                        <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-6">Why this matters</h2>
                         <p className="text-lg text-slate-600 leading-relaxed">
-                            Students are navigating the "Perfect Storm." Data from UNESCO and the World Economic Forum 
-                            reveals a multifaceted crisis facing higher education today.
+                            Students are facing a perfect storm. Data from major institutions reveals the biggest challenges in higher education today.
                         </p>
                     </div>
 
@@ -113,9 +112,9 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnterAdmin, onEnterStudent 
                             <div className="w-14 h-14 bg-red-50 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                                 <Zap className="w-8 h-8 text-red-500" />
                             </div>
-                            <h3 className="text-2xl font-bold text-slate-900 mb-3">Operational Overwhelm</h3>
+                            <h3 className="text-2xl font-bold text-slate-900 mb-3">Feeling Overwhelmed</h3>
                             <p className="text-slate-600 leading-relaxed mb-4">
-                                "Resume-driven" participation and fear of missing out (FOMO) has led to widespread burnout. 
+                                The pressure to have a perfect resume and fear of missing out has led to burnout. 
                                 72% of students report feeling frequently overwhelmed.
                             </p>
                             <div className="h-1 w-12 bg-red-200 rounded-full"></div>
@@ -126,10 +125,10 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnterAdmin, onEnterStudent 
                             <div className="w-14 h-14 bg-purple-50 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                                 <BrainCircuit className="w-8 h-8 text-purple-500" />
                             </div>
-                            <h3 className="text-2xl font-bold text-slate-900 mb-3">AI Disruption</h3>
+                            <h3 className="text-2xl font-bold text-slate-900 mb-3">AI Changes Everything</h3>
                             <p className="text-slate-600 leading-relaxed mb-4">
-                                The "High GPA + Extracurriculars" formula is obsolete. 
-                                By 2030, 40% of entry-level tasks may be automated. The career ladder is broken.
+                                The old formula of "Good Grades + Clubs" isn't enough anymore. 
+                                Automation is changing entry-level jobs. We need new skills.
                             </p>
                             <div className="h-1 w-12 bg-purple-200 rounded-full"></div>
                         </div>
@@ -139,10 +138,9 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnterAdmin, onEnterStudent 
                             <div className="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                                 <Heart className="w-8 h-8 text-blue-500" />
                             </div>
-                            <h3 className="text-2xl font-bold text-slate-900 mb-3">Existential Vacuum</h3>
+                            <h3 className="text-2xl font-bold text-slate-900 mb-3">Finding Purpose</h3>
                             <p className="text-slate-600 leading-relaxed mb-4">
-                                58% of young adults lack "meaning or purpose." The pressure to perform without a 
-                                "Why" is creating a crisis of engagement and identity.
+                                Many students feel lost. The pressure to perform without knowing "Why" creates a crisis of engagement.
                             </p>
                             <div className="h-1 w-12 bg-blue-200 rounded-full"></div>
                         </div>
@@ -160,16 +158,15 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnterAdmin, onEnterStudent 
                                 The Empowerment Platform.
                             </h2>
                             <p className="text-lg text-slate-600 mb-8 leading-relaxed">
-                                Waypoint isn't just a job board. It's a comprehensive resilience engine designed to move students from 
-                                anxiety to agency through four strategic pillars.
+                                Waypoint isn't just a job board. It helps students move from anxiety to action through four simple steps.
                             </p>
                             
                             <div className="space-y-6">
                                 {[
-                                    { title: "Discover Superpowers", desc: "Identify core strengths and values to build a coherent sense of purpose.", icon: <Users className="w-5 h-5 text-blue-600" /> },
-                                    { title: "Future-Ready Skills", desc: "Prioritize core capabilities: Empathy, Ethics, and Strategic Foresight.", icon: <Shield className="w-5 h-5 text-blue-600" /> },
-                                    { title: "Build Anti-Fragility", desc: "Develop personal growth plans that balance technical and reflective competencies.", icon: <TrendingUp className="w-5 h-5 text-blue-600" /> },
-                                    { title: "Continuous Growth Loops", desc: "Turn uncertainty into opportunity through cycles of feedback and reflection.", icon: <BookOpen className="w-5 h-5 text-blue-600" /> }
+                                    { title: "Discover Superpowers", desc: "Identify core strengths and values to build a sense of purpose.", icon: <Users className="w-5 h-5 text-blue-600" /> },
+                                    { title: "Future-Ready Skills", desc: "Focus on skills that matter: Empathy, Ethics, and Strategic Thinking.", icon: <Shield className="w-5 h-5 text-blue-600" /> },
+                                    { title: "Build Resilience", desc: "Develop personal growth plans that balance tech skills with human skills.", icon: <TrendingUp className="w-5 h-5 text-blue-600" /> },
+                                    { title: "Continuous Growth", desc: "Turn uncertainty into opportunity through feedback and reflection.", icon: <BookOpen className="w-5 h-5 text-blue-600" /> }
                                 ].map((item, i) => (
                                     <div key={i} className="flex gap-4 p-4 rounded-xl hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-100">
                                         <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
@@ -208,7 +205,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnterAdmin, onEnterStudent 
                                     <div className="w-3 h-3 rounded-full bg-green-500"></div>
                                     <span className="text-xs font-bold text-slate-500 uppercase">System Status</span>
                                 </div>
-                                <div className="text-2xl font-bold text-slate-900">Resilience: High</div>
+                                <div className="text-2xl font-bold text-slate-900">Confidence: High</div>
                                 <div className="text-sm text-green-600 font-bold">+24% Student Agency</div>
                             </div>
                         </div>
@@ -225,7 +222,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnterAdmin, onEnterStudent 
                     <h2 className="text-4xl md:text-6xl font-bold mb-8">The crisis of today is your opportunity.</h2>
                     <p className="text-xl text-blue-100 mb-12 max-w-2xl mx-auto leading-relaxed">
                         Join Ascend Career Lab and build a new promise for higher education. 
-                        Help students build meaningful, resilient, and student-centric lives.
+                        Help students build meaningful, resilient lives.
                     </p>
                     <button 
                         onClick={onEnterAdmin}

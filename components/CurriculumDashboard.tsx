@@ -253,7 +253,7 @@ const InitiativeCard: React.FC<{ data: typeof initiatives[0] }> = ({ data }) => 
                             <Sparkles className={`w-3 h-3 ${styles.text}`} />
                         </div>
                         <span className={`text-[10px] font-extrabold uppercase tracking-wider ${styles.text} opacity-80`}>
-                            Signal Intelligence
+                            Why this matters
                         </span>
                     </div>
                     <p className="text-xs font-semibold text-slate-700 leading-relaxed relative z-10">
@@ -307,7 +307,7 @@ const InitiativeCard: React.FC<{ data: typeof initiatives[0] }> = ({ data }) => 
 
                     {/* Persistent Action Button */}
                     <button className={`w-full py-4 rounded-xl font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2 text-white ${styles.accent} hover:brightness-110 active:scale-95 group-hover:shadow-lg`}>
-                        Manage Curriculum <ArrowUpRight className="w-4 h-4" />
+                        Manage Course <ArrowUpRight className="w-4 h-4" />
                     </button>
                 </div>
             </div>
@@ -334,25 +334,25 @@ const CurriculumDashboard: React.FC = () => {
             <div className="absolute inset-0 p-12 flex flex-col justify-center max-w-2xl z-20">
                 <div className="flex items-center gap-3 mb-4">
                     <span className="px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-blue-100 text-[10px] font-bold uppercase tracking-widest shadow-lg">
-                        Curriculum OS 2.0
+                        Courses 2.0
                     </span>
                     <span className="px-3 py-1 rounded-full bg-green-500/20 backdrop-blur-md border border-green-500/30 text-green-300 text-[10px] font-bold uppercase tracking-widest flex items-center gap-1.5 shadow-lg">
                         <Zap className="w-3 h-3" /> System Optimal
                     </span>
                 </div>
                 <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-6 leading-tight tracking-tight">
-                    Bridging the <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">Latency Gap</span>
+                    Closing the <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">Skills Gap</span>
                 </h1>
                 <p className="text-blue-100/80 text-lg font-medium mb-8 leading-relaxed max-w-lg">
-                    Orchestrate live interventions across 14 departments. Current closing velocity: <span className="text-white font-bold">12% week-over-week.</span>
+                    Manage real-world projects across 14 departments. Current progress: <span className="text-white font-bold">12% growth week-over-week.</span>
                 </p>
                 
                 <div className="flex gap-4">
                     <button className="px-6 py-3.5 bg-white text-ascend-blue rounded-xl font-bold text-sm shadow-glow hover:bg-blue-50 transition-all flex items-center gap-2 hover:scale-105 active:scale-95">
-                        <Plus className="w-4 h-4" /> New Initiative
+                        <Plus className="w-4 h-4" /> New Project
                     </button>
                     <button className="px-6 py-3.5 bg-white/10 text-white border border-white/20 rounded-xl font-bold text-sm hover:bg-white/20 transition-all backdrop-blur-md">
-                        View Analytics Report
+                        View Analytics
                     </button>
                 </div>
             </div>
@@ -389,7 +389,7 @@ const CurriculumDashboard: React.FC = () => {
                     <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-ascend-subtext group-focus-within:text-ascend-blue" />
                     <input 
                         type="text" 
-                        placeholder="Search initiatives..." 
+                        placeholder="Search projects..." 
                         className="pl-9 pr-4 py-2.5 bg-white border border-ascend-border rounded-xl text-sm font-medium outline-none focus:ring-2 ring-ascend-blue/20 w-64 shadow-sm transition-all"
                     />
                 </div>
@@ -423,8 +423,8 @@ const CurriculumDashboard: React.FC = () => {
                 <div className="w-24 h-24 rounded-3xl bg-white shadow-sm border border-gray-100 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform group-hover:shadow-lg group-hover:rotate-3">
                     <Plus className="w-10 h-10 text-gray-300 group-hover:text-blue-500 transition-colors" />
                 </div>
-                <h3 className="text-xl font-black text-gray-400 group-hover:text-blue-600 transition-colors">Draft Intervention</h3>
-                <p className="text-xs font-bold text-gray-300 mt-2 uppercase tracking-widest group-hover:text-blue-400">Orchestrate a new lab</p>
+                <h3 className="text-xl font-black text-gray-400 group-hover:text-blue-600 transition-colors">Start New Project</h3>
+                <p className="text-xs font-bold text-gray-300 mt-2 uppercase tracking-widest group-hover:text-blue-400">Launch a new lab</p>
             </div>
         </div>
 

@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import MainDashboard from './MainDashboard';
-import InsightsDashboard from './components/InsightsDashboard';
-import ObserveDashboard from './components/ObserveDashboard';
-import CurriculumDashboard from './components/CurriculumDashboard';
-import ReportsDashboard from './components/ReportsDashboard';
-import StudentDashboard from './components/StudentDashboard';
-import LandingPage from './components/LandingPage';
-import DesignWorkshopModal from './components/DesignWorkshopModal';
-import Toast, { ToastProps } from './components/Toast';
+import InsightsDashboard from './InsightsDashboard';
+import ObserveDashboard from './ObserveDashboard';
+import CurriculumDashboard from './CurriculumDashboard';
+import ReportsDashboard from './ReportsDashboard';
+import StudentDashboard from './StudentDashboard';
+import LandingPage from './LandingPage';
+import DesignWorkshopModal from './DesignWorkshopModal';
+import Toast, { ToastProps } from './Toast';
 import { 
     Search, 
     Bell, 
@@ -45,7 +45,7 @@ const App: React.FC = () => {
   const [viewState, setViewState] = useState<'landing' | 'admin' | 'student'>('landing');
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isWorkshopOpen, setIsWorkshopOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState('Dashboard');
+  const [activeTab, setActiveTab] = useState('Home');
   
   // Toast State
   const [toast, setToast] = useState<Omit<ToastProps, 'onClose'>>({
@@ -59,9 +59,9 @@ const App: React.FC = () => {
   };
 
   const handleDeepAnalysis = () => {
-      showToast("Generating Deep Analysis Report...", "loading");
+      showToast("Creating Analysis Report...", "loading");
       setTimeout(() => {
-          showToast("Report Sent to Dean of Engineering.", "success");
+          showToast("Report Sent to Dean.", "success");
       }, 2000);
   };
 
@@ -69,30 +69,30 @@ const App: React.FC = () => {
       if (action === 'plan') {
           setIsWorkshopOpen(true);
       } else if (action === 'report') {
-          showToast(`Downloading Market Report for ${item}...`, 'loading');
-          setTimeout(() => showToast("PDF Downloaded Successfully", "success"), 1500);
+          showToast(`Downloading Report for ${item}...`, 'loading');
+          setTimeout(() => showToast("PDF Downloaded", "success"), 1500);
       } else if (action === 'analyze') {
-          showToast(`Running correlation analysis on ${item}...`, 'loading');
-          setTimeout(() => showToast("Correlation found: 94% match with Alumni data", "info"), 2000);
+          showToast(`Checking alignment for ${item}...`, 'loading');
+          setTimeout(() => showToast("94% match found", "info"), 2000);
       }
   };
 
   const handleDismissOpportunity = () => {
-      showToast("Opportunity dismissed.", "info");
+      showToast("Suggestion dismissed.", "info");
   };
 
   const handleAutoDraft = () => {
-      showToast("AI Auto-Drafting Proposal...", "loading");
-      setTimeout(() => showToast("Proposal Draft Saved to Workbench", "success"), 2500);
+      showToast("Drafting Proposal...", "loading");
+      setTimeout(() => showToast("Draft Saved", "success"), 2500);
   };
 
   const handleViewDeck = () => {
-      showToast("Entering Presentation Mode...", "info");
+      showToast("Opening Presentation...", "info");
   };
 
   const handleWorkshopComplete = () => {
       setIsWorkshopOpen(false);
-      showToast("🚀 Intervention Launched Successfully!", "success");
+      showToast("🚀 Project Launched Successfully!", "success");
   };
 
   const handleCandidateClick = (name: string) => {
@@ -100,13 +100,13 @@ const App: React.FC = () => {
   };
 
   const handleViewPipeline = () => {
-      showToast("Redirecting to Talent CRM...", "loading");
+      showToast("Going to Student List...", "loading");
   };
 
   const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (e.key === 'Enter') {
-          showToast(`Searching global database for "${e.currentTarget.value}"...`, "loading");
-          setTimeout(() => showToast("Search filters updated", "success"), 1000);
+          showToast(`Searching for "${e.currentTarget.value}"...`, "loading");
+          setTimeout(() => showToast("Search updated", "success"), 1000);
       }
   };
 
@@ -120,7 +120,7 @@ const App: React.FC = () => {
 
   const renderContent = () => {
       switch(activeTab) {
-          case 'Dashboard':
+          case 'Home':
               return (
                 <MainDashboard 
                     onAction={handleMarketAction}
@@ -133,11 +133,11 @@ const App: React.FC = () => {
                     onViewPipeline={handleViewPipeline}
                 />
               );
-          case 'Insights Engine':
+          case 'Market Trends':
               return <InsightsDashboard onAction={handleMarketAction} />;
-          case 'Observation Deck':
+          case 'Student Activity':
               return <ObserveDashboard />;
-          case 'Curriculum':
+          case 'Courses':
               return <CurriculumDashboard />;
           case 'Reports':
               return <ReportsDashboard />;
@@ -147,8 +147,8 @@ const App: React.FC = () => {
                       <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center">
                           <Layers className="w-8 h-8 text-ascend-subtext" />
                       </div>
-                      <h3 className="text-xl font-bold text-ascend-text">Module Loading...</h3>
-                      <p className="text-ascend-subtext max-w-sm">The {activeTab} module is currently being provisioned by the orchestration engine.</p>
+                      <h3 className="text-xl font-bold text-ascend-text">Loading...</h3>
+                      <p className="text-ascend-subtext max-w-sm">Setting up the {activeTab} view.</p>
                   </div>
               );
       }
@@ -186,11 +186,17 @@ const App: React.FC = () => {
         {/* Logo Area */}
         <div className={`flex items-center ${isSidebarCollapsed ? 'justify-center' : 'justify-between'} mb-10 px-1 mt-2 transition-all`}>
              <div className="flex items-center gap-3">
-                 <div className="w-9 h-9 flex-shrink-0 bg-gradient-to-br from-ascend-blue to-[#663CFF] rounded-xl flex items-center justify-center text-white font-extrabold text-xl shadow-lg">W</div>
+                 {/* Waypoint Icon */}
+                 <div className="w-10 h-10 flex-shrink-0 flex items-center justify-center">
+                    <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-ascend-blue">
+                        <path d="M8 11L14 29L20 11L26 29L32 11" stroke="currentColor" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                 </div>
+                 
                  {!isSidebarCollapsed && (
-                     <div>
-                        <span className="text-2xl font-bold text-ascend-text tracking-tight whitespace-nowrap block lowercase">waypoint</span>
-                        <span className="text-[9px] text-ascend-subtext font-bold uppercase tracking-wider block">An Ascend Platform</span>
+                     <div className="flex flex-col justify-center">
+                        <span className="text-3xl font-black text-ascend-text tracking-tighter leading-none lowercase" style={{ fontFamily: '"DM Sans", sans-serif' }}>waypoint</span>
+                        <span className="text-[9px] font-bold text-ascend-subtext uppercase tracking-[0.15em] ml-0.5 mt-0.5">Career Platform</span>
                      </div>
                  )}
              </div>
@@ -200,45 +206,45 @@ const App: React.FC = () => {
         <nav className="flex-1 space-y-1">
              <SidebarItem 
                 icon={<Home />} 
-                label="Dashboard" 
-                active={activeTab === 'Dashboard'} 
+                label="Home" 
+                active={activeTab === 'Home'} 
                 collapsed={isSidebarCollapsed} 
-                onClick={() => { setActiveTab('Dashboard'); showToast("System Overview Loaded", "info"); }}
+                onClick={() => { setActiveTab('Home'); showToast("Welcome Back", "info"); }}
              />
              <SidebarItem 
                 icon={<BarChart2 />} 
-                label="Insights Engine" 
-                active={activeTab === 'Insights Engine'} 
+                label="Market Trends" 
+                active={activeTab === 'Market Trends'} 
                 collapsed={isSidebarCollapsed} 
-                onClick={() => { setActiveTab('Insights Engine'); }}
+                onClick={() => { setActiveTab('Market Trends'); }}
              />
              <SidebarItem 
                 icon={<Eye />} 
-                label="Observation Deck" 
-                active={activeTab === 'Observation Deck'} 
+                label="Student Activity" 
+                active={activeTab === 'Student Activity'} 
                 collapsed={isSidebarCollapsed} 
-                onClick={() => { setActiveTab('Observation Deck'); showToast("Syncing with Active Labs...", "loading"); }}
+                onClick={() => { setActiveTab('Student Activity'); showToast("Updating Activity Feed...", "loading"); }}
              />
              <SidebarItem 
                 icon={<Layers />} 
-                label="Curriculum" 
-                active={activeTab === 'Curriculum'} 
+                label="Courses" 
+                active={activeTab === 'Courses'} 
                 collapsed={isSidebarCollapsed} 
-                onClick={() => { setActiveTab('Curriculum'); showToast("Loading Curriculum Modules...", "loading"); }}
+                onClick={() => { setActiveTab('Courses'); showToast("Loading Courses...", "loading"); }}
              />
              <SidebarItem 
                 icon={<FileText />} 
                 label="Reports" 
                 active={activeTab === 'Reports'} 
                 collapsed={isSidebarCollapsed} 
-                onClick={() => { setActiveTab('Reports'); showToast("Fetching Report Data...", "loading"); }}
+                onClick={() => { setActiveTab('Reports'); showToast("Getting Reports...", "loading"); }}
              />
         </nav>
 
         {/* Bottom Actions */}
         <div className="mt-auto space-y-1">
             <SidebarItem icon={<Settings />} label="Settings" collapsed={isSidebarCollapsed} onClick={() => showToast("Opening Settings...", "info")} />
-            <SidebarItem icon={<HelpCircle />} label="Help Center" collapsed={isSidebarCollapsed} onClick={() => showToast("Connecting to Support...", "info")} />
+            <SidebarItem icon={<HelpCircle />} label="Help Center" collapsed={isSidebarCollapsed} onClick={() => showToast("Opening Support...", "info")} />
             
             <div className="pt-4 border-t border-gray-100 mt-2">
                 <button 
@@ -259,7 +265,7 @@ const App: React.FC = () => {
         <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
             <div>
                 <p className="text-ascend-subtext text-xs font-bold uppercase tracking-wider mb-1">Waypoint / {activeTab}</p>
-                <h2 className="text-4xl font-bold text-ascend-text tracking-tight">{activeTab === 'Dashboard' ? 'System Overview' : activeTab}</h2>
+                <h2 className="text-4xl font-bold text-ascend-text tracking-tight">{activeTab === 'Home' ? 'Overview' : activeTab}</h2>
             </div>
 
             <div className="bg-white p-2 rounded-full shadow-sm border border-ascend-border flex items-center gap-3">
@@ -274,13 +280,13 @@ const App: React.FC = () => {
                 </div>
                 <div className="h-6 w-px bg-gray-200"></div>
                 <button 
-                    onClick={() => showToast("Notifications Cleared", "info")}
+                    onClick={() => showToast("No new notifications", "info")}
                     className="p-2 rounded-full hover:bg-gray-100 transition-colors"
                 >
                     <Bell className="w-5 h-5 text-ascend-subtext hover:text-ascend-blue" />
                 </button>
                 <div 
-                    onClick={() => showToast("Logged in as Admin", "info")}
+                    onClick={() => showToast("Logged in as Staff", "info")}
                     className="w-11 h-11 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 p-[2px] cursor-pointer hover:scale-105 transition-transform"
                 >
                      <div className="w-full h-full rounded-full bg-white flex items-center justify-center overflow-hidden">

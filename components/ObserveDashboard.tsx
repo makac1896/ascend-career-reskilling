@@ -48,7 +48,7 @@ const feedbackFeed = [
         type: 'success',
         student: 'Sarah Jenkins',
         lab: 'Bio-Ethics Simulator',
-        message: 'Successfully identified hallucinations in the patient logs. Did not accept first draft.',
+        message: 'Successfully identified errors in the patient logs. Did not just accept the first answer.',
         time: '12m ago'
     },
     {
@@ -56,7 +56,7 @@ const feedbackFeed = [
         type: 'warning',
         student: 'Marcus Chen',
         lab: 'FinTech Audit',
-        message: 'Accepted AI generated risk model without verifying base assumptions. Intervention needed.',
+        message: 'Accepted AI generated risk model without checking the math. Needs a nudge.',
         time: '45m ago'
     },
     {
@@ -64,7 +64,7 @@ const feedbackFeed = [
         type: 'success',
         student: 'Team Alpha',
         lab: 'Supply Chain War Room',
-        message: 'Used AI to generate 4 scenarios, then applied human judgment to select the ethical option.',
+        message: 'Used AI to generate 4 scenarios, then chose the best ethical option themselves.',
         time: '1h ago'
     }
 ];
@@ -95,15 +95,15 @@ const ObserveDashboard: React.FC = () => {
         {/* Header Section */}
         <div className="flex flex-col md:flex-row justify-between items-end gap-4">
             <div>
-                <h2 className="text-3xl font-bold text-ascend-text tracking-tight mb-2">Observation Deck</h2>
-                <p className="text-ascend-subtext text-sm font-medium">Real-time telemetry on Student-AI synergy and process quality.</p>
+                <h2 className="text-3xl font-bold text-ascend-text tracking-tight mb-2">Student Activity</h2>
+                <p className="text-ascend-subtext text-sm font-medium">Real-time look at how students are using the tools.</p>
             </div>
             <div className="flex gap-3">
                 <button className="flex items-center gap-2 px-4 py-2 bg-white border border-ascend-border rounded-xl text-xs font-bold text-ascend-subtext hover:text-ascend-text shadow-sm hover:shadow-md transition-all">
                     <Filter className="w-4 h-4" /> Filter Views
                 </button>
                 <button className="flex items-center gap-2 px-4 py-2 bg-ascend-text text-white rounded-xl text-xs font-bold hover:bg-gray-800 shadow-lg transition-all">
-                    <RefreshCw className="w-4 h-4" /> Live Sync
+                    <RefreshCw className="w-4 h-4" /> Refresh Data
                 </button>
             </div>
         </div>
@@ -111,23 +111,23 @@ const ObserveDashboard: React.FC = () => {
         {/* Top KPI Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <StatCard 
-                label="Student Agency Score" 
+                label="Student Control Score" 
                 value="78/100" 
                 sub="Students actively directing the tool."
                 icon={<BrainCircuit className="w-6 h-6" />}
                 trend="up"
             />
             <StatCard 
-                label="Avg. Iteration Rate" 
+                label="Avg. Refinements" 
                 value="4.2x" 
-                sub="Refinements per prompt session."
+                sub="Attempts per task."
                 icon={<RefreshCw className="w-6 h-6" />}
                 trend="up"
             />
             <StatCard 
                 label="Partner Satisfaction" 
                 value="92%" 
-                sub="NPS from Industry Mentors."
+                sub="Feedback from Industry Mentors."
                 icon={<CheckCircle2 className="w-6 h-6" />}
                 trend="up"
             />
@@ -139,21 +139,21 @@ const ObserveDashboard: React.FC = () => {
             />
         </div>
 
-        {/* Main Chart Section: The Synergy Loop */}
+        {/* Main Chart Section */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 h-[450px]">
             {/* Chart */}
             <div className="lg:col-span-2 bg-white rounded-2xl border border-ascend-border shadow-sm p-8 flex flex-col">
                 <div className="flex justify-between items-center mb-6">
                     <div>
-                        <h3 className="text-xl font-bold text-ascend-text">Agency vs. Automation</h3>
-                        <p className="text-xs text-ascend-subtext font-medium">Monitoring the balance of Student Input (Green) vs Raw AI Output (Purple).</p>
+                        <h3 className="text-xl font-bold text-ascend-text">Student vs Tool Usage</h3>
+                        <p className="text-xs text-ascend-subtext font-medium">Ideally, Student Input (Green) should be higher than Tool Output (Purple).</p>
                     </div>
                     <div className="flex gap-2">
                         <div className="flex items-center gap-2 text-xs font-bold text-ascend-subtext">
                             <div className="w-3 h-3 rounded-full bg-green-500"></div> Student
                         </div>
                         <div className="flex items-center gap-2 text-xs font-bold text-ascend-subtext">
-                            <div className="w-3 h-3 rounded-full bg-ascend-blue"></div> AI Tool
+                            <div className="w-3 h-3 rounded-full bg-ascend-blue"></div> Tool
                         </div>
                     </div>
                 </div>
@@ -227,8 +227,8 @@ const ObserveDashboard: React.FC = () => {
             <div className="bg-white rounded-2xl border border-ascend-border shadow-sm p-8">
                 <div className="flex justify-between items-center mb-6">
                     <div>
-                        <h3 className="text-xl font-bold text-ascend-text">Live Signal Pulse</h3>
-                        <p className="text-xs text-ascend-subtext">Real-time engagement telemetry from active simulations.</p>
+                        <h3 className="text-xl font-bold text-ascend-text">Live Feed</h3>
+                        <p className="text-xs text-ascend-subtext">Real-time updates from active simulations.</p>
                     </div>
                     <span className="flex h-3 w-3 relative">
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>

@@ -74,9 +74,9 @@ const MainDashboard: React.FC<MainDashboardProps> = ({
   return (
     <div className="flex flex-col gap-24 w-full max-w-[1600px] mx-auto pb-32 animate-in fade-in duration-500">
         
-        {/* HERO SECTION: The Command Bridge */}
+        {/* HERO SECTION */}
         <section className="relative w-full h-[340px] rounded-[40px] overflow-hidden shadow-2xl group shrink-0">
-             {/* Background Image with Parallax Feel */}
+             {/* Background Image */}
              <div className="absolute inset-0 bg-gray-900">
                 <img 
                     src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop" 
@@ -93,17 +93,17 @@ const MainDashboard: React.FC<MainDashboardProps> = ({
                     <div className="mb-6 lg:mb-0">
                         <div className="flex items-center gap-2 mb-3">
                             <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-300 text-[10px] font-bold uppercase tracking-widest backdrop-blur-md shadow-glow">
-                                <Globe className="w-3 h-3 animate-pulse" /> Global Sensor Network
+                                <Globe className="w-3 h-3 animate-pulse" /> Live Data
                             </span>
                             <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-500/20 border border-green-400/30 text-green-300 text-[10px] font-bold uppercase tracking-widest backdrop-blur-md">
-                                <Zap className="w-3 h-3" /> Grid Optimal
+                                <Zap className="w-3 h-3" /> System Ready
                             </span>
                         </div>
                         <h1 className="text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight mb-2">
-                            System <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">Synchronized</span>
+                            All Systems <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">Go</span>
                         </h1>
                         <p className="text-slate-300 font-medium text-lg max-w-xl leading-relaxed">
-                            Ascend OS is currently orchestrating 2,543 active skill signals across 14 university departments.
+                            Waypoint is currently tracking 2,543 active job skills across 14 university departments.
                         </p>
                     </div>
 
@@ -111,7 +111,7 @@ const MainDashboard: React.FC<MainDashboardProps> = ({
                     <div className="hidden lg:flex flex-col items-end gap-3">
                         <div className="flex items-center gap-4 bg-white/5 backdrop-blur-md p-4 rounded-2xl border border-white/10 shadow-lg">
                             <div className="text-right">
-                                <p className="text-xs font-bold text-white/60 uppercase tracking-widest">Next Cycle</p>
+                                <p className="text-xs font-bold text-white/60 uppercase tracking-widest">Next Update</p>
                                 <p className="text-xl font-bold text-white">14h 32m</p>
                             </div>
                             <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center border border-white/20">
@@ -128,14 +128,14 @@ const MainDashboard: React.FC<MainDashboardProps> = ({
                         className="px-6 py-3.5 bg-white text-ascend-blue rounded-xl font-bold text-sm shadow-glow hover:bg-gray-50 transition-all flex items-center gap-2 group/btn"
                      >
                          <Sparkles className="w-4 h-4" />
-                         Launch Intervention
+                         Start New Project
                          <ArrowRight className="w-4 h-4 opacity-0 -ml-2 group-hover/btn:opacity-100 group-hover/btn:ml-0 transition-all" />
                      </button>
                      <button 
                         onClick={onViewDeck}
                         className="px-6 py-3.5 bg-white/10 text-white border border-white/20 rounded-xl font-bold text-sm hover:bg-white/20 transition-all backdrop-blur-md"
                      >
-                         View System Report
+                         View Report
                      </button>
                  </div>
              </div>
@@ -146,31 +146,31 @@ const MainDashboard: React.FC<MainDashboardProps> = ({
             <GlassStatCard 
                 label="Skills Tracked" 
                 value="2,543" 
-                sub="Across 14 major industries"
+                sub="In 14 industries"
                 icon={<BarChart2 className="w-6 h-6"/>} 
                 color="bg-blue-500"
-                trend="+12% Signals"
+                trend="+12%"
             />
             <GlassStatCard 
                 label="Skill Gaps" 
                 value="12" 
-                sub="Critical interventions needed"
+                sub="Areas needing attention"
                 icon={<Settings className="w-6 h-6"/>} 
                 color="bg-red-500"
                 trend="Urgent"
             />
             <GlassStatCard 
-                label="Active Labs" 
+                label="Active Workshops" 
                 value="48" 
-                sub="Students currently enrolled"
+                sub="Students participating"
                 icon={<Layers className="w-6 h-6"/>} 
                 color="bg-purple-500"
                 trend="Stable"
             />
             <GlassStatCard 
-                label="Partner Network" 
+                label="Partners" 
                 value="142" 
-                sub="Corporate data sources"
+                sub="Companies connected"
                 icon={<Briefcase className="w-6 h-6"/>} 
                 color="bg-indigo-500"
                 trend="+3 New"
@@ -180,8 +180,8 @@ const MainDashboard: React.FC<MainDashboardProps> = ({
         {/* Intelligence Layer 1: PLAN */}
         <section className="w-full">
             <SectionHeader 
-                title="Intelligence Layer" 
-                subtitle="Module 1: Plan" 
+                title="Planning" 
+                subtitle="Step 1: Understand the Market" 
                 icon={<Cpu className="w-5 h-5" />} 
             />
             <div className="bg-white rounded-[32px] p-8 border border-ascend-border shadow-soft w-full h-auto">
@@ -192,8 +192,8 @@ const MainDashboard: React.FC<MainDashboardProps> = ({
         {/* Intelligence Layer 2: COORDINATE */}
         <section className="w-full">
              <SectionHeader 
-                title="Orchestration Layer" 
-                subtitle="Module 2: Coordinate" 
+                title="Action" 
+                subtitle="Step 2: Create Opportunities" 
                 icon={<Command className="w-5 h-5" />} 
             />
             <div className="bg-white rounded-[32px] p-8 border border-ascend-border shadow-soft w-full h-auto">
@@ -209,8 +209,8 @@ const MainDashboard: React.FC<MainDashboardProps> = ({
         {/* Intelligence Layer 3: OBSERVE & MONITOR */}
         <section className="w-full">
             <SectionHeader 
-                title="Telemetry Layer" 
-                subtitle="Modules 3 & 4: Observe / Monitor" 
+                title="Results" 
+                subtitle="Step 3: Track Progress" 
                 icon={<Activity className="w-5 h-5" />} 
             />
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 w-full h-auto">

@@ -50,9 +50,9 @@ const TalentDraftBoard: React.FC<TalentDraftBoardProps> = ({ onCandidateClick, o
             <div>
                 <div className="flex items-center gap-2 mb-2">
                      <span className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse"></span>
-                    <span className="text-[11px] font-extrabold text-ascend-subtext uppercase tracking-widest">Module: Monitor</span>
+                    <span className="text-[11px] font-extrabold text-ascend-subtext uppercase tracking-widest">Module: Top Performers</span>
                 </div>
-                <h3 className="text-2xl font-bold text-ascend-text tracking-tight">Talent Draft Board</h3>
+                <h3 className="text-2xl font-bold text-ascend-text tracking-tight">Student Showcase</h3>
             </div>
              <div className="bg-green-50 text-green-600 p-3 rounded-2xl">
                 <Award className="w-6 h-6" />
@@ -79,7 +79,7 @@ const TalentDraftBoard: React.FC<TalentDraftBoardProps> = ({ onCandidateClick, o
                 onClick={onViewPipeline}
                 className="w-full py-4 bg-ascend-text text-white rounded-2xl text-sm font-bold flex items-center justify-center gap-2 hover:bg-gray-900 transition-colors shadow-lg active:scale-95 tracking-wide"
             >
-                View Full Talent Pipeline
+                View Full List
                 <ChevronRight className="w-4 h-4" />
             </button>
         </div>
