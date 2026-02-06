@@ -92,9 +92,6 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnterAdmin, onEnterStudent 
                         >
                             Launch Waypoint <ArrowRight className="w-5 h-5" />
                         </button>
-                        <button className="px-8 py-4 bg-transparent border border-white/30 text-white rounded-full font-bold text-lg hover:bg-white/10 transition-all backdrop-blur-sm flex items-center gap-2">
-                            <Play className="w-5 h-5 fill-current" /> Read the Case Brief
-                        </button>
                     </div>
                 </div>
             </header>
