@@ -201,10 +201,10 @@ const ROOMS: Record<RoomType, RoomConfig> = {
 
 const ResourcesTab: React.FC = () => {
     const resources = [
-        { title: "Black Student Support", desc: "Community networks, mentorship, and advocacy.", image: "https://images.unsplash.com/photo-1571260899304-425eee4c7efc?q=80&w=2070&auto=format&fit=crop" },
-        { title: "Disabilities & Well-being", desc: "Accommodations, accessibility tech, and counseling.", image: "https://images.unsplash.com/photo-1573497620053-ea5300f94f21?q=80&w=2070&auto=format&fit=crop" },
-        { title: "2SLGBTQIA+ Resources", desc: "Safe spaces, peer support, and health resources.", image: "https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?q=80&w=2069&auto=format&fit=crop" },
         { title: "Indigenous Student Centre", desc: "Cultural connection, elders, and academic support.", image: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=2070&auto=format&fit=crop" },
+        { title: "Disabilities & Well-being", desc: "Accommodations, accessibility tech, and counseling.", image: "https://images.unsplash.com/photo-1573497620053-ea5300f94f21?q=80&w=2070&auto=format&fit=crop" },
+        { title: "Black Student Support", desc: "Community networks, mentorship, and advocacy.", image: "https://images.unsplash.com/photo-1571260899304-425eee4c7efc?q=80&w=2070&auto=format&fit=crop" },
+        { title: "2SLGBTQIA+ Resources", desc: "Safe spaces, peer support, and health resources.", image: "https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?q=80&w=2069&auto=format&fit=crop" },
         { title: "Newcomer & International", desc: "Visa help, language labs, and settlement services.", image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop" },
         { title: "Sex Work Support", desc: "Confidential, non-judgmental health & safety resources.", image: "https://images.unsplash.com/photo-1527689368864-3a821dbccc34?q=80&w=2070&auto=format&fit=crop" }
     ];
@@ -235,12 +235,12 @@ const ProfileTab: React.FC = () => {
             {/* Identity Statement */}
             <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm text-center relative overflow-hidden">
                 <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-500 to-purple-500"></div>
-                <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">My Goal</h3>
+                <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">Identity Statement</h3>
                 <div className="text-3xl md:text-4xl font-black text-slate-800 leading-tight">
-                    "I want to become a <span className="text-blue-600 border-b-2 border-blue-200 hover:border-blue-600 cursor-pointer transition-colors">Strategist</span> who bridges <span className="text-purple-600 border-b-2 border-purple-200 hover:border-purple-600 cursor-pointer transition-colors">human empathy</span> with <span className="text-orange-600 border-b-2 border-orange-200 hover:border-orange-600 cursor-pointer transition-colors">tech skills</span>."
+                    "I am navigating the space between <span className="text-blue-600 border-b-2 border-blue-200 hover:border-blue-600 cursor-pointer transition-colors">Academic Theory</span> and <span className="text-purple-600 border-b-2 border-purple-200 hover:border-purple-600 cursor-pointer transition-colors">Indigenous Knowledge</span> to find my <span className="text-orange-600 border-b-2 border-orange-200 hover:border-orange-600 cursor-pointer transition-colors">true purpose</span>."
                 </div>
                 <button className="mt-6 text-xs font-bold text-slate-400 hover:text-slate-600 flex items-center justify-center gap-2 mx-auto">
-                    <Edit3 className="w-3 h-3" /> Edit Goal
+                    <Edit3 className="w-3 h-3" /> Edit Statement
                 </button>
             </div>
 
@@ -248,18 +248,18 @@ const ProfileTab: React.FC = () => {
                 {/* Skills */}
                 <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm">
                      <h3 className="text-lg font-black text-slate-800 mb-6 flex items-center gap-2">
-                        <Zap className="w-5 h-5 text-yellow-500" /> Top Skills
+                        <Zap className="w-5 h-5 text-yellow-500" /> Emerging Human Skills
                      </h3>
                      <div className="space-y-6">
                         {[
-                            { name: "Problem Solving", level: 3, evidence: 5 },
-                            { name: "Ethics", level: 4, evidence: 8 },
-                            { name: "Negotiation", level: 2, evidence: 2 },
+                            { name: "Critical Analysis", level: 4, evidence: 12 },
+                            { name: "Cultural Advocacy", level: 3, evidence: 6 },
+                            { name: "Creative Writing", level: 4, evidence: 9 },
                         ].map((skill, i) => (
                             <div key={i} className="group cursor-pointer">
                                 <div className="flex justify-between items-end mb-2">
                                     <span className="font-bold text-slate-700">{skill.name}</span>
-                                    <span className="text-[10px] font-bold text-slate-400 uppercase">{skill.evidence} Examples</span>
+                                    <span className="text-[10px] font-bold text-slate-400 uppercase">{skill.evidence} Evidence Logged</span>
                                 </div>
                                 <div className="w-full h-3 bg-slate-100 rounded-full overflow-hidden">
                                     <div 
@@ -276,10 +276,10 @@ const ProfileTab: React.FC = () => {
                 <div className="space-y-8">
                     <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm">
                          <h3 className="text-lg font-black text-slate-800 mb-4 flex items-center gap-2">
-                            <Heart className="w-5 h-5 text-rose-500" /> My Values
+                            <Heart className="w-5 h-5 text-rose-500" /> Values Signals
                          </h3>
                          <div className="flex flex-wrap gap-2">
-                            {['Impact', 'Stability', 'Learning', 'Autonomy', 'Justice'].map(tag => (
+                            {['Community', 'Purpose', 'Resilience', 'Justice', 'Adaptability'].map(tag => (
                                 <span key={tag} className="px-3 py-1.5 bg-rose-50 text-rose-700 border border-rose-100 rounded-lg text-xs font-bold uppercase tracking-wider">
                                     {tag}
                                 </span>
@@ -290,15 +290,15 @@ const ProfileTab: React.FC = () => {
                     <div className="grid grid-cols-2 gap-4">
                         <div className="bg-green-50 rounded-3xl p-6 border border-green-100">
                              <h4 className="text-xs font-black text-green-700 uppercase tracking-wider mb-2 flex items-center gap-1">
-                                <TrendingUp className="w-3 h-3" /> I Enjoy
+                                <TrendingUp className="w-3 h-3" /> You Thrive When
                              </h4>
-                             <p className="text-sm font-medium text-slate-700 leading-snug">Working on open-ended problems with a team.</p>
+                             <p className="text-sm font-medium text-slate-700 leading-snug">Connecting abstract concepts to real community impact.</p>
                         </div>
                         <div className="bg-orange-50 rounded-3xl p-6 border border-orange-100">
                              <h4 className="text-xs font-black text-orange-700 uppercase tracking-wider mb-2 flex items-center gap-1">
-                                <Battery className="w-3 h-3" /> I Dislike
+                                <Battery className="w-3 h-3" /> You Drain When
                              </h4>
-                             <p className="text-sm font-medium text-slate-700 leading-snug">Repetitive data entry tasks.</p>
+                             <p className="text-sm font-medium text-slate-700 leading-snug">Facing "busy work" without a clear purpose or "why".</p>
                         </div>
                     </div>
                 </div>
@@ -315,7 +315,7 @@ const StreamTab: React.FC = () => {
             <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm mb-8">
                 <div className="flex gap-4">
                     <div className="w-12 h-12 rounded-full bg-slate-100 border border-slate-200 overflow-hidden shrink-0">
-                         <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?q=80&w=300&auto=format&fit=crop" alt="User" className="w-full h-full object-cover" />
+                         <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=400&auto=format&fit=crop" alt="User" className="w-full h-full object-cover" />
                     </div>
                     <div className="flex-1">
                         <textarea 
@@ -347,22 +347,22 @@ const StreamTab: React.FC = () => {
             <div className="space-y-6 pb-8">
                 {[
                     { 
-                        text: "Finally cracked the team conflict today! We were stuck arguing about the project direction for 2 days. I tried that 'active listening' thing Dr. K mentioned and we actually moved forward. Feels good.", 
-                        tags: ["Leadership", "Win"], 
+                        text: "Honestly, I'm busy all the time with readings and essays, but I don't feel like I'm moving toward anything. It's just... activity. Where is this leading?", 
+                        tags: ["Anxiety", "Direction"], 
                         time: "2h ago", 
                         likes: 12,
                         comments: 3
                     },
                     { 
-                        text: "Honestly, Python is testing my patience. Spent 3 hours on a single bug. Turns out it was a typo. But hey, I know how the debugger works now I guess? 😅", 
-                        tags: ["Coding", "Struggle"], 
+                        text: "Professor talked about AI writing today. If ChatGPT can write better essays than me in seconds, what exactly am I building here? I need skills that won't disappear.", 
+                        tags: ["Future Of Work", "AI Anxiety"], 
                         time: "Yesterday", 
                         likes: 24,
                         comments: 8
                     },
                     { 
-                        text: "Volunteer shift at the Food Bank was eye-opening. We re-organized the line and saved people about 10 mins of waiting. Small change, big impact.", 
-                        tags: ["Volunteering", "Impact"], 
+                        text: "Went to the resumè workshop. It felt so transactional. 'Fix your font, add keywords.' But nobody asked me who I want to BE. I need more than just a job application helper.", 
+                        tags: ["Career Support", "Frustration"], 
                         time: "2 days ago", 
                         likes: 45,
                         comments: 5
@@ -371,10 +371,10 @@ const StreamTab: React.FC = () => {
                     <div key={i} className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition-all">
                         <div className="flex items-center gap-3 mb-4">
                             <div className="w-10 h-10 rounded-full bg-slate-100 border border-slate-200 overflow-hidden">
-                                <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?q=80&w=300&auto=format&fit=crop" alt="User" className="w-full h-full object-cover" />
+                                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=400&auto=format&fit=crop" alt="User" className="w-full h-full object-cover" />
                             </div>
                             <div>
-                                <h4 className="font-bold text-slate-900 text-sm">Maya R.</h4>
+                                <h4 className="font-bold text-slate-900 text-sm">Aiyana Y.</h4>
                                 <span className="text-xs text-slate-500 font-medium">{entry.time}</span>
                             </div>
                             <button className="ml-auto text-slate-400 hover:text-slate-600">
@@ -420,78 +420,43 @@ const StreamTab: React.FC = () => {
     );
 };
 
-// --- CAREER JOURNAL INTERFACE (Refined Wrapper) ---
 const StudentJournalInterface: React.FC = () => {
     const [activeTab, setActiveTab] = useState<'stream' | 'profile' | 'resources'>('stream');
 
-    const navItems = [
-        { id: 'stream', label: 'Reflections', icon: <History className="w-4 h-4"/> },
-        { id: 'profile', label: 'About Me', icon: <Fingerprint className="w-4 h-4"/> },
-        { id: 'resources', label: 'Resources', icon: <Heart className="w-4 h-4"/> }
-    ];
-
     return (
         <div className="absolute inset-0 z-20 pointer-events-none px-6 lg:px-12 pb-6 pt-28 lg:pt-32 flex justify-center">
-              <div className="pointer-events-auto w-full max-w-6xl h-full bg-[#F8FAFC] rounded-[40px] shadow-[0_40px_100px_rgba(0,0,0,0.15)] border border-white flex overflow-hidden animate-in zoom-in duration-500 relative">
-                
-                {/* Side Navbar */}
-                <div className="w-72 bg-white border-r border-slate-200 p-6 flex flex-col gap-2">
-                    <div className="mb-8 px-2 pt-2">
-                        <div className="w-12 h-12 bg-cyan-100 text-cyan-600 rounded-2xl flex items-center justify-center mb-3 shadow-sm">
-                            <Wind className="w-6 h-6" />
-                        </div>
-                        <h3 className="font-black text-slate-800 text-lg leading-tight">My Journal</h3>
-                        <p className="text-xs text-slate-500 font-medium mt-1">Track your growth.</p>
-                    </div>
-
-                    <div className="space-y-1">
-                        {navItems.map(item => (
-                            <button
-                                key={item.id}
-                                onClick={() => setActiveTab(item.id as any)}
-                                className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-xl text-sm font-bold transition-all ${
-                                    activeTab === item.id 
-                                    ? 'bg-slate-900 text-white shadow-lg' 
-                                    : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'
-                                }`}
-                            >
-                                {item.icon}
-                                {item.label}
-                            </button>
-                        ))}
+             <div className="pointer-events-auto w-full max-w-5xl h-full flex flex-col gap-6 animate-in zoom-in duration-500">
+                {/* Journal Header & Tabs */}
+                <div className="flex justify-center mb-4">
+                    <div className="bg-white/80 backdrop-blur-xl border border-white/60 p-1.5 rounded-2xl shadow-lg flex gap-2 pointer-events-auto">
+                        <button 
+                            onClick={() => setActiveTab('stream')}
+                            className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${activeTab === 'stream' ? 'bg-slate-900 text-white shadow-md' : 'text-slate-500 hover:bg-white/50'}`}
+                        >
+                            Stream
+                        </button>
+                        <button 
+                            onClick={() => setActiveTab('profile')}
+                            className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${activeTab === 'profile' ? 'bg-slate-900 text-white shadow-md' : 'text-slate-500 hover:bg-white/50'}`}
+                        >
+                            My Profile
+                        </button>
+                         <button 
+                            onClick={() => setActiveTab('resources')}
+                            className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${activeTab === 'resources' ? 'bg-slate-900 text-white shadow-md' : 'text-slate-500 hover:bg-white/50'}`}
+                        >
+                            Resources
+                        </button>
                     </div>
                 </div>
 
-                {/* Main Content */}
-                <div className="flex-1 flex flex-col h-full bg-[#F8FAFC]">
-                    {/* Header - Centered */}
-                    <div className="h-24 border-b border-slate-200 bg-white flex items-center justify-center relative shrink-0">
-                        <div className="text-center">
-                            <h2 className="text-2xl font-black text-slate-900 tracking-tight">Journal</h2>
-                            <p className="text-slate-500 font-bold text-xs uppercase tracking-widest mt-1">
-                                {activeTab === 'stream' && 'Personal Feed'}
-                                {activeTab === 'profile' && 'My Profile'}
-                                {activeTab === 'resources' && 'Help & Support'}
-                            </p>
-                        </div>
-                        
-                        {/* Optional Right Action */}
-                        <div className="absolute right-8 top-1/2 -translate-y-1/2">
-                            <button className="p-2.5 rounded-xl hover:bg-slate-50 text-slate-400 hover:text-slate-700 transition-colors">
-                                <Settings className="w-5 h-5" />
-                            </button>
-                        </div>
-                    </div>
-
-                    {/* Scrollable Content */}
-                    <div className="flex-1 overflow-y-auto p-8 custom-scrollbar">
-                        {activeTab === 'resources' && <ResourcesTab />}
-                        {activeTab === 'profile' && <ProfileTab />}
-                        {activeTab === 'stream' && <StreamTab />}
-                    </div>
+                {/* Content Area */}
+                <div className="flex-1 overflow-y-auto custom-scrollbar pb-20">
+                     {activeTab === 'stream' && <StreamTab />}
+                     {activeTab === 'profile' && <ProfileTab />}
+                     {activeTab === 'resources' && <ResourcesTab />}
                 </div>
-
-            </div>
+             </div>
         </div>
     );
 };
@@ -499,12 +464,13 @@ const StudentJournalInterface: React.FC = () => {
 // --- NEW SIGNAL INTERFACE (JOB TRENDS REVAMP) ---
 const SignalInterface: React.FC = () => {
     const [selectedJobId, setSelectedJobId] = useState<string | null>(null);
+    const [filter, setFilter] = useState('All Jobs');
     
     // Mock Data: Market Trends
     const trends = [
-        { id: 1, name: 'Ethical AI', growth: 142, type: 'rising', category: 'Human Skill' },
+        { id: 1, name: 'Ethical Policy', growth: 142, type: 'rising', category: 'Human Skill' },
         { id: 2, name: 'Prompt Writing', growth: 88, type: 'rising', category: 'Tech Skill' },
-        { id: 3, name: 'Strategic Thinking', growth: 54, type: 'rising', category: 'Human Skill' },
+        { id: 3, name: 'Community Advocacy', growth: 54, type: 'rising', category: 'Human Skill' },
         { id: 4, name: 'Data Entry', growth: -45, type: 'falling', category: 'Fading Out' },
         { id: 5, name: 'Basic Copywriting', growth: -32, type: 'falling', category: 'Fading Out' },
     ];
@@ -513,39 +479,39 @@ const SignalInterface: React.FC = () => {
     const jobs = [
         {
             id: '1',
-            title: 'Junior AI Ethicist',
-            company: 'Anthropic',
-            logo: 'https://ui-avatars.com/api/?name=Anthropic&background=7c3aed&color=fff&size=128&bold=true',
-            location: 'San Francisco (Hybrid)',
+            title: 'Junior Policy Analyst',
+            company: 'Government of Canada',
+            logo: 'https://ui-avatars.com/api/?name=Gov&background=EF4444&color=fff&size=128&bold=true',
+            location: 'Remote / Ottawa',
             type: 'Internship',
-            salary: '$45/hr',
-            matchScore: 94,
-            matchReason: 'High Empathy + Philosophy Background',
-            tags: ['Policy', 'Humanities'],
+            salary: '$28/hr',
+            matchScore: 96,
+            matchReason: 'Strong Writing & Cultural Context',
+            tags: ['Policy', 'Indigenous Relations'],
             posted: '2h ago',
             skills: {
                 match: ['Critical Thinking', 'Writing', 'Ethics'],
-                gap: ['Python Basics', 'Model Eval']
+                gap: ['Brief Writing', 'Policy Frameworks']
             },
-            desc: "Work with the team to check AI models for bias. Great for students with strong humanities backgrounds."
+            desc: "Support the research and development of new social policies. Your ability to analyze complex cultural contexts is a key asset."
         },
         {
             id: '2',
-            title: 'Generative Design Assoc.',
-            company: 'Nike',
-            logo: 'https://ui-avatars.com/api/?name=Nike&background=000&color=fff&size=128&bold=true',
-            location: 'Remote',
-            type: 'Full Time',
-            salary: '$85k/yr',
-            matchScore: 88,
-            matchReason: 'Strong Visual Portfolio',
-            tags: ['Creative', 'Design'],
+            title: 'Community Liaison',
+            company: 'United Way',
+            logo: 'https://ui-avatars.com/api/?name=United&background=000&color=fff&size=128&bold=true',
+            location: 'Local',
+            type: 'Part Time',
+            salary: '$22/hr',
+            matchScore: 92,
+            matchReason: 'Community Focus & Empathy',
+            tags: ['Non-Profit', 'Outreach'],
             posted: '5h ago',
             skills: {
-                match: ['Visual Design', 'Trends'],
-                gap: ['Midjourney', '3D Modeling']
+                match: ['Communication', 'Empathy'],
+                gap: ['Grant Writing', 'Event Logistics']
             },
-            desc: "Collaborate with AI tools to create new footwear concepts. You act as the curator and designer."
+            desc: "Bridge the gap between donors and community needs. Requires strong storytelling and relationship-building skills."
         },
         // ... kept other jobs same structure
     ];
@@ -592,36 +558,36 @@ const SignalInterface: React.FC = () => {
                             ))}
                          </div>
                     </div>
-
-                    {/* Filter Widget */}
-                    <div className="bg-slate-900 text-white p-6 rounded-[32px] shadow-xl">
-                        <h4 className="font-bold text-sm mb-4 flex items-center gap-2">
-                            <Filter className="w-4 h-4 text-blue-400" /> Filter Jobs
-                        </h4>
-                        <div className="space-y-2">
-                            {['All Jobs', 'Best Match', 'Remote Only', 'Internships'].map((f, i) => (
-                                <button key={i} className={`w-full text-left px-4 py-3 rounded-xl text-xs font-bold transition-all ${i === 0 ? 'bg-blue-600 text-white shadow-lg' : 'hover:bg-white/10 text-slate-300'}`}>
-                                    {f}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
                 </div>
 
                 {/* --- CENTER COLUMN: JOB FEED --- */}
                 <div className="flex-1 flex flex-col h-full bg-white/60 backdrop-blur-xl border border-white/60 rounded-[40px] shadow-2xl overflow-hidden relative min-w-0">
-                     {/* Header - Centered Title */}
-                     <div className="p-6 border-b border-white/50 bg-white/40 flex items-center justify-center relative backdrop-blur-md sticky top-0 z-10">
-                        <div className="text-center">
-                            <h2 className="text-xl font-black text-slate-900">Open Roles</h2>
-                            <p className="text-xs text-slate-500 font-bold mt-1">Jobs that fit your profile</p>
-                        </div>
-                        
-                        {/* Right Aligned Badge */}
-                        <div className="absolute right-6 top-1/2 -translate-y-1/2">
+                     {/* Header - Centered Title & Filters */}
+                     <div className="p-6 border-b border-white/50 bg-white/40 flex flex-col gap-4 relative backdrop-blur-md sticky top-0 z-10">
+                        <div className="flex justify-between items-center">
+                             <div>
+                                 <h2 className="text-xl font-black text-slate-900">Open Roles</h2>
+                                 <p className="text-xs text-slate-500 font-bold mt-1">Jobs that fit your profile</p>
+                             </div>
                              <div className="bg-white/80 px-3 py-1.5 rounded-lg border border-white/60 text-[10px] font-bold text-slate-600 shadow-sm flex items-center gap-1.5">
                                 <Globe className="w-3 h-3 text-blue-500" /> Global
                              </div>
+                        </div>
+                        {/* Filters Row */}
+                        <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+                            {['All Jobs', 'Best Match', 'Remote Only', 'Internships'].map((f, i) => (
+                                <button 
+                                    key={i} 
+                                    onClick={() => setFilter(f)}
+                                    className={`px-4 py-2 rounded-full text-xs font-bold transition-all whitespace-nowrap ${
+                                        filter === f 
+                                        ? 'bg-slate-900 text-white shadow-md' 
+                                        : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
+                                    }`}
+                                >
+                                    {f}
+                                </button>
+                            ))}
                         </div>
                      </div>
 
@@ -788,114 +754,137 @@ const SignalInterface: React.FC = () => {
     );
 }
 
-// --- GROWTH INTERFACE (ADDED) ---
 const GrowthInterface: React.FC = () => {
     const workshops = [
         {
             id: 1,
-            title: "Supply Chain Crisis",
-            type: "Live Simulation",
+            title: "Crisis Communication Sim",
+            provider: "Edelman",
             duration: "45 min",
-            participants: 12,
-            status: "Live Now",
-            image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2070&auto=format&fit=crop"
+            xp: 150,
+            tags: ["PR", "Strategy"],
+            image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop",
+            status: "Open"
         },
         {
             id: 2,
-            title: "AI Ethics Check",
-            type: "Module",
-            duration: "20 min",
-            participants: 45,
-            status: "Open",
-            image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop"
+            title: "Ethical AI Auditing",
+            provider: "Deloitte",
+            duration: "60 min",
+            xp: 200,
+            tags: ["Tech", "Ethics"],
+            image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop",
+            status: "Full"
         },
         {
             id: 3,
-            title: "Negotiation Practice",
-            type: "Roleplay",
-            duration: "Unlimited",
-            participants: 8,
-            status: "Always On",
-            image: "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop"
+            title: "Supply Chain Resilience",
+            provider: "Tesla",
+            duration: "30 min",
+            xp: 100,
+            tags: ["Ops", "Logistics"],
+            image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2070&auto=format&fit=crop",
+            status: "Open"
+        },
+        {
+            id: 4,
+            title: "Inclusive Design Sprint",
+            provider: "IDEO",
+            duration: "90 min",
+            xp: 250,
+            tags: ["Design", "Accessibility"],
+            image: "https://images.unsplash.com/photo-1531403009284-440f080d1e12?q=80&w=2070&auto=format&fit=crop",
+            status: "Open"
         }
     ];
 
     return (
         <div className="absolute inset-0 z-20 pointer-events-none px-6 lg:px-12 pb-6 pt-28 lg:pt-32 flex justify-center">
-            <div className="pointer-events-auto w-full h-full max-w-6xl bg-white/90 backdrop-blur-xl rounded-[48px] shadow-2xl border border-white flex overflow-hidden animate-in zoom-in duration-500">
-                
+            <div className="pointer-events-auto w-full max-w-6xl h-full bg-white/90 backdrop-blur-xl rounded-[40px] shadow-2xl border border-white flex overflow-hidden animate-in zoom-in duration-500">
                 {/* Sidebar */}
-                <div className="w-80 bg-slate-50 border-r border-slate-200 p-8 pb-28 flex flex-col">
-                    <div className="flex items-center gap-3 mb-8">
-                        <div className="w-10 h-10 rounded-xl bg-orange-500 text-white flex items-center justify-center shadow-lg">
+                <div className="w-80 bg-slate-50 border-r border-slate-200 p-8 flex flex-col gap-6 shrink-0">
+                     <div>
+                        <div className="w-12 h-12 bg-orange-100 text-orange-600 rounded-2xl flex items-center justify-center mb-4 shadow-sm">
                             <Target className="w-6 h-6" />
                         </div>
-                        <div>
-                            <h3 className="font-black text-slate-800 text-lg leading-none">Workshops</h3>
-                            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">Build Skills</p>
-                        </div>
+                        <h3 className="font-black text-slate-800 text-2xl leading-tight">Skill Labs</h3>
+                        <p className="text-sm text-slate-500 font-bold mt-1">Practice makes perfect.</p>
                     </div>
                     
-                    <div className="space-y-2">
-                        <button className="w-full text-left px-4 py-3 rounded-xl bg-white border border-slate-200 text-slate-800 font-bold text-sm shadow-sm flex items-center justify-between group hover:border-orange-400 transition-all">
-                            <span>Available</span>
-                            <span className="bg-orange-100 text-orange-700 text-[10px] px-2 py-0.5 rounded-full">3</span>
-                        </button>
-                        <button className="w-full text-left px-4 py-3 rounded-xl hover:bg-slate-100 text-slate-500 font-bold text-sm transition-all">
-                            Completed
-                        </button>
-                        <button className="w-full text-left px-4 py-3 rounded-xl hover:bg-slate-100 text-slate-500 font-bold text-sm transition-all">
-                            Saved
-                        </button>
+                    <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-200">
+                        <div className="flex justify-between items-center mb-2">
+                            <span className="text-xs font-black text-slate-400 uppercase tracking-wider">Weekly Goal</span>
+                            <span className="text-xs font-bold text-orange-600">350 / 500 XP</span>
+                        </div>
+                        <div className="w-full h-3 bg-slate-100 rounded-full overflow-hidden mb-1">
+                            <div className="h-full bg-orange-500 w-[70%] rounded-full"></div>
+                        </div>
                     </div>
 
-                    <div className="mt-auto">
-                         <div className="bg-slate-900 rounded-2xl p-4 text-white">
-                            <h4 className="font-bold text-sm mb-1">Weekly Goal</h4>
-                            <p className="text-xs text-slate-400 mb-3">Complete 2 workshops to earn the "Strategist" badge.</p>
-                            <div className="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
-                                <div className="h-full w-1/2 bg-orange-500 rounded-full"></div>
-                            </div>
-                         </div>
+                    <div className="flex-1 overflow-y-auto space-y-3 pr-2 custom-scrollbar">
+                        <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest mb-2">Your Queue</h4>
+                        {[1, 2].map((_, i) => (
+                             <div key={i} className="p-4 bg-white rounded-2xl border border-slate-200 shadow-sm flex items-center gap-3 opacity-60 hover:opacity-100 transition-opacity cursor-pointer">
+                                <div className="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center">
+                                    <Clock className="w-5 h-5 text-slate-400" />
+                                </div>
+                                <div>
+                                    <div className="h-2 w-24 bg-slate-200 rounded mb-1.5"></div>
+                                    <div className="h-2 w-12 bg-slate-100 rounded"></div>
+                                </div>
+                             </div>
+                        ))}
                     </div>
                 </div>
 
                 {/* Main Content */}
                 <div className="flex-1 p-8 overflow-y-auto custom-scrollbar">
                     <div className="flex justify-between items-center mb-8">
-                        <h2 className="text-3xl font-black text-slate-900">Workshops</h2>
+                        <h2 className="text-3xl font-black text-slate-900">Available Workshops</h2>
                         <div className="flex gap-2">
-                            <button className="px-4 py-2 bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50">Filter</button>
-                            <button className="px-4 py-2 bg-slate-900 text-white rounded-lg text-xs font-bold hover:bg-slate-800">Browse All</button>
+                            <button className="px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-bold shadow-lg">All</button>
+                            <button className="px-4 py-2 bg-white text-slate-500 border border-slate-200 rounded-xl text-xs font-bold hover:bg-slate-50">Saved</button>
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-6">
                         {workshops.map(w => (
-                            <div key={w.id} className="group bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all cursor-pointer">
-                                <div className="h-40 relative overflow-hidden">
+                            <div key={w.id} className="bg-white rounded-[32px] border border-slate-200 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all group cursor-pointer flex flex-col">
+                                <div className="h-40 overflow-hidden relative shrink-0">
                                     <img src={w.image} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt={w.title} />
-                                    <div className="absolute top-4 left-4">
-                                        <span className="px-3 py-1 bg-white/90 backdrop-blur rounded-lg text-[10px] font-black uppercase tracking-wider text-slate-900">
-                                            {w.type}
+                                    <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-lg text-xs font-bold text-slate-800 shadow-sm">
+                                        {w.duration}
+                                    </div>
+                                    {w.status === 'Full' && (
+                                        <div className="absolute inset-0 bg-white/50 backdrop-blur-sm flex items-center justify-center">
+                                            <span className="bg-slate-900 text-white px-4 py-2 rounded-xl font-bold text-sm shadow-lg transform -rotate-6">Session Full</span>
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="p-6 flex-1 flex flex-col">
+                                    <div className="flex justify-between items-start mb-2">
+                                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider">{w.provider}</span>
+                                        <span className="text-xs font-bold text-orange-600 flex items-center gap-1">
+                                            <Zap className="w-3 h-3" /> {w.xp} XP
                                         </span>
                                     </div>
-                                </div>
-                                <div className="p-6">
-                                    <h3 className="text-xl font-black text-slate-900 mb-2 group-hover:text-orange-600 transition-colors">{w.title}</h3>
-                                    <div className="flex items-center gap-4 text-xs font-bold text-slate-500 mb-6">
-                                        <span className="flex items-center gap-1"><Clock className="w-4 h-4" /> {w.duration}</span>
-                                        <span className="flex items-center gap-1"><Users className="w-4 h-4" /> {w.participants} Active</span>
+                                    <h3 className="text-xl font-black text-slate-900 mb-3 leading-tight">{w.title}</h3>
+                                    <div className="flex gap-2 mb-6">
+                                        {w.tags.map(t => (
+                                            <span key={t} className="px-2 py-1 bg-slate-100 text-slate-500 rounded-md text-[10px] font-bold uppercase">{t}</span>
+                                        ))}
                                     </div>
-                                    <button className="w-full py-3 bg-slate-50 text-slate-900 rounded-xl font-bold text-xs group-hover:bg-orange-500 group-hover:text-white transition-colors flex items-center justify-center gap-2">
-                                        Start <ArrowRight className="w-4 h-4" />
+                                    <button 
+                                        disabled={w.status === 'Full'}
+                                        className="mt-auto w-full py-3 bg-slate-900 text-white rounded-xl font-bold text-sm hover:bg-orange-600 transition-colors shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-slate-900"
+                                    >
+                                        {w.status === 'Full' ? 'Join Waitlist' : 'Start Session'}
                                     </button>
                                 </div>
                             </div>
                         ))}
                     </div>
                 </div>
-
             </div>
         </div>
     );
@@ -960,81 +949,84 @@ const NavPortal: React.FC<{
 const StudentProfileHUD: React.FC = () => {
     return (
         <div className="absolute left-8 top-1/2 -translate-y-1/2 z-30 pointer-events-none hidden lg:block">
-            <div className="pointer-events-auto bg-white/60 backdrop-blur-2xl border-2 border-white/50 p-6 rounded-[36px] w-[360px] shadow-[0_30px_80px_rgba(0,0,0,0.1)] animate-in slide-in-from-left duration-1000 flex flex-col gap-6 transition-all hover:bg-white/80">
+            {/* Resized: w-[400px] -> w-[370px], p-8 -> p-6 */}
+            <div className="pointer-events-auto bg-white/90 backdrop-blur-2xl border-2 border-white/50 p-6 rounded-[36px] w-[370px] shadow-[0_30px_80px_rgba(0,0,0,0.15)] animate-in slide-in-from-left duration-1000 flex flex-col gap-6 transition-all hover:bg-white">
                 <div className="flex items-center gap-5 border-b border-gray-200/50 pb-6">
                     <div className="relative">
-                        <div className="w-24 h-24 rounded-full p-1 bg-white border border-white/50 shadow-md">
-                            <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?q=80&w=300&auto=format&fit=crop" alt="Student" className="w-full h-full rounded-full object-cover" />
+                        {/* Resized Avatar: w-28 -> w-24 */}
+                        <div className="w-24 h-24 rounded-full p-1.5 bg-white border border-white/50 shadow-lg">
+                            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=400&auto=format&fit=crop" alt="Student" className="w-full h-full rounded-full object-cover" />
                         </div>
                         <div className="absolute bottom-1 right-1 bg-emerald-500 w-6 h-6 rounded-full border-4 border-white shadow-sm" title="Online"></div>
                     </div>
                     <div>
-                        <h3 className="text-slate-900 font-black text-2xl leading-none">Maya R.</h3>
-                        <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mt-2">Design Student • Year 3</p>
+                        {/* Resized Text: 3xl -> 2xl */}
+                        <h3 className="text-slate-900 font-black text-2xl leading-none tracking-tight">Aiyana Y.</h3>
+                        <p className="text-xs font-extrabold text-slate-600 uppercase tracking-wider mt-2">Social Sciences • Year 1</p>
                         <div className="flex items-center gap-1 mt-2">
-                             <div className="px-2 py-0.5 rounded-full bg-purple-50 border border-purple-100 text-[9px] font-bold text-purple-600 uppercase tracking-wider flex items-center gap-1">
-                                <Sparkles className="w-2.5 h-2.5" /> Strength: Empathy
+                             <div className="px-3 py-1.5 rounded-full bg-purple-100 border border-purple-200 text-[10px] font-black text-purple-700 uppercase tracking-wider flex items-center gap-2 shadow-sm">
+                                <Sparkles className="w-3 h-3" /> Strength: Resilience
                              </div>
                         </div>
                     </div>
                 </div>
                 <div>
-                     <div className="flex items-center justify-between mb-3">
-                        <h4 className="text-[10px] font-extrabold text-slate-400 uppercase tracking-[0.2em] flex items-center gap-2">
-                            <Zap className="w-3 h-3 text-orange-500" /> To Do List
+                     <div className="flex items-center justify-between mb-4">
+                        <h4 className="text-xs font-black text-slate-500 uppercase tracking-[0.2em] flex items-center gap-2">
+                            <Zap className="w-4 h-4 text-orange-500" /> To Do List
                         </h4>
-                        <span className="text-[10px] font-bold text-orange-600 bg-orange-50 px-2 py-0.5 rounded-full border border-orange-100">2 Items</span>
+                        <span className="text-xs font-bold text-orange-700 bg-orange-100 px-3 py-1 rounded-full border border-orange-200">2 Items</span>
                      </div>
-                     <div className="space-y-2.5">
-                        <div className="bg-white/80 p-3 rounded-2xl border border-orange-200/50 shadow-sm flex items-start gap-3 hover:border-orange-400 transition-colors cursor-pointer group relative overflow-hidden">
-                             <div className="absolute left-0 top-0 bottom-0 w-1 bg-orange-400"></div>
-                             <div className="mt-0.5 w-4 h-4 rounded border-2 border-slate-200 group-hover:border-orange-500 flex items-center justify-center transition-colors shrink-0"></div>
+                     <div className="space-y-3">
+                        <div className="bg-white/80 p-4 rounded-2xl border border-orange-200/50 shadow-sm flex items-start gap-4 hover:border-orange-400 transition-colors cursor-pointer group relative overflow-hidden">
+                             <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-orange-400"></div>
+                             <div className="mt-0.5 w-5 h-5 rounded border-2 border-slate-300 group-hover:border-orange-500 flex items-center justify-center transition-colors shrink-0"></div>
                              <div>
-                                 <span className="block text-sm font-bold text-slate-800 leading-tight group-hover:text-orange-700 transition-colors">Submit Reflection</span>
-                                 <span className="block text-[10px] text-slate-400 font-bold mt-1 flex items-center gap-1">
-                                    <Clock className="w-3 h-3" /> Due Today, 5:00 PM
+                                 <span className="block text-base font-bold text-slate-800 leading-tight group-hover:text-orange-700 transition-colors">Submit Reflection</span>
+                                 <span className="block text-xs text-slate-500 font-bold mt-1.5 flex items-center gap-1.5">
+                                    <Clock className="w-3.5 h-3.5" /> Due Today, 5:00 PM
                                  </span>
                              </div>
                         </div>
-                         <div className="bg-white/60 p-3 rounded-2xl border border-slate-200/50 shadow-sm flex items-start gap-3 hover:border-blue-400 transition-colors cursor-pointer group">
-                             <div className="mt-0.5 w-4 h-4 rounded border-2 border-slate-200 group-hover:border-blue-500 flex items-center justify-center transition-colors shrink-0"></div>
+                         <div className="bg-white/60 p-4 rounded-2xl border border-slate-200/50 shadow-sm flex items-start gap-4 hover:border-blue-400 transition-colors cursor-pointer group">
+                             <div className="mt-0.5 w-5 h-5 rounded border-2 border-slate-300 group-hover:border-blue-500 flex items-center justify-center transition-colors shrink-0"></div>
                              <div>
-                                 <span className="block text-sm font-bold text-slate-800 leading-tight">Sign up for Labs</span>
-                                 <span className="block text-[10px] text-slate-400 font-bold mt-1">Opens Tomorrow</span>
+                                 <span className="block text-base font-bold text-slate-800 leading-tight">Sign up for Labs</span>
+                                 <span className="block text-xs text-slate-500 font-bold mt-1.5">Opens Tomorrow</span>
                              </div>
                         </div>
                      </div>
                 </div>
                 <div className="flex flex-col gap-3">
-                    <h4 className="text-[10px] font-extrabold text-slate-400 uppercase tracking-[0.2em] ml-1 mt-1">Skill Progress</h4>
-                    <div className="bg-white p-4 rounded-2xl border-2 border-slate-100 shadow-[0_4px_0_#e2e8f0] hover:translate-y-1 hover:shadow-none transition-all cursor-pointer group">
-                        <div className="flex justify-between items-center mb-2">
+                    <h4 className="text-xs font-black text-slate-500 uppercase tracking-[0.2em] ml-1 mt-1">Skill Progress</h4>
+                    <div className="bg-white p-5 rounded-3xl border-2 border-slate-100 shadow-[0_4px_0_#e2e8f0] hover:translate-y-1 hover:shadow-none transition-all cursor-pointer group">
+                        <div className="flex justify-between items-center mb-3">
                             <span className="font-extrabold text-slate-700 text-sm">Communication</span>
-                            <span className="text-[10px] font-black text-blue-500 bg-blue-50 px-2 py-1 rounded-lg">Level 3</span>
+                            <span className="text-[10px] font-black text-blue-600 bg-blue-50 px-3 py-1 rounded-lg border border-blue-100">Level 3</span>
                         </div>
-                        <div className="w-full h-3 bg-slate-100 rounded-full overflow-hidden relative">
+                        <div className="w-full h-4 bg-slate-100 rounded-full overflow-hidden relative">
                             <div className="absolute inset-0 bg-slate-100"></div>
-                            <div className="h-full bg-blue-500 w-[65%] rounded-full relative">
-                                <div className="absolute top-1 left-2 right-2 h-1 bg-white/20 rounded-full"></div>
+                            <div className="h-full bg-blue-500 w-[65%] rounded-full relative shadow-sm">
+                                <div className="absolute top-1 left-2 right-2 h-1.5 bg-white/20 rounded-full"></div>
                             </div>
                         </div>
-                        <p className="text-[10px] font-bold text-slate-400 mt-2 text-right">320 / 500 XP</p>
+                        <p className="text-[10px] font-bold text-slate-400 mt-2.5 text-right">320 / 500 XP</p>
                     </div>
                 </div>
                  <div>
-                     <h4 className="text-[10px] font-extrabold text-slate-400 uppercase tracking-[0.2em] mb-3 ml-1 mt-2">Shortcuts</h4>
+                     <h4 className="text-xs font-black text-slate-500 uppercase tracking-[0.2em] mb-4 ml-1 mt-2">Shortcuts</h4>
                      <div className="grid grid-cols-4 gap-2">
                          {[
-                             { label: 'Library', icon: <BookOpen className="w-5 h-5" />, color: 'text-blue-600', bg: 'bg-blue-50 group-hover:bg-blue-500 group-hover:text-white' },
-                             { label: 'Help', icon: <Users className="w-5 h-5" />, color: 'text-purple-600', bg: 'bg-purple-50 group-hover:bg-purple-500 group-hover:text-white' },
-                             { label: 'Jobs', icon: <Target className="w-5 h-5" />, color: 'text-orange-600', bg: 'bg-orange-50 group-hover:bg-orange-500 group-hover:text-white' },
-                             { label: 'Wellness', icon: <Heart className="w-5 h-5" />, color: 'text-rose-600', bg: 'bg-rose-50 group-hover:bg-rose-500 group-hover:text-white' }
+                             { label: 'Library', icon: <BookOpen className="w-6 h-6" />, color: 'text-blue-600', bg: 'bg-blue-50 group-hover:bg-blue-500 group-hover:text-white' },
+                             { label: 'Help', icon: <Users className="w-6 h-6" />, color: 'text-purple-600', bg: 'bg-purple-50 group-hover:bg-purple-500 group-hover:text-white' },
+                             { label: 'Jobs', icon: <Target className="w-6 h-6" />, color: 'text-orange-600', bg: 'bg-orange-50 group-hover:bg-orange-500 group-hover:text-white' },
+                             { label: 'Wellness', icon: <Heart className="w-6 h-6" />, color: 'text-rose-600', bg: 'bg-rose-50 group-hover:bg-rose-500 group-hover:text-white' }
                          ].map((item, i) => (
-                             <button key={i} className="flex flex-col items-center gap-1.5 p-2 rounded-2xl hover:bg-white hover:shadow-md transition-all group">
-                                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${item.bg} ${item.color}`}>
+                             <button key={i} className="flex flex-col items-center gap-2 p-3 rounded-2xl hover:bg-white hover:shadow-md transition-all group">
+                                 <div className={`w-10 h-10 rounded-2xl flex items-center justify-center transition-colors ${item.bg} ${item.color}`}>
                                      {item.icon}
                                  </div>
-                                 <span className="text-[9px] font-bold text-slate-500 group-hover:text-slate-800">{item.label}</span>
+                                 <span className="text-[10px] font-bold text-slate-500 group-hover:text-slate-800">{item.label}</span>
                              </button>
                          ))}
                      </div>
@@ -1085,7 +1077,7 @@ const TapestryCard: React.FC<{
                 <div className="w-12 h-12 bg-white/20 backdrop-blur-md rounded-2xl border border-white/30 text-white flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform duration-500">
                     {icon}
                 </div>
-                 <div className="flex items-center gap-1.5 bg-red-500 shadow-lg shadow-red-900/20 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10 group-hover:scale-110 transition-transform">
+                 <div className="flex items-center gap-1.5 bg-red-50 shadow-lg shadow-red-900/20 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10 group-hover:scale-110 transition-transform">
                     <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></span>
                     <span className="text-[9px] font-black text-white uppercase tracking-wider">{liveStatus}</span>
                 </div>
@@ -1195,23 +1187,27 @@ const StudentDashboard: React.FC = () => {
             <div className="absolute top-0 left-0 h-full w-[40%] bg-gradient-to-r from-white/80 via-white/40 to-transparent pointer-events-none z-10"></div>
 
             {/* Global Page Title - Conditioned for Room Type */}
-            <div className={`absolute pointer-events-none z-10 flex flex-col transition-all duration-1000 ${
-                currentRoom === 'Atrium' 
-                ? 'top-28 right-12 text-right items-end' 
-                : 'top-24 left-0 w-full items-center text-center'
-            }`}>
-                <div className={`flex mb-4 ${currentRoom === 'Atrium' ? 'justify-end' : 'justify-center'}`}>
-                    <span key={`tag-${currentRoom}`} className="px-5 py-2 rounded-full bg-white/50 backdrop-blur-md border border-slate-900/10 text-slate-900 text-xs font-bold uppercase tracking-widest animate-in slide-in-from-top duration-1000 shadow-sm">
-                        {currentRoom === 'Atrium' ? 'Student Hub' : 'Active Module'}
-                    </span>
+            {currentRoom !== 'SignalTower' && (
+                <div className={`absolute pointer-events-none z-10 flex flex-col transition-all duration-1000 ${
+                    currentRoom === 'Atrium' 
+                    ? 'top-28 right-12 text-right items-end' 
+                    : currentRoom === 'QuietRoom'
+                        ? 'top-24 right-12 text-right items-end scale-75 origin-top-right' // Far right, downsized
+                        : 'top-24 left-0 w-full items-center text-center' // GrowthLab default
+                }`}>
+                    <div className={`flex mb-4 ${currentRoom === 'Atrium' ? 'justify-end' : currentRoom === 'QuietRoom' ? 'justify-end' : 'justify-center'}`}>
+                        <span key={`tag-${currentRoom}`} className="px-5 py-2 rounded-full bg-white/50 backdrop-blur-md border border-slate-900/10 text-slate-900 text-xs font-bold uppercase tracking-widest animate-in slide-in-from-top duration-1000 shadow-sm">
+                            {currentRoom === 'Atrium' ? 'Student Hub' : 'Active Module'}
+                        </span>
+                    </div>
+                    <h1 key={`title-${currentRoom}`} className={`${currentRoom === 'Atrium' ? 'text-7xl md:text-9xl' : 'text-4xl md:text-6xl'} font-black text-slate-900 leading-[0.85] tracking-tighter mb-6 animate-in fade-in zoom-in duration-1000 delay-200 drop-shadow-2xl opacity-90`}>
+                        {room.title}
+                    </h1>
+                    <p key={`desc-${currentRoom}`} className={`text-xl text-slate-800 font-bold leading-relaxed animate-in fade-in slide-in-from-bottom duration-1000 delay-400 max-w-md ${currentRoom === 'Atrium' ? '' : currentRoom === 'QuietRoom' ? 'text-right' : 'text-center opacity-80'}`}>
+                        {room.description}
+                    </p>
                 </div>
-                <h1 key={`title-${currentRoom}`} className={`${currentRoom === 'Atrium' ? 'text-7xl md:text-9xl' : 'text-4xl md:text-6xl'} font-black text-slate-900 leading-[0.85] tracking-tighter mb-6 animate-in fade-in zoom-in duration-1000 delay-200 drop-shadow-2xl opacity-90`}>
-                    {room.title}
-                </h1>
-                <p key={`desc-${currentRoom}`} className={`text-xl text-slate-800 font-bold leading-relaxed animate-in fade-in slide-in-from-bottom duration-1000 delay-400 max-w-md ${currentRoom === 'Atrium' ? '' : 'text-center opacity-80'}`}>
-                    {room.description}
-                </p>
-            </div>
+            )}
 
             {/* --- 3. THE UI LAYER (HUD) --- */}
             <div className={`absolute inset-0 z-20 transition-opacity duration-500 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
