@@ -10,6 +10,8 @@ import WaypointLanding from "./components/WaypointLanding";
 import WaypointPrepRoom from "./components/WaypointPrepRoomNext";
 import WaypointCallChoice from "./components/WaypointCallChoice";
 import WaypointSimulation from "./components/WaypointSimulation";
+import WaypointTransition from "./components/WaypointTransition";
+import WaypointPostSimulation from "./components/WaypointPostSimulation";
 import DesignWorkshopModal from "./components/DesignWorkshopModal";
 import AdvisorJourneyDashboard from "./components/AdvisorJourneyDashboard";
 import Toast, { ToastProps } from "./components/Toast";
@@ -66,6 +68,8 @@ const App: React.FC = () => {
     | "prep"
     | "callchoice"
     | "simulation"
+    | "transition"
+    | "postsimulation"
   >("landing");
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isWorkshopOpen, setIsWorkshopOpen] = useState(false);
@@ -229,10 +233,22 @@ const App: React.FC = () => {
     return (
       <WaypointSimulation
         mode={callMode}
-        onComplete={() => setViewState("student")}
+        onComplete={() => setViewState("transition")}
         onBack={() => setViewState("callchoice")}
         onExit={() => setViewState("waypoint")}
       />
+    );
+  }
+
+  if (viewState === "transition") {
+    return (
+      <WaypointTransition onContinue={() => setViewState("postsimulation")} />
+    );
+  }
+
+  if (viewState === "postsimulation") {
+    return (
+      <WaypointPostSimulation onContinue={() => setViewState("student")} />
     );
   }
 
