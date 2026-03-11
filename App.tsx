@@ -6,6 +6,7 @@ import CurriculumDashboard from "./components/CurriculumDashboard";
 import ReportsDashboard from "./components/ReportsDashboard";
 import StudentDashboard from "./components/StudentDashboard";
 import LandingPage from "./components/LandingPage";
+import WaypointLanding from "./components/WaypointLanding";
 import DesignWorkshopModal from "./components/DesignWorkshopModal";
 import AdvisorJourneyDashboard from "./components/AdvisorJourneyDashboard";
 import Toast, { ToastProps } from "./components/Toast";
@@ -54,9 +55,9 @@ const SidebarItem: React.FC<{
 );
 
 const App: React.FC = () => {
-  const [viewState, setViewState] = useState<"landing" | "admin" | "student">(
-    "landing",
-  );
+  const [viewState, setViewState] = useState<
+    "landing" | "admin" | "student" | "waypoint"
+  >("landing");
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isWorkshopOpen, setIsWorkshopOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("Dashboard");
@@ -145,6 +146,14 @@ const App: React.FC = () => {
   };
 
   const handleEnterStudent = () => {
+    setViewState("waypoint");
+  };
+
+  const handleJoinCall = () => {
+    setViewState("student");
+  };
+
+  const handleSkipToDashboard = () => {
     setViewState("student");
   };
 
@@ -190,6 +199,15 @@ const App: React.FC = () => {
         );
     }
   };
+
+  if (viewState === "waypoint") {
+    return (
+      <WaypointLanding
+        onJoinCall={handleJoinCall}
+        onSkipToDashboard={handleSkipToDashboard}
+      />
+    );
+  }
 
   if (viewState === "landing") {
     return (
