@@ -23,15 +23,60 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({
         overflow: "hidden",
       }}
     >
+      {/* Ambient depth — warm radial glow + accent blobs */}
+      <div
+        style={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          width: "900px",
+          height: "600px",
+          background:
+            "radial-gradient(ellipse at center, rgba(99,102,241,0.15) 0%, rgba(79,70,229,0.05) 45%, transparent 70%)",
+          filter: "blur(56px)",
+          pointerEvents: "none",
+          zIndex: 0,
+        }}
+      />
+      <div
+        style={{
+          position: "absolute",
+          top: "20%",
+          right: "8%",
+          width: "320px",
+          height: "320px",
+          background:
+            "radial-gradient(circle, rgba(251,191,36,0.08) 0%, transparent 70%)",
+          filter: "blur(72px)",
+          pointerEvents: "none",
+          zIndex: 0,
+        }}
+      />
+      <div
+        style={{
+          position: "absolute",
+          bottom: "18%",
+          left: "5%",
+          width: "280px",
+          height: "280px",
+          background:
+            "radial-gradient(circle, rgba(139,92,246,0.09) 0%, transparent 70%)",
+          filter: "blur(64px)",
+          pointerEvents: "none",
+          zIndex: 0,
+        }}
+      />
+
       {/* Card */}
       <div
         style={{
           width: "100%",
-          maxWidth: "520px",
+          maxWidth: "600px",
           margin: "0 24px",
           backgroundColor: "#FFFFFF",
-          borderRadius: "20px",
-          padding: "40px 48px 32px",
+          borderRadius: "22px",
+          padding: "48px 56px 44px",
           boxShadow:
             "0 8px 48px rgba(0, 0, 0, 0.36), 0 2px 8px rgba(0, 0, 0, 0.18)",
           position: "relative",
@@ -43,12 +88,12 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({
           style={{
             display: "flex",
             justifyContent: "center",
-            marginBottom: "20px",
+            marginBottom: "28px",
           }}
         >
           <svg
-            width='140'
-            height='112'
+            width='162'
+            height='129'
             viewBox='0 0 140 112'
             fill='none'
             xmlns='http://www.w3.org/2000/svg'
@@ -214,12 +259,12 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({
         <p
           style={{
             fontFamily: "'DM Sans', sans-serif",
-            fontSize: "12px",
-            fontWeight: 500,
+            fontSize: "13px",
+            fontWeight: 600,
             color: "#2563EB",
-            letterSpacing: "0.08em",
+            letterSpacing: "0.09em",
             textTransform: "uppercase",
-            margin: "0 0 10px 0",
+            margin: "0 0 14px 0",
           }}
         >
           Live simulation
@@ -229,12 +274,12 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({
         <h1
           style={{
             fontFamily: "'DM Sans', sans-serif",
-            fontSize: "28px",
+            fontSize: "32px",
             fontWeight: 700,
             color: "#111827",
-            lineHeight: "1.25",
+            lineHeight: "1.2",
             letterSpacing: "-0.02em",
-            margin: "0 0 20px 0",
+            margin: "0 0 28px 0",
           }}
         >
           Before you step in.
@@ -243,22 +288,22 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({
         {/* Scenario block — bordered */}
         <div
           style={{
-            borderLeft: "3px solid #93C5FD",
+            borderLeft: "4px solid #93C5FD",
             backgroundColor: "#F8FAFF",
-            borderRadius: "0 10px 10px 0",
-            padding: "20px 20px 4px 20px",
-            marginBottom: "20px",
+            borderRadius: "0 12px 12px 0",
+            padding: "24px 24px 8px 24px",
+            marginBottom: "28px",
           }}
         >
           {/* Paragraph 1 — sets the scene */}
           <p
             style={{
               fontFamily: "'DM Sans', sans-serif",
-              fontSize: "17px",
-              lineHeight: "1.67",
+              fontSize: "19px",
+              lineHeight: "1.7",
               color: "#111827",
               fontWeight: 400,
-              margin: "0 0 16px 0",
+              margin: "0 0 20px 0",
             }}
           >
             You've just joined a small nonprofit team. They used AI to write
@@ -270,12 +315,12 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({
           <p
             style={{
               fontFamily: "'DM Sans', sans-serif",
-              fontSize: "17px",
-              lineHeight: "1.67",
+              fontSize: "19px",
+              lineHeight: "1.7",
               color: "#111827",
               fontWeight: 500,
               letterSpacing: "-0.01em",
-              margin: "0 0 16px 0",
+              margin: "0 0 20px 0",
             }}
           >
             Something doesn't feel right. The team is meeting now to figure out
@@ -286,11 +331,11 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({
           <p
             style={{
               fontFamily: "'DM Sans', sans-serif",
-              fontSize: "18px",
-              lineHeight: "1.63",
+              fontSize: "21px",
+              lineHeight: "1.65",
               color: "#111827",
               fontWeight: 400,
-              margin: "0 0 16px 0",
+              margin: "0 0 20px 0",
             }}
           >
             They asked for a fresh perspective.{" "}
@@ -302,11 +347,11 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({
         <p
           style={{
             fontFamily: "'DM Sans', sans-serif",
-            fontSize: "14px",
-            lineHeight: "1.55",
+            fontSize: "16px",
+            lineHeight: "1.6",
             color: "#6B7280",
             fontWeight: 400,
-            margin: "0 0 24px 0",
+            margin: "0 0 32px 0",
           }}
         >
           Takes about 5 minutes.
@@ -317,26 +362,26 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({
           onClick={onJoinCall}
           style={{
             width: "100%",
-            padding: "16px 24px",
-            backgroundColor: "#2563EB",
+            padding: "18px 28px",
+            backgroundColor: "#4F46E5",
             color: "#FFFFFF",
             border: "none",
             borderRadius: "50px",
             fontFamily: "'DM Sans', sans-serif",
-            fontSize: "17px",
+            fontSize: "19px",
             fontWeight: 600,
             letterSpacing: "-0.01em",
             cursor: "pointer",
             transition: "background-color 0.2s ease",
-            marginBottom: "12px",
+            marginBottom: "16px",
           }}
           onMouseEnter={(e) => {
             (e.currentTarget as HTMLButtonElement).style.backgroundColor =
-              "#1D4ED8";
+              "#4338CA";
           }}
           onMouseLeave={(e) => {
             (e.currentTarget as HTMLButtonElement).style.backgroundColor =
-              "#2563EB";
+              "#4F46E5";
           }}
         >
           Join the call
@@ -357,7 +402,7 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({
               background: "none",
               border: "none",
               fontFamily: "'DM Sans', sans-serif",
-              fontSize: "14px",
+              fontSize: "15px",
               fontWeight: 400,
               color: "#9CA3AF",
               cursor: "pointer",

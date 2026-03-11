@@ -7,6 +7,9 @@ import ReportsDashboard from "./components/ReportsDashboard";
 import StudentDashboard from "./components/StudentDashboard";
 import LandingPage from "./components/LandingPage";
 import WaypointLanding from "./components/WaypointLanding";
+import WaypointPrepRoom from "./components/WaypointPrepRoomNext";
+import WaypointCallChoice from "./components/WaypointCallChoice";
+import WaypointSimulation from "./components/WaypointSimulation";
 import DesignWorkshopModal from "./components/DesignWorkshopModal";
 import AdvisorJourneyDashboard from "./components/AdvisorJourneyDashboard";
 import Toast, { ToastProps } from "./components/Toast";
@@ -56,12 +59,18 @@ const SidebarItem: React.FC<{
 
 const App: React.FC = () => {
   const [viewState, setViewState] = useState<
-    "landing" | "admin" | "student" | "waypoint"
+    | "landing"
+    | "admin"
+    | "student"
+    | "waypoint"
+    | "prep"
+    | "callchoice"
+    | "simulation"
   >("landing");
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isWorkshopOpen, setIsWorkshopOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("Dashboard");
-
+  const [callMode, setCallMode] = useState<"video" | "thread">("video");
   // Toast State
   const [toast, setToast] = useState<Omit<ToastProps, "onClose">>({
     message: "",
@@ -150,7 +159,11 @@ const App: React.FC = () => {
   };
 
   const handleJoinCall = () => {
-    setViewState("student");
+    setViewState("prep");
+  };
+
+  const handlePrepReady = (_q1: string, _q2: string) => {
+    setViewState("callchoice");
   };
 
   const handleSkipToDashboard = () => {
@@ -200,11 +213,44 @@ const App: React.FC = () => {
     }
   };
 
+  if (viewState === "callchoice") {
+    return (
+      <WaypointCallChoice
+        onChoice={(mode) => {
+          setCallMode(mode);
+          setViewState("simulation");
+        }}
+        onBack={() => setViewState("prep")}
+      />
+    );
+  }
+
+  if (viewState === "simulation") {
+    return (
+      <WaypointSimulation
+        mode={callMode}
+        onComplete={() => setViewState("student")}
+        onBack={() => setViewState("callchoice")}
+        onExit={() => setViewState("waypoint")}
+      />
+    );
+  }
+
   if (viewState === "waypoint") {
     return (
       <WaypointLanding
         onJoinCall={handleJoinCall}
         onSkipToDashboard={handleSkipToDashboard}
+      />
+    );
+  }
+
+  if (viewState === "prep") {
+    return (
+      <WaypointPrepRoom
+        onReady={handlePrepReady}
+        onSkipToDashboard={handleSkipToDashboard}
+        onBack={() => setViewState("waypoint")}
       />
     );
   }
