@@ -1637,7 +1637,7 @@ const WaypointSimulation: React.FC<WaypointSimulationProps> = ({
                 "rgba(255,255,255,0.3)";
             }}
           >
-            Exit simulation
+            Exit to dashboard
             <svg
               width='12'
               height='12'

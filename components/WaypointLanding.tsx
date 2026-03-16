@@ -1,425 +1,853 @@
-import React from "react";
+import React, { useState } from "react";
+import {
+  ArrowRight,
+  BookOpen,
+  Briefcase,
+  Play,
+  TrendingUp,
+  Compass,
+  Palette,
+  Zap,
+  BookMarked,
+  Users,
+} from "lucide-react";
 
 interface WaypointLandingProps {
   onJoinCall: () => void;
-  onSkipToDashboard: () => void;
+  onSkipToDashboard?: () => void;
 }
 
-const WaypointLanding: React.FC<WaypointLandingProps> = ({
-  onJoinCall,
-  onSkipToDashboard,
-}) => {
+// Active Scenario Hero Card
+const ACTIVE_SCENARIO = {
+  scenarioName: "Crisis at the Nonprofit",
+  objective: "Practice Technical Assertiveness",
+};
+
+// Focus Item Cards (replacements for PILLARS)
+const FOCUS_ITEMS = [
+  {
+    id: "skill-sprint",
+    category: "REFINE",
+    title: "Explain with Clarity",
+    justification:
+      "Analysis was solid but didn't connect to business impact → Stakeholders defaulted to skepticism. 3-min precision drill closes this gap.",
+    cta: "Start 3-Min Drill",
+    icon: Zap,
+    accentColor: "#F59E0B",
+  },
+  {
+    id: "practice-session",
+    category: "PRACTICE",
+    title: "Navigating Corporate Pushback",
+    justification:
+      "Softened argument under pressure (observed 2 of 3 recent calls) → Costs credibility in high-stakes rounds. Practice bot recreates the exact scenario.",
+    cta: "Launch Practice Bot",
+    icon: Briefcase,
+    accentColor: "#C084FC",
+  },
+];
+
+// Unlocked Outcomes (Evidence-Based Action Feed)
+const UNLOCKED_OUTCOMES = [
+  {
+    id: 1,
+    type: "role",
+    title: "Role Match: Product Manager @ Microsoft",
+    description:
+      "Your profile matches this role perfectly. Critical Thinking (87th percentile) + pressure resilience. Auto-apply now and track with recruiter.",
+    cta: "Quick Apply",
+    accentColor: "#10B981",
+  },
+  {
+    id: 2,
+    type: "invite",
+    title: "Exclusive Access: AI-Native Leadership Session",
+    description:
+      "Invitation-only, 25 participants. You're in the top 12% on resilience under pressure. Direct access to 3 Microsoft senior leaders.",
+    cta: "Accept Invite",
+    accentColor: "#3B82F6",
+  },
+  {
+    id: 3,
+    type: "signal",
+    title: "New Signal: Strategic Synthesis",
+    description:
+      "You connected nonprofit cash flow → customer empathy in one insight. Only 8% of your cohort demonstrates this skill consistently.",
+    cta: "Unlock Masterclass",
+    accentColor: "#8B5CF6",
+  },
+];
+
+const NAV_ITEMS = [
+  {
+    icon: Palette,
+    label: "Canvas",
+    id: "canvas",
+    subtitle: "Profile & Signals",
+  },
+  {
+    icon: Play,
+    label: "Lab",
+    id: "lab",
+    subtitle: "Simulations",
+  },
+  {
+    icon: BookMarked,
+    label: "Journal",
+    id: "journal",
+    subtitle: "Reflection",
+  },
+  {
+    icon: Users,
+    label: "Hub",
+    id: "hub",
+    subtitle: "10k Coffees",
+  },
+];
+
+const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
+  const [activeNav, setActiveNav] = useState("canvas");
+
   return (
     <div
       style={{
         minHeight: "100vh",
         width: "100%",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        background: "linear-gradient(180deg, #0D1F3C 0%, #1A3569 100%)",
+        background:
+          "linear-gradient(180deg, #0D1F3C 0%, #132A54 52%, #18376D 100%)",
         position: "relative",
         overflow: "hidden",
+        fontFamily: "'DM Sans', sans-serif",
+        display: "flex",
       }}
     >
-      {/* Ambient depth — warm radial glow + accent blobs */}
+      {/* Background Blurs */}
       <div
         style={{
           position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          width: "900px",
-          height: "600px",
+          top: "8%",
+          left: "10%",
+          width: "460px",
+          height: "460px",
           background:
-            "radial-gradient(ellipse at center, rgba(99,102,241,0.15) 0%, rgba(79,70,229,0.05) 45%, transparent 70%)",
-          filter: "blur(56px)",
+            "radial-gradient(circle, rgba(99,102,241,0.18) 0%, rgba(99,102,241,0.03) 62%, transparent 72%)",
+          filter: "blur(32px)",
           pointerEvents: "none",
-          zIndex: 0,
         }}
       />
       <div
         style={{
           position: "absolute",
-          top: "20%",
-          right: "8%",
-          width: "320px",
-          height: "320px",
+          top: "18%",
+          right: "4%",
+          width: "340px",
+          height: "340px",
           background:
-            "radial-gradient(circle, rgba(251,191,36,0.08) 0%, transparent 70%)",
-          filter: "blur(72px)",
+            "radial-gradient(circle, rgba(251,191,36,0.12) 0%, transparent 72%)",
+          filter: "blur(44px)",
           pointerEvents: "none",
-          zIndex: 0,
         }}
       />
       <div
         style={{
           position: "absolute",
-          bottom: "18%",
-          left: "5%",
-          width: "280px",
-          height: "280px",
+          bottom: "10%",
+          left: "32%",
+          width: "420px",
+          height: "420px",
           background:
-            "radial-gradient(circle, rgba(139,92,246,0.09) 0%, transparent 70%)",
-          filter: "blur(64px)",
+            "radial-gradient(circle, rgba(56,189,248,0.11) 0%, transparent 72%)",
+          filter: "blur(50px)",
           pointerEvents: "none",
-          zIndex: 0,
         }}
       />
 
-      {/* Card */}
-      <div
+      {/* LEFT SIDEBAR - Glassy Navigation */}
+      <aside
         style={{
-          width: "100%",
-          maxWidth: "600px",
-          margin: "0 24px",
-          backgroundColor: "#FFFFFF",
-          borderRadius: "22px",
-          padding: "48px 56px 44px",
-          boxShadow:
-            "0 8px 48px rgba(0, 0, 0, 0.36), 0 2px 8px rgba(0, 0, 0, 0.18)",
+          width: "240px",
+          height: "100vh",
+          padding: "24px",
           position: "relative",
-          zIndex: 1,
+          zIndex: 10,
+          display: "flex",
+          flexDirection: "column",
+          borderRight: "1px solid rgba(255,255,255,0.1)",
         }}
       >
-        {/* Video call illustration */}
+        {/* Logo */}
         <div
           style={{
             display: "flex",
-            justifyContent: "center",
-            marginBottom: "28px",
+            alignItems: "center",
+            gap: "12px",
+            marginBottom: "32px",
           }}
         >
-          <svg
-            width='162'
-            height='129'
-            viewBox='0 0 140 112'
-            fill='none'
-            xmlns='http://www.w3.org/2000/svg'
+          <div
+            style={{
+              width: "40px",
+              height: "40px",
+              borderRadius: "12px",
+              backgroundColor: "rgba(255,255,255,0.08)",
+              border: "1px solid rgba(255,255,255,0.12)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              backdropFilter: "blur(14px)",
+            }}
           >
-            {/* Monitor bezel */}
-            <rect
-              x='3'
-              y='3'
-              width='134'
-              height='86'
-              rx='9'
-              fill='#EFF6FF'
-              stroke='#BFDBFE'
-              strokeWidth='1.5'
-            />
-            {/* Screen area — dark call bg */}
-            <rect x='8' y='8' width='124' height='76' rx='5' fill='#0D1F3C' />
-            {/* Left participant tile */}
-            <rect
-              x='9'
-              y='9'
-              width='60'
-              height='74'
-              rx='3'
-              fill='#1E3A8A'
-              opacity='0.8'
-            />
-            {/* Left person — head */}
-            <circle cx='39' cy='32' r='12' fill='#93C5FD' />
-            {/* Left person — shoulders */}
-            <ellipse cx='39' cy='59' rx='18' ry='14' fill='#3B82F6' />
-            {/* Left name chip */}
-            <rect
-              x='12'
-              y='72'
-              width='22'
-              height='6'
-              rx='3'
-              fill='#2563EB'
-              opacity='0.9'
-            />
-            {/* Right participant tile */}
-            <rect
-              x='71'
-              y='9'
-              width='60'
-              height='74'
-              rx='3'
-              fill='#172554'
-              opacity='0.9'
-            />
-            {/* Right person — head */}
-            <circle cx='101' cy='32' r='12' fill='#BFDBFE' />
-            {/* Right person — shoulders */}
-            <ellipse cx='101' cy='59' rx='18' ry='14' fill='#60A5FA' />
-            {/* Right name chip */}
-            <rect
-              x='74'
-              y='72'
-              width='22'
-              height='6'
-              rx='3'
-              fill='#1D4ED8'
-              opacity='0.7'
-            />
-            {/* Bottom call toolbar */}
-            <rect
-              x='8'
-              y='72'
-              width='124'
-              height='13'
-              rx='0'
-              fill='#030712'
-              opacity='0.75'
-            />
-            <rect
-              x='8'
-              y='79'
-              width='124'
-              height='5'
-              rx='0'
-              fill='#030712'
-              opacity='0.75'
-            />
-            {/* Toolbar rounded bottom */}
-            <path
-              d='M8 79 L8 84 Q8 84 13 84 L127 84 Q132 84 132 79 L132 72 L8 72 Z'
-              fill='#030712'
-              opacity='0.75'
-            />
-            {/* Video camera icon — toolbar left */}
-            <rect
-              x='47'
-              y='74'
-              width='10'
-              height='7'
-              rx='1.5'
-              fill='white'
-              opacity='0.85'
-            />
-            <path
-              d='M57 75.5 L62 73.5 L62 79.5 L57 77.5 Z'
-              fill='white'
-              opacity='0.85'
-            />
-            {/* Mic icon — toolbar center */}
-            <rect
-              x='68'
-              y='73.5'
-              width='5'
-              height='7'
-              rx='2.5'
-              fill='white'
-              opacity='0.85'
-            />
-            <path
-              d='M65.5 78.5 Q65.5 83 70.5 83 Q75.5 83 75.5 78.5'
-              stroke='white'
-              strokeWidth='1.2'
-              fill='none'
-              opacity='0.85'
-            />
-            <line
-              x1='70.5'
-              y1='83'
-              x2='70.5'
-              y2='85'
-              stroke='white'
-              strokeWidth='1.2'
-              opacity='0.85'
-            />
-            {/* Red end-call button — toolbar right */}
-            <circle cx='101' cy='77.5' r='5.5' fill='#EF4444' />
-            <rect
-              x='97.5'
-              y='76.5'
-              width='7'
-              height='2.5'
-              rx='1.25'
-              fill='white'
-              transform='rotate(-30 101 77.5)'
-            />
-            {/* Active call green dot */}
-            <circle cx='127' cy='13' r='4' fill='#22C55E' />
-            <circle cx='127' cy='13' r='2.2' fill='#4ADE80' />
-            {/* Camera notch top bezel */}
-            <circle cx='70' cy='5.5' r='1.8' fill='#BFDBFE' />
-            {/* Monitor stand neck */}
-            <rect x='64' y='89' width='12' height='11' rx='1' fill='#BFDBFE' />
-            {/* Monitor base */}
-            <rect
-              x='50'
-              y='100'
-              width='40'
-              height='5'
-              rx='2.5'
-              fill='#BFDBFE'
-            />
-          </svg>
+            <Compass size={20} style={{ color: "#FFFFFF" }} />
+          </div>
+          <p
+            style={{
+              fontSize: "14px",
+              fontWeight: 700,
+              color: "rgba(255,255,255,0.9)",
+              margin: 0,
+            }}
+          >
+            Waypoint
+          </p>
         </div>
 
-        {/* Eyebrow */}
-        <p
+        {/* Navigation Items */}
+        <nav style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+          {NAV_ITEMS.map((item) => {
+            const Icon = item.icon;
+            const isActive = activeNav === item.id;
+            return (
+              <button
+                key={item.id}
+                onClick={() => setActiveNav(item.id)}
+                style={{
+                  display: "flex",
+                  alignItems: "flex-start",
+                  gap: "12px",
+                  padding: "12px 14px",
+                  borderRadius: "12px",
+                  border:
+                    "1px solid " +
+                    (isActive
+                      ? "rgba(255,255,255,0.2)"
+                      : "rgba(255,255,255,0.08)"),
+                  backgroundColor: isActive
+                    ? "rgba(255,255,255,0.1)"
+                    : "rgba(255,255,255,0.04)",
+                  color: "#FFFFFF",
+                  fontSize: "13px",
+                  fontWeight: 600,
+                  cursor: "pointer",
+                  backdropFilter: "blur(10px)",
+                  transition: "all 0.2s",
+                  flexDirection: "column",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor =
+                    "rgba(255,255,255,0.12)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = isActive
+                    ? "rgba(255,255,255,0.1)"
+                    : "rgba(255,255,255,0.04)";
+                }}
+              >
+                <div
+                  style={{ display: "flex", alignItems: "center", gap: "12px" }}
+                >
+                  <Icon size={18} />
+                  <span>{item.label}</span>
+                </div>
+                <p
+                  style={{
+                    fontSize: "10px",
+                    margin: "2px 0 0 30px",
+                    opacity: 0.6,
+                    fontWeight: 500,
+                  }}
+                >
+                  {item.subtitle}
+                </p>
+              </button>
+            );
+          })}
+        </nav>
+
+        {/* User Info */}
+        <div
           style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: "13px",
-            fontWeight: 600,
-            color: "#2563EB",
-            letterSpacing: "0.09em",
-            textTransform: "uppercase",
-            margin: "0 0 14px 0",
+            marginTop: "auto",
+            paddingTop: "24px",
+            borderTop: "1px solid rgba(255,255,255,0.1)",
+            display: "flex",
+            alignItems: "center",
+            gap: "12px",
           }}
         >
-          Live simulation
-        </p>
+          <div
+            style={{
+              width: "40px",
+              height: "40px",
+              borderRadius: "10px",
+              background: "linear-gradient(145deg, #C7D2FE 0%, #E9D5FF 100%)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontWeight: 700,
+              fontSize: "16px",
+              color: "#312E81",
+            }}
+          >
+            A
+          </div>
+          <div>
+            <p
+              style={{
+                margin: 0,
+                fontSize: "13px",
+                fontWeight: 600,
+                color: "#FFFFFF",
+              }}
+            >
+              Aiyana
+            </p>
+            <p
+              style={{
+                margin: "2px 0 0",
+                fontSize: "11px",
+                color: "rgba(255,255,255,0.6)",
+              }}
+            >
+              3rd year
+            </p>
+          </div>
+        </div>
+      </aside>
 
-        {/* Header */}
-        <h1
+      {/* CENTER - Active Scenario Hero & Focus Items */}
+      <main
+        style={{
+          flex: 1,
+          padding: "32px",
+          overflowY: "auto",
+          position: "relative",
+          zIndex: 5,
+        }}
+      >
+        <div style={{ maxWidth: "600px" }}>
+          {/* GREETING HEADER */}
+          <div style={{ marginBottom: "32px" }}>
+            <h1
+              style={{
+                fontSize: "32px",
+                fontWeight: 700,
+                color: "#FFFFFF",
+                margin: "0 0 12px",
+                letterSpacing: "-0.02em",
+              }}
+            >
+              Welcome back, Aiyana.
+            </h1>
+            <p
+              style={{
+                fontSize: "16px",
+                color: "rgba(255,255,255,0.75)",
+                margin: "0 0 16px",
+                lineHeight: 1.6,
+              }}
+            >
+              Ready to sharpen your resilience?
+            </p>
+            <p
+              style={{
+                fontSize: "14px",
+                color: "rgba(255,255,255,0.6)",
+                margin: 0,
+              }}
+            >
+              You're in the middle of the Nonprofit Executive Briefing scenario.
+            </p>
+          </div>
+
+          {/* HERO CARD - Active Scenario */}
+          <div
+            style={{
+              borderRadius: "20px",
+              border: "1px solid rgba(255,255,255,0.15)",
+              backgroundColor:
+                "linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.04) 100%)",
+              backdropFilter: "blur(14px)",
+              padding: "32px",
+              marginBottom: "40px",
+              display: "flex",
+              flexDirection: "column",
+              gap: "16px",
+            }}
+          >
+            <div>
+              <p
+                style={{
+                  fontSize: "12px",
+                  fontWeight: 700,
+                  letterSpacing: "0.12em",
+                  textTransform: "uppercase",
+                  color: "rgba(255,255,255,0.6)",
+                  margin: "0 0 8px",
+                }}
+              >
+                Active Scenario
+              </p>
+              <h2
+                style={{
+                  fontSize: "24px",
+                  fontWeight: 700,
+                  color: "#FFFFFF",
+                  margin: "0 0 12px",
+                  letterSpacing: "-0.02em",
+                }}
+              >
+                {ACTIVE_SCENARIO.scenarioName}
+              </h2>
+              <p
+                style={{
+                  fontSize: "14px",
+                  color: "rgba(255,255,255,0.75)",
+                  margin: 0,
+                }}
+              >
+                Objective: {ACTIVE_SCENARIO.objective}
+              </p>
+            </div>
+            <button
+              onClick={onJoinCall}
+              style={{
+                alignSelf: "flex-start",
+                padding: "14px 32px",
+                borderRadius: "12px",
+                border: "none",
+                backgroundColor: "#FFFFFF",
+                color: "#0F1D39",
+                fontSize: "15px",
+                fontWeight: 700,
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
+                boxShadow: "0 12px 24px rgba(15, 23, 42, 0.3)",
+                transition: "all 0.3s",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-2px)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+              }}
+            >
+              <Play size={18} />
+              RESUME SIMULATION
+            </button>
+            <button
+              style={{
+                alignSelf: "flex-start",
+                marginTop: "12px",
+                padding: "14px 32px",
+                borderRadius: "12px",
+                border: "1px solid rgba(255,255,255,0.2)",
+                backgroundColor: "rgba(255,255,255,0.08)",
+                color: "#FFFFFF",
+                fontSize: "15px",
+                fontWeight: 700,
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
+                transition: "all 0.3s",
+                backdropFilter: "blur(10px)",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor =
+                  "rgba(255,255,255,0.12)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor =
+                  "rgba(255,255,255,0.08)";
+              }}
+            >
+              <Play size={18} />
+              START NEW SCENARIO
+            </button>
+          </div>
+
+          {/* ALTERNATIVE PATHS - Quick-Win Cards */}
+          <div style={{ marginTop: "48px" }}>
+            <p
+              style={{
+                fontSize: "12px",
+                fontWeight: 700,
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
+                color: "rgba(255,255,255,0.5)",
+                margin: "0 0 20px",
+              }}
+            >
+              Or explore other paths
+            </p>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(3, 1fr)",
+                gap: "16px",
+              }}
+            >
+              {/* REFINE - Skill Drill */}
+              <div
+                style={{
+                  borderRadius: "16px",
+                  border: "1px solid rgba(255,255,255,0.15)",
+                  backgroundColor: "rgba(255,255,255,0.06)",
+                  backdropFilter: "blur(12px)",
+                  padding: "24px",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "16px",
+                  height: "100%",
+                }}
+              >
+                <div>
+                  <p
+                    style={{
+                      fontSize: "11px",
+                      fontWeight: 700,
+                      letterSpacing: "0.12em",
+                      textTransform: "uppercase",
+                      color: "rgba(255,255,255,0.5)",
+                      margin: "0 0 8px",
+                    }}
+                  >
+                    Skill Drill
+                  </p>
+                  <h4
+                    style={{
+                      fontSize: "16px",
+                      fontWeight: 700,
+                      color: "#FFFFFF",
+                      margin: 0,
+                      lineHeight: 1.3,
+                    }}
+                  >
+                    Explain with Clarity
+                  </h4>
+                </div>
+                <p
+                  style={{
+                    fontSize: "13px",
+                    color: "rgba(255,255,255,0.75)",
+                    margin: 0,
+                    lineHeight: 1.5,
+                  }}
+                >
+                  Sharpen your pitch with a 3-minute precision drill.
+                </p>
+                <button
+                  style={{
+                    marginTop: "auto",
+                    padding: "12px 20px",
+                    borderRadius: "8px",
+                    border: "none",
+                    backgroundColor: "#FFFFFF",
+                    color: "#0F1D39",
+                    fontSize: "13px",
+                    fontWeight: 700,
+                    cursor: "pointer",
+                    transition: "all 0.2s",
+                    width: "100%",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "translateY(-2px)";
+                    e.currentTarget.style.boxShadow =
+                      "0 8px 16px rgba(255,255,255,0.1)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "translateY(0)";
+                    e.currentTarget.style.boxShadow = "none";
+                  }}
+                >
+                  Start Drill
+                </button>
+              </div>
+
+              {/* PRACTICE - Scenario Bot */}
+              <div
+                style={{
+                  borderRadius: "16px",
+                  border: "1px solid rgba(255,255,255,0.15)",
+                  backgroundColor: "rgba(255,255,255,0.06)",
+                  backdropFilter: "blur(12px)",
+                  padding: "24px",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "16px",
+                  height: "100%",
+                }}
+              >
+                <div>
+                  <p
+                    style={{
+                      fontSize: "11px",
+                      fontWeight: 700,
+                      letterSpacing: "0.12em",
+                      textTransform: "uppercase",
+                      color: "rgba(255,255,255,0.5)",
+                      margin: "0 0 8px",
+                    }}
+                  >
+                    Practice Session
+                  </p>
+                  <h4
+                    style={{
+                      fontSize: "16px",
+                      fontWeight: 700,
+                      color: "#FFFFFF",
+                      margin: 0,
+                      lineHeight: 1.3,
+                    }}
+                  >
+                    Corporate Pushback
+                  </h4>
+                </div>
+                <p
+                  style={{
+                    fontSize: "13px",
+                    color: "rgba(255,255,255,0.75)",
+                    margin: 0,
+                    lineHeight: 1.5,
+                  }}
+                >
+                  Master your comeback in a 15-minute bot session.
+                </p>
+                <button
+                  style={{
+                    marginTop: "auto",
+                    padding: "12px 20px",
+                    borderRadius: "8px",
+                    border: "none",
+                    backgroundColor: "#FFFFFF",
+                    color: "#0F1D39",
+                    fontSize: "13px",
+                    fontWeight: 700,
+                    cursor: "pointer",
+                    transition: "all 0.2s",
+                    width: "100%",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "translateY(-2px)";
+                    e.currentTarget.style.boxShadow =
+                      "0 8px 16px rgba(255,255,255,0.1)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "translateY(0)";
+                    e.currentTarget.style.boxShadow = "none";
+                  }}
+                >
+                  Practice Now
+                </button>
+              </div>
+
+              {/* CONNECT - Role Match */}
+              <div
+                style={{
+                  borderRadius: "16px",
+                  border: "1px solid rgba(255,255,255,0.15)",
+                  backgroundColor: "rgba(255,255,255,0.06)",
+                  backdropFilter: "blur(12px)",
+                  padding: "24px",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "16px",
+                  height: "100%",
+                }}
+              >
+                <div>
+                  <p
+                    style={{
+                      fontSize: "11px",
+                      fontWeight: 700,
+                      letterSpacing: "0.12em",
+                      textTransform: "uppercase",
+                      color: "rgba(255,255,255,0.5)",
+                      margin: "0 0 8px",
+                    }}
+                  >
+                    Auto-Matched Role
+                  </p>
+                  <h4
+                    style={{
+                      fontSize: "16px",
+                      fontWeight: 700,
+                      color: "#FFFFFF",
+                      margin: 0,
+                      lineHeight: 1.3,
+                    }}
+                  >
+                    PM @ Microsoft
+                  </h4>
+                </div>
+                <p
+                  style={{
+                    fontSize: "13px",
+                    color: "rgba(255,255,255,0.75)",
+                    margin: 0,
+                    lineHeight: 1.5,
+                  }}
+                >
+                  Based on your Critical Thinking (87th percentile). One-click
+                  apply.
+                </p>
+                <button
+                  style={{
+                    marginTop: "auto",
+                    padding: "12px 20px",
+                    borderRadius: "8px",
+                    border: "none",
+                    backgroundColor: "#FFFFFF",
+                    color: "#0F1D39",
+                    fontSize: "13px",
+                    fontWeight: 700,
+                    cursor: "pointer",
+                    transition: "all 0.2s",
+                    width: "100%",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "translateY(-2px)";
+                    e.currentTarget.style.boxShadow =
+                      "0 8px 16px rgba(255,255,255,0.1)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "translateY(0)";
+                    e.currentTarget.style.boxShadow = "none";
+                  }}
+                >
+                  Quick Apply
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      {/* RIGHT - Unlocked Outcomes Feed (Always Visible) */}
+      <aside
+        style={{
+          width: "340px",
+          height: "100vh",
+          padding: "32px 28px",
+          overflowY: "auto",
+          position: "relative",
+          zIndex: 5,
+          borderLeft: "1px solid rgba(255,255,255,0.1)",
+        }}
+      >
+        <p
           style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: "32px",
+            fontSize: "12px",
             fontWeight: 700,
-            color: "#111827",
-            lineHeight: "1.2",
-            letterSpacing: "-0.02em",
-            margin: "0 0 28px 0",
+            letterSpacing: "0.16em",
+            textTransform: "uppercase",
+            color: "rgba(255,255,255,0.6)",
+            margin: "0 0 24px",
           }}
         >
-          Before you step in.
-        </h1>
-
-        {/* Scenario block — bordered */}
-        <div
-          style={{
-            borderLeft: "4px solid #93C5FD",
-            backgroundColor: "#F8FAFF",
-            borderRadius: "0 12px 12px 0",
-            padding: "24px 24px 8px 24px",
-            marginBottom: "28px",
-          }}
-        >
-          {/* Paragraph 1 — sets the scene */}
-          <p
-            style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: "19px",
-              lineHeight: "1.7",
-              color: "#111827",
-              fontWeight: 400,
-              margin: "0 0 20px 0",
-            }}
-          >
-            You've just joined a small nonprofit team. They used AI to write
-            their annual community report — the one that goes to funders and
-            community partners.
-          </p>
-
-          {/* Paragraph 2 — creates tension */}
-          <p
-            style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: "19px",
-              lineHeight: "1.7",
-              color: "#111827",
-              fontWeight: 500,
-              letterSpacing: "-0.01em",
-              margin: "0 0 20px 0",
-            }}
-          >
-            Something doesn't feel right. The team is meeting now to figure out
-            what to do.
-          </p>
-
-          {/* Paragraph 3 — the emotional peak */}
-          <p
-            style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: "21px",
-              lineHeight: "1.65",
-              color: "#111827",
-              fontWeight: 400,
-              margin: "0 0 20px 0",
-            }}
-          >
-            They asked for a fresh perspective.{" "}
-            <strong style={{ fontWeight: 700 }}>You're it.</strong>
-          </p>
-        </div>
-
-        {/* Simulation context note */}
-        <p
-          style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: "16px",
-            lineHeight: "1.6",
-            color: "#6B7280",
-            fontWeight: 400,
-            margin: "0 0 32px 0",
-          }}
-        >
-          Takes about 5 minutes.
+          Unlocked Outcomes
         </p>
 
-        {/* Primary CTA */}
-        <button
-          onClick={onJoinCall}
-          style={{
-            width: "100%",
-            padding: "18px 28px",
-            backgroundColor: "#4F46E5",
-            color: "#FFFFFF",
-            border: "none",
-            borderRadius: "50px",
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: "19px",
-            fontWeight: 600,
-            letterSpacing: "-0.01em",
-            cursor: "pointer",
-            transition: "background-color 0.2s ease",
-            marginBottom: "16px",
-          }}
-          onMouseEnter={(e) => {
-            (e.currentTarget as HTMLButtonElement).style.backgroundColor =
-              "#4338CA";
-          }}
-          onMouseLeave={(e) => {
-            (e.currentTarget as HTMLButtonElement).style.backgroundColor =
-              "#4F46E5";
-          }}
-        >
-          Join the call
-        </button>
+        <div style={{ display: "grid", gap: "16px" }}>
+          {UNLOCKED_OUTCOMES.map((outcome) => (
+            <div
+              key={outcome.id}
+              style={{
+                borderRadius: "16px",
+                border: "1px solid rgba(255,255,255,0.12)",
+                backgroundColor: "rgba(255,255,255,0.06)",
+                backdropFilter: "blur(10px)",
+                padding: "20px",
+                display: "flex",
+                flexDirection: "column",
+                gap: "12px",
+              }}
+            >
+              {/* Dot + Title */}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "flex-start",
+                  gap: "12px",
+                }}
+              >
+                <div
+                  style={{
+                    width: "10px",
+                    height: "10px",
+                    borderRadius: "50%",
+                    backgroundColor: outcome.accentColor,
+                    marginTop: "6px",
+                    flexShrink: 0,
+                  }}
+                />
+                <h4
+                  style={{
+                    fontSize: "14px",
+                    fontWeight: 700,
+                    margin: 0,
+                    color: "#FFFFFF",
+                    lineHeight: 1.4,
+                  }}
+                >
+                  {outcome.title}
+                </h4>
+              </div>
 
-        {/* Skip escape hatch */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            gap: "20px",
-            paddingTop: "4px",
-          }}
-        >
-          <button
-            onClick={onSkipToDashboard}
-            style={{
-              background: "none",
-              border: "none",
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: "15px",
-              fontWeight: 400,
-              color: "#9CA3AF",
-              cursor: "pointer",
-              padding: "8px 4px",
-              transition: "color 0.15s ease",
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.color = "#374151";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.color = "#9CA3AF";
-            }}
-          >
-            Skip — go to my dashboard
-          </button>
+              {/* Description - Always Visible */}
+              <p
+                style={{
+                  fontSize: "13px",
+                  lineHeight: 1.6,
+                  color: "rgba(255,255,255,0.8)",
+                  margin: "0 0 12px 22px",
+                }}
+              >
+                {outcome.description}
+              </p>
+
+              {/* CTA Button */}
+              <button
+                style={{
+                  marginLeft: "22px",
+                  padding: "10px 16px",
+                  borderRadius: "8px",
+                  border: "1px solid " + outcome.accentColor,
+                  backgroundColor: outcome.accentColor + "15",
+                  color: outcome.accentColor,
+                  fontSize: "12px",
+                  fontWeight: 700,
+                  cursor: "pointer",
+                  transition: "all 0.2s",
+                  alignSelf: "flex-start",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor =
+                    outcome.accentColor + "30";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor =
+                    outcome.accentColor + "15";
+                }}
+              >
+                {outcome.cta}
+              </button>
+            </div>
+          ))}
         </div>
-      </div>
+      </aside>
     </div>
   );
 };

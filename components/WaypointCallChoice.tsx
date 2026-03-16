@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 interface WaypointCallChoiceProps {
   onChoice: (mode: "video" | "thread") => void;
   onBack: () => void;
+  onGoToDashboard: () => void;
 }
 
 const KiraAvatar = ({ size = 28 }: { size?: number }) => (
@@ -24,6 +25,7 @@ const DevAvatar = ({ size = 28 }: { size?: number }) => (
 const WaypointCallChoice: React.FC<WaypointCallChoiceProps> = ({
   onChoice,
   onBack,
+  onGoToDashboard,
 }) => {
   const [visible, setVisible] = useState(false);
   const [messageVisible, setMessageVisible] = useState(false);
@@ -122,6 +124,49 @@ const WaypointCallChoice: React.FC<WaypointCallChoiceProps> = ({
             <polyline points='15 18 9 12 15 6' />
           </svg>
           Back
+        </button>
+        <button
+          onClick={onGoToDashboard}
+          style={{
+            position: "absolute",
+            top: "20px",
+            right: "24px",
+            display: "flex",
+            alignItems: "center",
+            gap: "6px",
+            background: "none",
+            border: "none",
+            color: "rgba(255,255,255,0.38)",
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: "13px",
+            fontWeight: 500,
+            cursor: "pointer",
+            padding: "4px 2px",
+            borderRadius: "6px",
+            transition: "color 0.15s ease",
+          }}
+          onMouseEnter={(e) =>
+            ((e.currentTarget as HTMLButtonElement).style.color =
+              "rgba(255,255,255,0.75)")
+          }
+          onMouseLeave={(e) =>
+            ((e.currentTarget as HTMLButtonElement).style.color =
+              "rgba(255,255,255,0.38)")
+          }
+        >
+          Go to dashboard
+          <svg
+            width='14'
+            height='14'
+            viewBox='0 0 24 24'
+            fill='none'
+            stroke='currentColor'
+            strokeWidth='2.2'
+            strokeLinecap='round'
+            strokeLinejoin='round'
+          >
+            <polyline points='9 18 15 12 9 6' />
+          </svg>
         </button>
         {/* Ambient glow */}
         <div

@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 
 interface WaypointTransitionProps {
   onContinue: () => void;
+  onGoToDashboard: () => void;
 }
 
 const WaypointTransition: React.FC<WaypointTransitionProps> = ({
   onContinue,
+  onGoToDashboard,
 }) => {
   const [line1Visible, setLine1Visible] = useState(false);
   const [line2Visible, setLine2Visible] = useState(false);
@@ -100,7 +102,7 @@ const WaypointTransition: React.FC<WaypointTransitionProps> = ({
           conversation.
         </p>
 
-        {/* Button */}
+        {/* Buttons */}
         <div
           style={{
             marginTop: "12px",
@@ -108,6 +110,10 @@ const WaypointTransition: React.FC<WaypointTransitionProps> = ({
             transform: buttonVisible ? "translateY(0)" : "translateY(8px)",
             transition: "opacity 1s ease, transform 1s ease",
             pointerEvents: buttonVisible ? "auto" : "none",
+            display: "flex",
+            gap: "12px",
+            flexWrap: "wrap",
+            justifyContent: "center",
           }}
         >
           <button
@@ -141,6 +147,34 @@ const WaypointTransition: React.FC<WaypointTransitionProps> = ({
             }}
           >
             Open your messages
+          </button>
+          <button
+            onClick={onGoToDashboard}
+            style={{
+              padding: "14px 28px",
+              borderRadius: "10px",
+              border: "1px solid rgba(255,255,255,0.12)",
+              backgroundColor: "transparent",
+              color: "rgba(255,255,255,0.62)",
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: "15px",
+              fontWeight: 600,
+              cursor: "pointer",
+              letterSpacing: "0.01em",
+              transition: "border-color 0.2s ease, color 0.2s ease",
+            }}
+            onMouseEnter={(e) => {
+              const b = e.currentTarget;
+              b.style.borderColor = "rgba(255,255,255,0.22)";
+              b.style.color = "rgba(255,255,255,0.9)";
+            }}
+            onMouseLeave={(e) => {
+              const b = e.currentTarget;
+              b.style.borderColor = "rgba(255,255,255,0.12)";
+              b.style.color = "rgba(255,255,255,0.62)";
+            }}
+          >
+            Go to dashboard
           </button>
         </div>
       </div>
