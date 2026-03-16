@@ -159,24 +159,26 @@ const App: React.FC = () => {
         return (
           <WaypointLanding
             onJoinCall={() => setStudentViewState("prep")}
-            onSkipToDashboard={() => setStudentViewState("student")}
+            onSkipToDashboard={() => setStudentViewState("waypoint")}
           />
         );
       case "prep":
         return (
           <WaypointPrepRoom
-            onStartChallenge={() => setStudentViewState("callchoice")}
-            onBackToDashboard={() => setStudentViewState("waypoint")}
+            onReady={() => setStudentViewState("callchoice")}
+            onSkipToDashboard={() => setStudentViewState("waypoint")}
+            onBack={() => setStudentViewState("waypoint")}
           />
         );
       case "callchoice":
         return (
           <WaypointCallChoice
-            onModeSelect={(mode) => {
+            onChoice={(mode) => {
               setCallMode(mode);
               setStudentViewState("simulation");
             }}
             onBack={() => setStudentViewState("prep")}
+            onGoToDashboard={() => setStudentViewState("waypoint")}
           />
         );
       case "simulation":
@@ -184,21 +186,21 @@ const App: React.FC = () => {
           <WaypointSimulation
             mode={callMode}
             onComplete={() => setStudentViewState("transition")}
-            onBack={() => setStudentViewState("prep")}
+            onBack={() => setStudentViewState("callchoice")}
             onExit={() => setStudentViewState("waypoint")}
           />
         );
       case "transition":
         return (
           <WaypointTransition
-            onOpenMessages={() => setStudentViewState("postsimulation")}
+            onContinue={() => setStudentViewState("postsimulation")}
             onGoToDashboard={() => setStudentViewState("waypoint")}
           />
         );
       case "postsimulation":
         return (
           <WaypointPostSimulation
-            onBackToDashboard={() => setStudentViewState("waypoint")}
+            onContinue={() => setStudentViewState("waypoint")}
           />
         );
       case "student":
@@ -211,7 +213,7 @@ const App: React.FC = () => {
         return (
           <WaypointLanding
             onJoinCall={() => setStudentViewState("prep")}
-            onSkipToDashboard={() => setStudentViewState("student")}
+            onSkipToDashboard={() => setStudentViewState("waypoint")}
           />
         );
     }

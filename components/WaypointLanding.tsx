@@ -72,10 +72,10 @@ const UNLOCKED_OUTCOMES = [
   {
     id: 3,
     type: "signal",
-    title: "New Signal: Strategic Synthesis",
+    title: "Next Step: Assertive Communication Lab",
     description:
-      "You connected nonprofit cash flow → customer empathy in one insight. Only 8% of your cohort demonstrates this skill consistently.",
-    cta: "Unlock Masterclass",
+      "You showed strong insight, but softened your point when challenged. Practice holding your stance clearly under pressure.",
+    cta: "Reserve Spot",
     accentColor: "#8B5CF6",
     completed: false,
   },
@@ -102,7 +102,7 @@ const NAV_ITEMS = [
   },
   {
     icon: Users,
-    label: "Hub",
+    label: "Connection Hub",
     id: "hub",
     subtitle: "10k Coffees",
   },
@@ -215,62 +215,63 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
         </div>
 
         {/* Navigation Items */}
-        <nav style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+        <nav
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "20px",
+            marginTop: "32px",
+          }}
+        >
           {NAV_ITEMS.map((item) => {
-            const Icon = item.icon;
             const isActive = activeNav === item.id;
             return (
               <button
                 key={item.id}
                 onClick={() => setActiveNav(item.id)}
                 style={{
-                  display: "flex",
-                  alignItems: "flex-start",
-                  gap: "12px",
-                  padding: "12px 14px",
-                  borderRadius: "12px",
-                  border:
-                    "1px solid " +
-                    (isActive
-                      ? "rgba(255,255,255,0.2)"
-                      : "rgba(255,255,255,0.08)"),
-                  backgroundColor: isActive
-                    ? "rgba(255,255,255,0.1)"
-                    : "rgba(255,255,255,0.04)",
-                  color: "#FFFFFF",
-                  fontSize: "13px",
-                  fontWeight: 600,
+                  display: "block",
+                  padding: "0",
+                  border: "none",
+                  backgroundColor: "transparent",
+                  color: isActive ? "#FFFFFF" : "rgba(255,255,255,0.7)",
+                  fontSize: "22px",
+                  fontWeight: 700,
                   cursor: "pointer",
-                  backdropFilter: "blur(10px)",
                   transition: "all 0.2s",
-                  flexDirection: "column",
+                  position: "relative",
+                  textAlign: "left",
+                  letterSpacing: "-0.01em",
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor =
-                    "rgba(255,255,255,0.12)";
+                  e.currentTarget.style.color = "#FFFFFF";
+                  if (!isActive) {
+                    e.currentTarget.style.opacity = "0.85";
+                  }
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = isActive
-                    ? "rgba(255,255,255,0.1)"
-                    : "rgba(255,255,255,0.04)";
+                  e.currentTarget.style.color = isActive
+                    ? "#FFFFFF"
+                    : "rgba(255,255,255,0.7)";
+                  if (!isActive) {
+                    e.currentTarget.style.opacity = "1";
+                  }
                 }}
               >
-                <div
-                  style={{ display: "flex", alignItems: "center", gap: "12px" }}
-                >
-                  <Icon size={18} />
-                  <span>{item.label}</span>
-                </div>
-                <p
-                  style={{
-                    fontSize: "10px",
-                    margin: "2px 0 0 30px",
-                    opacity: 0.6,
-                    fontWeight: 500,
-                  }}
-                >
-                  {item.subtitle}
-                </p>
+                {item.label}
+                {isActive && (
+                  <div
+                    style={{
+                      position: "absolute",
+                      bottom: "-4px",
+                      left: "0",
+                      height: "2px",
+                      width: "100%",
+                      backgroundColor: "#4F46E5",
+                      borderRadius: "1px",
+                    }}
+                  />
+                )}
               </button>
             );
           })}
@@ -355,20 +356,11 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
               style={{
                 fontSize: "16px",
                 color: "rgba(255,255,255,0.75)",
-                margin: "0 0 16px",
+                margin: 0,
                 lineHeight: 1.6,
               }}
             >
               Ready to sharpen your resilience?
-            </p>
-            <p
-              style={{
-                fontSize: "14px",
-                color: "rgba(255,255,255,0.6)",
-                margin: 0,
-              }}
-            >
-              You're in the middle of the Nonprofit Executive Briefing scenario.
             </p>
           </div>
 
@@ -376,15 +368,17 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
           <div
             style={{
               borderRadius: "16px",
-              border: "none",
-              backgroundColor: "#FFFFFF",
-              backdropFilter: "none",
+              border: "1px solid rgba(255,255,255,0.12)",
+              backgroundColor: "#163463",
+              backgroundImage:
+                "radial-gradient(circle at 78% 20%, rgba(196,196,196,0.18) 0%, rgba(196,196,196,0) 42%), radial-gradient(circle at 92% 8%, rgba(148,148,148,0.16) 0%, rgba(148,148,148,0) 38%)",
+              backdropFilter: "blur(8px)",
               padding: "32px",
               marginBottom: "40px",
               display: "flex",
               flexDirection: "column",
               gap: "16px",
-              boxShadow: "0 4px 16px rgba(0, 0, 0, 0.1)",
+              boxShadow: "0 10px 26px rgba(0, 0, 0, 0.28)",
             }}
           >
             <div>
@@ -394,7 +388,7 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
                   fontWeight: 700,
                   letterSpacing: "0.12em",
                   textTransform: "uppercase",
-                  color: "rgba(15, 29, 57, 0.5)",
+                  color: "rgba(255,255,255,0.62)",
                   margin: "0 0 8px",
                 }}
               >
@@ -404,7 +398,7 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
                 style={{
                   fontSize: "24px",
                   fontWeight: 700,
-                  color: "#0F1D39",
+                  color: "#FFFFFF",
                   margin: "0 0 12px",
                   letterSpacing: "-0.02em",
                 }}
@@ -414,11 +408,21 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
               <p
                 style={{
                   fontSize: "14px",
-                  color: "rgba(15, 29, 57, 0.75)",
-                  margin: 0,
+                  color: "rgba(255,255,255,0.8)",
+                  margin: "0 0 10px",
                 }}
               >
                 Objective: {ACTIVE_SCENARIO.objective}
+              </p>
+              <p
+                style={{
+                  fontSize: "13px",
+                  color: "rgba(255,255,255,0.66)",
+                  margin: 0,
+                  lineHeight: 1.5,
+                }}
+              >
+                You're in the middle of an Executive Briefing.
               </p>
             </div>
             <button
@@ -462,9 +466,9 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
                 marginTop: "8px",
                 padding: "14px 32px",
                 borderRadius: "12px",
-                border: "1px solid rgba(15, 29, 57, 0.2)",
-                backgroundColor: "rgba(15, 29, 57, 0.05)",
-                color: "#0F1D39",
+                border: "1px solid rgba(255,255,255,0.26)",
+                backgroundColor: "rgba(255,255,255,0.08)",
+                color: "#FFFFFF",
                 fontSize: "15px",
                 fontWeight: 700,
                 cursor: "pointer",
@@ -478,11 +482,12 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
                 backdropFilter: "none",
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = "rgba(15, 29, 57, 0.1)";
+                e.currentTarget.style.backgroundColor =
+                  "rgba(255,255,255,0.14)";
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.backgroundColor =
-                  "rgba(15, 29, 57, 0.05)";
+                  "rgba(255,255,255,0.08)";
               }}
             >
               <Play size={18} />
@@ -498,7 +503,7 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
                 fontWeight: 700,
                 letterSpacing: "0.12em",
                 textTransform: "uppercase",
-                color: "rgba(15, 29, 57, 0.5)",
+                color: "#FFFFFF",
                 margin: "0 0 20px",
               }}
             >
@@ -508,7 +513,10 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
               style={{
                 display: "grid",
                 gridTemplateColumns: "repeat(3, 1fr)",
-                gap: "16px",
+                gap: "24px",
+                maxWidth: "900px",
+                width: "100%",
+                justifyItems: "center",
               }}
             >
               {/* Jobs Card */}
@@ -767,8 +775,9 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
           overflowY: "auto",
           position: "relative",
           zIndex: 5,
-          borderLeft: "2px solid rgba(79, 70, 229, 0.15)",
-          background: "linear-gradient(180deg, #FFFFFF 0%, #F5F3FF 100%)",
+          borderLeft: "1px solid rgba(255,255,255,0.14)",
+          background:
+            "linear-gradient(180deg, rgba(12,24,47,0.72) 0%, rgba(16,31,58,0.52) 100%)",
           backdropFilter: "blur(8px)",
         }}
       >
@@ -778,7 +787,7 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
             fontWeight: 900,
             letterSpacing: "0.02em",
             textTransform: "uppercase",
-            color: "#0F1D39",
+            color: "#FFFFFF",
             margin: "0 0 24px",
           }}
         >
@@ -786,33 +795,6 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
         </p>
 
         <div style={{ position: "relative", paddingLeft: "32px" }}>
-          {/* Checkboxes for completed items */}
-          {UNLOCKED_OUTCOMES.map((outcome, index) => (
-            <div
-              key={`checkbox-${outcome.id}`}
-              style={{
-                position: "absolute",
-                left: "6px",
-                top: `${16 + index * (20 + 16)}px`,
-                width: "20px",
-                height: "20px",
-                borderRadius: "50%",
-                backgroundColor: outcome.completed ? "#4F46E5" : "transparent",
-                border: outcome.completed
-                  ? "none"
-                  : "2px solid rgba(15, 29, 57, 0.2)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: "14px",
-                color: "#FFFFFF",
-                fontWeight: 700,
-                zIndex: 3,
-              }}
-            >
-              {outcome.completed && "✓"}
-            </div>
-          ))}
           {/* Vertical Progress Bar */}
           <div
             style={{
@@ -836,7 +818,7 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
               top: "0",
               width: "3px",
               height: "100%",
-              backgroundColor: "rgba(15, 29, 57, 0.08)",
+              backgroundColor: "rgba(255,255,255,0.18)",
               borderRadius: "2px",
               zIndex: 0,
             }}
@@ -854,11 +836,10 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
               <div
                 key={outcome.id}
                 style={{
+                  position: "relative",
                   borderRadius: "16px",
-                  border: "1px solid rgba(79, 70, 229, 0.1)",
-                  backgroundColor: outcome.completed
-                    ? "rgba(79, 70, 229, 0.08)"
-                    : "rgba(255, 255, 255, 0.6)",
+                  border: "1px solid rgba(255,255,255,0.14)",
+                  backgroundColor: "transparent",
                   backdropFilter: "blur(4px)",
                   padding: "20px",
                   display: "flex",
@@ -867,6 +848,34 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
                   boxShadow: "0 2px 8px rgba(0, 0, 0, 0.04)",
                 }}
               >
+                {/* Checkbox anchored to each card center */}
+                <div
+                  style={{
+                    position: "absolute",
+                    left: "-26px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    width: "20px",
+                    height: "20px",
+                    borderRadius: "50%",
+                    backgroundColor: outcome.completed
+                      ? "#4F46E5"
+                      : "rgba(15, 29, 57, 0.24)",
+                    border: "none",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: "14px",
+                    color: outcome.completed
+                      ? "#FFFFFF"
+                      : "rgba(255, 255, 255, 0.88)",
+                    fontWeight: 700,
+                    zIndex: 3,
+                  }}
+                >
+                  {outcome.completed ? "✓" : "•"}
+                </div>
+
                 {/* Dot + Title */}
                 <div
                   style={{
@@ -890,25 +899,13 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
                       fontSize: "14px",
                       fontWeight: 700,
                       margin: 0,
-                      color: "#0F1D39",
+                      color: "rgba(255,255,255,0.92)",
                       lineHeight: 1.4,
                     }}
                   >
                     {outcome.title}
                   </h4>
                 </div>
-
-                {/* Description - Always Visible */}
-                <p
-                  style={{
-                    fontSize: "13px",
-                    lineHeight: 1.6,
-                    color: "rgba(15, 29, 57, 0.75)",
-                    margin: "0 0 12px 22px",
-                  }}
-                >
-                  {outcome.description}
-                </p>
 
                 {/* CTA Button */}
                 <button
