@@ -57,6 +57,7 @@ const UNLOCKED_OUTCOMES = [
       "Your profile matches this role perfectly. Critical Thinking (87th percentile) + pressure resilience. Auto-apply now and track with recruiter.",
     cta: "Quick Apply",
     accentColor: "#10B981",
+    completed: true,
   },
   {
     id: 2,
@@ -66,6 +67,7 @@ const UNLOCKED_OUTCOMES = [
       "Invitation-only, 25 participants. You're in the top 12% on resilience under pressure. Direct access to 3 Microsoft senior leaders.",
     cta: "Accept Invite",
     accentColor: "#3B82F6",
+    completed: true,
   },
   {
     id: 3,
@@ -75,6 +77,7 @@ const UNLOCKED_OUTCOMES = [
       "You connected nonprofit cash flow → customer empathy in one insight. Only 8% of your cohort demonstrates this skill consistently.",
     cta: "Unlock Masterclass",
     accentColor: "#8B5CF6",
+    completed: false,
   },
 ];
 
@@ -372,16 +375,16 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
           {/* HERO CARD - Active Scenario */}
           <div
             style={{
-              borderRadius: "20px",
-              border: "1px solid rgba(255,255,255,0.15)",
-              backgroundColor:
-                "linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.04) 100%)",
-              backdropFilter: "blur(14px)",
+              borderRadius: "16px",
+              border: "none",
+              backgroundColor: "#FFFFFF",
+              backdropFilter: "none",
               padding: "32px",
               marginBottom: "40px",
               display: "flex",
               flexDirection: "column",
               gap: "16px",
+              boxShadow: "0 4px 16px rgba(0, 0, 0, 0.1)",
             }}
           >
             <div>
@@ -391,7 +394,7 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
                   fontWeight: 700,
                   letterSpacing: "0.12em",
                   textTransform: "uppercase",
-                  color: "rgba(255,255,255,0.6)",
+                  color: "rgba(15, 29, 57, 0.5)",
                   margin: "0 0 8px",
                 }}
               >
@@ -401,7 +404,7 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
                 style={{
                   fontSize: "24px",
                   fontWeight: 700,
-                  color: "#FFFFFF",
+                  color: "#0F1D39",
                   margin: "0 0 12px",
                   letterSpacing: "-0.02em",
                 }}
@@ -411,7 +414,7 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
               <p
                 style={{
                   fontSize: "14px",
-                  color: "rgba(255,255,255,0.75)",
+                  color: "rgba(15, 29, 57, 0.75)",
                   margin: 0,
                 }}
               >
@@ -425,22 +428,29 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
                 padding: "14px 32px",
                 borderRadius: "12px",
                 border: "none",
-                backgroundColor: "#FFFFFF",
-                color: "#0F1D39",
+                backgroundColor: "#4F46E5",
+                color: "#FFFFFF",
                 fontSize: "15px",
                 fontWeight: 700,
                 cursor: "pointer",
                 display: "flex",
                 alignItems: "center",
+                justifyContent: "center",
                 gap: "10px",
-                boxShadow: "0 12px 24px rgba(15, 23, 42, 0.3)",
-                transition: "all 0.3s",
+                width: "100%",
+                maxWidth: "280px",
+                boxShadow: "0 4px 12px rgba(79, 70, 229, 0.3)",
+                transition: "all 0.2s",
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = "translateY(-2px)";
+                e.currentTarget.style.boxShadow =
+                  "0 8px 16px rgba(79, 70, 229, 0.4)";
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow =
+                  "0 4px 12px rgba(79, 70, 229, 0.3)";
               }}
             >
               <Play size={18} />
@@ -449,28 +459,30 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
             <button
               style={{
                 alignSelf: "flex-start",
-                marginTop: "12px",
+                marginTop: "8px",
                 padding: "14px 32px",
                 borderRadius: "12px",
-                border: "1px solid rgba(255,255,255,0.2)",
-                backgroundColor: "rgba(255,255,255,0.08)",
-                color: "#FFFFFF",
+                border: "1px solid rgba(15, 29, 57, 0.2)",
+                backgroundColor: "rgba(15, 29, 57, 0.05)",
+                color: "#0F1D39",
                 fontSize: "15px",
                 fontWeight: 700,
                 cursor: "pointer",
                 display: "flex",
                 alignItems: "center",
+                justifyContent: "center",
                 gap: "10px",
-                transition: "all 0.3s",
-                backdropFilter: "blur(10px)",
+                width: "100%",
+                maxWidth: "280px",
+                transition: "all 0.2s",
+                backdropFilter: "none",
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor =
-                  "rgba(255,255,255,0.12)";
+                e.currentTarget.style.backgroundColor = "rgba(15, 29, 57, 0.1)";
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.backgroundColor =
-                  "rgba(255,255,255,0.08)";
+                  "rgba(15, 29, 57, 0.05)";
               }}
             >
               <Play size={18} />
@@ -486,7 +498,7 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
                 fontWeight: 700,
                 letterSpacing: "0.12em",
                 textTransform: "uppercase",
-                color: "rgba(255,255,255,0.5)",
+                color: "rgba(15, 29, 57, 0.5)",
                 margin: "0 0 20px",
               }}
             >
@@ -499,18 +511,19 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
                 gap: "16px",
               }}
             >
-              {/* REFINE - Skill Drill */}
+              {/* Jobs Card */}
               <div
                 style={{
                   borderRadius: "16px",
-                  border: "1px solid rgba(255,255,255,0.15)",
-                  backgroundColor: "rgba(255,255,255,0.06)",
-                  backdropFilter: "blur(12px)",
+                  border: "none",
+                  backgroundColor: "#3B5BDB",
+                  backdropFilter: "none",
                   padding: "24px",
                   display: "flex",
                   flexDirection: "column",
                   gap: "16px",
                   height: "100%",
+                  boxShadow: "0 2px 8px rgba(0, 0, 0, 0.12)",
                 }}
               >
                 <div>
@@ -520,11 +533,11 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
                       fontWeight: 700,
                       letterSpacing: "0.12em",
                       textTransform: "uppercase",
-                      color: "rgba(255,255,255,0.5)",
+                      color: "rgba(255, 255, 255, 0.7)",
                       margin: "0 0 8px",
                     }}
                   >
-                    Skill Drill
+                    Career
                   </p>
                   <h4
                     style={{
@@ -535,18 +548,19 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
                       lineHeight: 1.3,
                     }}
                   >
-                    Explain with Clarity
+                    Jobs
                   </h4>
                 </div>
                 <p
                   style={{
                     fontSize: "13px",
-                    color: "rgba(255,255,255,0.75)",
+                    color: "rgba(255, 255, 255, 0.85)",
                     margin: 0,
                     lineHeight: 1.5,
                   }}
                 >
-                  Sharpen your pitch with a 3-minute precision drill.
+                  Explore opportunities matched to your profile and career
+                  goals.
                 </p>
                 <button
                   style={{
@@ -555,39 +569,42 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
                     borderRadius: "8px",
                     border: "none",
                     backgroundColor: "#FFFFFF",
-                    color: "#0F1D39",
+                    color: "#3B5BDB",
                     fontSize: "13px",
                     fontWeight: 700,
                     cursor: "pointer",
                     transition: "all 0.2s",
                     width: "100%",
+                    boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = "translateY(-2px)";
                     e.currentTarget.style.boxShadow =
-                      "0 8px 16px rgba(255,255,255,0.1)";
+                      "0 4px 12px rgba(0, 0, 0, 0.2)";
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = "translateY(0)";
-                    e.currentTarget.style.boxShadow = "none";
+                    e.currentTarget.style.boxShadow =
+                      "0 2px 8px rgba(0, 0, 0, 0.15)";
                   }}
                 >
-                  Start Drill
+                  Browse Jobs
                 </button>
               </div>
 
-              {/* PRACTICE - Scenario Bot */}
+              {/* Skills Card */}
               <div
                 style={{
                   borderRadius: "16px",
-                  border: "1px solid rgba(255,255,255,0.15)",
-                  backgroundColor: "rgba(255,255,255,0.06)",
-                  backdropFilter: "blur(12px)",
+                  border: "none",
+                  backgroundColor: "#3B5BDB",
+                  backdropFilter: "none",
                   padding: "24px",
                   display: "flex",
                   flexDirection: "column",
                   gap: "16px",
                   height: "100%",
+                  boxShadow: "0 2px 8px rgba(0, 0, 0, 0.12)",
                 }}
               >
                 <div>
@@ -597,11 +614,11 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
                       fontWeight: 700,
                       letterSpacing: "0.12em",
                       textTransform: "uppercase",
-                      color: "rgba(255,255,255,0.5)",
+                      color: "rgba(255, 255, 255, 0.7)",
                       margin: "0 0 8px",
                     }}
                   >
-                    Practice Session
+                    Development
                   </p>
                   <h4
                     style={{
@@ -612,18 +629,19 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
                       lineHeight: 1.3,
                     }}
                   >
-                    Corporate Pushback
+                    Skills
                   </h4>
                 </div>
                 <p
                   style={{
                     fontSize: "13px",
-                    color: "rgba(255,255,255,0.75)",
+                    color: "rgba(255, 255, 255, 0.85)",
                     margin: 0,
                     lineHeight: 1.5,
                   }}
                 >
-                  Master your comeback in a 15-minute bot session.
+                  Master new abilities and build competencies for your next
+                  role.
                 </p>
                 <button
                   style={{
@@ -632,39 +650,42 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
                     borderRadius: "8px",
                     border: "none",
                     backgroundColor: "#FFFFFF",
-                    color: "#0F1D39",
+                    color: "#3B5BDB",
                     fontSize: "13px",
                     fontWeight: 700,
                     cursor: "pointer",
                     transition: "all 0.2s",
                     width: "100%",
+                    boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = "translateY(-2px)";
                     e.currentTarget.style.boxShadow =
-                      "0 8px 16px rgba(255,255,255,0.1)";
+                      "0 4px 12px rgba(0, 0, 0, 0.2)";
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = "translateY(0)";
-                    e.currentTarget.style.boxShadow = "none";
+                    e.currentTarget.style.boxShadow =
+                      "0 2px 8px rgba(0, 0, 0, 0.15)";
                   }}
                 >
-                  Practice Now
+                  Learn Skills
                 </button>
               </div>
 
-              {/* CONNECT - Role Match */}
+              {/* Journal Card */}
               <div
                 style={{
                   borderRadius: "16px",
-                  border: "1px solid rgba(255,255,255,0.15)",
-                  backgroundColor: "rgba(255,255,255,0.06)",
-                  backdropFilter: "blur(12px)",
+                  border: "none",
+                  backgroundColor: "#3B5BDB",
+                  backdropFilter: "none",
                   padding: "24px",
                   display: "flex",
                   flexDirection: "column",
                   gap: "16px",
                   height: "100%",
+                  boxShadow: "0 2px 8px rgba(0, 0, 0, 0.12)",
                 }}
               >
                 <div>
@@ -674,11 +695,11 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
                       fontWeight: 700,
                       letterSpacing: "0.12em",
                       textTransform: "uppercase",
-                      color: "rgba(255,255,255,0.5)",
+                      color: "rgba(255, 255, 255, 0.7)",
                       margin: "0 0 8px",
                     }}
                   >
-                    Auto-Matched Role
+                    Reflection
                   </p>
                   <h4
                     style={{
@@ -689,19 +710,19 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
                       lineHeight: 1.3,
                     }}
                   >
-                    PM @ Microsoft
+                    Journal
                   </h4>
                 </div>
                 <p
                   style={{
                     fontSize: "13px",
-                    color: "rgba(255,255,255,0.75)",
+                    color: "rgba(255, 255, 255, 0.85)",
                     margin: 0,
                     lineHeight: 1.5,
                   }}
                 >
-                  Based on your Critical Thinking (87th percentile). One-click
-                  apply.
+                  Capture insights and track your growth throughout your
+                  journey.
                 </p>
                 <button
                   style={{
@@ -710,24 +731,26 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
                     borderRadius: "8px",
                     border: "none",
                     backgroundColor: "#FFFFFF",
-                    color: "#0F1D39",
+                    color: "#3B5BDB",
                     fontSize: "13px",
                     fontWeight: 700,
                     cursor: "pointer",
                     transition: "all 0.2s",
                     width: "100%",
+                    boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = "translateY(-2px)";
                     e.currentTarget.style.boxShadow =
-                      "0 8px 16px rgba(255,255,255,0.1)";
+                      "0 4px 12px rgba(0, 0, 0, 0.2)";
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = "translateY(0)";
-                    e.currentTarget.style.boxShadow = "none";
+                    e.currentTarget.style.boxShadow =
+                      "0 2px 8px rgba(0, 0, 0, 0.15)";
                   }}
                 >
-                  Quick Apply
+                  New Entry
                 </button>
               </div>
             </div>
@@ -744,108 +767,181 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
           overflowY: "auto",
           position: "relative",
           zIndex: 5,
-          borderLeft: "1px solid rgba(255,255,255,0.1)",
+          borderLeft: "2px solid rgba(79, 70, 229, 0.15)",
+          background: "linear-gradient(180deg, #FFFFFF 0%, #F5F3FF 100%)",
+          backdropFilter: "blur(8px)",
         }}
       >
         <p
           style={{
-            fontSize: "12px",
-            fontWeight: 700,
-            letterSpacing: "0.16em",
+            fontSize: "14px",
+            fontWeight: 900,
+            letterSpacing: "0.02em",
             textTransform: "uppercase",
-            color: "rgba(255,255,255,0.6)",
+            color: "#0F1D39",
             margin: "0 0 24px",
           }}
         >
-          Unlocked Outcomes
+          Action Items
         </p>
 
-        <div style={{ display: "grid", gap: "16px" }}>
-          {UNLOCKED_OUTCOMES.map((outcome) => (
+        <div style={{ position: "relative", paddingLeft: "32px" }}>
+          {/* Checkboxes for completed items */}
+          {UNLOCKED_OUTCOMES.map((outcome, index) => (
             <div
-              key={outcome.id}
+              key={`checkbox-${outcome.id}`}
               style={{
-                borderRadius: "16px",
-                border: "1px solid rgba(255,255,255,0.12)",
-                backgroundColor: "rgba(255,255,255,0.06)",
-                backdropFilter: "blur(10px)",
-                padding: "20px",
+                position: "absolute",
+                left: "6px",
+                top: `${16 + index * (20 + 16)}px`,
+                width: "20px",
+                height: "20px",
+                borderRadius: "50%",
+                backgroundColor: outcome.completed ? "#4F46E5" : "transparent",
+                border: outcome.completed
+                  ? "none"
+                  : "2px solid rgba(15, 29, 57, 0.2)",
                 display: "flex",
-                flexDirection: "column",
-                gap: "12px",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "14px",
+                color: "#FFFFFF",
+                fontWeight: 700,
+                zIndex: 3,
               }}
             >
-              {/* Dot + Title */}
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "flex-start",
-                  gap: "12px",
-                }}
-              >
-                <div
-                  style={{
-                    width: "10px",
-                    height: "10px",
-                    borderRadius: "50%",
-                    backgroundColor: outcome.accentColor,
-                    marginTop: "6px",
-                    flexShrink: 0,
-                  }}
-                />
-                <h4
-                  style={{
-                    fontSize: "14px",
-                    fontWeight: 700,
-                    margin: 0,
-                    color: "#FFFFFF",
-                    lineHeight: 1.4,
-                  }}
-                >
-                  {outcome.title}
-                </h4>
-              </div>
-
-              {/* Description - Always Visible */}
-              <p
-                style={{
-                  fontSize: "13px",
-                  lineHeight: 1.6,
-                  color: "rgba(255,255,255,0.8)",
-                  margin: "0 0 12px 22px",
-                }}
-              >
-                {outcome.description}
-              </p>
-
-              {/* CTA Button */}
-              <button
-                style={{
-                  marginLeft: "22px",
-                  padding: "10px 16px",
-                  borderRadius: "8px",
-                  border: "1px solid " + outcome.accentColor,
-                  backgroundColor: outcome.accentColor + "15",
-                  color: outcome.accentColor,
-                  fontSize: "12px",
-                  fontWeight: 700,
-                  cursor: "pointer",
-                  transition: "all 0.2s",
-                  alignSelf: "flex-start",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor =
-                    outcome.accentColor + "30";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor =
-                    outcome.accentColor + "15";
-                }}
-              >
-                {outcome.cta}
-              </button>
+              {outcome.completed && "✓"}
             </div>
           ))}
+          {/* Vertical Progress Bar */}
+          <div
+            style={{
+              position: "absolute",
+              left: "14px",
+              top: "0",
+              width: "3px",
+              height: `calc(${(UNLOCKED_OUTCOMES.filter((item) => item.completed).length / UNLOCKED_OUTCOMES.length) * 100}% + ${UNLOCKED_OUTCOMES.filter((item) => item.completed).length * 16}px)`,
+              backgroundColor: "#4F46E5",
+              borderRadius: "2px",
+              transition: "height 0.4s ease",
+              zIndex: 1,
+              boxShadow: "0 0 8px rgba(79, 70, 229, 0.3)",
+            }}
+          />
+          {/* Background track for progress bar */}
+          <div
+            style={{
+              position: "absolute",
+              left: "14px",
+              top: "0",
+              width: "3px",
+              height: "100%",
+              backgroundColor: "rgba(15, 29, 57, 0.08)",
+              borderRadius: "2px",
+              zIndex: 0,
+            }}
+          />
+
+          <div
+            style={{
+              display: "grid",
+              gap: "16px",
+              position: "relative",
+              zIndex: 2,
+            }}
+          >
+            {UNLOCKED_OUTCOMES.map((outcome) => (
+              <div
+                key={outcome.id}
+                style={{
+                  borderRadius: "16px",
+                  border: "1px solid rgba(79, 70, 229, 0.1)",
+                  backgroundColor: outcome.completed
+                    ? "rgba(79, 70, 229, 0.08)"
+                    : "rgba(255, 255, 255, 0.6)",
+                  backdropFilter: "blur(4px)",
+                  padding: "20px",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "12px",
+                  boxShadow: "0 2px 8px rgba(0, 0, 0, 0.04)",
+                }}
+              >
+                {/* Dot + Title */}
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "flex-start",
+                    gap: "12px",
+                  }}
+                >
+                  <div
+                    style={{
+                      width: "10px",
+                      height: "10px",
+                      borderRadius: "50%",
+                      backgroundColor: outcome.accentColor,
+                      marginTop: "6px",
+                      flexShrink: 0,
+                    }}
+                  />
+                  <h4
+                    style={{
+                      fontSize: "14px",
+                      fontWeight: 700,
+                      margin: 0,
+                      color: "#0F1D39",
+                      lineHeight: 1.4,
+                    }}
+                  >
+                    {outcome.title}
+                  </h4>
+                </div>
+
+                {/* Description - Always Visible */}
+                <p
+                  style={{
+                    fontSize: "13px",
+                    lineHeight: 1.6,
+                    color: "rgba(15, 29, 57, 0.75)",
+                    margin: "0 0 12px 22px",
+                  }}
+                >
+                  {outcome.description}
+                </p>
+
+                {/* CTA Button */}
+                <button
+                  style={{
+                    marginLeft: "22px",
+                    padding: "10px 16px",
+                    borderRadius: "8px",
+                    border: "none",
+                    backgroundColor: outcome.accentColor,
+                    color: "#FFFFFF",
+                    fontSize: "12px",
+                    fontWeight: 700,
+                    cursor: "pointer",
+                    transition: "all 0.2s",
+                    alignSelf: "flex-start",
+                    boxShadow: "0 2px 6px " + outcome.accentColor + "40",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "translateY(-1px)";
+                    e.currentTarget.style.boxShadow =
+                      "0 4px 10px " + outcome.accentColor + "50";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "translateY(0)";
+                    e.currentTarget.style.boxShadow =
+                      "0 2px 6px " + outcome.accentColor + "40";
+                  }}
+                >
+                  {outcome.cta}
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
       </aside>
     </div>
