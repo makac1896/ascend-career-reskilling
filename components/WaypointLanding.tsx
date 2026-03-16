@@ -368,20 +368,37 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
           <div
             style={{
               borderRadius: "16px",
-              border: "1px solid rgba(255,255,255,0.12)",
-              backgroundColor: "#163463",
+              border: "1px solid rgba(255,255,255,0.16)",
+              backgroundColor: "#173A6F",
               backgroundImage:
-                "radial-gradient(circle at 78% 20%, rgba(196,196,196,0.18) 0%, rgba(196,196,196,0) 42%), radial-gradient(circle at 92% 8%, rgba(148,148,148,0.16) 0%, rgba(148,148,148,0) 38%)",
+                "radial-gradient(circle at 74% 18%, rgba(120,120,130,0.3) 0%, rgba(120,120,130,0) 35%), radial-gradient(circle at 90% 14%, rgba(125,125,135,0.26) 0%, rgba(125,125,135,0) 30%), linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px)",
+              backgroundSize: "auto, auto, 28px 28px, 28px 28px",
               backdropFilter: "blur(8px)",
-              padding: "32px",
+              padding: "20px",
               marginBottom: "40px",
               display: "flex",
               flexDirection: "column",
-              gap: "16px",
+              gap: "14px",
               boxShadow: "0 10px 26px rgba(0, 0, 0, 0.28)",
             }}
           >
-            <div>
+            <div style={{ position: "relative" }}>
+              <div
+                style={{
+                  position: "absolute",
+                  top: "-2px",
+                  right: "-4px",
+                  padding: "6px 12px",
+                  borderRadius: "999px",
+                  border: "1px solid rgba(255,255,255,0.25)",
+                  backgroundColor: "rgba(122,124,215,0.3)",
+                  color: "rgba(255,255,255,0.9)",
+                  fontSize: "12px",
+                  fontWeight: 600,
+                }}
+              >
+                In progress
+              </div>
               <p
                 style={{
                   fontSize: "12px",
@@ -396,10 +413,10 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
               </p>
               <h2
                 style={{
-                  fontSize: "24px",
+                  fontSize: "38px",
                   fontWeight: 700,
                   color: "#FFFFFF",
-                  margin: "0 0 12px",
+                  margin: "0 0 6px",
                   letterSpacing: "-0.02em",
                 }}
               >
@@ -407,92 +424,154 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
               </h2>
               <p
                 style={{
-                  fontSize: "14px",
+                  fontSize: "20px",
                   color: "rgba(255,255,255,0.8)",
-                  margin: "0 0 10px",
+                  margin: 0,
                 }}
               >
                 Objective: {ACTIVE_SCENARIO.objective}
               </p>
-              <p
+            </div>
+
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+                gap: "12px",
+                alignItems: "end",
+              }}
+            >
+              {[
+                { value: "42%", label: "Complete" },
+                { value: "3", label: "Decisions made" },
+                { value: "2", label: "Left" },
+              ].map((stat, idx) => (
+                <div
+                  key={stat.label}
+                  style={{
+                    paddingRight: idx < 2 ? "10px" : 0,
+                    borderRight:
+                      idx < 2 ? "1px solid rgba(255,255,255,0.14)" : "none",
+                  }}
+                >
+                  <p
+                    style={{
+                      margin: 0,
+                      color: "#FFFFFF",
+                      fontSize: "31px",
+                      fontWeight: 700,
+                      lineHeight: 1.1,
+                    }}
+                  >
+                    {stat.value}
+                  </p>
+                  <p
+                    style={{
+                      margin: "2px 0 0",
+                      color: "rgba(255,255,255,0.65)",
+                      fontSize: "14px",
+                      fontWeight: 600,
+                    }}
+                  >
+                    {stat.label}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <div style={{ marginTop: "2px" }}>
+              <div
                 style={{
-                  fontSize: "13px",
-                  color: "rgba(255,255,255,0.66)",
-                  margin: 0,
-                  lineHeight: 1.5,
+                  height: "6px",
+                  width: "100%",
+                  borderRadius: "999px",
+                  backgroundColor: "rgba(255,255,255,0.2)",
+                  overflow: "hidden",
                 }}
               >
-                You're in the middle of an Executive Briefing.
+                <div
+                  style={{
+                    width: "42%",
+                    height: "100%",
+                    backgroundColor: "#6366F1",
+                    borderRadius: "999px",
+                  }}
+                />
+              </div>
+              <p
+                style={{
+                  margin: "6px 0 0",
+                  textAlign: "right",
+                  fontSize: "12px",
+                  color: "rgba(255,255,255,0.62)",
+                  fontWeight: 600,
+                }}
+              >
+                42%
               </p>
             </div>
-            <button
-              onClick={onJoinCall}
+
+            <div
               style={{
-                alignSelf: "flex-start",
-                padding: "14px 32px",
-                borderRadius: "12px",
-                border: "none",
-                backgroundColor: "#4F46E5",
-                color: "#FFFFFF",
-                fontSize: "15px",
-                fontWeight: 700,
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: "10px",
-                width: "100%",
-                maxWidth: "280px",
-                boxShadow: "0 4px 12px rgba(79, 70, 229, 0.3)",
-                transition: "all 0.2s",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-2px)";
-                e.currentTarget.style.boxShadow =
-                  "0 8px 16px rgba(79, 70, 229, 0.4)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow =
-                  "0 4px 12px rgba(79, 70, 229, 0.3)";
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: "12px",
               }}
             >
-              <Play size={18} />
-              RESUME SIMULATION
-            </button>
-            <button
-              style={{
-                alignSelf: "flex-start",
-                marginTop: "8px",
-                padding: "14px 32px",
-                borderRadius: "12px",
-                border: "1px solid rgba(255,255,255,0.26)",
-                backgroundColor: "rgba(255,255,255,0.08)",
-                color: "#FFFFFF",
-                fontSize: "15px",
-                fontWeight: 700,
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: "10px",
-                width: "100%",
-                maxWidth: "280px",
-                transition: "all 0.2s",
-                backdropFilter: "none",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor =
-                  "rgba(255,255,255,0.14)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor =
-                  "rgba(255,255,255,0.08)";
-              }}
-            >
-              <Play size={18} />
-              START NEW SCENARIO
-            </button>
+              <button
+                onClick={onJoinCall}
+                style={{
+                  padding: "12px 18px",
+                  borderRadius: "12px",
+                  border: "1px solid rgba(255,255,255,0.28)",
+                  backgroundColor: "rgba(10,15,28,0.28)",
+                  color: "#FFFFFF",
+                  fontSize: "16px",
+                  fontWeight: 700,
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "10px",
+                  transition: "all 0.2s",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = "rgba(10,15,28,0.38)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = "rgba(10,15,28,0.28)";
+                }}
+              >
+                <Play size={16} />
+                Resume simulation
+              </button>
+              <button
+                onClick={onJoinCall}
+                style={{
+                  padding: "12px 18px",
+                  borderRadius: "12px",
+                  border: "1px solid rgba(255,255,255,0.28)",
+                  backgroundColor: "rgba(10,15,28,0.2)",
+                  color: "#FFFFFF",
+                  fontSize: "16px",
+                  fontWeight: 700,
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "10px",
+                  transition: "all 0.2s",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = "rgba(10,15,28,0.32)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = "rgba(10,15,28,0.2)";
+                }}
+              >
+                Start new
+              </button>
+            </div>
           </div>
 
           {/* ALTERNATIVE PATHS - Quick-Win Cards */}
