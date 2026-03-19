@@ -512,10 +512,36 @@ function useConversationEngine(onComplete: () => void) {
   const [speakingAgent, setSpeakingAgent] = useState<
     "kira" | "dev" | "both" | null
   >(null);
+  const [microQuestion, setMicroQuestion] = useState<MicroQuestion | null>(null);
+  const [microVisible, setMicroVisible] = useState(false);
+  const answeredMicro = useRef<Set<string>>(new Set());
   const msgIdRef = useRef(0);
   const pauseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const nudgeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const microTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const openedRef = useRef(false);
+
+  const showMicroQuestion = (id: string) => {
+    if (answeredMicro.current.has(id)) return;
+    const q = MICRO_QUESTIONS.find(q => q.id === id);
+    if (!q) return;
+    setTimeout(() => {
+      setMicroQuestion(q);
+      setMicroVisible(true);
+      microTimerRef.current = setTimeout(() => dismissMicroQuestion(), 12000);
+    }, 2500);
+  };
+
+  const dismissMicroQuestion = () => {
+    setMicroVisible(false);
+    setTimeout(() => setMicroQuestion(null), 400);
+    if (microTimerRef.current) clearTimeout(microTimerRef.current);
+  };
+
+  const answerMicroQuestion = (id: string, value: string) => {
+    answeredMicro.current.add(id);
+    console.log(`[Waypoint data] ${id}: ${value}`);
+  };
 
   const showNudge = (key: string) => {
     if (nudge) return;
@@ -563,6 +589,7 @@ function useConversationEngine(onComplete: () => void) {
     queueMessages(OPENING, () => {
       setInputMounted(true);
       pauseTimerRef.current = setTimeout(() => showNudge("pause"), 8000);
+      showMicroQuestion("opening_feeling");
     });
     return () => {
       if (pauseTimerRef.current) clearTimeout(pauseTimerRef.current);
@@ -581,7 +608,7 @@ function useConversationEngine(onComplete: () => void) {
     const turn = studentTurnCount + 1;
     setStudentTurnCount(turn);
     if (turn === 3) {
-      queueMessages(RESPONSE_PHASES[3], () => showNudge("closing"));
+      queueMessages(RESPONSE_PHASES[3], () => { showNudge("closing"); showMicroQuestion("said_what_believed"); });
     } else if (turn > 3) {
       queueMessages(CLOSING_MESSAGES, () => {
         setConversationEnded(true);
@@ -598,6 +625,8 @@ function useConversationEngine(onComplete: () => void) {
       queueMessages(RESPONSE_PHASES[turn], () => {
         if (disagreed && turn === 2) showNudge("disagree");
         pauseTimerRef.current = setTimeout(() => showNudge("pause"), 10000);
+        if (turn === 1) showMicroQuestion("pressure_to_agree");
+        if (turn === 2) showMicroQuestion("clarity_of_point");
       });
     }
     return true;
@@ -611,6 +640,10 @@ function useConversationEngine(onComplete: () => void) {
     nudgeFading,
     inputMounted,
     speakingAgent,
+    microQuestion,
+    microVisible,
+    answerMicroQuestion,
+    dismissMicroQuestion,
     submitMessage,
   };
 }
@@ -1656,6 +1689,7 @@ const WaypointSimulation: React.FC<WaypointSimulationProps> = ({
         @keyframes typing-dot { 0%, 80%, 100% { opacity: 0.25; transform: scale(0.85); } 40% { opacity: 1; transform: scale(1); } }
         @keyframes live-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
         @keyframes speak-bar { from { transform: scaleY(0.4); } to { transform: scaleY(1.5); } }
+        @keyframes nudge-progress { from { width: 0%; } to { width: 100%; } }
         .sim-bubble { animation: sim-bubble-in 0.28s ease both; }
       `}</style>
 
@@ -1874,6 +1908,16 @@ const WaypointSimulation: React.FC<WaypointSimulationProps> = ({
           </div>
         </div>
       </div>
+
+      {/* Micro-nudge toast — fixed bottom-center over everything */}
+      {engine.microQuestion && (
+        <MicroNudgeToast
+          question={engine.microQuestion}
+          visible={engine.microVisible}
+          onAnswer={engine.answerMicroQuestion}
+          onDismiss={engine.dismissMicroQuestion}
+        />
+      )}
     </>
   );
 };

@@ -83,7 +83,8 @@ const rooms = [
     currentNote: "Students rarely book appointments",
     suggestedUse: "Media Simulation Lab",
     forStudents: "Students who discover assertiveness gaps",
-    practice: "Presenting analysis, stand-up meetings, advocating under pressure",
+    practice:
+      "Presenting analysis, stand-up meetings, advocating under pressure",
     costs: [
       { item: "Whiteboard walls", cost: "$200" },
       { item: "Circular seating rearrange", cost: "Free" },
@@ -120,7 +121,8 @@ const rooms = [
     currentNote: "Students hang out, but no skill development",
     suggestedUse: "Dialogue Room",
     forStudents: "Students discovering resilience & cultural awareness",
-    practice: "Drop-in peer feedback, cross-cultural practice, conflict navigation",
+    practice:
+      "Drop-in peer feedback, cross-cultural practice, conflict navigation",
     costs: [
       { item: "Conversation norms signage", cost: "$100" },
       { item: "Circular seating zones", cost: "$100" },
@@ -139,18 +141,23 @@ const resourceMappings = [
     detail: "They hesitate to state their perspective under pressure",
     resource: "Finding Your Voice",
     resourceDetail: "Workshop — Wednesdays 4pm · Room 14B",
-    connection: "Auto-recommended after students score high on insight but low on participation",
-    image: "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=1600&q=90&auto=format&fit=crop",
+    connection:
+      "Auto-recommended after students score high on insight but low on participation",
+    image:
+      "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=1600&q=90&auto=format&fit=crop",
     accent: "#4318FF",
   },
   {
     superpower: "Cultural Awareness",
     problem: "AI misses the human context — students catch it",
-    detail: "They identify what automated content gets wrong about real communities",
+    detail:
+      "They identify what automated content gets wrong about real communities",
     resource: "Cultural Competency Seminar",
     resourceDetail: "Seminar — Fridays 2pm · The Commons",
-    connection: "Auto-recommended when students flag missing cultural nuance in AI-generated content",
-    image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1600&q=90&auto=format&fit=crop",
+    connection:
+      "Auto-recommended when students flag missing cultural nuance in AI-generated content",
+    image:
+      "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1600&q=90&auto=format&fit=crop",
     accent: "#0EA5E9",
   },
   {
@@ -159,28 +166,36 @@ const resourceMappings = [
     detail: "They spot gaps, assumptions, and missing evidence others overlook",
     resource: "Advanced Reading Seminar",
     resourceDetail: "Seminar — Tuesdays 3pm · Room 22",
-    connection: "Auto-recommended when students demonstrate strong source analysis in the simulation",
-    image: "https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?w=1600&q=90&auto=format&fit=crop",
+    connection:
+      "Auto-recommended when students demonstrate strong source analysis in the simulation",
+    image:
+      "https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?w=1600&q=90&auto=format&fit=crop",
     accent: "#8B5CF6",
   },
   {
     superpower: "Resilience",
     problem: "Conflict and pushback break momentum",
-    detail: "Students who navigate disagreement well are rare — and highly valued",
+    detail:
+      "Students who navigate disagreement well are rare — and highly valued",
     resource: "Navigating Conflict",
     resourceDetail: "Workshop — Thursdays 5pm · Room 14B",
-    connection: "Auto-recommended when students hold their position constructively under challenge",
-    image: "https://images.unsplash.com/photo-1551836022-deb4988cc6c0?w=1600&q=90&auto=format&fit=crop",
+    connection:
+      "Auto-recommended when students hold their position constructively under challenge",
+    image:
+      "https://images.unsplash.com/photo-1551836022-deb4988cc6c0?w=1600&q=90&auto=format&fit=crop",
     accent: "#10B981",
   },
   {
     superpower: "Problem-Solving",
     problem: "Students freeze when data is incomplete or contradictory",
-    detail: "Decision-making under uncertainty is the real-world skill gap employers cite most",
+    detail:
+      "Decision-making under uncertainty is the real-world skill gap employers cite most",
     resource: "Decision Lab",
     resourceDetail: "Open lab — Mon & Wed 1–4pm · Room 22",
-    connection: "Auto-recommended when students make confident calls despite ambiguous information",
-    image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1600&q=90&auto=format&fit=crop",
+    connection:
+      "Auto-recommended when students make confident calls despite ambiguous information",
+    image:
+      "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1600&q=90&auto=format&fit=crop",
     accent: "#F97316",
   },
 ];
@@ -191,7 +206,13 @@ const resourceEngagementData = [
   { name: "Advanced Reading", current: 8, projected: 35 },
 ];
 
-const superpowerColors = ["#4318FF", "#7551FF", "#39B8FF", "#05CD99", "#FFB547"];
+const superpowerColors = [
+  "#4318FF",
+  "#7551FF",
+  "#39B8FF",
+  "#05CD99",
+  "#FFB547",
+];
 const superpowerLegend = [
   "Cultural Awareness",
   "Critical Reading",
@@ -211,10 +232,10 @@ const loadingMessages = [
 const ProgressIndicator: React.FC<{ completed: number }> = ({ completed }) => {
   const steps = ["Choose Scenario", "Map Resources", "Optimize Spaces"];
   return (
-    <div className="flex items-center justify-center gap-2 mb-8 flex-wrap">
+    <div className='flex items-center justify-center gap-2 mb-8 flex-wrap'>
       {steps.map((label, i) => (
         <React.Fragment key={label}>
-          <div className="flex items-center gap-2">
+          <div className='flex items-center gap-2'>
             <div
               className={`w-3 h-3 rounded-full transition-all ${
                 i < completed ? "bg-ascend-blue" : "bg-gray-200"
@@ -291,13 +312,15 @@ const DropZone: React.FC<DropZoneProps> = ({
   };
 
   return (
-    <div className={`bg-white rounded-card shadow-crisp transition-all ${optional ? "opacity-80" : ""}`}>
-      <div className="p-5 pb-4">
-        <div className="flex items-center gap-2 mb-3">
+    <div
+      className={`bg-white rounded-card shadow-crisp transition-all ${optional ? "opacity-80" : ""}`}
+    >
+      <div className='p-5 pb-4'>
+        <div className='flex items-center gap-2 mb-3'>
           {icon}
-          <span className="font-bold text-ascend-text text-sm">{label}</span>
+          <span className='font-bold text-ascend-text text-sm'>{label}</span>
           {optional && (
-            <span className="ml-auto text-xs text-gray-600 bg-gray-200 px-2 py-0.5 rounded-full">
+            <span className='ml-auto text-xs text-gray-600 bg-gray-200 px-2 py-0.5 rounded-full'>
               Optional
             </span>
           )}
@@ -315,34 +338,38 @@ const DropZone: React.FC<DropZoneProps> = ({
           }`}
         >
           {items.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-16 gap-1.5 pointer-events-none">
-              <Upload className={`w-5 h-5 transition-colors ${isDragOver ? "text-ascend-blue" : "text-ascend-subtext"}`} />
-              <p className={`text-xs text-center transition-colors ${isDragOver ? "text-ascend-blue font-medium" : "text-ascend-subtext"}`}>
+            <div className='flex flex-col items-center justify-center h-16 gap-1.5 pointer-events-none'>
+              <Upload
+                className={`w-5 h-5 transition-colors ${isDragOver ? "text-ascend-blue" : "text-ascend-subtext"}`}
+              />
+              <p
+                className={`text-xs text-center transition-colors ${isDragOver ? "text-ascend-blue font-medium" : "text-ascend-subtext"}`}
+              >
                 {isDragOver ? "Drop to add" : "Drag files or items here"}
               </p>
             </div>
           ) : (
-            <div className="flex flex-wrap gap-2">
+            <div className='flex flex-wrap gap-2'>
               {items.map((item, i) => (
                 <div
                   key={i}
                   draggable
                   onDragStart={() => onChipDragStart(i)}
                   onDragEnd={onChipDragEnd}
-                  className="flex items-center gap-1.5 bg-indigo-50 border border-indigo-100 text-ascend-blue text-xs font-medium px-3 py-1.5 rounded-full cursor-grab active:cursor-grabbing hover:bg-indigo-100 transition-colors select-none"
+                  className='flex items-center gap-1.5 bg-indigo-50 border border-indigo-100 text-ascend-blue text-xs font-medium px-3 py-1.5 rounded-full cursor-grab active:cursor-grabbing hover:bg-indigo-100 transition-colors select-none'
                 >
-                  <span className="opacity-40 text-[10px] leading-none">⠿</span>
+                  <span className='opacity-40 text-[10px] leading-none'>⠿</span>
                   <span>{item}</span>
                   <button
                     onClick={() => onRemoveItem(i)}
-                    className="ml-0.5 w-3.5 h-3.5 flex items-center justify-center text-ascend-blue/50 hover:text-red-400 transition-colors rounded-full leading-none text-base"
+                    className='ml-0.5 w-3.5 h-3.5 flex items-center justify-center text-ascend-blue/50 hover:text-red-400 transition-colors rounded-full leading-none text-base'
                   >
                     ×
                   </button>
                 </div>
               ))}
               {isDragOver && (
-                <div className="flex items-center gap-1.5 bg-ascend-blue/10 border border-dashed border-ascend-blue text-ascend-blue text-xs font-medium px-3 py-1.5 rounded-full opacity-60">
+                <div className='flex items-center gap-1.5 bg-ascend-blue/10 border border-dashed border-ascend-blue text-ascend-blue text-xs font-medium px-3 py-1.5 rounded-full opacity-60'>
                   + Drop here
                 </div>
               )}
@@ -351,25 +378,25 @@ const DropZone: React.FC<DropZoneProps> = ({
         </div>
 
         {/* Text input row */}
-        <div className="flex items-center gap-2 mt-3">
+        <div className='flex items-center gap-2 mt-3'>
           <input
-            type="text"
+            type='text'
             value={inputValue}
             onChange={(e) => onInputChange(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder={placeholder}
-            className="flex-1 border border-ascend-border rounded-xl px-3 py-2 text-xs text-ascend-text placeholder:text-ascend-subtext focus:outline-none focus:ring-2 focus:ring-ascend-blue/20"
+            className='flex-1 border border-ascend-border rounded-xl px-3 py-2 text-xs text-ascend-text placeholder:text-ascend-subtext focus:outline-none focus:ring-2 focus:ring-ascend-blue/20'
           />
           <button
             onClick={() => {
               if (inputValue.trim()) onAddItem(inputValue.trim());
             }}
-            className="px-3 py-2 text-xs font-bold bg-ascend-light-blue text-ascend-blue rounded-xl hover:bg-indigo-100 transition-colors whitespace-nowrap"
+            className='px-3 py-2 text-xs font-bold bg-ascend-light-blue text-ascend-blue rounded-xl hover:bg-indigo-100 transition-colors whitespace-nowrap'
           >
             Add
           </button>
         </div>
-        <p className="text-xs text-ascend-subtext mt-2">{helper}</p>
+        <p className='text-xs text-ascend-subtext mt-2'>{helper}</p>
       </div>
     </div>
   );
@@ -377,14 +404,17 @@ const DropZone: React.FC<DropZoneProps> = ({
 
 // ─── NavRow sub-component ────────────────────────────────────────────────────
 
-const NavRow: React.FC<{ onBack?: () => void; onSkip: () => void }> = ({ onBack, onSkip }) => (
-  <div className="flex items-center justify-between mb-8">
+const NavRow: React.FC<{ onBack?: () => void; onSkip: () => void }> = ({
+  onBack,
+  onSkip,
+}) => (
+  <div className='flex items-center justify-between mb-8'>
     {onBack ? (
       <button
         onClick={onBack}
-        className="flex items-center gap-1.5 text-xs font-medium text-ascend-subtext hover:text-ascend-text transition-colors group"
+        className='flex items-center gap-1.5 text-xs font-medium text-ascend-subtext hover:text-ascend-text transition-colors group'
       >
-        <ChevronLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
+        <ChevronLeft className='w-4 h-4 group-hover:-translate-x-0.5 transition-transform' />
         Back
       </button>
     ) : (
@@ -392,7 +422,7 @@ const NavRow: React.FC<{ onBack?: () => void; onSkip: () => void }> = ({ onBack,
     )}
     <button
       onClick={onSkip}
-      className="text-xs text-ascend-subtext hover:text-ascend-text transition-colors underline underline-offset-2 decoration-ascend-border hover:decoration-ascend-subtext"
+      className='text-xs text-ascend-subtext hover:text-ascend-text transition-colors underline underline-offset-2 decoration-ascend-border hover:decoration-ascend-subtext'
     >
       Skip to dashboard
     </button>
@@ -401,7 +431,10 @@ const NavRow: React.FC<{ onBack?: () => void; onSkip: () => void }> = ({ onBack,
 
 // ─── Main Component ─────────────────────────────────────────────────────────
 
-const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete, onPreviewJourney }) => {
+const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({
+  onComplete,
+  onPreviewJourney,
+}) => {
   const [currentScreen, setCurrentScreen] = useState(1);
 
   // Screen 2
@@ -409,9 +442,21 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete, onPre
 
   // Screen 3 — drag & drop
   const [items, setItems] = useState<Record<BoxId, string[]>>({
-    workshops: [],
-    rooms: [],
-    other: [],
+    workshops: [
+      "Finding Your Voice — Wednesdays 4pm",
+      "Cultural Competency Seminar — Fridays 2pm",
+      "Advanced Reading Seminar — Tuesdays 3pm",
+      "Navigating Conflict — Thursdays 5pm",
+    ],
+    rooms: [
+      "Room 14B — 20 seats, whiteboard, M-W-F 2-5pm",
+      "Room 22 — Computer lab, 30 seats, daily 1-4pm",
+      "The Commons — Informal lounge, available after 5pm",
+    ],
+    other: [
+      "Drop-in career counseling — Tuesdays & Thursdays 1-3pm",
+      "Monthly industry speaker series — 2nd Thursday 5pm",
+    ],
   });
   const [inputValues, setInputValues] = useState<Record<BoxId, string>>({
     workshops: "",
@@ -449,7 +494,10 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete, onPre
       setCurrentCard((c) => {
         const next = (c + 1) % resourceMappings.length;
         setCardVisible(false);
-        setTimeout(() => { setCurrentCard(next); setCardVisible(true); }, 280);
+        setTimeout(() => {
+          setCurrentCard(next);
+          setCardVisible(true);
+        }, 280);
         return c; // hold current until timeout fires
       });
     }, 5500);
@@ -457,7 +505,9 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete, onPre
   }, [currentScreen, showConnections, cardPaused]);
 
   // Screen 5
-  const [selectedDeployment, setSelectedDeployment] = useState<string | null>(null);
+  const [selectedDeployment, setSelectedDeployment] = useState<string | null>(
+    null,
+  );
   const [sendingAnimation, setSendingAnimation] = useState(false);
   const [sent, setSent] = useState(false);
 
@@ -576,54 +626,69 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete, onPre
     const logoMarks = [
       { mark: "in", bg: "#0077B5", title: "LinkedIn Jobs API" },
       { mark: "LC", bg: "#FF6B2B", title: "Lightcast" },
-      { mark: "BLS", bg: "#1B3A6B", title: "BLS Occupational Outlook", small: true },
+      {
+        mark: "BLS",
+        bg: "#1B3A6B",
+        title: "BLS Occupational Outlook",
+        small: true,
+      },
       { mark: "W", bg: "#4318FF", title: "Waypoint Student Records" },
       { mark: "WEF", bg: "#009EDB", title: "WEF Future of Jobs", small: true },
     ];
 
     return (
-      <div className="h-screen bg-ascend-bg flex flex-col items-center justify-center p-6 lg:p-10 animate-in fade-in slide-in-from-bottom-3 duration-300 overflow-hidden">
-        <div className="max-w-2xl w-full">
-
-          <div className="flex justify-center mb-6">
+      <div className='h-screen bg-ascend-bg flex flex-col items-center justify-center p-6 lg:p-10 animate-in fade-in slide-in-from-bottom-3 duration-300 overflow-hidden'>
+        <div className='max-w-2xl w-full'>
+          {/* <div className="flex justify-center mb-6">
             <img src="/waypoint.png" alt="Waypoint" className="h-14 w-auto" />
-          </div>
+          </div> */}
 
-          <div className="bg-white rounded-card border border-ascend-border px-8 py-7"
-            style={{ boxShadow: "0 8px 40px rgba(67,24,255,0.10), 0 2px 8px rgba(0,0,0,0.06)" }}>
-
+          <div
+            className='bg-white rounded-card border border-ascend-border px-8 py-7'
+            style={{
+              boxShadow:
+                "0 8px 40px rgba(67,24,255,0.10), 0 2px 8px rgba(0,0,0,0.06)",
+            }}
+          >
             <NavRow onSkip={onComplete} />
 
             {/* Headline */}
-            <div className="mb-6 pl-4 border-l-4 border-ascend-blue">
-              <h1 className="text-2xl font-bold text-ascend-text leading-snug">
-                Your students have 5 skill gaps employers are hiring against right now.
+            <div className='mb-6 pl-4 border-l-4 border-ascend-blue'>
+              <h1 className='text-2xl font-bold text-ascend-text leading-snug'>
+                Your students have 5 skill gaps employers are hiring against
+                right now.
               </h1>
-              <p className="text-sm text-ascend-subtext mt-2">
-                Here's the gap between what the market needs and what your cohort can demonstrate.
+              <p className='text-sm text-ascend-subtext mt-2'>
+                Here's the gap between what the market needs and what your
+                cohort can demonstrate.
               </p>
             </div>
 
             {/* Skill gaps */}
-            <div className="flex flex-col gap-3 mb-6 bg-ascend-bg rounded-xl p-4 border border-ascend-border">
+            <div className='flex flex-col gap-3 mb-6 bg-ascend-bg rounded-xl p-4 border border-ascend-border'>
               {skillGapData.map((row, idx) => {
                 const gap = row.demand - row.coverage;
-                const gapColor = gap >= 60 ? "#EF4444" : gap >= 40 ? "#F97316" : "#EAB308";
+                const gapColor =
+                  gap >= 60 ? "#EF4444" : gap >= 40 ? "#F97316" : "#EAB308";
                 const delay = `${idx * 80}ms`;
                 return (
-                  <div key={row.skill} className="flex items-center gap-3">
-                    <span className="text-xs font-bold text-ascend-text w-36 flex-shrink-0">{row.skill}</span>
-                    <div className="flex-1 h-3 rounded-full bg-white border border-ascend-border overflow-hidden flex"
-                      style={{ boxShadow: "inset 0 1px 3px rgba(0,0,0,0.06)" }}>
+                  <div key={row.skill} className='flex items-center gap-3'>
+                    <span className='text-xs font-bold text-ascend-text w-36 flex-shrink-0'>
+                      {row.skill}
+                    </span>
+                    <div
+                      className='flex-1 h-3 rounded-full bg-white border border-ascend-border overflow-hidden flex'
+                      style={{ boxShadow: "inset 0 1px 3px rgba(0,0,0,0.06)" }}
+                    >
                       <div
-                        className="h-full bg-emerald-400 flex-shrink-0"
+                        className='h-full bg-emerald-400 flex-shrink-0'
                         style={{
                           width: barsVisible ? `${row.coverage}%` : "0%",
                           transition: `width 0.7s ease-out ${delay}`,
                         }}
                       />
                       <div
-                        className="h-full bg-red-300 flex-shrink-0"
+                        className='h-full bg-red-300 flex-shrink-0'
                         style={{
                           width: barsVisible ? `${gap}%` : "0%",
                           transition: `width 0.7s ease-out ${delay}`,
@@ -631,31 +696,49 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete, onPre
                       />
                     </div>
                     <div
-                      className="flex-shrink-0 w-24 text-right"
-                      style={{ opacity: barsVisible ? 1 : 0, transition: `opacity 0.4s ease-out ${delay}` }}
+                      className='flex-shrink-0 w-24 text-right'
+                      style={{
+                        opacity: barsVisible ? 1 : 0,
+                        transition: `opacity 0.4s ease-out ${delay}`,
+                      }}
                     >
-                      <span className="text-sm font-bold" style={{ color: gapColor }}>{gap}%</span>
-                      <span className="text-[11px] text-ascend-subtext block leading-none">not covered</span>
+                      <span
+                        className='text-sm font-bold'
+                        style={{ color: gapColor }}
+                      >
+                        {gap}%
+                      </span>
+                      <span className='text-[11px] text-ascend-subtext block leading-none'>
+                        not covered
+                      </span>
                     </div>
                   </div>
                 );
               })}
-              <div className="flex items-center gap-5 pt-2 border-t border-ascend-border mt-1">
-                <span className="flex items-center gap-1.5 text-[11px] text-ascend-subtext">
-                  <span className="w-3 h-2.5 rounded-sm bg-emerald-400 inline-block" /> Covered
+              <div className='flex items-center gap-5 pt-2 border-t border-ascend-border mt-1'>
+                <span className='flex items-center gap-1.5 text-[11px] text-ascend-subtext'>
+                  <span className='w-3 h-2.5 rounded-sm bg-emerald-400 inline-block' />{" "}
+                  Covered
                 </span>
-                <span className="flex items-center gap-1.5 text-[11px] text-ascend-subtext">
-                  <span className="w-3 h-2.5 rounded-sm bg-red-300 inline-block" /> Not covered
+                <span className='flex items-center gap-1.5 text-[11px] text-ascend-subtext'>
+                  <span className='w-3 h-2.5 rounded-sm bg-red-300 inline-block' />{" "}
+                  Not covered
                 </span>
               </div>
             </div>
 
             {/* Source credibility strip */}
-            <div className="pt-4 border-t border-ascend-border mb-5">
-              <p className="text-[11px] font-bold uppercase tracking-wider text-ascend-subtext mb-3">Data sourced from</p>
-              <div className="flex items-center justify-between">
+            <div className='pt-4 border-t border-ascend-border mb-5'>
+              <p className='text-[11px] font-bold uppercase tracking-wider text-ascend-subtext mb-3'>
+                Data sourced from
+              </p>
+              <div className='flex items-center justify-between'>
                 {logoMarks.map((src) => (
-                  <div key={src.mark} className="flex flex-col items-center gap-1.5" title={src.title}>
+                  <div
+                    key={src.mark}
+                    className='flex flex-col items-center gap-1.5'
+                    title={src.title}
+                  >
                     <div
                       style={{
                         background: src.bg,
@@ -669,22 +752,27 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete, onPre
                         alignItems: "center",
                         justifyContent: "center",
                         letterSpacing: "-0.3px",
-                        boxShadow: "0 2px 8px rgba(0,0,0,0.18), 0 1px 2px rgba(0,0,0,0.10)",
+                        boxShadow:
+                          "0 2px 8px rgba(0,0,0,0.18), 0 1px 2px rgba(0,0,0,0.10)",
                       }}
                     >
                       {src.mark}
                     </div>
-                    <span className="text-[10px] text-ascend-subtext text-center leading-tight max-w-[56px]">
+                    <span className='text-[10px] text-ascend-subtext text-center leading-tight max-w-[56px]'>
                       {src.title.split(" ")[0]}
                     </span>
                   </div>
                 ))}
-                <div className="flex flex-col items-center gap-1.5 pl-5 border-l border-ascend-border">
-                  <div className="flex items-center gap-1.5 bg-green-50 border border-green-200 px-2.5 py-1 rounded-full">
-                    <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-                    <span className="text-[11px] font-bold text-green-700">Live</span>
+                <div className='flex flex-col items-center gap-1.5 pl-5 border-l border-ascend-border'>
+                  <div className='flex items-center gap-1.5 bg-green-50 border border-green-200 px-2.5 py-1 rounded-full'>
+                    <span className='w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse' />
+                    <span className='text-[11px] font-bold text-green-700'>
+                      Live
+                    </span>
                   </div>
-                  <span className="text-[10px] text-ascend-subtext whitespace-nowrap">4 min ago</span>
+                  <span className='text-[10px] text-ascend-subtext whitespace-nowrap'>
+                    4 min ago
+                  </span>
                 </div>
               </div>
             </div>
@@ -692,11 +780,14 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete, onPre
             {/* CTA */}
             <button
               onClick={() => setCurrentScreen(2)}
-              className="w-full flex items-center justify-center gap-2 bg-ascend-blue hover:bg-indigo-700 text-white font-bold px-6 py-4 rounded-xl transition-all text-base"
-              style={{ boxShadow: "0 4px 20px rgba(67,24,255,0.35), 0 1px 4px rgba(67,24,255,0.2)" }}
+              className='w-full flex items-center justify-center gap-2 bg-ascend-blue hover:bg-indigo-700 text-white font-bold px-6 py-4 rounded-xl transition-all text-base'
+              style={{
+                boxShadow:
+                  "0 4px 20px rgba(67,24,255,0.35), 0 1px 4px rgba(67,24,255,0.2)",
+              }}
             >
               Build your first intervention
-              <ArrowRight className="w-5 h-5" />
+              <ArrowRight className='w-5 h-5' />
             </button>
           </div>
         </div>
@@ -707,20 +798,20 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete, onPre
   // ─── Screen 2 ─────────────────────────────────────────────────────────────
   if (currentScreen === 2) {
     return (
-      <div className="h-screen bg-ascend-bg flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-3 duration-300">
+      <div className='h-screen bg-ascend-bg flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-3 duration-300'>
         {/* scrollable content */}
-        <div className="flex-1 overflow-y-auto px-6 lg:px-10">
-          <div className="max-w-4xl w-full mx-auto pt-8 pb-4">
+        <div className='flex-1 overflow-y-auto px-6 lg:px-10'>
+          <div className='max-w-4xl w-full mx-auto pt-8 pb-4'>
             <NavRow onBack={() => setCurrentScreen(1)} onSkip={onComplete} />
             <ProgressIndicator completed={0} />
 
-            <div className="text-center mb-10">
-              <h1 className="text-3xl font-bold text-ascend-text mb-3">
+            <div className='text-center mb-10'>
+              <h1 className='text-3xl font-bold text-ascend-text mb-3'>
                 Pick a professional scenario. We'll handle the setup.
               </h1>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
+            <div className='grid grid-cols-1 md:grid-cols-3 gap-5 mb-8'>
               {scenarios.map((s) => {
                 const isSelected = selectedScenario === s.id;
                 const isFaded = selectedScenario !== null && !isSelected;
@@ -732,32 +823,34 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete, onPre
                       isSelected
                         ? "border-ascend-blue shadow-glow scale-[1.02]"
                         : isFaded
-                        ? "border-transparent opacity-50 scale-[0.98]"
-                        : "border-transparent hover:border-ascend-blue/30 hover:shadow-soft"
+                          ? "border-transparent opacity-50 scale-[0.98]"
+                          : "border-transparent hover:border-ascend-blue/30 hover:shadow-soft"
                     }`}
                   >
                     {s.badge && (
-                      <span className="inline-block bg-green-100 text-green-700 text-xs font-bold px-3 py-1 rounded-full mb-4">
+                      <span className='inline-block bg-green-100 text-green-700 text-xs font-bold px-3 py-1 rounded-full mb-4'>
                         {s.badge}
                       </span>
                     )}
-                    <h3 className="font-bold text-ascend-text text-lg mb-2 leading-snug">
+                    <h3 className='font-bold text-ascend-text text-lg mb-2 leading-snug'>
                       {s.title}
                     </h3>
-                    <p className="text-ascend-subtext text-sm mb-4">{s.description}</p>
-                    <div className="space-y-1.5 mb-4">
+                    <p className='text-ascend-subtext text-sm mb-4'>
+                      {s.description}
+                    </p>
+                    <div className='space-y-1.5 mb-4'>
                       {s.skills.map((skill) => (
                         <div
                           key={skill}
-                          className="flex items-center gap-2 text-sm text-ascend-text"
+                          className='flex items-center gap-2 text-sm text-ascend-text'
                         >
-                          <CheckCircle2 className="w-4 h-4 text-ascend-blue flex-shrink-0" />
+                          <CheckCircle2 className='w-4 h-4 text-ascend-blue flex-shrink-0' />
                           {skill}
                         </div>
                       ))}
                     </div>
-                    <div className="flex items-center gap-1.5 text-xs text-ascend-subtext mt-2">
-                      <Clock className="w-3.5 h-3.5" />
+                    <div className='flex items-center gap-1.5 text-xs text-ascend-subtext mt-2'>
+                      <Clock className='w-3.5 h-3.5' />
                       {s.time} for students
                     </div>
                   </div>
@@ -765,14 +858,14 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete, onPre
               })}
             </div>
 
-            <p className="text-center text-xs text-ascend-subtext mb-6">
-              You can create custom scenarios later. Start with one of these to see how it
-              works.
+            <p className='text-center text-xs text-ascend-subtext mb-6'>
+              You can create custom scenarios later. Start with one of these to
+              see how it works.
             </p>
           </div>
         </div>
         {/* Sticky footer */}
-        <div className="flex-shrink-0 bg-white border-t border-ascend-border px-6 py-4 flex items-center justify-center">
+        <div className='flex-shrink-0 bg-white border-t border-ascend-border px-6 py-4 flex items-center justify-center'>
           <button
             onClick={() => selectedScenario && setCurrentScreen(3)}
             disabled={!selectedScenario}
@@ -783,7 +876,7 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete, onPre
             }`}
           >
             Use this scenario
-            <ArrowRight className="w-5 h-5" />
+            <ArrowRight className='w-5 h-5' />
           </button>
         </div>
       </div>
@@ -793,27 +886,27 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete, onPre
   // ─── Screen 3 ─────────────────────────────────────────────────────────────
   if (currentScreen === 3) {
     return (
-      <div className="h-screen bg-ascend-bg flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-3 duration-300">
+      <div className='h-screen bg-ascend-bg flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-3 duration-300'>
         {/* scrollable content */}
-        <div className="flex-1 overflow-y-auto px-6 lg:px-10">
-          <div className="max-w-3xl w-full mx-auto pt-8 pb-4">
+        <div className='flex-1 overflow-y-auto px-6 lg:px-10'>
+          <div className='max-w-3xl w-full mx-auto pt-8 pb-4'>
             <NavRow onBack={() => setCurrentScreen(2)} onSkip={onComplete} />
             <ProgressIndicator completed={1} />
 
-            <div className="text-center mb-10">
-              <h1 className="text-3xl font-bold text-ascend-text mb-3">
+            <div className='text-center mb-10'>
+              <h1 className='text-3xl font-bold text-ascend-text mb-3'>
                 Show us what you already offer. We'll show you how it connects.
               </h1>
             </div>
 
             {!showConnections ? (
-              <div className="space-y-5 mb-8">
+              <div className='space-y-5 mb-8'>
                 <DropZone
-                  boxId="workshops"
-                  icon={<Upload className="w-4 h-4 text-ascend-blue" />}
-                  label="Your Workshops & Programs"
-                  helper="Drag files, drop items from another app, or type and press Enter"
-                  placeholder="Finding Your Voice workshop..."
+                  boxId='workshops'
+                  icon={<Upload className='w-4 h-4 text-ascend-blue' />}
+                  label='Your Workshops & Programs'
+                  helper='Drag files, drop items from another app, or type and press Enter'
+                  placeholder='Finding Your Voice workshop...'
                   items={items.workshops}
                   inputValue={inputValues.workshops}
                   isDragOver={dragOverBox === "workshops"}
@@ -832,11 +925,11 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete, onPre
                 />
 
                 <DropZone
-                  boxId="rooms"
-                  icon={<MapPin className="w-4 h-4 text-ascend-blue" />}
-                  label="Your Available Rooms"
+                  boxId='rooms'
+                  icon={<MapPin className='w-4 h-4 text-ascend-blue' />}
+                  label='Your Available Rooms'
                   helper="Just list what you have. We'll suggest how to use it."
-                  placeholder="Room 14B — whiteboard, 20 seats, M-W-F 2-5pm..."
+                  placeholder='Room 14B — whiteboard, 20 seats, M-W-F 2-5pm...'
                   items={items.rooms}
                   inputValue={inputValues.rooms}
                   isDragOver={dragOverBox === "rooms"}
@@ -855,11 +948,11 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete, onPre
                 />
 
                 <DropZone
-                  boxId="other"
-                  icon={<BookOpen className="w-4 h-4 text-ascend-subtext" />}
-                  label="Other Resources"
-                  helper="Counseling hours, events, special resources"
-                  placeholder="Drop-in hours, career fair schedule..."
+                  boxId='other'
+                  icon={<BookOpen className='w-4 h-4 text-ascend-subtext' />}
+                  label='Other Resources'
+                  helper='Counseling hours, events, special resources'
+                  placeholder='Drop-in hours, career fair schedule...'
                   optional
                   items={items.other}
                   inputValue={inputValues.other}
@@ -881,107 +974,154 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete, onPre
             ) : (
               <>
                 {/* Resource mapping carousel */}
-                <div className="mb-6 animate-in fade-in duration-500">
-                  <div className="flex items-center justify-between mb-4">
-                    <h2 className="font-bold text-ascend-text text-lg">
+                <div className='mb-6 animate-in fade-in duration-500'>
+                  <div className='flex items-center justify-between mb-4'>
+                    <h2 className='font-bold text-ascend-text text-lg'>
                       Here's how your existing work connects to student needs
                     </h2>
-                    <span className="text-xs text-ascend-subtext">{currentCard + 1} / {resourceMappings.length}</span>
+                    <span className='text-xs text-ascend-subtext'>
+                      {currentCard + 1} / {resourceMappings.length}
+                    </span>
                   </div>
 
                   {/* Card */}
                   <div
-                    className="rounded-card overflow-hidden border border-ascend-border"
+                    className='rounded-card overflow-hidden border border-ascend-border'
                     style={{
-                      boxShadow: "0 8px 40px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06)",
+                      boxShadow:
+                        "0 8px 40px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06)",
                       opacity: cardVisible ? 1 : 0,
-                      transform: cardVisible ? "translateY(0)" : "translateY(10px)",
+                      transform: cardVisible
+                        ? "translateY(0)"
+                        : "translateY(10px)",
                       transition: "opacity 0.35s ease, transform 0.35s ease",
                     }}
                   >
                     {/* Image */}
-                    <div className="relative h-52 overflow-hidden">
+                    <div className='relative h-52 overflow-hidden'>
                       <img
                         src={resourceMappings[currentCard].image}
                         alt={resourceMappings[currentCard].superpower}
-                        className="w-full h-full object-cover scale-105"
+                        className='w-full h-full object-cover scale-105'
                         style={{ filter: "brightness(0.75)" }}
                       />
                       <div
-                        className="absolute inset-0"
-                        style={{ background: "linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.1) 60%, transparent 100%)" }}
+                        className='absolute inset-0'
+                        style={{
+                          background:
+                            "linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.1) 60%, transparent 100%)",
+                        }}
                       />
-                      <div className="absolute bottom-0 left-0 p-6">
+                      <div className='absolute bottom-0 left-0 p-6'>
                         <span
-                          className="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full mb-2 inline-block"
-                          style={{ background: resourceMappings[currentCard].accent, color: "#fff" }}
+                          className='text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full mb-2 inline-block'
+                          style={{
+                            background: resourceMappings[currentCard].accent,
+                            color: "#fff",
+                          }}
                         >
                           Student Superpower
                         </span>
-                        <h3 className="text-2xl font-bold text-white leading-tight">
+                        <h3 className='text-2xl font-bold text-white leading-tight'>
                           {resourceMappings[currentCard].superpower}
                         </h3>
-                        <p className="text-white/80 text-sm mt-1">{resourceMappings[currentCard].detail}</p>
+                        <p className='text-white/80 text-sm mt-1'>
+                          {resourceMappings[currentCard].detail}
+                        </p>
                       </div>
                     </div>
 
                     {/* Content */}
-                    <div className="bg-white p-6 grid grid-cols-2 gap-4">
+                    <div className='bg-white p-6 grid grid-cols-2 gap-4'>
                       {/* Problem */}
-                      <div className="rounded-xl p-4 border border-red-100 bg-red-50">
-                        <p className="text-[10px] font-bold uppercase tracking-wider text-red-400 mb-2">The Problem</p>
-                        <p className="font-bold text-ascend-text text-sm leading-snug">{resourceMappings[currentCard].problem}</p>
+                      <div className='rounded-xl p-4 border border-red-100 bg-red-50'>
+                        <p className='text-[10px] font-bold uppercase tracking-wider text-red-400 mb-2'>
+                          The Problem
+                        </p>
+                        <p className='font-bold text-ascend-text text-sm leading-snug'>
+                          {resourceMappings[currentCard].problem}
+                        </p>
                       </div>
 
                       {/* Solution */}
-                      <div className="rounded-xl p-4 border border-green-100 bg-green-50">
-                        <p className="text-[10px] font-bold uppercase tracking-wider text-green-600 mb-2">Your Solution</p>
-                        <p className="font-bold text-ascend-text text-sm">{resourceMappings[currentCard].resource}</p>
-                        <p className="text-xs text-ascend-subtext mt-1">{resourceMappings[currentCard].resourceDetail}</p>
+                      <div className='rounded-xl p-4 border border-green-100 bg-green-50'>
+                        <p className='text-[10px] font-bold uppercase tracking-wider text-green-600 mb-2'>
+                          Your Solution
+                        </p>
+                        <p className='font-bold text-ascend-text text-sm'>
+                          {resourceMappings[currentCard].resource}
+                        </p>
+                        <p className='text-xs text-ascend-subtext mt-1'>
+                          {resourceMappings[currentCard].resourceDetail}
+                        </p>
                       </div>
 
                       {/* Auto-trigger */}
                       <div
-                        className="col-span-2 rounded-xl p-4 flex items-start gap-3"
-                        style={{ background: `${resourceMappings[currentCard].accent}12`, border: `1px solid ${resourceMappings[currentCard].accent}30` }}
+                        className='col-span-2 rounded-xl p-4 flex items-start gap-3'
+                        style={{
+                          background: `${resourceMappings[currentCard].accent}12`,
+                          border: `1px solid ${resourceMappings[currentCard].accent}30`,
+                        }}
                       >
                         <div
-                          className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
-                          style={{ background: resourceMappings[currentCard].accent }}
+                          className='w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0'
+                          style={{
+                            background: resourceMappings[currentCard].accent,
+                          }}
                         >
-                          <Zap className="w-3.5 h-3.5 text-white" />
+                          <Zap className='w-3.5 h-3.5 text-white' />
                         </div>
                         <div>
-                          <p className="text-[10px] font-bold uppercase tracking-wider mb-1" style={{ color: resourceMappings[currentCard].accent }}>Auto-triggered when</p>
-                          <p className="text-sm font-medium text-ascend-text leading-snug">{resourceMappings[currentCard].connection}</p>
+                          <p
+                            className='text-[10px] font-bold uppercase tracking-wider mb-1'
+                            style={{
+                              color: resourceMappings[currentCard].accent,
+                            }}
+                          >
+                            Auto-triggered when
+                          </p>
+                          <p className='text-sm font-medium text-ascend-text leading-snug'>
+                            {resourceMappings[currentCard].connection}
+                          </p>
                         </div>
                       </div>
                     </div>
                   </div>
 
                   {/* Carousel controls */}
-                  <div className="flex items-center justify-between mt-4">
+                  <div className='flex items-center justify-between mt-4'>
                     <button
                       onClick={() => {
-                        goToCard((currentCard - 1 + resourceMappings.length) % resourceMappings.length);
+                        goToCard(
+                          (currentCard - 1 + resourceMappings.length) %
+                            resourceMappings.length,
+                        );
                         setCardPaused(true);
                         setTimeout(() => setCardPaused(false), 8000);
                       }}
-                      className="flex items-center gap-1.5 text-xs font-bold text-ascend-subtext hover:text-ascend-text transition-colors px-3 py-2 rounded-xl hover:bg-ascend-light-blue"
+                      className='flex items-center gap-1.5 text-xs font-bold text-ascend-subtext hover:text-ascend-text transition-colors px-3 py-2 rounded-xl hover:bg-ascend-light-blue'
                     >
-                      <ChevronLeft className="w-4 h-4" /> Previous
+                      <ChevronLeft className='w-4 h-4' /> Previous
                     </button>
 
-                    <div className="flex items-center gap-2">
+                    <div className='flex items-center gap-2'>
                       {resourceMappings.map((_, i) => (
                         <button
                           key={i}
-                          onClick={() => { goToCard(i); setCardPaused(true); setTimeout(() => setCardPaused(false), 8000); }}
-                          className="rounded-full transition-all duration-300"
+                          onClick={() => {
+                            goToCard(i);
+                            setCardPaused(true);
+                            setTimeout(() => setCardPaused(false), 8000);
+                          }}
+                          className='rounded-full transition-all duration-300'
                           style={{
                             width: i === currentCard ? 20 : 8,
                             height: 8,
-                            background: i === currentCard ? resourceMappings[currentCard].accent : "#E0E5F2",
+                            background:
+                              i === currentCard
+                                ? resourceMappings[currentCard].accent
+                                : "#E0E5F2",
                           }}
                         />
                       ))}
@@ -993,26 +1133,27 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete, onPre
                         setCardPaused(true);
                         setTimeout(() => setCardPaused(false), 8000);
                       }}
-                      className="flex items-center gap-1.5 text-xs font-bold text-ascend-subtext hover:text-ascend-text transition-colors px-3 py-2 rounded-xl hover:bg-ascend-light-blue"
+                      className='flex items-center gap-1.5 text-xs font-bold text-ascend-subtext hover:text-ascend-text transition-colors px-3 py-2 rounded-xl hover:bg-ascend-light-blue'
                     >
-                      Next <ChevronRight className="w-4 h-4" />
+                      Next <ChevronRight className='w-4 h-4' />
                     </button>
                   </div>
                 </div>
 
                 {/* Insight box */}
-                <div className="bg-indigo-50 border border-indigo-100 rounded-card p-6 mb-8 animate-in fade-in duration-700">
-                  <p className="text-ascend-text leading-relaxed">
-                    Right now you invite <strong>200 students</strong> to workshops with{" "}
-                    <strong className="text-red-500">8% attendance.</strong>
+                <div className='bg-indigo-50 border border-indigo-100 rounded-card p-6 mb-8 animate-in fade-in duration-700'>
+                  <p className='text-ascend-text leading-relaxed'>
+                    Right now you invite <strong>200 students</strong> to
+                    workshops with{" "}
+                    <strong className='text-red-500'>8% attendance.</strong>
                   </p>
-                  <p className="text-ascend-text leading-relaxed mt-3">
+                  <p className='text-ascend-text leading-relaxed mt-3'>
                     With Waypoint, you send personal recommendations to{" "}
-                    <strong>18 students</strong> who just experienced why they need it.
-                    Attendance rate:{" "}
-                    <strong className="text-green-600">38%.</strong>
+                    <strong>18 students</strong> who just experienced why they
+                    need it. Attendance rate:{" "}
+                    <strong className='text-green-600'>38%.</strong>
                   </p>
-                  <p className="text-ascend-blue font-bold mt-3">
+                  <p className='text-ascend-blue font-bold mt-3'>
                     Same workshops. Different timing. That's the difference.
                   </p>
                 </div>
@@ -1021,36 +1162,36 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete, onPre
           </div>
         </div>
         {/* Sticky footer */}
-        <div className="flex-shrink-0 bg-white border-t border-ascend-border px-6 py-4 flex items-center justify-center">
+        <div className='flex-shrink-0 bg-white border-t border-ascend-border px-6 py-4 flex items-center justify-center'>
           {!showConnections ? (
             loadingStep !== null ? (
-              <div className="flex flex-col items-center gap-3 w-full max-w-sm">
-                <div className="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+              <div className='flex flex-col items-center gap-3 w-full max-w-sm'>
+                <div className='w-full bg-gray-100 rounded-full h-1.5 overflow-hidden'>
                   <div
-                    className="bg-ascend-blue h-1.5 rounded-full transition-all duration-700"
+                    className='bg-ascend-blue h-1.5 rounded-full transition-all duration-700'
                     style={{ width: `${((loadingStep + 1) / 3) * 100}%` }}
                   />
                 </div>
-                <p className="text-sm font-medium text-ascend-text">
+                <p className='text-sm font-medium text-ascend-text'>
                   {loadingMessages[loadingStep]}
                 </p>
               </div>
             ) : (
               <button
                 onClick={handleShowConnections}
-                className="flex items-center gap-2 bg-ascend-blue hover:bg-indigo-700 text-white font-bold px-8 py-4 rounded-pill shadow-glow transition-all hover:scale-105 text-base"
+                className='flex items-center gap-2 bg-ascend-blue hover:bg-indigo-700 text-white font-bold px-8 py-4 rounded-pill shadow-glow transition-all hover:scale-105 text-base'
               >
                 Show me the connections
-                <ArrowRight className="w-5 h-5" />
+                <ArrowRight className='w-5 h-5' />
               </button>
             )
           ) : (
             <button
               onClick={() => setCurrentScreen(4)}
-              className="flex items-center gap-2 bg-ascend-blue hover:bg-indigo-700 text-white font-bold px-8 py-4 rounded-pill shadow-glow transition-all hover:scale-105 text-base"
+              className='flex items-center gap-2 bg-ascend-blue hover:bg-indigo-700 text-white font-bold px-8 py-4 rounded-pill shadow-glow transition-all hover:scale-105 text-base'
             >
               Next: Optimize Spaces
-              <ArrowRight className="w-5 h-5" />
+              <ArrowRight className='w-5 h-5' />
             </button>
           )}
         </div>
@@ -1061,86 +1202,98 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete, onPre
   // ─── Screen 4 ─────────────────────────────────────────────────────────────
   if (currentScreen === 4) {
     return (
-      <div className="h-screen bg-ascend-bg flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-3 duration-300">
+      <div className='h-screen bg-ascend-bg flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-3 duration-300'>
         {/* scrollable content */}
-        <div className="flex-1 overflow-y-auto px-6 lg:px-10">
-          <div className="max-w-5xl w-full mx-auto pt-8 pb-4">
+        <div className='flex-1 overflow-y-auto px-6 lg:px-10'>
+          <div className='max-w-5xl w-full mx-auto pt-8 pb-4'>
             <NavRow onBack={() => setCurrentScreen(3)} onSkip={onComplete} />
             <ProgressIndicator completed={2} />
 
-            <div className="text-center mb-8">
-              <h1 className="text-3xl font-bold text-ascend-text mb-2">
+            <div className='text-center mb-8'>
+              <h1 className='text-3xl font-bold text-ascend-text mb-2'>
                 Your rooms are sitting empty. Here's how to change that.
               </h1>
-              <p className="text-ascend-subtext text-sm">
+              <p className='text-ascend-subtext text-sm'>
                 Low investment. High impact. You decide what makes sense.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
+            <div className='grid grid-cols-1 md:grid-cols-3 gap-5 mb-6'>
               {rooms.map((room) => {
                 const isSelected = selectedRooms.has(room.id);
                 return (
                   <div
                     key={room.id}
                     className={`bg-white rounded-card border-2 transition-all shadow-crisp flex flex-col ${
-                      isSelected ? "border-ascend-blue shadow-soft" : "border-transparent"
+                      isSelected
+                        ? "border-ascend-blue shadow-soft"
+                        : "border-transparent"
                     }`}
                   >
                     {/* Current state */}
-                    <div className="p-5 border-b border-ascend-border bg-gray-50/70 rounded-t-card">
-                      <p className="text-xs font-bold uppercase tracking-wide text-ascend-subtext mb-1">
+                    <div className='p-5 border-b border-ascend-border bg-gray-50/70 rounded-t-card'>
+                      <p className='text-xs font-bold uppercase tracking-wide text-ascend-subtext mb-1'>
                         Current
                       </p>
-                      <p className="font-bold text-ascend-text text-base">{room.name}</p>
-                      <p className="text-sm text-ascend-subtext mt-1">{room.currentUse}</p>
-                      <span className="inline-block mt-2 text-xs bg-red-50 text-red-500 font-bold px-2 py-0.5 rounded-full">
+                      <p className='font-bold text-ascend-text text-base'>
+                        {room.name}
+                      </p>
+                      <p className='text-sm text-ascend-subtext mt-1'>
+                        {room.currentUse}
+                      </p>
+                      <span className='inline-block mt-2 text-xs bg-red-50 text-red-500 font-bold px-2 py-0.5 rounded-full'>
                         {room.currentUtilization}
                       </span>
-                      <p className="text-xs text-ascend-subtext mt-2 italic">
+                      <p className='text-xs text-ascend-subtext mt-2 italic'>
                         "{room.currentNote}"
                       </p>
                     </div>
 
                     {/* Suggested */}
-                    <div className="p-5 flex-1 flex flex-col">
-                      <p className="text-xs font-bold uppercase tracking-wide text-ascend-blue mb-1">
+                    <div className='p-5 flex-1 flex flex-col'>
+                      <p className='text-xs font-bold uppercase tracking-wide text-ascend-blue mb-1'>
                         Add →
                       </p>
-                      <p className="font-bold text-ascend-text text-base mb-1">
+                      <p className='font-bold text-ascend-text text-base mb-1'>
                         {room.suggestedUse}
                       </p>
-                      <p className="text-xs text-ascend-subtext mb-2">
+                      <p className='text-xs text-ascend-subtext mb-2'>
                         For {room.forStudents}
                       </p>
-                      <p className="text-xs text-ascend-text mb-4 leading-relaxed">
+                      <p className='text-xs text-ascend-text mb-4 leading-relaxed'>
                         Practice: {room.practice}
                       </p>
 
-                      <div className="space-y-1 mb-4">
+                      <div className='space-y-1 mb-4'>
                         {room.costs.map((c, i) => (
-                          <div key={i} className="flex justify-between text-xs">
-                            <span className="text-ascend-subtext">{c.item}</span>
-                            <span className="font-bold text-ascend-text">{c.cost}</span>
+                          <div key={i} className='flex justify-between text-xs'>
+                            <span className='text-ascend-subtext'>
+                              {c.item}
+                            </span>
+                            <span className='font-bold text-ascend-text'>
+                              {c.cost}
+                            </span>
                           </div>
                         ))}
                       </div>
 
-                      <div className="bg-green-50 rounded-xl p-3 mb-4">
-                        <p className="text-xs font-bold text-green-700">
+                      <div className='bg-green-50 rounded-xl p-3 mb-4'>
+                        <p className='text-xs font-bold text-green-700'>
                           {room.projectedUtilization}
                         </p>
-                        <p className="text-xs text-green-600">{room.projectedStudents}</p>
+                        <p className='text-xs text-green-600'>
+                          {room.projectedStudents}
+                        </p>
                       </div>
 
-                      <label className="flex items-center gap-2 cursor-pointer mt-auto">
+                      <label className='flex items-center gap-2 cursor-pointer mt-auto'>
                         <input
-                          type="checkbox"
+                          type='checkbox'
                           checked={isSelected}
                           onChange={() => toggleRoom(room.id)}
-                          className="w-4 h-4 rounded"
+                          className='w-4 h-4 rounded'
                         />
-                        <span className="text-xs font-bold text-ascend-text">
+                        <span className='text-xs font-bold text-ascend-text'>
                           Add this to my setup
                         </span>
                       </label>
@@ -1152,55 +1305,60 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete, onPre
 
             {/* Summary */}
             {selectedRooms.size > 0 && (
-              <div className="bg-white rounded-card shadow-crisp p-6 mb-5 animate-in fade-in duration-300">
-                <div className="flex flex-wrap gap-8">
+              <div className='bg-white rounded-card shadow-crisp p-6 mb-5 animate-in fade-in duration-300'>
+                <div className='flex flex-wrap gap-8'>
                   <div>
-                    <p className="text-2xl font-bold text-ascend-text">
+                    <p className='text-2xl font-bold text-ascend-text'>
                       ${totalMinCost}–${totalMaxCost}
                     </p>
-                    <p className="text-xs text-ascend-subtext">Total investment</p>
+                    <p className='text-xs text-ascend-subtext'>
+                      Total investment
+                    </p>
                   </div>
                   <div>
-                    <p className="text-2xl font-bold text-ascend-text">1-2 weeks</p>
-                    <p className="text-xs text-ascend-subtext">Rooms ready</p>
+                    <p className='text-2xl font-bold text-ascend-text'>
+                      1-2 weeks
+                    </p>
+                    <p className='text-xs text-ascend-subtext'>Rooms ready</p>
                   </div>
                   <div>
-                    <p className="text-2xl font-bold text-ascend-text">
+                    <p className='text-2xl font-bold text-ascend-text'>
                       {selectedRooms.size * 15}–{selectedRooms.size * 20}+
                     </p>
-                    <p className="text-xs text-ascend-subtext">
+                    <p className='text-xs text-ascend-subtext'>
                       Additional students/week
                     </p>
                   </div>
                 </div>
-                <p className="text-xs text-ascend-subtext mt-3">
+                <p className='text-xs text-ascend-subtext mt-3'>
                   Same rooms. New purpose. Real skill development.
                 </p>
               </div>
             )}
 
             {/* Skip option */}
-            <div className="flex items-center justify-center gap-2 mb-6">
-              <label className="flex items-center gap-2 cursor-pointer text-sm text-ascend-subtext">
+            <div className='flex items-center justify-center gap-2 mb-6'>
+              <label className='flex items-center gap-2 cursor-pointer text-sm text-ascend-subtext'>
                 <input
-                  type="checkbox"
+                  type='checkbox'
                   checked={skipSpaces}
                   onChange={(e) => setSkipSpaces(e.target.checked)}
-                  className="w-4 h-4 rounded"
+                  className='w-4 h-4 rounded'
                 />
-                Not ready for this step? Skip for now — just start with digital simulations
+                Not ready for this step? Skip for now — just start with digital
+                simulations
               </label>
             </div>
           </div>
         </div>
         {/* Sticky footer */}
-        <div className="flex-shrink-0 bg-white border-t border-ascend-border px-6 py-4 flex items-center justify-center">
+        <div className='flex-shrink-0 bg-white border-t border-ascend-border px-6 py-4 flex items-center justify-center'>
           <button
             onClick={() => setCurrentScreen(5)}
-            className="flex items-center gap-2 bg-ascend-blue hover:bg-indigo-700 text-white font-bold px-8 py-4 rounded-pill shadow-glow transition-all hover:scale-105 text-base"
+            className='flex items-center gap-2 bg-ascend-blue hover:bg-indigo-700 text-white font-bold px-8 py-4 rounded-pill shadow-glow transition-all hover:scale-105 text-base'
           >
             Deploy My Setup
-            <ArrowRight className="w-5 h-5" />
+            <ArrowRight className='w-5 h-5' />
           </button>
         </div>
       </div>
@@ -1212,21 +1370,21 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete, onPre
     const deployments = [
       {
         id: "email",
-        icon: <Mail className="w-6 h-6" />,
+        icon: <Mail className='w-6 h-6' />,
         title: "Email Invitation",
         desc: "Send personalized invitations with unique links",
         detail: "Send to 47 students from your list",
       },
       {
         id: "canvas",
-        icon: <BookOpen className="w-6 h-6" />,
+        icon: <BookOpen className='w-6 h-6' />,
         title: "Canvas LMS",
         desc: "Post as assignment in your courses",
         detail: "Select course sections",
       },
       {
         id: "link",
-        icon: <Link2 className="w-6 h-6" />,
+        icon: <Link2 className='w-6 h-6' />,
         title: "Direct Link",
         desc: "Copy link to share anywhere",
         detail: "Includes QR code version for posters",
@@ -1234,28 +1392,28 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete, onPre
     ];
 
     return (
-      <div className="h-screen bg-ascend-bg flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-3 duration-300">
+      <div className='h-screen bg-ascend-bg flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-3 duration-300'>
         {/* scrollable content */}
-        <div className="flex-1 overflow-y-auto px-6 lg:px-10">
-          <div className="max-w-3xl w-full mx-auto pt-8 pb-4">
+        <div className='flex-1 overflow-y-auto px-6 lg:px-10'>
+          <div className='max-w-3xl w-full mx-auto pt-8 pb-4'>
             <NavRow onBack={() => setCurrentScreen(4)} onSkip={onComplete} />
-            <div className="flex justify-center mb-8">
-              <img src="/waypoint.png" alt="Waypoint" className="h-20 w-auto" />
-            </div>
+            {/* <div className='flex justify-center mb-8'>
+              <img src='/waypoint.png' alt='Waypoint' className='h-20 w-auto' />
+            </div> */}
 
-            <div className="text-center mb-8">
-              <h1 className="text-3xl font-bold text-ascend-text mb-3">
+            <div className='text-center mb-8'>
+              <h1 className='text-3xl font-bold text-ascend-text mb-3'>
                 Your simulation is ready. Time to send it to students.
               </h1>
-              <p className="text-ascend-subtext text-sm max-w-lg mx-auto">
-                They'll receive a professional scenario, discover superpowers they didn't
-                know they had, and get personalized recommendations for your workshops and
-                spaces.
+              <p className='text-ascend-subtext text-sm max-w-lg mx-auto'>
+                They'll receive a professional scenario, discover superpowers
+                they didn't know they had, and get personalized recommendations
+                for your workshops and spaces.
               </p>
             </div>
 
             {/* Deployment options */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+            <div className='grid grid-cols-1 md:grid-cols-3 gap-4 mb-8'>
               {deployments.map((d) => (
                 <div
                   key={d.id}
@@ -1275,54 +1433,58 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete, onPre
                   >
                     {d.icon}
                   </div>
-                  <p className="font-bold text-ascend-text text-sm mb-1">{d.title}</p>
-                  <p className="text-xs text-ascend-subtext mb-2">{d.desc}</p>
-                  <p className="text-xs font-medium text-ascend-blue">{d.detail}</p>
+                  <p className='font-bold text-ascend-text text-sm mb-1'>
+                    {d.title}
+                  </p>
+                  <p className='text-xs text-ascend-subtext mb-2'>{d.desc}</p>
+                  <p className='text-xs font-medium text-ascend-blue'>
+                    {d.detail}
+                  </p>
                 </div>
               ))}
             </div>
 
             {/* Email preview */}
-            <div className="bg-white rounded-card shadow-soft mb-3 overflow-hidden">
-              <div className="bg-gray-100 px-4 py-2.5 flex items-center gap-2 border-b border-ascend-border">
-                <div className="flex gap-1.5">
-                  <div className="w-3 h-3 rounded-full bg-red-400" />
-                  <div className="w-3 h-3 rounded-full bg-yellow-400" />
-                  <div className="w-3 h-3 rounded-full bg-green-400" />
+            <div className='bg-white rounded-card shadow-soft mb-3 overflow-hidden'>
+              <div className='bg-gray-100 px-4 py-2.5 flex items-center gap-2 border-b border-ascend-border'>
+                <div className='flex gap-1.5'>
+                  <div className='w-3 h-3 rounded-full bg-red-400' />
+                  <div className='w-3 h-3 rounded-full bg-yellow-400' />
+                  <div className='w-3 h-3 rounded-full bg-green-400' />
                 </div>
-                <span className="text-xs text-gray-500 mx-auto font-medium">
+                <span className='text-xs text-gray-500 mx-auto font-medium'>
                   Email Preview
                 </span>
               </div>
-              <div className="p-6 text-sm">
-                <p className="text-ascend-subtext text-xs mb-3">
-                  <strong className="text-ascend-text">Subject:</strong> Discover a
-                  superpower you didn't know you had (5 minutes)
+              <div className='p-6 text-sm'>
+                <p className='text-ascend-subtext text-xs mb-3'>
+                  <strong className='text-ascend-text'>Subject:</strong>{" "}
+                  Discover a superpower you didn't know you had (5 minutes)
                 </p>
-                <div className="border-t border-ascend-border pt-4 space-y-3 text-ascend-text leading-relaxed text-sm">
+                <div className='border-t border-ascend-border pt-4 space-y-3 text-ascend-text leading-relaxed text-sm'>
                   <p>Hi [First Name],</p>
                   <p>
-                    A nonprofit team just used AI to write their annual report. They
-                    disagree about whether it captures the real story. They want your
-                    perspective.
+                    A nonprofit team just used AI to write their annual report.
+                    They disagree about whether it captures the real story. They
+                    want your perspective.
                   </p>
                   <p>
-                    Takes 5–7 minutes. You'll get personalized feedback showing superpowers
-                    you might not know you have — with specific evidence from what you just
-                    did.
+                    Takes 5–7 minutes. You'll get personalized feedback showing
+                    superpowers you might not know you have — with specific
+                    evidence from what you just did.
                   </p>
                   <p>
-                    You can complete this digitally, or visit Room 14B during open hours
-                    for in-person practice.
+                    You can complete this digitally, or visit Room 14B during
+                    open hours for in-person practice.
                   </p>
                   <p>
-                    No grades. No right answers. Just a chance to see what you're capable
-                    of when it matters.
+                    No grades. No right answers. Just a chance to see what
+                    you're capable of when it matters.
                   </p>
-                  <p className="text-ascend-blue font-medium cursor-pointer hover:underline">
+                  <p className='text-ascend-blue font-medium cursor-pointer hover:underline'>
                     [UNIQUE LINK]
                   </p>
-                  <p className="text-ascend-subtext text-xs mt-2">
+                  <p className='text-ascend-subtext text-xs mt-2'>
                     Let me know what you think.
                     <br />— [Advisor Name]
                   </p>
@@ -1330,21 +1492,21 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete, onPre
               </div>
             </div>
 
-            <p className="text-xs text-ascend-subtext text-center mb-8">
+            <p className='text-xs text-ascend-subtext text-center mb-8'>
               You can edit this message. We've written it to feel personal, not
               institutional.
             </p>
           </div>
         </div>
         {/* Sticky footer */}
-        <div className="flex-shrink-0 bg-white border-t border-ascend-border px-6 py-4 flex items-center justify-center">
+        <div className='flex-shrink-0 bg-white border-t border-ascend-border px-6 py-4 flex items-center justify-center'>
           {sent ? (
-            <div className="flex flex-col items-center gap-2 animate-in fade-in duration-300">
-              <div className="w-14 h-14 rounded-full bg-green-100 flex items-center justify-center">
-                <Check className="w-7 h-7 text-green-600" />
+            <div className='flex flex-col items-center gap-2 animate-in fade-in duration-300'>
+              <div className='w-14 h-14 rounded-full bg-green-100 flex items-center justify-center'>
+                <Check className='w-7 h-7 text-green-600' />
               </div>
-              <p className="font-bold text-ascend-text">Sent to 47 students</p>
-              <p className="text-xs text-ascend-subtext">
+              <p className='font-bold text-ascend-text'>Sent to 47 students</p>
+              <p className='text-xs text-ascend-subtext'>
                 They'll start receiving this now
               </p>
             </div>
@@ -1352,17 +1514,17 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete, onPre
             <button
               onClick={handleSendToStudents}
               disabled={sendingAnimation}
-              className="flex items-center gap-2 bg-ascend-blue hover:bg-indigo-700 text-white font-bold px-8 py-4 rounded-pill shadow-glow transition-all hover:scale-105 text-base disabled:opacity-70 disabled:cursor-wait"
+              className='flex items-center gap-2 bg-ascend-blue hover:bg-indigo-700 text-white font-bold px-8 py-4 rounded-pill shadow-glow transition-all hover:scale-105 text-base disabled:opacity-70 disabled:cursor-wait'
             >
               {sendingAnimation ? (
                 <>
-                  <Loader2 className="w-5 h-5 animate-spin" />
+                  <Loader2 className='w-5 h-5 animate-spin' />
                   Sending...
                 </>
               ) : (
                 <>
                   Send to Students
-                  <ArrowRight className="w-5 h-5" />
+                  <ArrowRight className='w-5 h-5' />
                 </>
               )}
             </button>
@@ -1374,197 +1536,198 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete, onPre
 
   // ─── Screen 6 ─────────────────────────────────────────────────────────────
   return (
-    <div className="h-screen bg-ascend-bg flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-3 duration-300">
+    <div className='h-screen bg-ascend-bg flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-3 duration-300'>
       {/* scrollable content */}
-      <div className="flex-1 overflow-y-auto px-6 lg:px-10">
-        <div className="max-w-4xl w-full mx-auto pt-8 pb-4">
-        <NavRow onBack={() => setCurrentScreen(5)} onSkip={onComplete} />
-        <p className="text-xs font-bold uppercase tracking-wider text-ascend-subtext text-center mb-2">
-          Setup Complete
-        </p>
-        <h1 className="text-3xl font-bold text-ascend-text text-center mb-2">
-          Students can access the simulation now.
-        </h1>
-        <p className="text-ascend-subtext text-center text-sm mb-10">
-          Here's what you'll see as they complete it.
-        </p>
+      <div className='flex-1 overflow-y-auto px-6 lg:px-10'>
+        <div className='max-w-4xl w-full mx-auto pt-8 pb-4'>
+          <NavRow onBack={() => setCurrentScreen(5)} onSkip={onComplete} />
+          <p className='text-xs font-bold uppercase tracking-wider text-ascend-subtext text-center mb-2'>
+            Setup Complete
+          </p>
+          <h1 className='text-3xl font-bold text-ascend-text text-center mb-2'>
+            Students can access the simulation now.
+          </h1>
+          <p className='text-ascend-subtext text-center text-sm mb-10'>
+            Here's what you'll see as they complete it.
+          </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-          {/* Live activity feed */}
-          <div className="bg-white rounded-card shadow-crisp p-6">
-            <p className="font-bold text-ascend-text text-sm mb-4">
-              Live Activity Feed
-            </p>
-            <p className="text-xs text-ascend-subtext italic mb-4">
-              Waiting for first completion...
-            </p>
-            <div className="border border-dashed border-ascend-border rounded-xl p-4 opacity-40">
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-xs font-bold text-ascend-blue flex-shrink-0">
-                  A
-                </div>
-                <div className="text-xs space-y-1">
-                  <p className="font-bold text-ascend-text">Student Name</p>
-                  <p className="text-ascend-subtext">
-                    Superpowers: Cultural Awareness, Assertive Advocacy
-                  </p>
-                  <p className="text-ascend-subtext">
-                    Recommended: Finding Your Voice workshop
-                  </p>
-                  <p className="text-ascend-subtext">Just now</p>
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-6 mb-6'>
+            {/* Live activity feed */}
+            <div className='bg-white rounded-card shadow-crisp p-6'>
+              <p className='font-bold text-ascend-text text-sm mb-4'>
+                Live Activity Feed
+              </p>
+              <p className='text-xs text-ascend-subtext italic mb-4'>
+                Waiting for first completion...
+              </p>
+              <div className='border border-dashed border-ascend-border rounded-xl p-4 opacity-40'>
+                <div className='flex items-start gap-3'>
+                  <div className='w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-xs font-bold text-ascend-blue flex-shrink-0'>
+                    A
+                  </div>
+                  <div className='text-xs space-y-1'>
+                    <p className='font-bold text-ascend-text'>Student Name</p>
+                    <p className='text-ascend-subtext'>
+                      Superpowers: Cultural Awareness, Assertive Advocacy
+                    </p>
+                    <p className='text-ascend-subtext'>
+                      Recommended: Finding Your Voice workshop
+                    </p>
+                    <p className='text-ascend-subtext'>Just now</p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* Superpowers chart */}
-          <div className="bg-white rounded-card shadow-crisp p-6">
-            <p className="font-bold text-ascend-text text-sm mb-1">
-              Superpowers Discovered
-            </p>
-            <p className="text-xs text-ascend-subtext mb-3">
-              Updates in real-time as students complete
-            </p>
-            <div style={{ height: 120 }}>
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={[{ name: "Waiting", value: 1 }]}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={30}
-                    outerRadius={50}
-                    fill="#E0E5F2"
-                    dataKey="value"
-                  />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
-            <div className="flex flex-wrap gap-x-3 gap-y-1 mt-2">
-              {superpowerLegend.map((name, i) => (
-                <span
-                  key={name}
-                  className="flex items-center gap-1 text-xs text-ascend-subtext"
-                >
+            {/* Superpowers chart */}
+            <div className='bg-white rounded-card shadow-crisp p-6'>
+              <p className='font-bold text-ascend-text text-sm mb-1'>
+                Superpowers Discovered
+              </p>
+              <p className='text-xs text-ascend-subtext mb-3'>
+                Updates in real-time as students complete
+              </p>
+              <div style={{ height: 120 }}>
+                <ResponsiveContainer width='100%' height='100%'>
+                  <PieChart>
+                    <Pie
+                      data={[{ name: "Waiting", value: 1 }]}
+                      cx='50%'
+                      cy='50%'
+                      innerRadius={30}
+                      outerRadius={50}
+                      fill='#E0E5F2'
+                      dataKey='value'
+                    />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+              <div className='flex flex-wrap gap-x-3 gap-y-1 mt-2'>
+                {superpowerLegend.map((name, i) => (
                   <span
-                    className="w-2 h-2 rounded-full inline-block flex-shrink-0"
-                    style={{ background: superpowerColors[i] }}
-                  />
-                  {name}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          {/* Resource engagement */}
-          <div className="bg-white rounded-card shadow-crisp p-6">
-            <p className="font-bold text-ascend-text text-sm mb-4">
-              Resource Engagement
-            </p>
-            <div style={{ height: 140 }}>
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart
-                  data={resourceEngagementData}
-                  margin={{ top: 0, right: 0, left: -20, bottom: 0 }}
-                >
-                  <XAxis
-                    dataKey="name"
-                    tick={{ fontSize: 9, fill: "#A3AED0" }}
-                    axisLine={false}
-                    tickLine={false}
-                  />
-                  <YAxis
-                    tick={{ fontSize: 10, fill: "#A3AED0" }}
-                    axisLine={false}
-                    tickLine={false}
-                    tickFormatter={(v) => `${v}%`}
-                  />
-                  <Tooltip
-                    formatter={(v) => `${v}%`}
-                    contentStyle={{ borderRadius: 10, fontSize: 11 }}
-                  />
-                  <Legend wrapperStyle={{ fontSize: 10 }} />
-                  <Bar
-                    dataKey="current"
-                    name="Current"
-                    fill="#E0E5F2"
-                    radius={[4, 4, 0, 0]}
-                    barSize={14}
-                  />
-                  <Bar
-                    dataKey="projected"
-                    name="Projected"
-                    fill="#4318FF"
-                    radius={[4, 4, 0, 0]}
-                    barSize={14}
-                    opacity={0.6}
-                  />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-
-          {/* Space utilization (if rooms opted in) */}
-          {selectedRooms.size > 0 ? (
-            <div className="bg-white rounded-card shadow-crisp p-6">
-              <p className="font-bold text-ascend-text text-sm mb-4">
-                Space Utilization
-              </p>
-              <div className="space-y-4">
-                {Array.from(selectedRooms).map((id) => {
-                  const room = rooms.find((r) => r.id === id)!;
-                  return (
-                    <div key={id}>
-                      <div className="flex justify-between text-xs mb-1.5">
-                        <span className="font-medium text-ascend-text">
-                          {room.name}
-                        </span>
-                        <span className="text-ascend-blue font-bold">
-                          {room.projectedUtilization}
-                        </span>
-                      </div>
-                      <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-                        <div
-                          className="h-full bg-ascend-blue/70 rounded-full transition-all"
-                          style={{ width: "35%" }}
-                        />
-                      </div>
-                    </div>
-                  );
-                })}
+                    key={name}
+                    className='flex items-center gap-1 text-xs text-ascend-subtext'
+                  >
+                    <span
+                      className='w-2 h-2 rounded-full inline-block flex-shrink-0'
+                      style={{ background: superpowerColors[i] }}
+                    />
+                    {name}
+                  </span>
+                ))}
               </div>
             </div>
-          ) : (
-            <div className="bg-white rounded-card shadow-crisp p-6 flex items-center justify-center">
-              <p className="text-xs text-ascend-subtext text-center">
-                Space utilization tracking available
-                <br />
-                when rooms are configured.
-              </p>
-            </div>
-          )}
-        </div>
 
-        {/* Anticipation box */}
-        <div className="bg-indigo-50 border border-indigo-100 rounded-card p-6 mb-8">
-          <p className="text-ascend-text leading-relaxed">
-            We'll email you when the first student completes. Most students finish within{" "}
-            <strong>24 hours</strong> of receiving the invitation.
-          </p>
-          <p className="text-ascend-subtext text-sm mt-2">
-            Want to see what their experience looks like?
-          </p>
-        </div>
+            {/* Resource engagement */}
+            <div className='bg-white rounded-card shadow-crisp p-6'>
+              <p className='font-bold text-ascend-text text-sm mb-4'>
+                Resource Engagement
+              </p>
+              <div style={{ height: 140 }}>
+                <ResponsiveContainer width='100%' height='100%'>
+                  <BarChart
+                    data={resourceEngagementData}
+                    margin={{ top: 0, right: 0, left: -20, bottom: 0 }}
+                  >
+                    <XAxis
+                      dataKey='name'
+                      tick={{ fontSize: 9, fill: "#A3AED0" }}
+                      axisLine={false}
+                      tickLine={false}
+                    />
+                    <YAxis
+                      tick={{ fontSize: 10, fill: "#A3AED0" }}
+                      axisLine={false}
+                      tickLine={false}
+                      tickFormatter={(v) => `${v}%`}
+                    />
+                    <Tooltip
+                      formatter={(v) => `${v}%`}
+                      contentStyle={{ borderRadius: 10, fontSize: 11 }}
+                    />
+                    <Legend wrapperStyle={{ fontSize: 10 }} />
+                    <Bar
+                      dataKey='current'
+                      name='Current'
+                      fill='#E0E5F2'
+                      radius={[4, 4, 0, 0]}
+                      barSize={14}
+                    />
+                    <Bar
+                      dataKey='projected'
+                      name='Projected'
+                      fill='#4318FF'
+                      radius={[4, 4, 0, 0]}
+                      barSize={14}
+                      opacity={0.6}
+                    />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+
+            {/* Space utilization (if rooms opted in) */}
+            {selectedRooms.size > 0 ? (
+              <div className='bg-white rounded-card shadow-crisp p-6'>
+                <p className='font-bold text-ascend-text text-sm mb-4'>
+                  Space Utilization
+                </p>
+                <div className='space-y-4'>
+                  {Array.from(selectedRooms).map((id) => {
+                    const room = rooms.find((r) => r.id === id)!;
+                    return (
+                      <div key={id}>
+                        <div className='flex justify-between text-xs mb-1.5'>
+                          <span className='font-medium text-ascend-text'>
+                            {room.name}
+                          </span>
+                          <span className='text-ascend-blue font-bold'>
+                            {room.projectedUtilization}
+                          </span>
+                        </div>
+                        <div className='h-2 bg-gray-100 rounded-full overflow-hidden'>
+                          <div
+                            className='h-full bg-ascend-blue/70 rounded-full transition-all'
+                            style={{ width: "35%" }}
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            ) : (
+              <div className='bg-white rounded-card shadow-crisp p-6 flex items-center justify-center'>
+                <p className='text-xs text-ascend-subtext text-center'>
+                  Space utilization tracking available
+                  <br />
+                  when rooms are configured.
+                </p>
+              </div>
+            )}
+          </div>
+
+          {/* Anticipation box */}
+          <div className='bg-indigo-50 border border-indigo-100 rounded-card p-6 mb-8'>
+            <p className='text-ascend-text leading-relaxed'>
+              We'll email you when the first student completes. Most students
+              finish within <strong>24 hours</strong> of receiving the
+              invitation.
+            </p>
+            <p className='text-ascend-subtext text-sm mt-2'>
+              Want to see what their experience looks like?
+            </p>
+          </div>
         </div>
       </div>
       {/* Sticky footer */}
-      <div className="flex-shrink-0 bg-white border-t border-ascend-border px-6 py-4 flex items-center justify-center">
+      <div className='flex-shrink-0 bg-white border-t border-ascend-border px-6 py-4 flex items-center justify-center'>
         <button
           onClick={onPreviewJourney ?? onComplete}
-          className="flex items-center gap-2 bg-ascend-blue hover:bg-indigo-700 text-white font-bold px-8 py-4 rounded-pill shadow-glow transition-all hover:scale-105 text-base"
+          className='flex items-center gap-2 bg-ascend-blue hover:bg-indigo-700 text-white font-bold px-8 py-4 rounded-pill shadow-glow transition-all hover:scale-105 text-base'
         >
           Preview Student Journey
-          <ArrowRight className="w-5 h-5" />
+          <ArrowRight className='w-5 h-5' />
         </button>
       </div>
     </div>
