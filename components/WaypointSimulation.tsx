@@ -1334,7 +1334,7 @@ const ThreadMode: React.FC<{
               }}
             />
             <span style={{ fontSize: "11px", color: "#868686" }}>
-              Aiyana Swiftwind
+              Aiyana Yerxa
             </span>
           </div>
         </div>
