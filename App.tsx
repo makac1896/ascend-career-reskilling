@@ -4,8 +4,13 @@ import InsightsDashboard from "./components/InsightsDashboard";
 import ObserveDashboard from "./components/ObserveDashboard";
 import CurriculumDashboard from "./components/CurriculumDashboard";
 import ReportsDashboard from "./components/ReportsDashboard";
-import StudentDashboard from "./components/StudentDashboard";
 import LandingPage from "./components/LandingPage";
+import WaypointLanding from "./components/WaypointLanding";
+import WaypointPrepRoom from "./components/WaypointPrepRoomNext";
+import WaypointCallChoice from "./components/WaypointCallChoice";
+import WaypointSimulation from "./components/WaypointSimulation";
+import WaypointTransition from "./components/WaypointTransition";
+import WaypointPostSimulation from "./components/WaypointPostSimulation";
 import DesignWorkshopModal from "./components/DesignWorkshopModal";
 import AdvisorJourneyDashboard from "./components/AdvisorJourneyDashboard";
 import AdvisorOnboarding from "./components/AdvisorOnboarding";
@@ -58,6 +63,10 @@ const App: React.FC = () => {
   const [viewState, setViewState] = useState<
     "landing" | "advisor-onboarding" | "admin" | "student"
   >("landing");
+  const [studentViewState, setStudentViewState] = useState<
+    "waypoint" | "prep" | "callchoice" | "simulation" | "transition" | "postsimulation"
+  >("waypoint");
+  const [callMode, setCallMode] = useState<"video" | "thread">("video");
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isWorkshopOpen, setIsWorkshopOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("Dashboard");
@@ -208,7 +217,63 @@ const App: React.FC = () => {
   }
 
   if (viewState === "student") {
-    return <StudentDashboard />;
+    switch (studentViewState) {
+      case "waypoint":
+        return (
+          <WaypointLanding
+            onJoinCall={() => setStudentViewState("prep")}
+            onSkipToDashboard={() => setStudentViewState("waypoint")}
+          />
+        );
+      case "prep":
+        return (
+          <WaypointPrepRoom
+            onReady={() => setStudentViewState("callchoice")}
+            onSkipToDashboard={() => setStudentViewState("waypoint")}
+            onBack={() => setStudentViewState("waypoint")}
+          />
+        );
+      case "callchoice":
+        return (
+          <WaypointCallChoice
+            onChoice={(mode) => {
+              setCallMode(mode);
+              setStudentViewState("simulation");
+            }}
+            onBack={() => setStudentViewState("prep")}
+            onGoToDashboard={() => setStudentViewState("waypoint")}
+          />
+        );
+      case "simulation":
+        return (
+          <WaypointSimulation
+            mode={callMode}
+            onComplete={() => setStudentViewState("transition")}
+            onBack={() => setStudentViewState("callchoice")}
+            onExit={() => setStudentViewState("waypoint")}
+          />
+        );
+      case "transition":
+        return (
+          <WaypointTransition
+            onContinue={() => setStudentViewState("postsimulation")}
+            onGoToDashboard={() => setStudentViewState("waypoint")}
+          />
+        );
+      case "postsimulation":
+        return (
+          <WaypointPostSimulation
+            onContinue={() => setStudentViewState("waypoint")}
+          />
+        );
+      default:
+        return (
+          <WaypointLanding
+            onJoinCall={() => setStudentViewState("prep")}
+            onSkipToDashboard={() => setStudentViewState("waypoint")}
+          />
+        );
+    }
   }
 
   // Admin View
