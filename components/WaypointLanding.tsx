@@ -196,6 +196,36 @@ const NAV_ITEMS: { icon: React.ElementType; label: string; id: ActiveView }[] = 
   { icon: Users, label: "Connection Hub", id: "hub" },
 ];
 
+const JOURNAL_INSIGHTS = [
+  {
+    id: 1,
+    icon: "📊",
+    pattern: "'Uncertainty' appears in 4 of 5 entries",
+    signal: "You're tracking your self-doubt in real time — that's rare.",
+    suggestion: "Confidence Under Pressure Lab",
+    color: "#4318FF",
+    bg: "#EEF2FF",
+  },
+  {
+    id: 2,
+    icon: "🔁",
+    pattern: "Writing spikes after high-stakes sims",
+    signal: "Processing through reflection — this is the habit that compounds.",
+    suggestion: "Book a post-sim debrief with Alex",
+    color: "#7C3AED",
+    bg: "#F5F3FF",
+  },
+  {
+    id: 3,
+    icon: "👁️",
+    pattern: "'Social pressure' named in 3 entries",
+    signal: "Naming it is step one. Let's build the practice for step two.",
+    suggestion: "Holding Your Ground workshop",
+    color: "#0EA5E9",
+    bg: "#F0F9FF",
+  },
+];
+
 // ─── Sub-views ────────────────────────────────────────────────────────────────
 
 const s = {
@@ -552,58 +582,83 @@ const LINK_OPTIONS = [
   { id: "3", label: "Supply Chain Resilience" },
 ];
 
+const BANNER_THEMES = [
+  {
+    gradient: "linear-gradient(135deg, #1E1B4B 0%, #3730A3 45%, #4C1D95 100%)",
+    accentColor: "#A78BFA",
+    noise: true,
+  },
+  {
+    gradient: "linear-gradient(135deg, #1C0A00 0%, #92400E 50%, #B45309 100%)",
+    accentColor: "#FCD34D",
+    noise: true,
+  },
+];
+
 const JournalView: React.FC = () => {
   const [entry, setEntry] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [mood, setMood] = useState<string | null>(null);
   const [composeTab, setComposeTab] = useState("write");
   const [linkedSim, setLinkedSim] = useState("active");
-  const [expandedEntry, setExpandedEntry] = useState<number | null>(null);
-  const [reactedEntry, setReactedEntry] = useState<number | null>(null);
+  const [reactedEntries, setReactedEntries] = useState<Set<number>>(new Set());
 
   const JOURNAL_STREAK = 5;
+
+  const toggleReact = (id: number) => {
+    setReactedEntries(prev => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  };
+
+  const BANNER_ENTRIES = JOURNAL_ENTRIES.filter(je => je.type === "post-sim");
+  const FREE_ENTRIES = JOURNAL_ENTRIES.filter(je => je.type === "free");
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
 
-      {/* Header */}
+      {/* ── Header ────────────────────────────────────────────────────── */}
       <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between" }}>
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "6px" }}>
             <BookMarked size={15} style={{ color: "#7C3AED" }} />
             <p style={{ margin: 0, fontSize: "11px", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#7C3AED" }}>Journal</p>
           </div>
-          <h1 style={{ margin: "0 0 5px", fontSize: "28px", fontWeight: 700, color: "#2B3674", letterSpacing: "-0.02em" }}>Reflection is the reps.</h1>
+          <h1 style={{ margin: "0 0 5px", fontSize: "30px", fontWeight: 800, color: "#2B3674", letterSpacing: "-0.03em" }}>Reflection is the reps.</h1>
           <p style={{ margin: 0, fontSize: "14px", color: "#5A6A8A" }}>What you notice about yourself outlasts the scenario.</p>
         </div>
-        {/* Streak */}
-        <div style={{ display: "flex", alignItems: "center", gap: "8px", padding: "10px 16px", borderRadius: "14px", backgroundColor: "#FFF7ED", border: "1px solid #FED7AA", flexShrink: 0 }}>
-          <Flame size={18} style={{ color: "#F97316" }} />
-          <div>
-            <p style={{ margin: 0, fontSize: "16px", fontWeight: 700, color: "#EA580C" }}>{JOURNAL_STREAK} days</p>
-            <p style={{ margin: 0, fontSize: "10px", color: "#F97316", fontWeight: 600 }}>streak</p>
+        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", padding: "10px 16px", borderRadius: "14px", backgroundColor: "#FFF7ED", border: "1px solid #FED7AA" }}>
+            <Flame size={18} style={{ color: "#F97316" }} />
+            <div>
+              <p style={{ margin: 0, fontSize: "16px", fontWeight: 700, color: "#EA580C" }}>{JOURNAL_STREAK}</p>
+              <p style={{ margin: 0, fontSize: "10px", color: "#F97316", fontWeight: 600 }}>day streak</p>
+            </div>
           </div>
+          <button style={{ padding: "11px 20px", borderRadius: "12px", border: "none", background: "linear-gradient(135deg, #4318FF, #7C3AED)", color: "#FFFFFF", fontSize: "13px", fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", gap: "7px", boxShadow: "0 4px 14px rgba(67,24,255,0.3)", transition: "all 0.2s" }} onMouseEnter={e => e.currentTarget.style.transform = "translateY(-1px)"} onMouseLeave={e => e.currentTarget.style.transform = "none"}>
+            <Plus size={14} />New Entry
+          </button>
         </div>
       </div>
 
-      {/* Compose area */}
-      <div style={{ borderRadius: "20px", backgroundColor: "#FFFFFF", border: "1.5px solid #E0E5F2", boxShadow: "0 4px 20px rgba(0,0,0,0.05)", overflow: "hidden" }}>
-        {/* Top bar: AI prompt + link */}
-        <div style={{ padding: "18px 24px", borderBottom: "1px solid #F0F3FA", backgroundColor: "#FAFBFF", display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "16px" }}>
+      {/* ── Compose ───────────────────────────────────────────────────── */}
+      <div style={{ borderRadius: "20px", backgroundColor: "#FFFFFF", border: "1.5px solid #E0E5F2", boxShadow: "0 4px 24px rgba(67,24,255,0.07)", overflow: "hidden" }}>
+        <div style={{ padding: "22px 26px", background: "linear-gradient(135deg, #F5F3FF 0%, #EDE9FE 100%)", borderBottom: "1px solid #DDD6FE", display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "16px" }}>
           <div style={{ flex: 1 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "7px", marginBottom: "7px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "7px", marginBottom: "8px" }}>
               <Sparkles size={13} style={{ color: "#7C3AED" }} />
-              <p style={{ margin: 0, fontSize: "11px", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#7C3AED" }}>Today's prompt</p>
+              <p style={{ margin: 0, fontSize: "11px", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#7C3AED" }}>Today's prompt</p>
             </div>
-            <p style={{ margin: 0, fontSize: "16px", fontWeight: 600, color: "#2B3674", lineHeight: 1.55 }}>
-              "In your last scenario, when did you feel most uncertain — and what did you do with that feeling?"
+            <p style={{ margin: 0, fontSize: "17px", fontWeight: 700, color: "#2B3674", lineHeight: 1.5 }}>
+              "When did you feel most uncertain — and what did you do with that feeling?"
             </p>
           </div>
-          {/* Linked sim picker */}
           <div style={{ flexShrink: 0 }}>
-            <p style={{ margin: "0 0 5px", fontSize: "10px", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#9EABC0" }}>Link to</p>
+            <p style={{ margin: "0 0 5px", fontSize: "10px", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#9EABC0" }}>Linked to</p>
             <div style={{ position: "relative" }}>
-              <select value={linkedSim} onChange={e => setLinkedSim(e.target.value)} style={{ appearance: "none", padding: "7px 28px 7px 10px", borderRadius: "10px", border: "1.5px solid #E0E5F2", backgroundColor: "#FFFFFF", fontSize: "12px", fontWeight: 600, color: "#2B3674", cursor: "pointer", outline: "none", fontFamily: "'DM Sans', sans-serif", minWidth: "180px" }}>
+              <select value={linkedSim} onChange={e => setLinkedSim(e.target.value)} style={{ appearance: "none", padding: "7px 28px 7px 10px", borderRadius: "10px", border: "1.5px solid #DDD6FE", backgroundColor: "#FFFFFF", fontSize: "12px", fontWeight: 600, color: "#2B3674", cursor: "pointer", outline: "none", fontFamily: "'DM Sans', sans-serif", minWidth: "190px" }}>
                 {LINK_OPTIONS.map(opt => <option key={opt.id} value={opt.id}>{opt.label}</option>)}
               </select>
               <ChevronDown size={12} style={{ position: "absolute", right: "8px", top: "50%", transform: "translateY(-50%)", color: "#5A6A8A", pointerEvents: "none" }} />
@@ -611,23 +666,20 @@ const JournalView: React.FC = () => {
           </div>
         </div>
 
-        {/* Compose tabs */}
         <div style={{ display: "flex", borderBottom: "1px solid #E0E5F2" }}>
           {COMPOSE_TABS.map(tab => {
             const Icon = tab.icon;
             const isActive = composeTab === tab.id;
             return (
-              <button key={tab.id} onClick={() => setComposeTab(tab.id)} style={{ flex: 1, padding: "12px 0", border: "none", backgroundColor: "transparent", display: "flex", alignItems: "center", justifyContent: "center", gap: "6px", fontSize: "12px", fontWeight: isActive ? 700 : 500, color: isActive ? "#7C3AED" : "#5A6A8A", cursor: "pointer", borderBottom: `2px solid ${isActive ? "#7C3AED" : "transparent"}`, transition: "all 0.15s" }}>
+              <button key={tab.id} onClick={() => setComposeTab(tab.id)} style={{ flex: 1, padding: "13px 0", border: "none", backgroundColor: "transparent", display: "flex", alignItems: "center", justifyContent: "center", gap: "6px", fontSize: "12px", fontWeight: isActive ? 700 : 500, color: isActive ? "#7C3AED" : "#5A6A8A", cursor: "pointer", borderBottom: `2px solid ${isActive ? "#7C3AED" : "transparent"}`, transition: "all 0.15s" }}>
                 <Icon size={13} />{tab.label}
               </button>
             );
           })}
         </div>
 
-        {/* Compose body */}
-        <div style={{ padding: "20px 24px" }}>
-          {/* Mood row */}
-          <div style={{ display: "flex", gap: "8px", marginBottom: "16px" }}>
+        <div style={{ padding: "20px 26px" }}>
+          <div style={{ display: "flex", gap: "8px", marginBottom: "14px" }}>
             {MOODS.map(m => (
               <button key={m.id} onClick={() => setMood(m.id)} style={{ flex: 1, padding: "9px 6px", borderRadius: "12px", border: `1.5px solid ${mood === m.id ? "#7C3AED" : "#E0E5F2"}`, backgroundColor: mood === m.id ? "#F5F3FF" : "#FAFBFF", cursor: "pointer", transition: "all 0.18s", display: "flex", flexDirection: "column", alignItems: "center", gap: "3px" }}>
                 <span style={{ fontSize: "20px" }}>{m.emoji}</span>
@@ -636,148 +688,202 @@ const JournalView: React.FC = () => {
             ))}
           </div>
 
-          {composeTab === "write" && (
-            submitted ? (
-              <div style={{ padding: "18px", borderRadius: "14px", backgroundColor: "#F0FDF4", border: "1px solid #BBF7D0", display: "flex", alignItems: "center", gap: "12px" }}>
-                <CheckCircle2 size={20} style={{ color: "#16A34A", flexShrink: 0 }} />
-                <div>
-                  <p style={{ margin: "0 0 2px", fontSize: "14px", fontWeight: 700, color: "#15803D" }}>Entry saved.</p>
-                  <p style={{ margin: 0, fontSize: "12px", color: "#16A34A" }}>Waypoint is tracking this moment. Your growth pattern is being updated.</p>
-                </div>
+          {composeTab === "write" && (submitted ? (
+            <div style={{ padding: "18px", borderRadius: "14px", backgroundColor: "#F0FDF4", border: "1px solid #BBF7D0", display: "flex", alignItems: "center", gap: "12px" }}>
+              <CheckCircle2 size={20} style={{ color: "#16A34A", flexShrink: 0 }} />
+              <div>
+                <p style={{ margin: "0 0 2px", fontSize: "14px", fontWeight: 700, color: "#15803D" }}>Entry saved.</p>
+                <p style={{ margin: 0, fontSize: "12px", color: "#16A34A" }}>Waypoint is tracking this moment. Your growth pattern is updating.</p>
               </div>
-            ) : (
-              <>
-                <textarea value={entry} onChange={e => setEntry(e.target.value)} placeholder="Write freely — no one is grading this..." style={{ width: "100%", minHeight: "120px", padding: "14px 16px", borderRadius: "12px", border: "1.5px solid #E0E5F2", fontSize: "14px", color: "#2B3674", fontFamily: "'DM Sans', sans-serif", resize: "vertical", outline: "none", lineHeight: 1.7, boxSizing: "border-box", backgroundColor: "#FAFBFF", transition: "border-color 0.15s" }} onFocus={(e) => { e.currentTarget.style.borderColor = "#7C3AED"; }} onBlur={(e) => { e.currentTarget.style.borderColor = "#E0E5F2"; }} />
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "12px" }}>
-                  <div style={{ display: "flex", gap: "8px" }}>
-                    <button style={{ padding: "7px 12px", borderRadius: "8px", border: "1px solid #E0E5F2", backgroundColor: "transparent", color: "#5A6A8A", fontSize: "12px", fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: "5px" }}>
-                      <Hash size={12} />Add tag
-                    </button>
-                  </div>
-                  <button onClick={() => { if (entry.trim() && mood) setSubmitted(true); }} style={{ padding: "11px 22px", borderRadius: "12px", border: "none", backgroundColor: entry.trim() && mood ? "#7C3AED" : "#E0E5F2", color: entry.trim() && mood ? "#FFFFFF" : "#9EABC0", fontSize: "13px", fontWeight: 700, cursor: entry.trim() && mood ? "pointer" : "not-allowed", display: "flex", alignItems: "center", gap: "7px", transition: "all 0.2s", boxShadow: entry.trim() && mood ? "0 4px 14px rgba(124,58,237,0.35)" : "none" }}>
-                    <Send size={13} />Save entry
-                  </button>
-                </div>
-                {!mood && entry.trim().length > 0 && (
-                  <p style={{ margin: "8px 0 0", fontSize: "11px", color: "#9EABC0" }}>Select a mood above to save this entry.</p>
-                )}
-              </>
-            )
-          )}
+            </div>
+          ) : (
+            <>
+              <textarea value={entry} onChange={e => setEntry(e.target.value)} placeholder="Write freely — no one is grading this..." style={{ width: "100%", minHeight: "100px", padding: "14px 16px", borderRadius: "12px", border: "1.5px solid #E0E5F2", fontSize: "14px", color: "#2B3674", fontFamily: "'DM Sans', sans-serif", resize: "vertical", outline: "none", lineHeight: 1.7, boxSizing: "border-box", backgroundColor: "#FAFBFF", transition: "border-color 0.15s" }} onFocus={e => e.currentTarget.style.borderColor = "#7C3AED"} onBlur={e => e.currentTarget.style.borderColor = "#E0E5F2"} />
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "12px" }}>
+                <button style={{ padding: "7px 12px", borderRadius: "8px", border: "1px solid #E0E5F2", backgroundColor: "transparent", color: "#5A6A8A", fontSize: "12px", fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: "5px" }}><Hash size={12} />Tag</button>
+                <button onClick={() => { if (entry.trim() && mood) setSubmitted(true); }} style={{ padding: "11px 22px", borderRadius: "12px", border: "none", backgroundColor: entry.trim() && mood ? "#7C3AED" : "#E0E5F2", color: entry.trim() && mood ? "#FFFFFF" : "#9EABC0", fontSize: "13px", fontWeight: 700, cursor: entry.trim() && mood ? "pointer" : "not-allowed", display: "flex", alignItems: "center", gap: "7px", transition: "all 0.2s", boxShadow: entry.trim() && mood ? "0 4px 14px rgba(124,58,237,0.35)" : "none" }}>
+                  <Send size={13} />Save entry
+                </button>
+              </div>
+            </>
+          ))}
 
           {composeTab === "voice" && (
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "16px", padding: "24px 0" }}>
-              <div style={{ width: "72px", height: "72px", borderRadius: "50%", backgroundColor: "#F5F3FF", border: "3px solid #7C3AED", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", boxShadow: "0 0 0 8px rgba(124,58,237,0.08)", transition: "all 0.2s" }}>
+              <div style={{ width: "72px", height: "72px", borderRadius: "50%", backgroundColor: "#F5F3FF", border: "3px solid #7C3AED", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", boxShadow: "0 0 0 8px rgba(124,58,237,0.08)" }}>
                 <Mic size={28} style={{ color: "#7C3AED" }} />
               </div>
-              <p style={{ margin: 0, fontSize: "13px", color: "#5A6A8A", textAlign: "center" }}>Tap to record a voice note.<br />Your words will be transcribed and linked to this reflection.</p>
-              <p style={{ margin: 0, fontSize: "11px", color: "#9EABC0" }}>Max 5 minutes · Stored securely</p>
+              <p style={{ margin: 0, fontSize: "13px", color: "#5A6A8A", textAlign: "center" }}>Tap to record a voice note.<br />Transcribed and linked to this reflection.</p>
+              <p style={{ margin: 0, fontSize: "11px", color: "#9EABC0" }}>Max 5 min · Stored securely</p>
             </div>
           )}
 
           {composeTab === "attach" && (
-            <div style={{ border: "2px dashed #E0E5F2", borderRadius: "14px", padding: "32px 20px", textAlign: "center", cursor: "pointer", transition: "all 0.2s", backgroundColor: "#FAFBFF" }} onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#7C3AED"; e.currentTarget.style.backgroundColor = "#F5F3FF"; }} onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#E0E5F2"; e.currentTarget.style.backgroundColor = "#FAFBFF"; }}>
+            <div style={{ border: "2px dashed #E0E5F2", borderRadius: "14px", padding: "32px 20px", textAlign: "center", cursor: "pointer", backgroundColor: "#FAFBFF", transition: "all 0.2s" }} onMouseEnter={e => { e.currentTarget.style.borderColor = "#7C3AED"; e.currentTarget.style.backgroundColor = "#F5F3FF"; }} onMouseLeave={e => { e.currentTarget.style.borderColor = "#E0E5F2"; e.currentTarget.style.backgroundColor = "#FAFBFF"; }}>
               <Image size={28} style={{ color: "#9EABC0", margin: "0 auto 10px" }} />
               <p style={{ margin: "0 0 4px", fontSize: "14px", fontWeight: 600, color: "#2B3674" }}>Drop an image or screenshot</p>
-              <p style={{ margin: 0, fontSize: "12px", color: "#9EABC0" }}>Attach anything — a whiteboard, a job posting, something that sparked a thought</p>
+              <p style={{ margin: 0, fontSize: "12px", color: "#9EABC0" }}>Whiteboard, job posting, anything that sparked a thought</p>
             </div>
           )}
         </div>
       </div>
 
-      {/* Past entries */}
+      {/* ── Featured banner entries ───────────────────────────────────── */}
       <div>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "16px" }}>
-          <p style={{ margin: 0, fontSize: "11px", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#5A6A8A" }}>Past reflections</p>
+          <p style={{ margin: 0, fontSize: "11px", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#5A6A8A" }}>Featured Reflections</p>
           <span style={{ fontSize: "12px", color: "#7C3AED", fontWeight: 600, cursor: "pointer" }}>View all →</span>
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
-          {JOURNAL_ENTRIES.map(je => {
-            const isExpanded = expandedEntry === je.id;
-            const hasReacted = reactedEntry === je.id;
+        <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+          {BANNER_ENTRIES.map((je, idx) => {
+            const theme = BANNER_THEMES[idx % BANNER_THEMES.length];
+            const hasReacted = reactedEntries.has(je.id);
             return (
-              <div key={je.id} style={{ borderRadius: "18px", backgroundColor: "#FFFFFF", border: "1.5px solid #E0E5F2", boxShadow: "0 2px 10px rgba(0,0,0,0.04)", overflow: "hidden", transition: "box-shadow 0.2s" }}>
-                {/* Entry header */}
-                <div style={{ padding: "18px 20px", display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "12px", cursor: "pointer" }} onClick={() => setExpandedEntry(isExpanded ? null : je.id)}>
-                  <div style={{ display: "flex", align: "flex-start", gap: "12px", flex: 1 }}>
-                    {/* Mood bubble */}
-                    <div style={{ width: "40px", height: "40px", borderRadius: "12px", backgroundColor: je.type === "post-sim" ? "#EEF2FF" : "#F5F3FF", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "20px", flexShrink: 0 }}>
-                      {je.moodEmoji}
-                    </div>
-                    <div style={{ flex: 1 }}>
-                      <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "4px", flexWrap: "wrap" }}>
-                        <span style={{ fontSize: "12px", fontWeight: 700, color: "#2B3674" }}>{je.date}</span>
-                        <span style={{ fontSize: "11px", color: "#9EABC0" }}>{je.time}</span>
+              <div key={je.id} style={{ borderRadius: "20px", overflow: "hidden", boxShadow: "0 8px 40px rgba(0,0,0,0.14)", border: "1px solid rgba(0,0,0,0.06)" }}>
+                {/* Cinematic banner */}
+                <div style={{ position: "relative", padding: "26px 28px 22px", background: theme.gradient, minHeight: "210px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                  {/* Top row: mood + scenario + media badges */}
+                  <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", position: "relative", zIndex: 1 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                      <span style={{ fontSize: "32px", lineHeight: 1 }}>{je.moodEmoji}</span>
+                      <div>
                         {je.scenario && (
-                          <span style={{ fontSize: "11px", fontWeight: 600, padding: "2px 8px", borderRadius: "999px", backgroundColor: "#EEF2FF", color: "#4318FF", display: "flex", alignItems: "center", gap: "4px" }}>
-                            <Link2 size={9} />{je.scenario}
-                          </span>
+                          <div style={{ display: "inline-flex", alignItems: "center", gap: "5px", padding: "3px 10px", borderRadius: "999px", backgroundColor: "rgba(255,255,255,0.14)", backdropFilter: "blur(10px)", marginBottom: "5px" }}>
+                            <Link2 size={9} style={{ color: "rgba(255,255,255,0.75)" }} />
+                            <span style={{ fontSize: "10px", fontWeight: 700, color: "rgba(255,255,255,0.88)", letterSpacing: "0.04em" }}>{je.scenario}</span>
+                          </div>
                         )}
-                        <span style={{ fontSize: "10px", fontWeight: 700, padding: "2px 7px", borderRadius: "999px", backgroundColor: je.type === "post-sim" ? "#F0FDF4" : "#FAFBFF", color: je.type === "post-sim" ? "#16A34A" : "#9EABC0", border: `1px solid ${je.type === "post-sim" ? "#BBF7D0" : "#E0E5F2"}` }}>
-                          {je.type === "post-sim" ? "Post-sim" : "Free reflection"}
-                        </span>
+                        <p style={{ margin: 0, fontSize: "11px", color: "rgba(255,255,255,0.45)", fontWeight: 500 }}>{je.date} · {je.time}</p>
                       </div>
-                      <p style={{ margin: 0, fontSize: "13px", color: "#2B3674", lineHeight: 1.6 }}>{je.excerpt}</p>
+                    </div>
+                    <div style={{ display: "flex", gap: "6px" }}>
+                      {je.hasVoice && (
+                        <div style={{ padding: "4px 9px", borderRadius: "8px", backgroundColor: "rgba(255,255,255,0.12)", backdropFilter: "blur(8px)", display: "flex", alignItems: "center", gap: "4px" }}>
+                          <Mic size={9} style={{ color: "rgba(255,255,255,0.8)" }} />
+                          <span style={{ fontSize: "10px", color: "rgba(255,255,255,0.8)", fontWeight: 600 }}>Voice</span>
+                        </div>
+                      )}
+                      {je.hasImage && (
+                        <div style={{ padding: "4px 9px", borderRadius: "8px", backgroundColor: "rgba(255,255,255,0.12)", backdropFilter: "blur(8px)", display: "flex", alignItems: "center", gap: "4px" }}>
+                          <Image size={9} style={{ color: "rgba(255,255,255,0.8)" }} />
+                          <span style={{ fontSize: "10px", color: "rgba(255,255,255,0.8)", fontWeight: 600 }}>Image</span>
+                        </div>
+                      )}
+                      <div style={{ padding: "4px 9px", borderRadius: "8px", backgroundColor: "rgba(255,255,255,0.12)", backdropFilter: "blur(8px)" }}>
+                        <span style={{ fontSize: "10px", color: "rgba(255,255,255,0.8)", fontWeight: 700 }}>Post-sim</span>
+                      </div>
                     </div>
                   </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: "6px", flexShrink: 0 }}>
-                    {je.hasVoice && <div style={{ padding: "4px 8px", borderRadius: "6px", backgroundColor: "#F0F9FF", display: "flex", alignItems: "center", gap: "3px" }}><Mic size={10} style={{ color: "#0EA5E9" }} /><span style={{ fontSize: "10px", color: "#0EA5E9", fontWeight: 600 }}>Voice</span></div>}
-                    {je.hasImage && <div style={{ padding: "4px 8px", borderRadius: "6px", backgroundColor: "#F5F3FF", display: "flex", alignItems: "center", gap: "3px" }}><Image size={10} style={{ color: "#7C3AED" }} /><span style={{ fontSize: "10px", color: "#7C3AED", fontWeight: 600 }}>Image</span></div>}
-                    <ChevronDown size={14} style={{ color: "#9EABC0", transform: isExpanded ? "rotate(180deg)" : "none", transition: "transform 0.2s" }} />
+
+                  {/* Entry body */}
+                  <div style={{ position: "relative", zIndex: 1, marginTop: "18px" }}>
+                    {je.prompt && (
+                      <p style={{ margin: "0 0 8px", fontSize: "11px", fontWeight: 600, color: theme.accentColor, letterSpacing: "0.03em" }}>"{je.prompt}"</p>
+                    )}
+                    <p style={{ margin: 0, fontSize: "15px", fontWeight: 500, color: "rgba(255,255,255,0.92)", lineHeight: 1.65 }}>{je.excerpt}</p>
+                  </div>
+
+                  {/* Bottom: tags + growth delta */}
+                  <div style={{ position: "relative", zIndex: 1, display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "22px", paddingTop: "16px", borderTop: "1px solid rgba(255,255,255,0.1)" }}>
+                    <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
+                      {je.tags.map(t => (
+                        <span key={t} style={{ fontSize: "11px", fontWeight: 700, padding: "3px 10px", borderRadius: "999px", backgroundColor: "rgba(255,255,255,0.12)", color: "rgba(255,255,255,0.88)", backdropFilter: "blur(8px)" }}>{t}</span>
+                      ))}
+                    </div>
+                    {je.growth && (
+                      <div style={{ display: "flex", alignItems: "center", gap: "5px", padding: "4px 12px", borderRadius: "999px", backgroundColor: "rgba(16,185,129,0.22)", border: "1px solid rgba(16,185,129,0.35)" }}>
+                        <TrendingUp size={10} style={{ color: "#6EE7B7" }} />
+                        <span style={{ fontSize: "11px", fontWeight: 700, color: "#6EE7B7" }}>{je.growth.skill} {je.growth.delta}</span>
+                      </div>
+                    )}
                   </div>
                 </div>
 
-                {/* Expanded: tags + Waypoint reaction + growth */}
-                {isExpanded && (
-                  <div style={{ borderTop: "1px solid #F0F3FA", backgroundColor: "#FAFBFF" }}>
-                    {/* Skill tags */}
-                    <div style={{ padding: "12px 20px 0", display: "flex", gap: "6px", flexWrap: "wrap", alignItems: "center" }}>
-                      <span style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: "#9EABC0", marginRight: "4px" }}>Skills</span>
-                      {je.tags.map(t => (
-                        <span key={t} style={{ fontSize: "11px", fontWeight: 700, padding: "3px 9px", borderRadius: "999px", backgroundColor: "#EEF2FF", color: "#4318FF" }}>{t}</span>
-                      ))}
-                      {je.growth && (
-                        <span style={{ fontSize: "11px", fontWeight: 700, padding: "3px 9px", borderRadius: "999px", backgroundColor: "#F0FDF4", color: "#16A34A", border: "1px solid #BBF7D0", display: "flex", alignItems: "center", gap: "4px" }}>
-                          <TrendingUp size={10} />{je.growth.skill} {je.growth.delta}
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Waypoint reaction */}
-                    {je.aiReaction && (
-                      <div style={{ margin: "12px 20px", padding: "14px 16px", borderRadius: "14px", backgroundColor: "#FFFFFF", border: "1px solid #E0E5F2", display: "flex", gap: "12px" }}>
-                        <div style={{ width: "28px", height: "28px", borderRadius: "8px", background: "linear-gradient(135deg, #4318FF, #7C3AED)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                          <Sparkles size={12} style={{ color: "#FFFFFF" }} />
-                        </div>
-                        <div style={{ flex: 1 }}>
-                          <p style={{ margin: "0 0 4px", fontSize: "10px", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: "#4318FF" }}>Waypoint noticed</p>
-                          <p style={{ margin: 0, fontSize: "13px", color: "#2B3674", lineHeight: 1.6 }}>{je.aiReaction}</p>
-                        </div>
+                {/* Below banner: Waypoint reaction + actions */}
+                <div style={{ backgroundColor: "#FFFFFF", padding: "18px 26px 20px" }}>
+                  {je.aiReaction && (
+                    <div style={{ display: "flex", gap: "12px", marginBottom: "16px", padding: "14px 16px", borderRadius: "14px", backgroundColor: "#FAFBFF", border: "1px solid #E0E5F2" }}>
+                      <div style={{ width: "28px", height: "28px", borderRadius: "8px", background: "linear-gradient(135deg, #4318FF, #7C3AED)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                        <Sparkles size={12} style={{ color: "#FFFFFF" }} />
                       </div>
-                    )}
-
-                    {/* Footer actions */}
-                    <div style={{ padding: "10px 20px 14px", display: "flex", alignItems: "center", gap: "10px" }}>
-                      <button onClick={() => setReactedEntry(hasReacted ? null : je.id)} style={{ padding: "6px 12px", borderRadius: "8px", border: `1px solid ${hasReacted ? "#16A34A" : "#E0E5F2"}`, backgroundColor: hasReacted ? "#F0FDF4" : "transparent", color: hasReacted ? "#16A34A" : "#5A6A8A", fontSize: "12px", fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: "5px", transition: "all 0.15s" }}>
-                        <ThumbsUp size={12} />{hasReacted ? "Resonated" : "This resonates"}
-                      </button>
-                      <button style={{ padding: "6px 12px", borderRadius: "8px", border: "1px solid #E0E5F2", backgroundColor: "transparent", color: "#5A6A8A", fontSize: "12px", fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: "5px" }}>
-                        <RotateCcw size={12} />Re-reflect
-                      </button>
-                      {je.simulationId && (
-                        <button style={{ padding: "6px 12px", borderRadius: "8px", border: "1px solid #E0E5F2", backgroundColor: "transparent", color: "#5A6A8A", fontSize: "12px", fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: "5px" }}>
-                          <Play size={11} />Replay sim
-                        </button>
-                      )}
+                      <div style={{ flex: 1 }}>
+                        <p style={{ margin: "0 0 4px", fontSize: "10px", fontWeight: 700, letterSpacing: "0.07em", textTransform: "uppercase", color: "#4318FF" }}>Waypoint noticed</p>
+                        <p style={{ margin: 0, fontSize: "13px", color: "#2B3674", lineHeight: 1.6 }}>{je.aiReaction}</p>
+                      </div>
                     </div>
+                  )}
+                  <div style={{ display: "flex", gap: "8px" }}>
+                    <button onClick={() => toggleReact(je.id)} style={{ padding: "7px 14px", borderRadius: "9px", border: `1px solid ${hasReacted ? "#16A34A" : "#E0E5F2"}`, backgroundColor: hasReacted ? "#F0FDF4" : "transparent", color: hasReacted ? "#16A34A" : "#5A6A8A", fontSize: "12px", fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: "5px", transition: "all 0.15s" }}>
+                      <ThumbsUp size={12} />{hasReacted ? "Resonated" : "This resonates"}
+                    </button>
+                    <button style={{ padding: "7px 14px", borderRadius: "9px", border: "1px solid #E0E5F2", backgroundColor: "transparent", color: "#5A6A8A", fontSize: "12px", fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: "5px" }}>
+                      <RotateCcw size={12} />Re-reflect
+                    </button>
+                    {je.simulationId && (
+                      <button style={{ padding: "7px 14px", borderRadius: "9px", border: "1px solid #E0E5F2", backgroundColor: "transparent", color: "#5A6A8A", fontSize: "12px", fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: "5px" }}>
+                        <Play size={11} />Replay sim
+                      </button>
+                    )}
                   </div>
-                )}
+                </div>
               </div>
             );
           })}
         </div>
       </div>
+
+      {/* ── Data → suggestions strip ─────────────────────────────────── */}
+      <div style={{ borderRadius: "20px", backgroundColor: "#FFFFFF", border: "1.5px solid #E0E5F2", boxShadow: "0 4px 20px rgba(0,0,0,0.04)", overflow: "hidden" }}>
+        <div style={{ padding: "16px 24px", borderBottom: "1px solid #F0F3FA", display: "flex", alignItems: "center", gap: "10px" }}>
+          <BarChart2 size={14} style={{ color: "#4318FF" }} />
+          <p style={{ margin: 0, fontSize: "11px", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#4318FF" }}>Your data, your direction</p>
+          <span style={{ fontSize: "11px", color: "#9EABC0" }}>— Patterns Waypoint found in your journal</span>
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr" }}>
+          {JOURNAL_INSIGHTS.map((insight, idx) => (
+            <div key={insight.id} style={{ padding: "20px 22px", borderRight: idx < JOURNAL_INSIGHTS.length - 1 ? "1px solid #F0F3FA" : "none", transition: "background-color 0.15s", cursor: "default" }} onMouseEnter={e => e.currentTarget.style.backgroundColor = insight.bg} onMouseLeave={e => e.currentTarget.style.backgroundColor = "transparent"}>
+              <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "10px" }}>
+                <span style={{ fontSize: "20px" }}>{insight.icon}</span>
+                <span style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: "#9EABC0" }}>Pattern</span>
+              </div>
+              <p style={{ margin: "0 0 5px", fontSize: "12px", fontWeight: 700, color: "#2B3674", lineHeight: 1.5 }}>{insight.pattern}</p>
+              <p style={{ margin: "0 0 14px", fontSize: "12px", color: "#5A6A8A", lineHeight: 1.55 }}>{insight.signal}</p>
+              <button style={{ padding: "6px 12px", borderRadius: "8px", border: `1px solid ${insight.color}25`, backgroundColor: insight.bg, color: insight.color, fontSize: "11px", fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", gap: "5px" }}>
+                <ArrowRight size={10} />{insight.suggestion}
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Free reflections ─────────────────────────────────────────── */}
+      {FREE_ENTRIES.length > 0 && (
+        <div>
+          <p style={{ margin: "0 0 14px", fontSize: "11px", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#5A6A8A" }}>Free Reflections</p>
+          <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+            {FREE_ENTRIES.map(je => (
+              <div key={je.id} style={{ borderRadius: "16px", backgroundColor: "#FFFFFF", border: "1.5px solid #E0E5F2", padding: "18px 20px", boxShadow: "0 2px 8px rgba(0,0,0,0.03)", display: "flex", gap: "14px" }}>
+                <div style={{ width: "40px", height: "40px", borderRadius: "12px", backgroundColor: "#FAFBFF", border: "1px solid #E0E5F2", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "22px", flexShrink: 0 }}>{je.moodEmoji}</div>
+                <div style={{ flex: 1 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "6px", flexWrap: "wrap" }}>
+                    <span style={{ fontSize: "12px", fontWeight: 700, color: "#2B3674" }}>{je.date}</span>
+                    <span style={{ fontSize: "11px", color: "#9EABC0" }}>{je.time}</span>
+                    <span style={{ fontSize: "10px", fontWeight: 700, padding: "2px 8px", borderRadius: "999px", backgroundColor: "#FAFBFF", color: "#9EABC0", border: "1px solid #E0E5F2" }}>Free reflection</span>
+                    {je.hasImage && <div style={{ padding: "2px 7px", borderRadius: "6px", backgroundColor: "#F5F3FF", display: "flex", alignItems: "center", gap: "3px" }}><Image size={9} style={{ color: "#7C3AED" }} /><span style={{ fontSize: "10px", color: "#7C3AED", fontWeight: 600 }}>Image</span></div>}
+                  </div>
+                  <p style={{ margin: "0 0 8px", fontSize: "13px", color: "#2B3674", lineHeight: 1.6 }}>{je.excerpt}</p>
+                  <div style={{ display: "flex", gap: "6px" }}>
+                    {je.tags.map(t => (
+                      <span key={t} style={{ fontSize: "11px", fontWeight: 700, padding: "2px 9px", borderRadius: "999px", backgroundColor: "#F5F3FF", color: "#7C3AED" }}>{t}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
@@ -1107,40 +1213,44 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
 
       {/* RIGHT SIDEBAR */}
       <aside style={{ width: "300px", height: "100vh", padding: "32px 24px", overflowY: "auto", borderLeft: "1px solid #E0E5F2", backgroundColor: "#FFFFFF", flexShrink: 0, position: "relative", zIndex: 5 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "24px" }}>
-          <div style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "#10B981", flexShrink: 0 }} />
-          <p style={{ margin: 0, fontSize: "12px", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#2B3674" }}>Action Items</p>
-        </div>
 
-        {/* Timeline */}
-        <div style={{ position: "relative", paddingLeft: "28px" }}>
-          <div style={{ position: "absolute", left: "9px", top: "12px", width: "2px", height: "calc(100% - 24px)", backgroundColor: "#E0E5F2", borderRadius: "2px" }} />
-          <div style={{ position: "absolute", left: "9px", top: "12px", width: "2px", height: `${(UNLOCKED_OUTCOMES.filter(o => o.completed).length / UNLOCKED_OUTCOMES.length) * 100}%`, backgroundColor: "#4318FF", borderRadius: "2px", transition: "height 0.5s ease" }} />
-          <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-            {UNLOCKED_OUTCOMES.map((outcome, idx) => {
-              const isHov = hoveredAction === idx;
-              return (
-                <div key={outcome.id} style={{ position: "relative" }}>
-                  <div style={{ position: "absolute", left: "-24px", top: "16px", width: "16px", height: "16px", borderRadius: "50%", backgroundColor: outcome.completed ? "#4318FF" : "#FFFFFF", border: `2px solid ${outcome.completed ? "#4318FF" : "#E0E5F2"}`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "9px", color: "#FFFFFF", fontWeight: 700, zIndex: 2 }}>
-                    {outcome.completed ? "✓" : ""}
-                  </div>
-                  <div onMouseEnter={() => setHoveredAction(idx)} onMouseLeave={() => setHoveredAction(null)} style={{ borderRadius: "14px", border: `1.5px solid ${isHov ? outcome.accentColor + "40" : "#E0E5F2"}`, backgroundColor: isHov ? outcome.accentLight : "#FFFFFF", padding: "16px", display: "flex", flexDirection: "column", gap: "12px", transition: "all 0.2s", boxShadow: isHov ? `0 4px 16px ${outcome.accentColor}20` : "none", cursor: "pointer" }}>
-                    <div style={{ display: "flex", alignItems: "flex-start", gap: "8px" }}>
-                      <div style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: outcome.accentColor, marginTop: "5px", flexShrink: 0 }} />
-                      <p style={{ margin: 0, fontSize: "13px", fontWeight: 700, color: "#2B3674", lineHeight: 1.4, flex: 1 }}>{outcome.title}</p>
+        {/* Action Items — hidden on journal view */}
+        {activeView !== "journal" && (
+          <>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "24px" }}>
+              <div style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "#10B981", flexShrink: 0 }} />
+              <p style={{ margin: 0, fontSize: "12px", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#2B3674" }}>Action Items</p>
+            </div>
+            <div style={{ position: "relative", paddingLeft: "28px" }}>
+              <div style={{ position: "absolute", left: "9px", top: "12px", width: "2px", height: "calc(100% - 24px)", backgroundColor: "#E0E5F2", borderRadius: "2px" }} />
+              <div style={{ position: "absolute", left: "9px", top: "12px", width: "2px", height: `${(UNLOCKED_OUTCOMES.filter(o => o.completed).length / UNLOCKED_OUTCOMES.length) * 100}%`, backgroundColor: "#4318FF", borderRadius: "2px", transition: "height 0.5s ease" }} />
+              <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                {UNLOCKED_OUTCOMES.map((outcome, idx) => {
+                  const isHov = hoveredAction === idx;
+                  return (
+                    <div key={outcome.id} style={{ position: "relative" }}>
+                      <div style={{ position: "absolute", left: "-24px", top: "16px", width: "16px", height: "16px", borderRadius: "50%", backgroundColor: outcome.completed ? "#4318FF" : "#FFFFFF", border: `2px solid ${outcome.completed ? "#4318FF" : "#E0E5F2"}`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "9px", color: "#FFFFFF", fontWeight: 700, zIndex: 2 }}>
+                        {outcome.completed ? "✓" : ""}
+                      </div>
+                      <div onMouseEnter={() => setHoveredAction(idx)} onMouseLeave={() => setHoveredAction(null)} style={{ borderRadius: "14px", border: `1.5px solid ${isHov ? outcome.accentColor + "40" : "#E0E5F2"}`, backgroundColor: isHov ? outcome.accentLight : "#FFFFFF", padding: "16px", display: "flex", flexDirection: "column", gap: "12px", transition: "all 0.2s", boxShadow: isHov ? `0 4px 16px ${outcome.accentColor}20` : "none", cursor: "pointer" }}>
+                        <div style={{ display: "flex", alignItems: "flex-start", gap: "8px" }}>
+                          <div style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: outcome.accentColor, marginTop: "5px", flexShrink: 0 }} />
+                          <p style={{ margin: 0, fontSize: "13px", fontWeight: 700, color: "#2B3674", lineHeight: 1.4, flex: 1 }}>{outcome.title}</p>
+                        </div>
+                        <button onClick={() => setActiveView(outcome.view)} style={{ padding: "8px 14px", borderRadius: "8px", border: "none", backgroundColor: outcome.accentColor, color: "#FFFFFF", fontSize: "12px", fontWeight: 700, cursor: "pointer", alignSelf: "flex-start", display: "flex", alignItems: "center", gap: "5px", boxShadow: `0 2px 8px ${outcome.accentColor}30`, transition: "all 0.15s" }} onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-1px)"; e.currentTarget.style.boxShadow = `0 4px 12px ${outcome.accentColor}50`; }} onMouseLeave={(e) => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = `0 2px 8px ${outcome.accentColor}30`; }}>
+                          {outcome.cta}<ArrowRight size={12} />
+                        </button>
+                      </div>
                     </div>
-                    <button onClick={() => setActiveView(outcome.view)} style={{ padding: "8px 14px", borderRadius: "8px", border: "none", backgroundColor: outcome.accentColor, color: "#FFFFFF", fontSize: "12px", fontWeight: 700, cursor: "pointer", alignSelf: "flex-start", display: "flex", alignItems: "center", gap: "5px", boxShadow: `0 2px 8px ${outcome.accentColor}30`, transition: "all 0.15s" }} onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-1px)"; e.currentTarget.style.boxShadow = `0 4px 12px ${outcome.accentColor}50`; }} onMouseLeave={(e) => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = `0 2px 8px ${outcome.accentColor}30`; }}>
-                      {outcome.cta}<ArrowRight size={12} />
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
+                  );
+                })}
+              </div>
+            </div>
+          </>
+        )}
 
         {/* Superpowers */}
-        <div style={{ marginTop: "32px" }}>
+        <div style={{ marginTop: activeView === "journal" ? "0" : "32px" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "16px" }}>
             <p style={{ margin: 0, fontSize: "12px", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#2B3674" }}>Your Superpowers</p>
             <span style={{ fontSize: "11px", color: "#5A6A8A" }}>Top 12% cohort</span>
