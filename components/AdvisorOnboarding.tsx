@@ -520,24 +520,10 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
                   <div key={row.skill} className="flex items-center gap-3">
                     <span className="text-xs font-bold text-ascend-text w-36 flex-shrink-0">{row.skill}</span>
 
-                    {/* Track ends at demand%, fill shows coverage% */}
-                    <div className="flex-1 relative h-4 flex items-center">
-                      {/* Outer track — width = demand% of container */}
-                      <div
-                        className="absolute left-0 h-4 rounded-full overflow-hidden"
-                        style={{ width: `${row.demand}%`, background: "#FEE2E2" }}
-                      >
-                        {/* Coverage fill */}
-                        <div
-                          className="h-full rounded-full bg-emerald-400"
-                          style={{ width: `${(row.coverage / row.demand) * 100}%` }}
-                        />
-                      </div>
-                      {/* Demand end-cap marker */}
-                      <div
-                        className="absolute top-0 bottom-0 w-0.5 rounded-full bg-red-400"
-                        style={{ left: `${row.demand}%` }}
-                      />
+                    {/* Full-width track: green = coverage, red = gap, gray = remainder */}
+                    <div className="flex-1 h-3 rounded-full bg-gray-100 overflow-hidden flex">
+                      <div className="h-full bg-emerald-400 flex-shrink-0" style={{ width: `${row.coverage}%` }} />
+                      <div className="h-full bg-red-300 flex-shrink-0" style={{ width: `${gap}%` }} />
                     </div>
 
                     {/* Numbers */}
