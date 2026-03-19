@@ -431,6 +431,14 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
 
   // Screen 3 carousel
   const [currentCard, setCurrentCard] = useState(0);
+  const [cardPaused, setCardPaused] = useState(false);
+  React.useEffect(() => {
+    if (currentScreen !== 3 || !showConnections || cardPaused) return;
+    const t = setInterval(() => {
+      setCurrentCard((c) => (c + 1) % resourceMappings.length);
+    }, 4000);
+    return () => clearInterval(t);
+  }, [currentScreen, showConnections, cardPaused]);
 
   // Screen 5
   const [selectedDeployment, setSelectedDeployment] = useState<string | null>(null);
@@ -940,9 +948,12 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
                 {/* Carousel controls */}
                 <div className="flex items-center justify-between mt-4">
                   <button
-                    onClick={() => setCurrentCard((c) => Math.max(0, c - 1))}
-                    disabled={currentCard === 0}
-                    className="flex items-center gap-1.5 text-xs font-bold text-ascend-subtext hover:text-ascend-text disabled:opacity-30 transition-colors px-3 py-2 rounded-xl hover:bg-ascend-light-blue disabled:hover:bg-transparent"
+                    onClick={() => {
+                      setCurrentCard((c) => (c - 1 + resourceMappings.length) % resourceMappings.length);
+                      setCardPaused(true);
+                      setTimeout(() => setCardPaused(false), 8000);
+                    }}
+                    className="flex items-center gap-1.5 text-xs font-bold text-ascend-subtext hover:text-ascend-text transition-colors px-3 py-2 rounded-xl hover:bg-ascend-light-blue"
                   >
                     <ChevronLeft className="w-4 h-4" /> Previous
                   </button>
@@ -951,7 +962,7 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
                     {resourceMappings.map((_, i) => (
                       <button
                         key={i}
-                        onClick={() => setCurrentCard(i)}
+                        onClick={() => { setCurrentCard(i); setCardPaused(true); setTimeout(() => setCardPaused(false), 8000); }}
                         className="rounded-full transition-all duration-200"
                         style={{
                           width: i === currentCard ? 20 : 8,
@@ -963,9 +974,12 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
                   </div>
 
                   <button
-                    onClick={() => setCurrentCard((c) => Math.min(resourceMappings.length - 1, c + 1))}
-                    disabled={currentCard === resourceMappings.length - 1}
-                    className="flex items-center gap-1.5 text-xs font-bold text-ascend-subtext hover:text-ascend-text disabled:opacity-30 transition-colors px-3 py-2 rounded-xl hover:bg-ascend-light-blue disabled:hover:bg-transparent"
+                    onClick={() => {
+                      setCurrentCard((c) => (c + 1) % resourceMappings.length);
+                      setCardPaused(true);
+                      setTimeout(() => setCardPaused(false), 8000);
+                    }}
+                    className="flex items-center gap-1.5 text-xs font-bold text-ascend-subtext hover:text-ascend-text transition-colors px-3 py-2 rounded-xl hover:bg-ascend-light-blue"
                   >
                     Next <ChevronRight className="w-4 h-4" />
                   </button>
