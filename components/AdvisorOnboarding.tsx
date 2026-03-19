@@ -483,195 +483,111 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
 
   // ─── Screen 1 ─────────────────────────────────────────────────────────────
   if (currentScreen === 1) {
-    // Styled logo marks — brand colours without external URLs
-    const dataSources = [
-      {
-        key: "linkedin",
-        mark: "in",
-        markStyle: { background: "#0077B5", color: "#fff", fontStyle: "italic" },
-        name: "LinkedIn",
-        sublabel: "Jobs API",
-        metric: "4.2M",
-        metricLabel: "job listings",
-        weight: 38,
-      },
-      {
-        key: "lightcast",
-        mark: "LC",
-        markStyle: { background: "#FF6B2B", color: "#fff" },
-        name: "Lightcast",
-        sublabel: "Labour Intelligence",
-        metric: "847",
-        metricLabel: "skill shifts",
-        weight: 29,
-      },
-      {
-        key: "bls",
-        mark: "BLS",
-        markStyle: { background: "#1B3A6B", color: "#fff", fontSize: 9 },
-        name: "BLS.gov",
-        sublabel: "Occupational Outlook",
-        metric: "312",
-        metricLabel: "occupations",
-        weight: 14,
-      },
-      {
-        key: "waypoint",
-        mark: "W",
-        markStyle: { background: "#4318FF", color: "#fff" },
-        name: "Waypoint",
-        sublabel: "Student Records",
-        metric: "47",
-        metricLabel: "students",
-        weight: 12,
-      },
-      {
-        key: "wef",
-        mark: "WEF",
-        markStyle: { background: "#009EDB", color: "#fff", fontSize: 9 },
-        name: "World Economic Forum",
-        sublabel: "Future of Jobs 2025",
-        metric: "96",
-        metricLabel: "future skills",
-        weight: 7,
-      },
+    const logoMarks = [
+      { mark: "in", bg: "#0077B5", title: "LinkedIn Jobs API" },
+      { mark: "LC", bg: "#FF6B2B", title: "Lightcast" },
+      { mark: "BLS", bg: "#1B3A6B", title: "BLS Occupational Outlook", small: true },
+      { mark: "W", bg: "#4318FF", title: "Waypoint Student Records" },
+      { mark: "WEF", bg: "#009EDB", title: "WEF Future of Jobs", small: true },
     ];
 
     return (
-      <div className="h-screen bg-ascend-bg flex flex-col items-center justify-center p-6 lg:p-8 animate-in fade-in duration-500 overflow-hidden">
-        <div className="max-w-3xl w-full flex flex-col gap-0">
+      <div className="h-screen bg-ascend-bg flex flex-col items-center justify-center p-6 lg:p-10 animate-in fade-in duration-500 overflow-hidden">
+        <div className="max-w-2xl w-full">
 
-          {/* Logo */}
           <div className="flex justify-center mb-6">
-            <img src="/waypoint.png" alt="Waypoint" className="h-16 w-auto" />
+            <img src="/waypoint.png" alt="Waypoint" className="h-14 w-auto" />
           </div>
 
-          <div className="bg-white rounded-card shadow-soft px-8 py-6">
+          <div className="bg-white rounded-card shadow-soft px-8 py-7">
 
-            {/* Top bar: label + live badge + timestamp */}
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <p className="text-xs font-bold uppercase tracking-wider text-ascend-subtext">Your Students · Today</p>
-                <h1 className="text-2xl font-bold text-ascend-text mt-0.5 leading-tight">
-                  Here's what's happening with your students
-                </h1>
-              </div>
-              <div className="flex flex-col items-end gap-1 flex-shrink-0 ml-4">
-                <div className="flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-                  <span className="text-xs font-bold text-green-700 bg-green-50 px-2.5 py-0.5 rounded-full">Live</span>
-                </div>
-                <div className="flex items-center gap-1 text-[11px] text-ascend-subtext">
-                  <RefreshCw className="w-3 h-3" />
-                  4 min ago
-                </div>
-              </div>
-            </div>
-
-            {/* Chart */}
-            <div style={{ height: 195 }}>
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart
-                  layout="vertical"
-                  data={skillGapData}
-                  margin={{ top: 0, right: 30, left: 0, bottom: 0 }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#E0E5F2" />
-                  <XAxis
-                    type="number"
-                    domain={[0, 100]}
-                    tickFormatter={(v) => `${v}%`}
-                    tick={{ fontSize: 11, fill: "#5A6A8A" }}
-                    axisLine={false}
-                    tickLine={false}
-                  />
-                  <YAxis
-                    type="category"
-                    dataKey="skill"
-                    width={155}
-                    tick={{ fontSize: 11, fill: "#2B3674", fontWeight: 600 }}
-                    axisLine={false}
-                    tickLine={false}
-                  />
-                  <Tooltip
-                    formatter={(v) => `${v}%`}
-                    contentStyle={{ borderRadius: 12, border: "none", boxShadow: "0 4px 20px rgba(0,0,0,0.1)", fontSize: 12 }}
-                  />
-                  <Legend wrapperStyle={{ fontSize: 11, paddingTop: 6 }} />
-                  <Bar dataKey="demand" name="Market Demand" fill="#4318FF" radius={[0, 4, 4, 0]} barSize={8} />
-                  <Bar dataKey="coverage" name="Your Coverage" fill="#39B8FF" radius={[0, 4, 4, 0]} barSize={8} />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-
-            {/* Data sources strip */}
-            <div className="mt-5 pt-4 border-t border-ascend-border">
-              <p className="text-[11px] font-bold uppercase tracking-wider text-ascend-subtext mb-3">
-                Pulled from 5 live sources
+            {/* Headline */}
+            <div className="mb-6">
+              <h1 className="text-2xl font-bold text-ascend-text leading-snug">
+                Your students have 5 skill gaps employers are hiring against right now.
+              </h1>
+              <p className="text-sm text-ascend-subtext mt-2">
+                Here's the gap between what the market needs and what your cohort can demonstrate.
               </p>
-              <div className="flex gap-3">
-                {dataSources.map((src) => (
+            </div>
+
+            {/* Skill gaps — CSS bars, no chart library */}
+            <div className="flex flex-col gap-3 mb-6">
+              {skillGapData.map((row) => {
+                const gap = row.demand - row.coverage;
+                return (
+                  <div key={row.skill} className="flex items-center gap-3">
+                    <span className="text-xs font-bold text-ascend-text w-40 flex-shrink-0">{row.skill}</span>
+                    <div className="flex-1 h-2 rounded-full bg-gray-100 relative overflow-hidden">
+                      {/* coverage */}
+                      <div
+                        className="absolute inset-y-0 left-0 rounded-full bg-indigo-200"
+                        style={{ width: `${row.coverage}%` }}
+                      />
+                      {/* demand */}
+                      <div
+                        className="absolute inset-y-0 rounded-full bg-ascend-blue opacity-90"
+                        style={{ left: `${row.coverage}%`, width: `${gap}%` }}
+                      />
+                    </div>
+                    <span className="text-xs font-bold text-red-500 w-14 text-right flex-shrink-0">
+                      {gap}% gap
+                    </span>
+                  </div>
+                );
+              })}
+              <div className="flex items-center gap-4 mt-1">
+                <span className="flex items-center gap-1.5 text-[11px] text-ascend-subtext">
+                  <span className="w-2.5 h-2 rounded-full bg-indigo-200 inline-block" /> Current coverage
+                </span>
+                <span className="flex items-center gap-1.5 text-[11px] text-ascend-subtext">
+                  <span className="w-2.5 h-2 rounded-full bg-ascend-blue inline-block" /> Gap to close
+                </span>
+              </div>
+            </div>
+
+            {/* Source strip + live badge */}
+            <div className="flex items-center gap-3 py-4 border-t border-b border-ascend-border mb-6">
+              <div className="flex items-center gap-1.5 flex-shrink-0">
+                <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+                <span className="text-[11px] font-bold text-ascend-subtext uppercase tracking-wider">Live —</span>
+              </div>
+              <div className="flex items-center gap-2">
+                {logoMarks.map((src) => (
                   <div
-                    key={src.key}
-                    className="flex-1 flex flex-col items-center gap-2 bg-ascend-bg rounded-xl p-3 border border-ascend-border"
+                    key={src.mark}
+                    title={src.title}
+                    style={{
+                      background: src.bg,
+                      color: "#fff",
+                      fontWeight: 800,
+                      fontSize: src.small ? 8 : 11,
+                      borderRadius: 6,
+                      width: 28,
+                      height: 28,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexShrink: 0,
+                      letterSpacing: "-0.3px",
+                      cursor: "default",
+                    }}
                   >
-                    {/* Logo mark */}
-                    <div
-                      style={{
-                        width: 36,
-                        height: 36,
-                        borderRadius: 10,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        fontWeight: 800,
-                        fontSize: src.markStyle.fontSize ?? 13,
-                        letterSpacing: "-0.5px",
-                        flexShrink: 0,
-                        ...src.markStyle,
-                      }}
-                    >
-                      {src.mark}
-                    </div>
-                    {/* Source name */}
-                    <div className="text-center">
-                      <p className="text-[11px] font-bold text-ascend-text leading-tight">{src.name}</p>
-                      <p className="text-[10px] text-ascend-subtext leading-tight mt-0.5">{src.sublabel}</p>
-                    </div>
-                    {/* Metric */}
-                    <div className="text-center">
-                      <p className="text-lg font-bold text-ascend-blue leading-none">{src.metric}</p>
-                      <p className="text-[10px] text-ascend-subtext">{src.metricLabel}</p>
-                    </div>
-                    {/* Contribution bar */}
-                    <div className="w-full">
-                      <div className="w-full h-1.5 rounded-full bg-gray-100">
-                        <div
-                          className="h-full rounded-full bg-ascend-blue transition-all"
-                          style={{ width: `${src.weight}%` }}
-                        />
-                      </div>
-                      <p className="text-[10px] text-ascend-subtext text-center mt-0.5">{src.weight}% weight</p>
-                    </div>
+                    {src.mark}
                   </div>
                 ))}
               </div>
+              <span className="text-[11px] text-ascend-subtext ml-auto flex-shrink-0">Updated 4 min ago</span>
             </div>
 
             {/* CTA */}
-            <div className="flex items-center justify-between mt-5 pt-4 border-t border-ascend-border">
-              <p className="text-sm text-ascend-subtext">
-                You already have what you need.{" "}
-                <span className="text-ascend-text font-semibold">Let's connect the pieces.</span>
-              </p>
-              <button
-                onClick={() => setCurrentScreen(2)}
-                className="flex items-center gap-2 bg-ascend-blue hover:bg-indigo-700 text-white font-bold px-6 py-3 rounded-pill shadow-glow transition-all hover:scale-105 text-sm flex-shrink-0 ml-4"
-              >
-                Show me how
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </div>
+            <button
+              onClick={() => setCurrentScreen(2)}
+              className="w-full flex items-center justify-center gap-2 bg-ascend-blue hover:bg-indigo-700 text-white font-bold px-6 py-4 rounded-xl shadow-glow transition-all text-base"
+            >
+              Build your first intervention
+              <ArrowRight className="w-5 h-5" />
+            </button>
           </div>
         </div>
       </div>
