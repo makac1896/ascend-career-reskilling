@@ -483,92 +483,100 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
 
   // ─── Screen 1 ─────────────────────────────────────────────────────────────
   if (currentScreen === 1) {
+    // Styled logo marks — brand colours without external URLs
     const dataSources = [
       {
-        icon: Briefcase,
-        name: "LinkedIn Jobs API",
-        type: "Job Postings",
-        detail: "4.2M active listings scanned",
-        color: "text-blue-600",
-        bg: "bg-blue-50",
+        key: "linkedin",
+        mark: "in",
+        markStyle: { background: "#0077B5", color: "#fff", fontStyle: "italic" },
+        name: "LinkedIn",
+        sublabel: "Jobs API",
+        metric: "4.2M",
+        metricLabel: "job listings",
+        weight: 38,
       },
       {
-        icon: Globe,
-        name: "Burning Glass / Lightcast",
-        type: "Labour Market Intelligence",
-        detail: "Real-time skills demand index",
-        color: "text-indigo-600",
-        bg: "bg-indigo-50",
+        key: "lightcast",
+        mark: "LC",
+        markStyle: { background: "#FF6B2B", color: "#fff" },
+        name: "Lightcast",
+        sublabel: "Labour Intelligence",
+        metric: "847",
+        metricLabel: "skill shifts",
+        weight: 29,
       },
       {
-        icon: FileBarChart,
-        name: "BLS Occupational Outlook",
-        type: "Government Report",
-        detail: "2025–2026 release",
-        color: "text-green-600",
-        bg: "bg-green-50",
+        key: "bls",
+        mark: "BLS",
+        markStyle: { background: "#1B3A6B", color: "#fff", fontSize: 9 },
+        name: "BLS.gov",
+        sublabel: "Occupational Outlook",
+        metric: "312",
+        metricLabel: "occupations",
+        weight: 14,
       },
       {
-        icon: Database,
-        name: "Waypoint Student Records",
-        type: "Internal Assessment Data",
-        detail: "47 students · this cohort",
-        color: "text-purple-600",
-        bg: "bg-purple-50",
+        key: "waypoint",
+        mark: "W",
+        markStyle: { background: "#4318FF", color: "#fff" },
+        name: "Waypoint",
+        sublabel: "Student Records",
+        metric: "47",
+        metricLabel: "students",
+        weight: 12,
       },
       {
-        icon: FileBarChart,
+        key: "wef",
+        mark: "WEF",
+        markStyle: { background: "#009EDB", color: "#fff", fontSize: 9 },
         name: "World Economic Forum",
-        type: "Skills Report",
-        detail: "Future of Jobs 2025",
-        color: "text-amber-600",
-        bg: "bg-amber-50",
+        sublabel: "Future of Jobs 2025",
+        metric: "96",
+        metricLabel: "future skills",
+        weight: 7,
       },
     ];
 
     return (
-      <div className="min-h-screen bg-ascend-bg flex flex-col items-center justify-center p-6 lg:p-10 animate-in fade-in duration-500">
-        <div className="max-w-3xl w-full">
-          <div className="flex justify-center mb-10">
-            <img src="/waypoint.png" alt="Waypoint" className="h-24 w-auto" />
+      <div className="h-screen bg-ascend-bg flex flex-col items-center justify-center p-6 lg:p-8 animate-in fade-in duration-500 overflow-hidden">
+        <div className="max-w-3xl w-full flex flex-col gap-0">
+
+          {/* Logo */}
+          <div className="flex justify-center mb-6">
+            <img src="/waypoint.png" alt="Waypoint" className="h-16 w-auto" />
           </div>
 
-          <div className="bg-white rounded-card shadow-soft p-8 lg:p-10">
+          <div className="bg-white rounded-card shadow-soft px-8 py-6">
 
-            {/* Live badge + timestamp */}
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-                <span className="text-xs font-bold text-green-700 bg-green-50 px-3 py-1 rounded-full uppercase tracking-wider">
-                  Live Data
-                </span>
+            {/* Top bar: label + live badge + timestamp */}
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-wider text-ascend-subtext">Your Students · Today</p>
+                <h1 className="text-2xl font-bold text-ascend-text mt-0.5 leading-tight">
+                  Here's what's happening with your students
+                </h1>
               </div>
-              <div className="flex items-center gap-1.5 text-xs text-ascend-subtext">
-                <RefreshCw className="w-3.5 h-3.5" />
-                Updated 4 min ago
+              <div className="flex flex-col items-end gap-1 flex-shrink-0 ml-4">
+                <div className="flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+                  <span className="text-xs font-bold text-green-700 bg-green-50 px-2.5 py-0.5 rounded-full">Live</span>
+                </div>
+                <div className="flex items-center gap-1 text-[11px] text-ascend-subtext">
+                  <RefreshCw className="w-3 h-3" />
+                  4 min ago
+                </div>
               </div>
             </div>
 
-            <p className="text-xs font-bold uppercase tracking-wider text-ascend-subtext mb-2">
-              Your Students · Today
-            </p>
-            <h1 className="text-3xl font-bold text-ascend-text mb-8 leading-snug">
-              Here's what's happening with your students
-            </h1>
-
             {/* Chart */}
-            <div style={{ height: 270 }}>
+            <div style={{ height: 195 }}>
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart
                   layout="vertical"
                   data={skillGapData}
-                  margin={{ top: 0, right: 40, left: 0, bottom: 0 }}
+                  margin={{ top: 0, right: 30, left: 0, bottom: 0 }}
                 >
-                  <CartesianGrid
-                    strokeDasharray="3 3"
-                    horizontal={false}
-                    stroke="#E0E5F2"
-                  />
+                  <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#E0E5F2" />
                   <XAxis
                     type="number"
                     domain={[0, 100]}
@@ -580,85 +588,89 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
                   <YAxis
                     type="category"
                     dataKey="skill"
-                    width={160}
-                    tick={{ fontSize: 12, fill: "#2B3674", fontWeight: 600 }}
+                    width={155}
+                    tick={{ fontSize: 11, fill: "#2B3674", fontWeight: 600 }}
                     axisLine={false}
                     tickLine={false}
                   />
                   <Tooltip
                     formatter={(v) => `${v}%`}
-                    contentStyle={{
-                      borderRadius: 12,
-                      border: "none",
-                      boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
-                      fontSize: 12,
-                    }}
+                    contentStyle={{ borderRadius: 12, border: "none", boxShadow: "0 4px 20px rgba(0,0,0,0.1)", fontSize: 12 }}
                   />
-                  <Legend wrapperStyle={{ fontSize: 12, paddingTop: 8 }} />
-                  <Bar
-                    dataKey="demand"
-                    name="Market Demand"
-                    fill="#4318FF"
-                    radius={[0, 4, 4, 0]}
-                    barSize={9}
-                  />
-                  <Bar
-                    dataKey="coverage"
-                    name="Your Coverage"
-                    fill="#39B8FF"
-                    radius={[0, 4, 4, 0]}
-                    barSize={9}
-                  />
+                  <Legend wrapperStyle={{ fontSize: 11, paddingTop: 6 }} />
+                  <Bar dataKey="demand" name="Market Demand" fill="#4318FF" radius={[0, 4, 4, 0]} barSize={8} />
+                  <Bar dataKey="coverage" name="Your Coverage" fill="#39B8FF" radius={[0, 4, 4, 0]} barSize={8} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
 
-            {/* Data sources */}
-            <div className="mt-8 pt-6 border-t border-ascend-border">
-              <p className="text-xs font-bold uppercase tracking-wider text-ascend-subtext mb-4">
-                Pulling from {dataSources.length} live sources
+            {/* Data sources strip */}
+            <div className="mt-5 pt-4 border-t border-ascend-border">
+              <p className="text-[11px] font-bold uppercase tracking-wider text-ascend-subtext mb-3">
+                Pulled from 5 live sources
               </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {dataSources.map((src) => {
-                  const Icon = src.icon;
-                  return (
+              <div className="flex gap-3">
+                {dataSources.map((src) => (
+                  <div
+                    key={src.key}
+                    className="flex-1 flex flex-col items-center gap-2 bg-ascend-bg rounded-xl p-3 border border-ascend-border"
+                  >
+                    {/* Logo mark */}
                     <div
-                      key={src.name}
-                      className="flex items-center gap-3 p-3 rounded-xl bg-ascend-bg border border-ascend-border"
+                      style={{
+                        width: 36,
+                        height: 36,
+                        borderRadius: 10,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontWeight: 800,
+                        fontSize: src.markStyle.fontSize ?? 13,
+                        letterSpacing: "-0.5px",
+                        flexShrink: 0,
+                        ...src.markStyle,
+                      }}
                     >
-                      <div className={`w-8 h-8 rounded-lg ${src.bg} flex items-center justify-center flex-shrink-0`}>
-                        <Icon className={`w-4 h-4 ${src.color}`} />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-xs font-bold text-ascend-text truncate">{src.name}</p>
-                        <p className="text-xs text-ascend-subtext truncate">{src.detail}</p>
-                      </div>
-                      <span className="text-[10px] font-bold text-ascend-subtext bg-white border border-ascend-border px-2 py-0.5 rounded-full whitespace-nowrap flex-shrink-0">
-                        {src.type}
-                      </span>
+                      {src.mark}
                     </div>
-                  );
-                })}
+                    {/* Source name */}
+                    <div className="text-center">
+                      <p className="text-[11px] font-bold text-ascend-text leading-tight">{src.name}</p>
+                      <p className="text-[10px] text-ascend-subtext leading-tight mt-0.5">{src.sublabel}</p>
+                    </div>
+                    {/* Metric */}
+                    <div className="text-center">
+                      <p className="text-lg font-bold text-ascend-blue leading-none">{src.metric}</p>
+                      <p className="text-[10px] text-ascend-subtext">{src.metricLabel}</p>
+                    </div>
+                    {/* Contribution bar */}
+                    <div className="w-full">
+                      <div className="w-full h-1.5 rounded-full bg-gray-100">
+                        <div
+                          className="h-full rounded-full bg-ascend-blue transition-all"
+                          style={{ width: `${src.weight}%` }}
+                        />
+                      </div>
+                      <p className="text-[10px] text-ascend-subtext text-center mt-0.5">{src.weight}% weight</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
 
-            {/* Tagline + CTA */}
-            <p className="text-base text-ascend-subtext text-center mt-8 mb-6 leading-relaxed">
-              You already have what you need to close these gaps.{" "}
-              <span className="text-ascend-text font-semibold">
-                Let's connect the pieces.
-              </span>
-            </p>
-
-            <div className="flex flex-col items-center gap-2">
+            {/* CTA */}
+            <div className="flex items-center justify-between mt-5 pt-4 border-t border-ascend-border">
+              <p className="text-sm text-ascend-subtext">
+                You already have what you need.{" "}
+                <span className="text-ascend-text font-semibold">Let's connect the pieces.</span>
+              </p>
               <button
                 onClick={() => setCurrentScreen(2)}
-                className="flex items-center gap-2 bg-ascend-blue hover:bg-indigo-700 text-white font-bold px-8 py-4 rounded-pill shadow-glow transition-all hover:scale-105 text-base"
+                className="flex items-center gap-2 bg-ascend-blue hover:bg-indigo-700 text-white font-bold px-6 py-3 rounded-pill shadow-glow transition-all hover:scale-105 text-sm flex-shrink-0 ml-4"
               >
                 Show me how
-                <ArrowRight className="w-5 h-5" />
+                <ArrowRight className="w-4 h-4" />
               </button>
-              <p className="text-xs text-ascend-subtext">6 minutes</p>
             </div>
           </div>
         </div>
