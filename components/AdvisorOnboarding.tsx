@@ -262,7 +262,7 @@ const DropZone: React.FC<DropZoneProps> = ({
           {icon}
           <span className="font-bold text-ascend-text text-sm">{label}</span>
           {optional && (
-            <span className="ml-auto text-xs text-ascend-subtext bg-gray-100 px-2 py-0.5 rounded-full">
+            <span className="ml-auto text-xs text-gray-600 bg-gray-200 px-2 py-0.5 rounded-full">
               Optional
             </span>
           )}
@@ -642,7 +642,7 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
               className={`flex items-center gap-2 font-bold px-8 py-4 rounded-pill transition-all text-base ${
                 selectedScenario
                   ? "bg-ascend-blue text-white shadow-glow hover:bg-indigo-700 hover:scale-105"
-                  : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                  : "bg-gray-300 text-gray-600 cursor-not-allowed"
               }`}
             >
               Use this scenario

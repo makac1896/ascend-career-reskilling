@@ -954,12 +954,12 @@ const CurriculumDashboard: React.FC = () => {
         {/* "Add New" Placeholder Card */}
         <div className='group rounded-[32px] border-4 border-dashed border-gray-200 bg-gray-50/50 hover:bg-blue-50 hover:border-blue-300 flex flex-col items-center justify-center cursor-pointer transition-all duration-300 h-[650px]'>
           <div className='w-24 h-24 rounded-3xl bg-white shadow-sm border border-gray-100 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform group-hover:shadow-lg group-hover:rotate-3'>
-            <Plus className='w-10 h-10 text-gray-300 group-hover:text-blue-500 transition-colors' />
+            <Plus className='w-10 h-10 text-gray-500 group-hover:text-blue-500 transition-colors' />
           </div>
-          <h3 className='text-xl font-black text-gray-400 group-hover:text-blue-600 transition-colors'>
+          <h3 className='text-xl font-black text-gray-600 group-hover:text-blue-600 transition-colors'>
             Start New Project
           </h3>
-          <p className='text-xs font-bold text-gray-300 mt-2 uppercase tracking-widest group-hover:text-blue-400'>
+          <p className='text-xs font-bold text-gray-500 mt-2 uppercase tracking-widest group-hover:text-blue-400'>
             Launch a new lab
           </p>
         </div>
