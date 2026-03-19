@@ -423,53 +423,53 @@ const MicroNudgeToast: React.FC<{
     <div
       style={{
         position: "fixed",
-        bottom: 88,
-        left: "50%",
-        transform: `translateX(-50%) translateY(${visible ? 0 : 24}px)`,
+        bottom: 28,
+        right: 28,
+        transform: `translateY(${visible ? 0 : 20}px)`,
         opacity: visible ? 1 : 0,
-        transition: "opacity 0.35s ease, transform 0.35s cubic-bezier(0.34,1.56,0.64,1)",
+        transition: "opacity 0.3s ease, transform 0.3s cubic-bezier(0.34,1.56,0.64,1)",
         zIndex: 9999,
-        width: "min(400px, 90vw)",
-        backgroundColor: "#FFFFFF",
-        borderRadius: "16px",
-        boxShadow: "0 8px 40px rgba(0,0,0,0.18), 0 2px 12px rgba(0,0,0,0.08)",
-        border: "1px solid #E0E5F2",
+        width: "320px",
+        backgroundColor: "#1A1D2E",
+        borderRadius: "14px",
+        boxShadow: "0 12px 40px rgba(0,0,0,0.35), 0 2px 8px rgba(0,0,0,0.20)",
+        border: "1px solid rgba(255,255,255,0.10)",
         overflow: "hidden",
         fontFamily: "'DM Sans', sans-serif",
       }}
     >
       {/* Progress bar (auto-dismiss indicator) */}
-      <div style={{ height: "3px", backgroundColor: "#EEF2FF", position: "relative" }}>
+      <div style={{ height: "2px", backgroundColor: "rgba(255,255,255,0.08)", position: "relative" }}>
         <div
           style={{
             position: "absolute", top: 0, left: 0, height: "100%",
-            backgroundColor: "#4318FF", borderRadius: "3px",
+            backgroundColor: "#6366F1", borderRadius: "2px",
             animation: visible ? "nudge-progress 12s linear forwards" : "none",
           }}
         />
       </div>
 
-      <div style={{ padding: "16px 18px 18px" }}>
+      <div style={{ padding: "14px 16px 16px" }}>
         {/* Header */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "10px" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "7px" }}>
-            <div style={{ width: "20px", height: "20px", borderRadius: "6px", backgroundColor: "#EEF2FF", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-              <svg width="11" height="11" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M8 11L14 29L20 11L26 29L32 11" stroke="#4318FF" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"/>
+            <div style={{ width: "18px", height: "18px", borderRadius: "5px", backgroundColor: "rgba(99,102,241,0.25)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+              <svg width="10" height="10" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8 11L14 29L20 11L26 29L32 11" stroke="#A5B4FC" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </div>
-            <span style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#4318FF" }}>Quick check-in</span>
+            <span style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#A5B4FC" }}>Quick check-in</span>
           </div>
-          <button onClick={onDismiss} style={{ background: "none", border: "none", cursor: "pointer", color: "#9EABC0", padding: "2px", lineHeight: 1, fontSize: "16px" }}>×</button>
+          <button onClick={onDismiss} style={{ background: "none", border: "none", cursor: "pointer", color: "rgba(255,255,255,0.35)", padding: "2px", lineHeight: 1, fontSize: "16px" }}>×</button>
         </div>
 
         {/* Question */}
-        <p style={{ margin: "0 0 14px", fontSize: "14px", fontWeight: 600, color: "#2B3674", lineHeight: 1.4 }}>
+        <p style={{ margin: "0 0 12px", fontSize: "13px", fontWeight: 600, color: "rgba(255,255,255,0.90)", lineHeight: 1.45 }}>
           {question.question}
         </p>
 
         {/* Options */}
-        <div style={{ display: "flex", gap: "8px" }}>
+        <div style={{ display: "flex", gap: "7px" }}>
           {question.options.map((opt) => {
             const isChosen = answered === opt.value;
             return (
@@ -477,19 +477,19 @@ const MicroNudgeToast: React.FC<{
                 key={opt.value}
                 onClick={() => !answered && handleAnswer(opt.value)}
                 style={{
-                  flex: 1, padding: "10px 6px", borderRadius: "10px",
-                  border: `1.5px solid ${isChosen ? "#4318FF" : "#E0E5F2"}`,
-                  backgroundColor: isChosen ? "#EEF2FF" : "#FAFBFF",
+                  flex: 1, padding: "9px 4px", borderRadius: "10px",
+                  border: `1.5px solid ${isChosen ? "rgba(99,102,241,0.70)" : "rgba(255,255,255,0.10)"}`,
+                  backgroundColor: isChosen ? "rgba(99,102,241,0.25)" : "rgba(255,255,255,0.06)",
                   cursor: answered ? "default" : "pointer",
-                  display: "flex", flexDirection: "column", alignItems: "center", gap: "5px",
+                  display: "flex", flexDirection: "column", alignItems: "center", gap: "4px",
                   transition: "all 0.18s",
-                  transform: isChosen ? "scale(1.04)" : "none",
+                  transform: isChosen ? "scale(1.05)" : "none",
                 }}
-                onMouseEnter={(e) => { if (!answered) e.currentTarget.style.backgroundColor = "#F4F7FE"; }}
-                onMouseLeave={(e) => { if (!answered && !isChosen) e.currentTarget.style.backgroundColor = "#FAFBFF"; }}
+                onMouseEnter={(e) => { if (!answered && !isChosen) e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.11)"; }}
+                onMouseLeave={(e) => { if (!answered && !isChosen) e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.06)"; }}
               >
-                <span style={{ fontSize: "20px", lineHeight: 1 }}>{opt.emoji}</span>
-                <span style={{ fontSize: "11px", fontWeight: 600, color: isChosen ? "#4318FF" : "#5A6A8A" }}>{opt.label}</span>
+                <span style={{ fontSize: "18px", lineHeight: 1 }}>{opt.emoji}</span>
+                <span style={{ fontSize: "10px", fontWeight: 600, color: isChosen ? "#A5B4FC" : "rgba(255,255,255,0.50)" }}>{opt.label}</span>
               </button>
             );
           })}
