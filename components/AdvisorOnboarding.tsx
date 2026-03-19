@@ -34,6 +34,7 @@ import {
 
 interface AdvisorOnboardingProps {
   onComplete: () => void;
+  onPreviewJourney?: () => void;
 }
 
 // ─── Data ──────────────────────────────────────────────────────────────────
@@ -400,7 +401,7 @@ const NavRow: React.FC<{ onBack?: () => void; onSkip: () => void }> = ({ onBack,
 
 // ─── Main Component ─────────────────────────────────────────────────────────
 
-const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => {
+const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete, onPreviewJourney }) => {
   const [currentScreen, setCurrentScreen] = useState(1);
 
   // Screen 2
@@ -706,81 +707,84 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
   // ─── Screen 2 ─────────────────────────────────────────────────────────────
   if (currentScreen === 2) {
     return (
-      <div className="min-h-screen bg-ascend-bg flex flex-col items-center justify-start p-6 lg:p-10 animate-in fade-in slide-in-from-bottom-3 duration-300">
-        <div className="max-w-4xl w-full pt-8">
-          <NavRow onBack={() => setCurrentScreen(1)} onSkip={onComplete} />
-          <ProgressIndicator completed={0} />
+      <div className="h-screen bg-ascend-bg flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-3 duration-300">
+        {/* scrollable content */}
+        <div className="flex-1 overflow-y-auto px-6 lg:px-10">
+          <div className="max-w-4xl w-full mx-auto pt-8 pb-4">
+            <NavRow onBack={() => setCurrentScreen(1)} onSkip={onComplete} />
+            <ProgressIndicator completed={0} />
 
-          <div className="text-center mb-10">
-            <h1 className="text-3xl font-bold text-ascend-text mb-3">
-              Pick a professional scenario. We'll handle the setup.
-            </h1>
-          </div>
+            <div className="text-center mb-10">
+              <h1 className="text-3xl font-bold text-ascend-text mb-3">
+                Pick a professional scenario. We'll handle the setup.
+              </h1>
+            </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
-            {scenarios.map((s) => {
-              const isSelected = selectedScenario === s.id;
-              const isFaded = selectedScenario !== null && !isSelected;
-              return (
-                <div
-                  key={s.id}
-                  onClick={() => setSelectedScenario(s.id)}
-                  className={`bg-white rounded-card p-6 cursor-pointer border-2 transition-all duration-300 shadow-crisp active:scale-[0.97] ${
-                    isSelected
-                      ? "border-ascend-blue shadow-glow scale-[1.02]"
-                      : isFaded
-                      ? "border-transparent opacity-50 scale-[0.98]"
-                      : "border-transparent hover:border-ascend-blue/30 hover:shadow-soft"
-                  }`}
-                >
-                  {s.badge && (
-                    <span className="inline-block bg-green-100 text-green-700 text-xs font-bold px-3 py-1 rounded-full mb-4">
-                      {s.badge}
-                    </span>
-                  )}
-                  <h3 className="font-bold text-ascend-text text-lg mb-2 leading-snug">
-                    {s.title}
-                  </h3>
-                  <p className="text-ascend-subtext text-sm mb-4">{s.description}</p>
-                  <div className="space-y-1.5 mb-4">
-                    {s.skills.map((skill) => (
-                      <div
-                        key={skill}
-                        className="flex items-center gap-2 text-sm text-ascend-text"
-                      >
-                        <CheckCircle2 className="w-4 h-4 text-ascend-blue flex-shrink-0" />
-                        {skill}
-                      </div>
-                    ))}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
+              {scenarios.map((s) => {
+                const isSelected = selectedScenario === s.id;
+                const isFaded = selectedScenario !== null && !isSelected;
+                return (
+                  <div
+                    key={s.id}
+                    onClick={() => setSelectedScenario(s.id)}
+                    className={`bg-white rounded-card p-6 cursor-pointer border-2 transition-all duration-300 shadow-crisp active:scale-[0.97] ${
+                      isSelected
+                        ? "border-ascend-blue shadow-glow scale-[1.02]"
+                        : isFaded
+                        ? "border-transparent opacity-50 scale-[0.98]"
+                        : "border-transparent hover:border-ascend-blue/30 hover:shadow-soft"
+                    }`}
+                  >
+                    {s.badge && (
+                      <span className="inline-block bg-green-100 text-green-700 text-xs font-bold px-3 py-1 rounded-full mb-4">
+                        {s.badge}
+                      </span>
+                    )}
+                    <h3 className="font-bold text-ascend-text text-lg mb-2 leading-snug">
+                      {s.title}
+                    </h3>
+                    <p className="text-ascend-subtext text-sm mb-4">{s.description}</p>
+                    <div className="space-y-1.5 mb-4">
+                      {s.skills.map((skill) => (
+                        <div
+                          key={skill}
+                          className="flex items-center gap-2 text-sm text-ascend-text"
+                        >
+                          <CheckCircle2 className="w-4 h-4 text-ascend-blue flex-shrink-0" />
+                          {skill}
+                        </div>
+                      ))}
+                    </div>
+                    <div className="flex items-center gap-1.5 text-xs text-ascend-subtext mt-2">
+                      <Clock className="w-3.5 h-3.5" />
+                      {s.time} for students
+                    </div>
                   </div>
-                  <div className="flex items-center gap-1.5 text-xs text-ascend-subtext mt-2">
-                    <Clock className="w-3.5 h-3.5" />
-                    {s.time} for students
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
 
-          <p className="text-center text-xs text-ascend-subtext mb-6">
-            You can create custom scenarios later. Start with one of these to see how it
-            works.
-          </p>
-
-          <div className="flex justify-center">
-            <button
-              onClick={() => selectedScenario && setCurrentScreen(3)}
-              disabled={!selectedScenario}
-              className={`flex items-center gap-2 font-bold px-8 py-4 rounded-pill transition-all text-base ${
-                selectedScenario
-                  ? "bg-ascend-blue text-white shadow-glow hover:bg-indigo-700 hover:scale-105"
-                  : "bg-gray-300 text-gray-600 cursor-not-allowed"
-              }`}
-            >
-              Use this scenario
-              <ArrowRight className="w-5 h-5" />
-            </button>
+            <p className="text-center text-xs text-ascend-subtext mb-6">
+              You can create custom scenarios later. Start with one of these to see how it
+              works.
+            </p>
           </div>
+        </div>
+        {/* Sticky footer */}
+        <div className="flex-shrink-0 bg-white border-t border-ascend-border px-6 py-4 flex items-center justify-center">
+          <button
+            onClick={() => selectedScenario && setCurrentScreen(3)}
+            disabled={!selectedScenario}
+            className={`flex items-center gap-2 font-bold px-8 py-4 rounded-pill transition-all text-base ${
+              selectedScenario
+                ? "bg-ascend-blue text-white shadow-glow hover:bg-indigo-700 hover:scale-105"
+                : "bg-gray-300 text-gray-600 cursor-not-allowed"
+            }`}
+          >
+            Use this scenario
+            <ArrowRight className="w-5 h-5" />
+          </button>
         </div>
       </div>
     );
@@ -789,19 +793,20 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
   // ─── Screen 3 ─────────────────────────────────────────────────────────────
   if (currentScreen === 3) {
     return (
-      <div className="min-h-screen bg-ascend-bg flex flex-col items-center justify-start p-6 lg:p-10 animate-in fade-in slide-in-from-bottom-3 duration-300">
-        <div className="max-w-3xl w-full pt-8">
-          <NavRow onBack={() => setCurrentScreen(2)} onSkip={onComplete} />
-          <ProgressIndicator completed={1} />
+      <div className="h-screen bg-ascend-bg flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-3 duration-300">
+        {/* scrollable content */}
+        <div className="flex-1 overflow-y-auto px-6 lg:px-10">
+          <div className="max-w-3xl w-full mx-auto pt-8 pb-4">
+            <NavRow onBack={() => setCurrentScreen(2)} onSkip={onComplete} />
+            <ProgressIndicator completed={1} />
 
-          <div className="text-center mb-10">
-            <h1 className="text-3xl font-bold text-ascend-text mb-3">
-              Show us what you already offer. We'll show you how it connects.
-            </h1>
-          </div>
+            <div className="text-center mb-10">
+              <h1 className="text-3xl font-bold text-ascend-text mb-3">
+                Show us what you already offer. We'll show you how it connects.
+              </h1>
+            </div>
 
-          {!showConnections ? (
-            <>
+            {!showConnections ? (
               <div className="space-y-5 mb-8">
                 <DropZone
                   boxId="workshops"
@@ -873,181 +878,180 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
                   onChipDragEnd={() => setDraggingChip(null)}
                 />
               </div>
-
-              {loadingStep !== null ? (
-                <div className="flex flex-col items-center gap-3 py-4">
-                  <div className="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
-                    <div
-                      className="bg-ascend-blue h-1.5 rounded-full transition-all duration-700"
-                      style={{ width: `${((loadingStep + 1) / 3) * 100}%` }}
-                    />
+            ) : (
+              <>
+                {/* Resource mapping carousel */}
+                <div className="mb-6 animate-in fade-in duration-500">
+                  <div className="flex items-center justify-between mb-4">
+                    <h2 className="font-bold text-ascend-text text-lg">
+                      Here's how your existing work connects to student needs
+                    </h2>
+                    <span className="text-xs text-ascend-subtext">{currentCard + 1} / {resourceMappings.length}</span>
                   </div>
-                  <p className="text-sm font-medium text-ascend-text">
-                    {loadingMessages[loadingStep]}
+
+                  {/* Card */}
+                  <div
+                    className="rounded-card overflow-hidden border border-ascend-border"
+                    style={{
+                      boxShadow: "0 8px 40px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06)",
+                      opacity: cardVisible ? 1 : 0,
+                      transform: cardVisible ? "translateY(0)" : "translateY(10px)",
+                      transition: "opacity 0.35s ease, transform 0.35s ease",
+                    }}
+                  >
+                    {/* Image */}
+                    <div className="relative h-52 overflow-hidden">
+                      <img
+                        src={resourceMappings[currentCard].image}
+                        alt={resourceMappings[currentCard].superpower}
+                        className="w-full h-full object-cover scale-105"
+                        style={{ filter: "brightness(0.75)" }}
+                      />
+                      <div
+                        className="absolute inset-0"
+                        style={{ background: "linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.1) 60%, transparent 100%)" }}
+                      />
+                      <div className="absolute bottom-0 left-0 p-6">
+                        <span
+                          className="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full mb-2 inline-block"
+                          style={{ background: resourceMappings[currentCard].accent, color: "#fff" }}
+                        >
+                          Student Superpower
+                        </span>
+                        <h3 className="text-2xl font-bold text-white leading-tight">
+                          {resourceMappings[currentCard].superpower}
+                        </h3>
+                        <p className="text-white/80 text-sm mt-1">{resourceMappings[currentCard].detail}</p>
+                      </div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="bg-white p-6 grid grid-cols-2 gap-4">
+                      {/* Problem */}
+                      <div className="rounded-xl p-4 border border-red-100 bg-red-50">
+                        <p className="text-[10px] font-bold uppercase tracking-wider text-red-400 mb-2">The Problem</p>
+                        <p className="font-bold text-ascend-text text-sm leading-snug">{resourceMappings[currentCard].problem}</p>
+                      </div>
+
+                      {/* Solution */}
+                      <div className="rounded-xl p-4 border border-green-100 bg-green-50">
+                        <p className="text-[10px] font-bold uppercase tracking-wider text-green-600 mb-2">Your Solution</p>
+                        <p className="font-bold text-ascend-text text-sm">{resourceMappings[currentCard].resource}</p>
+                        <p className="text-xs text-ascend-subtext mt-1">{resourceMappings[currentCard].resourceDetail}</p>
+                      </div>
+
+                      {/* Auto-trigger */}
+                      <div
+                        className="col-span-2 rounded-xl p-4 flex items-start gap-3"
+                        style={{ background: `${resourceMappings[currentCard].accent}12`, border: `1px solid ${resourceMappings[currentCard].accent}30` }}
+                      >
+                        <div
+                          className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
+                          style={{ background: resourceMappings[currentCard].accent }}
+                        >
+                          <Zap className="w-3.5 h-3.5 text-white" />
+                        </div>
+                        <div>
+                          <p className="text-[10px] font-bold uppercase tracking-wider mb-1" style={{ color: resourceMappings[currentCard].accent }}>Auto-triggered when</p>
+                          <p className="text-sm font-medium text-ascend-text leading-snug">{resourceMappings[currentCard].connection}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Carousel controls */}
+                  <div className="flex items-center justify-between mt-4">
+                    <button
+                      onClick={() => {
+                        goToCard((currentCard - 1 + resourceMappings.length) % resourceMappings.length);
+                        setCardPaused(true);
+                        setTimeout(() => setCardPaused(false), 8000);
+                      }}
+                      className="flex items-center gap-1.5 text-xs font-bold text-ascend-subtext hover:text-ascend-text transition-colors px-3 py-2 rounded-xl hover:bg-ascend-light-blue"
+                    >
+                      <ChevronLeft className="w-4 h-4" /> Previous
+                    </button>
+
+                    <div className="flex items-center gap-2">
+                      {resourceMappings.map((_, i) => (
+                        <button
+                          key={i}
+                          onClick={() => { goToCard(i); setCardPaused(true); setTimeout(() => setCardPaused(false), 8000); }}
+                          className="rounded-full transition-all duration-300"
+                          style={{
+                            width: i === currentCard ? 20 : 8,
+                            height: 8,
+                            background: i === currentCard ? resourceMappings[currentCard].accent : "#E0E5F2",
+                          }}
+                        />
+                      ))}
+                    </div>
+
+                    <button
+                      onClick={() => {
+                        goToCard((currentCard + 1) % resourceMappings.length);
+                        setCardPaused(true);
+                        setTimeout(() => setCardPaused(false), 8000);
+                      }}
+                      className="flex items-center gap-1.5 text-xs font-bold text-ascend-subtext hover:text-ascend-text transition-colors px-3 py-2 rounded-xl hover:bg-ascend-light-blue"
+                    >
+                      Next <ChevronRight className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Insight box */}
+                <div className="bg-indigo-50 border border-indigo-100 rounded-card p-6 mb-8 animate-in fade-in duration-700">
+                  <p className="text-ascend-text leading-relaxed">
+                    Right now you invite <strong>200 students</strong> to workshops with{" "}
+                    <strong className="text-red-500">8% attendance.</strong>
+                  </p>
+                  <p className="text-ascend-text leading-relaxed mt-3">
+                    With Waypoint, you send personal recommendations to{" "}
+                    <strong>18 students</strong> who just experienced why they need it.
+                    Attendance rate:{" "}
+                    <strong className="text-green-600">38%.</strong>
+                  </p>
+                  <p className="text-ascend-blue font-bold mt-3">
+                    Same workshops. Different timing. That's the difference.
                   </p>
                 </div>
-              ) : (
-                <div className="flex justify-center">
-                  <button
-                    onClick={handleShowConnections}
-                    className="flex items-center gap-2 bg-ascend-blue hover:bg-indigo-700 text-white font-bold px-8 py-4 rounded-pill shadow-glow transition-all hover:scale-105 text-base"
-                  >
-                    Show me the connections
-                    <ArrowRight className="w-5 h-5" />
-                  </button>
+              </>
+            )}
+          </div>
+        </div>
+        {/* Sticky footer */}
+        <div className="flex-shrink-0 bg-white border-t border-ascend-border px-6 py-4 flex items-center justify-center">
+          {!showConnections ? (
+            loadingStep !== null ? (
+              <div className="flex flex-col items-center gap-3 w-full max-w-sm">
+                <div className="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                  <div
+                    className="bg-ascend-blue h-1.5 rounded-full transition-all duration-700"
+                    style={{ width: `${((loadingStep + 1) / 3) * 100}%` }}
+                  />
                 </div>
-              )}
-            </>
+                <p className="text-sm font-medium text-ascend-text">
+                  {loadingMessages[loadingStep]}
+                </p>
+              </div>
+            ) : (
+              <button
+                onClick={handleShowConnections}
+                className="flex items-center gap-2 bg-ascend-blue hover:bg-indigo-700 text-white font-bold px-8 py-4 rounded-pill shadow-glow transition-all hover:scale-105 text-base"
+              >
+                Show me the connections
+                <ArrowRight className="w-5 h-5" />
+              </button>
+            )
           ) : (
-            <>
-              {/* Connections table */}
-              {/* Resource mapping carousel */}
-              <div className="mb-6 animate-in fade-in duration-500">
-                <div className="flex items-center justify-between mb-4">
-                  <h2 className="font-bold text-ascend-text text-lg">
-                    Here's how your existing work connects to student needs
-                  </h2>
-                  <span className="text-xs text-ascend-subtext">{currentCard + 1} / {resourceMappings.length}</span>
-                </div>
-
-                {/* Card */}
-                <div
-                  className="rounded-card overflow-hidden border border-ascend-border"
-                  style={{
-                    boxShadow: "0 8px 40px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06)",
-                    opacity: cardVisible ? 1 : 0,
-                    transform: cardVisible ? "translateY(0)" : "translateY(10px)",
-                    transition: "opacity 0.35s ease, transform 0.35s ease",
-                  }}
-                >
-                  {/* Image */}
-                  <div className="relative h-52 overflow-hidden">
-                    <img
-                      src={resourceMappings[currentCard].image}
-                      alt={resourceMappings[currentCard].superpower}
-                      className="w-full h-full object-cover scale-105"
-                      style={{ filter: "brightness(0.75)" }}
-                    />
-                    <div
-                      className="absolute inset-0"
-                      style={{ background: "linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.1) 60%, transparent 100%)" }}
-                    />
-                    <div className="absolute bottom-0 left-0 p-6">
-                      <span
-                        className="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full mb-2 inline-block"
-                        style={{ background: resourceMappings[currentCard].accent, color: "#fff" }}
-                      >
-                        Student Superpower
-                      </span>
-                      <h3 className="text-2xl font-bold text-white leading-tight">
-                        {resourceMappings[currentCard].superpower}
-                      </h3>
-                      <p className="text-white/80 text-sm mt-1">{resourceMappings[currentCard].detail}</p>
-                    </div>
-                  </div>
-
-                  {/* Content */}
-                  <div className="bg-white p-6 grid grid-cols-2 gap-4">
-                    {/* Problem */}
-                    <div className="rounded-xl p-4 border border-red-100 bg-red-50">
-                      <p className="text-[10px] font-bold uppercase tracking-wider text-red-400 mb-2">The Problem</p>
-                      <p className="font-bold text-ascend-text text-sm leading-snug">{resourceMappings[currentCard].problem}</p>
-                    </div>
-
-                    {/* Solution */}
-                    <div className="rounded-xl p-4 border border-green-100 bg-green-50">
-                      <p className="text-[10px] font-bold uppercase tracking-wider text-green-600 mb-2">Your Solution</p>
-                      <p className="font-bold text-ascend-text text-sm">{resourceMappings[currentCard].resource}</p>
-                      <p className="text-xs text-ascend-subtext mt-1">{resourceMappings[currentCard].resourceDetail}</p>
-                    </div>
-
-                    {/* Auto-trigger */}
-                    <div
-                      className="col-span-2 rounded-xl p-4 flex items-start gap-3"
-                      style={{ background: `${resourceMappings[currentCard].accent}12`, border: `1px solid ${resourceMappings[currentCard].accent}30` }}
-                    >
-                      <div
-                        className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
-                        style={{ background: resourceMappings[currentCard].accent }}
-                      >
-                        <Zap className="w-3.5 h-3.5 text-white" />
-                      </div>
-                      <div>
-                        <p className="text-[10px] font-bold uppercase tracking-wider mb-1" style={{ color: resourceMappings[currentCard].accent }}>Auto-triggered when</p>
-                        <p className="text-sm font-medium text-ascend-text leading-snug">{resourceMappings[currentCard].connection}</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Carousel controls */}
-                <div className="flex items-center justify-between mt-4">
-                  <button
-                    onClick={() => {
-                      goToCard((currentCard - 1 + resourceMappings.length) % resourceMappings.length);
-                      setCardPaused(true);
-                      setTimeout(() => setCardPaused(false), 8000);
-                    }}
-                    className="flex items-center gap-1.5 text-xs font-bold text-ascend-subtext hover:text-ascend-text transition-colors px-3 py-2 rounded-xl hover:bg-ascend-light-blue"
-                  >
-                    <ChevronLeft className="w-4 h-4" /> Previous
-                  </button>
-
-                  <div className="flex items-center gap-2">
-                    {resourceMappings.map((_, i) => (
-                      <button
-                        key={i}
-                        onClick={() => { goToCard(i); setCardPaused(true); setTimeout(() => setCardPaused(false), 8000); }}
-                        className="rounded-full transition-all duration-300"
-                        style={{
-                          width: i === currentCard ? 20 : 8,
-                          height: 8,
-                          background: i === currentCard ? resourceMappings[currentCard].accent : "#E0E5F2",
-                        }}
-                      />
-                    ))}
-                  </div>
-
-                  <button
-                    onClick={() => {
-                      goToCard((currentCard + 1) % resourceMappings.length);
-                      setCardPaused(true);
-                      setTimeout(() => setCardPaused(false), 8000);
-                    }}
-                    className="flex items-center gap-1.5 text-xs font-bold text-ascend-subtext hover:text-ascend-text transition-colors px-3 py-2 rounded-xl hover:bg-ascend-light-blue"
-                  >
-                    Next <ChevronRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-
-              {/* Insight box */}
-              <div className="bg-indigo-50 border border-indigo-100 rounded-card p-6 mb-8 animate-in fade-in duration-700">
-                <p className="text-ascend-text leading-relaxed">
-                  Right now you invite <strong>200 students</strong> to workshops with{" "}
-                  <strong className="text-red-500">8% attendance.</strong>
-                </p>
-                <p className="text-ascend-text leading-relaxed mt-3">
-                  With Waypoint, you send personal recommendations to{" "}
-                  <strong>18 students</strong> who just experienced why they need it.
-                  Attendance rate:{" "}
-                  <strong className="text-green-600">38%.</strong>
-                </p>
-                <p className="text-ascend-blue font-bold mt-3">
-                  Same workshops. Different timing. That's the difference.
-                </p>
-              </div>
-
-              <div className="flex justify-center">
-                <button
-                  onClick={() => setCurrentScreen(4)}
-                  className="flex items-center gap-2 bg-ascend-blue hover:bg-indigo-700 text-white font-bold px-8 py-4 rounded-pill shadow-glow transition-all hover:scale-105 text-base"
-                >
-                  Next: Optimize Spaces
-                  <ArrowRight className="w-5 h-5" />
-                </button>
-              </div>
-            </>
+            <button
+              onClick={() => setCurrentScreen(4)}
+              className="flex items-center gap-2 bg-ascend-blue hover:bg-indigo-700 text-white font-bold px-8 py-4 rounded-pill shadow-glow transition-all hover:scale-105 text-base"
+            >
+              Next: Optimize Spaces
+              <ArrowRight className="w-5 h-5" />
+            </button>
           )}
         </div>
       </div>
@@ -1057,144 +1061,147 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
   // ─── Screen 4 ─────────────────────────────────────────────────────────────
   if (currentScreen === 4) {
     return (
-      <div className="min-h-screen bg-ascend-bg flex flex-col items-center justify-start p-6 lg:p-10 animate-in fade-in slide-in-from-bottom-3 duration-300">
-        <div className="max-w-5xl w-full pt-8">
-          <NavRow onBack={() => setCurrentScreen(3)} onSkip={onComplete} />
-          <ProgressIndicator completed={2} />
+      <div className="h-screen bg-ascend-bg flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-3 duration-300">
+        {/* scrollable content */}
+        <div className="flex-1 overflow-y-auto px-6 lg:px-10">
+          <div className="max-w-5xl w-full mx-auto pt-8 pb-4">
+            <NavRow onBack={() => setCurrentScreen(3)} onSkip={onComplete} />
+            <ProgressIndicator completed={2} />
 
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-ascend-text mb-2">
-              Your rooms are sitting empty. Here's how to change that.
-            </h1>
-            <p className="text-ascend-subtext text-sm">
-              Low investment. High impact. You decide what makes sense.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
-            {rooms.map((room) => {
-              const isSelected = selectedRooms.has(room.id);
-              return (
-                <div
-                  key={room.id}
-                  className={`bg-white rounded-card border-2 transition-all shadow-crisp flex flex-col ${
-                    isSelected ? "border-ascend-blue shadow-soft" : "border-transparent"
-                  }`}
-                >
-                  {/* Current state */}
-                  <div className="p-5 border-b border-ascend-border bg-gray-50/70 rounded-t-card">
-                    <p className="text-xs font-bold uppercase tracking-wide text-ascend-subtext mb-1">
-                      Current
-                    </p>
-                    <p className="font-bold text-ascend-text text-base">{room.name}</p>
-                    <p className="text-sm text-ascend-subtext mt-1">{room.currentUse}</p>
-                    <span className="inline-block mt-2 text-xs bg-red-50 text-red-500 font-bold px-2 py-0.5 rounded-full">
-                      {room.currentUtilization}
-                    </span>
-                    <p className="text-xs text-ascend-subtext mt-2 italic">
-                      "{room.currentNote}"
-                    </p>
-                  </div>
-
-                  {/* Suggested */}
-                  <div className="p-5 flex-1 flex flex-col">
-                    <p className="text-xs font-bold uppercase tracking-wide text-ascend-blue mb-1">
-                      Add →
-                    </p>
-                    <p className="font-bold text-ascend-text text-base mb-1">
-                      {room.suggestedUse}
-                    </p>
-                    <p className="text-xs text-ascend-subtext mb-2">
-                      For {room.forStudents}
-                    </p>
-                    <p className="text-xs text-ascend-text mb-4 leading-relaxed">
-                      Practice: {room.practice}
-                    </p>
-
-                    <div className="space-y-1 mb-4">
-                      {room.costs.map((c, i) => (
-                        <div key={i} className="flex justify-between text-xs">
-                          <span className="text-ascend-subtext">{c.item}</span>
-                          <span className="font-bold text-ascend-text">{c.cost}</span>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="bg-green-50 rounded-xl p-3 mb-4">
-                      <p className="text-xs font-bold text-green-700">
-                        {room.projectedUtilization}
-                      </p>
-                      <p className="text-xs text-green-600">{room.projectedStudents}</p>
-                    </div>
-
-                    <label className="flex items-center gap-2 cursor-pointer mt-auto">
-                      <input
-                        type="checkbox"
-                        checked={isSelected}
-                        onChange={() => toggleRoom(room.id)}
-                        className="w-4 h-4 rounded"
-                      />
-                      <span className="text-xs font-bold text-ascend-text">
-                        Add this to my setup
-                      </span>
-                    </label>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Summary */}
-          {selectedRooms.size > 0 && (
-            <div className="bg-white rounded-card shadow-crisp p-6 mb-5 animate-in fade-in duration-300">
-              <div className="flex flex-wrap gap-8">
-                <div>
-                  <p className="text-2xl font-bold text-ascend-text">
-                    ${totalMinCost}–${totalMaxCost}
-                  </p>
-                  <p className="text-xs text-ascend-subtext">Total investment</p>
-                </div>
-                <div>
-                  <p className="text-2xl font-bold text-ascend-text">1-2 weeks</p>
-                  <p className="text-xs text-ascend-subtext">Rooms ready</p>
-                </div>
-                <div>
-                  <p className="text-2xl font-bold text-ascend-text">
-                    {selectedRooms.size * 15}–{selectedRooms.size * 20}+
-                  </p>
-                  <p className="text-xs text-ascend-subtext">
-                    Additional students/week
-                  </p>
-                </div>
-              </div>
-              <p className="text-xs text-ascend-subtext mt-3">
-                Same rooms. New purpose. Real skill development.
+            <div className="text-center mb-8">
+              <h1 className="text-3xl font-bold text-ascend-text mb-2">
+                Your rooms are sitting empty. Here's how to change that.
+              </h1>
+              <p className="text-ascend-subtext text-sm">
+                Low investment. High impact. You decide what makes sense.
               </p>
             </div>
-          )}
 
-          {/* Skip option */}
-          <div className="flex items-center justify-center gap-2 mb-6">
-            <label className="flex items-center gap-2 cursor-pointer text-sm text-ascend-subtext">
-              <input
-                type="checkbox"
-                checked={skipSpaces}
-                onChange={(e) => setSkipSpaces(e.target.checked)}
-                className="w-4 h-4 rounded"
-              />
-              Not ready for this step? Skip for now — just start with digital simulations
-            </label>
-          </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
+              {rooms.map((room) => {
+                const isSelected = selectedRooms.has(room.id);
+                return (
+                  <div
+                    key={room.id}
+                    className={`bg-white rounded-card border-2 transition-all shadow-crisp flex flex-col ${
+                      isSelected ? "border-ascend-blue shadow-soft" : "border-transparent"
+                    }`}
+                  >
+                    {/* Current state */}
+                    <div className="p-5 border-b border-ascend-border bg-gray-50/70 rounded-t-card">
+                      <p className="text-xs font-bold uppercase tracking-wide text-ascend-subtext mb-1">
+                        Current
+                      </p>
+                      <p className="font-bold text-ascend-text text-base">{room.name}</p>
+                      <p className="text-sm text-ascend-subtext mt-1">{room.currentUse}</p>
+                      <span className="inline-block mt-2 text-xs bg-red-50 text-red-500 font-bold px-2 py-0.5 rounded-full">
+                        {room.currentUtilization}
+                      </span>
+                      <p className="text-xs text-ascend-subtext mt-2 italic">
+                        "{room.currentNote}"
+                      </p>
+                    </div>
 
-          <div className="flex justify-center">
-            <button
-              onClick={() => setCurrentScreen(5)}
-              className="flex items-center gap-2 bg-ascend-blue hover:bg-indigo-700 text-white font-bold px-8 py-4 rounded-pill shadow-glow transition-all hover:scale-105 text-base"
-            >
-              Deploy My Setup
-              <ArrowRight className="w-5 h-5" />
-            </button>
+                    {/* Suggested */}
+                    <div className="p-5 flex-1 flex flex-col">
+                      <p className="text-xs font-bold uppercase tracking-wide text-ascend-blue mb-1">
+                        Add →
+                      </p>
+                      <p className="font-bold text-ascend-text text-base mb-1">
+                        {room.suggestedUse}
+                      </p>
+                      <p className="text-xs text-ascend-subtext mb-2">
+                        For {room.forStudents}
+                      </p>
+                      <p className="text-xs text-ascend-text mb-4 leading-relaxed">
+                        Practice: {room.practice}
+                      </p>
+
+                      <div className="space-y-1 mb-4">
+                        {room.costs.map((c, i) => (
+                          <div key={i} className="flex justify-between text-xs">
+                            <span className="text-ascend-subtext">{c.item}</span>
+                            <span className="font-bold text-ascend-text">{c.cost}</span>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="bg-green-50 rounded-xl p-3 mb-4">
+                        <p className="text-xs font-bold text-green-700">
+                          {room.projectedUtilization}
+                        </p>
+                        <p className="text-xs text-green-600">{room.projectedStudents}</p>
+                      </div>
+
+                      <label className="flex items-center gap-2 cursor-pointer mt-auto">
+                        <input
+                          type="checkbox"
+                          checked={isSelected}
+                          onChange={() => toggleRoom(room.id)}
+                          className="w-4 h-4 rounded"
+                        />
+                        <span className="text-xs font-bold text-ascend-text">
+                          Add this to my setup
+                        </span>
+                      </label>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Summary */}
+            {selectedRooms.size > 0 && (
+              <div className="bg-white rounded-card shadow-crisp p-6 mb-5 animate-in fade-in duration-300">
+                <div className="flex flex-wrap gap-8">
+                  <div>
+                    <p className="text-2xl font-bold text-ascend-text">
+                      ${totalMinCost}–${totalMaxCost}
+                    </p>
+                    <p className="text-xs text-ascend-subtext">Total investment</p>
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold text-ascend-text">1-2 weeks</p>
+                    <p className="text-xs text-ascend-subtext">Rooms ready</p>
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold text-ascend-text">
+                      {selectedRooms.size * 15}–{selectedRooms.size * 20}+
+                    </p>
+                    <p className="text-xs text-ascend-subtext">
+                      Additional students/week
+                    </p>
+                  </div>
+                </div>
+                <p className="text-xs text-ascend-subtext mt-3">
+                  Same rooms. New purpose. Real skill development.
+                </p>
+              </div>
+            )}
+
+            {/* Skip option */}
+            <div className="flex items-center justify-center gap-2 mb-6">
+              <label className="flex items-center gap-2 cursor-pointer text-sm text-ascend-subtext">
+                <input
+                  type="checkbox"
+                  checked={skipSpaces}
+                  onChange={(e) => setSkipSpaces(e.target.checked)}
+                  className="w-4 h-4 rounded"
+                />
+                Not ready for this step? Skip for now — just start with digital simulations
+              </label>
+            </div>
           </div>
+        </div>
+        {/* Sticky footer */}
+        <div className="flex-shrink-0 bg-white border-t border-ascend-border px-6 py-4 flex items-center justify-center">
+          <button
+            onClick={() => setCurrentScreen(5)}
+            className="flex items-center gap-2 bg-ascend-blue hover:bg-indigo-700 text-white font-bold px-8 py-4 rounded-pill shadow-glow transition-all hover:scale-105 text-base"
+          >
+            Deploy My Setup
+            <ArrowRight className="w-5 h-5" />
+          </button>
         </div>
       </div>
     );
@@ -1227,136 +1234,139 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
     ];
 
     return (
-      <div className="min-h-screen bg-ascend-bg flex flex-col items-center justify-start p-6 lg:p-10 animate-in fade-in slide-in-from-bottom-3 duration-300">
-        <div className="max-w-3xl w-full pt-8">
-          <NavRow onBack={() => setCurrentScreen(4)} onSkip={onComplete} />
-          <div className="flex justify-center mb-8">
-            <img src="/waypoint.png" alt="Waypoint" className="h-20 w-auto" />
-          </div>
+      <div className="h-screen bg-ascend-bg flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-3 duration-300">
+        {/* scrollable content */}
+        <div className="flex-1 overflow-y-auto px-6 lg:px-10">
+          <div className="max-w-3xl w-full mx-auto pt-8 pb-4">
+            <NavRow onBack={() => setCurrentScreen(4)} onSkip={onComplete} />
+            <div className="flex justify-center mb-8">
+              <img src="/waypoint.png" alt="Waypoint" className="h-20 w-auto" />
+            </div>
 
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-ascend-text mb-3">
-              Your simulation is ready. Time to send it to students.
-            </h1>
-            <p className="text-ascend-subtext text-sm max-w-lg mx-auto">
-              They'll receive a professional scenario, discover superpowers they didn't
-              know they had, and get personalized recommendations for your workshops and
-              spaces.
-            </p>
-          </div>
+            <div className="text-center mb-8">
+              <h1 className="text-3xl font-bold text-ascend-text mb-3">
+                Your simulation is ready. Time to send it to students.
+              </h1>
+              <p className="text-ascend-subtext text-sm max-w-lg mx-auto">
+                They'll receive a professional scenario, discover superpowers they didn't
+                know they had, and get personalized recommendations for your workshops and
+                spaces.
+              </p>
+            </div>
 
-          {/* Deployment options */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-            {deployments.map((d) => (
-              <div
-                key={d.id}
-                onClick={() => setSelectedDeployment(d.id)}
-                className={`bg-white rounded-card p-5 cursor-pointer border-2 transition-all shadow-crisp ${
-                  selectedDeployment === d.id
-                    ? "border-ascend-blue shadow-glow"
-                    : "border-transparent hover:border-ascend-blue/30 hover:shadow-soft"
-                }`}
-              >
+            {/* Deployment options */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+              {deployments.map((d) => (
                 <div
-                  className={`w-10 h-10 rounded-xl flex items-center justify-center mb-3 transition-colors ${
+                  key={d.id}
+                  onClick={() => setSelectedDeployment(d.id)}
+                  className={`bg-white rounded-card p-5 cursor-pointer border-2 transition-all shadow-crisp ${
                     selectedDeployment === d.id
-                      ? "bg-ascend-blue text-white"
-                      : "bg-ascend-light-blue text-ascend-blue"
+                      ? "border-ascend-blue shadow-glow"
+                      : "border-transparent hover:border-ascend-blue/30 hover:shadow-soft"
                   }`}
                 >
-                  {d.icon}
+                  <div
+                    className={`w-10 h-10 rounded-xl flex items-center justify-center mb-3 transition-colors ${
+                      selectedDeployment === d.id
+                        ? "bg-ascend-blue text-white"
+                        : "bg-ascend-light-blue text-ascend-blue"
+                    }`}
+                  >
+                    {d.icon}
+                  </div>
+                  <p className="font-bold text-ascend-text text-sm mb-1">{d.title}</p>
+                  <p className="text-xs text-ascend-subtext mb-2">{d.desc}</p>
+                  <p className="text-xs font-medium text-ascend-blue">{d.detail}</p>
                 </div>
-                <p className="font-bold text-ascend-text text-sm mb-1">{d.title}</p>
-                <p className="text-xs text-ascend-subtext mb-2">{d.desc}</p>
-                <p className="text-xs font-medium text-ascend-blue">{d.detail}</p>
-              </div>
-            ))}
-          </div>
-
-          {/* Email preview */}
-          <div className="bg-white rounded-card shadow-soft mb-3 overflow-hidden">
-            <div className="bg-gray-100 px-4 py-2.5 flex items-center gap-2 border-b border-ascend-border">
-              <div className="flex gap-1.5">
-                <div className="w-3 h-3 rounded-full bg-red-400" />
-                <div className="w-3 h-3 rounded-full bg-yellow-400" />
-                <div className="w-3 h-3 rounded-full bg-green-400" />
-              </div>
-              <span className="text-xs text-gray-500 mx-auto font-medium">
-                Email Preview
-              </span>
+              ))}
             </div>
-            <div className="p-6 text-sm">
-              <p className="text-ascend-subtext text-xs mb-3">
-                <strong className="text-ascend-text">Subject:</strong> Discover a
-                superpower you didn't know you had (5 minutes)
+
+            {/* Email preview */}
+            <div className="bg-white rounded-card shadow-soft mb-3 overflow-hidden">
+              <div className="bg-gray-100 px-4 py-2.5 flex items-center gap-2 border-b border-ascend-border">
+                <div className="flex gap-1.5">
+                  <div className="w-3 h-3 rounded-full bg-red-400" />
+                  <div className="w-3 h-3 rounded-full bg-yellow-400" />
+                  <div className="w-3 h-3 rounded-full bg-green-400" />
+                </div>
+                <span className="text-xs text-gray-500 mx-auto font-medium">
+                  Email Preview
+                </span>
+              </div>
+              <div className="p-6 text-sm">
+                <p className="text-ascend-subtext text-xs mb-3">
+                  <strong className="text-ascend-text">Subject:</strong> Discover a
+                  superpower you didn't know you had (5 minutes)
+                </p>
+                <div className="border-t border-ascend-border pt-4 space-y-3 text-ascend-text leading-relaxed text-sm">
+                  <p>Hi [First Name],</p>
+                  <p>
+                    A nonprofit team just used AI to write their annual report. They
+                    disagree about whether it captures the real story. They want your
+                    perspective.
+                  </p>
+                  <p>
+                    Takes 5–7 minutes. You'll get personalized feedback showing superpowers
+                    you might not know you have — with specific evidence from what you just
+                    did.
+                  </p>
+                  <p>
+                    You can complete this digitally, or visit Room 14B during open hours
+                    for in-person practice.
+                  </p>
+                  <p>
+                    No grades. No right answers. Just a chance to see what you're capable
+                    of when it matters.
+                  </p>
+                  <p className="text-ascend-blue font-medium cursor-pointer hover:underline">
+                    [UNIQUE LINK]
+                  </p>
+                  <p className="text-ascend-subtext text-xs mt-2">
+                    Let me know what you think.
+                    <br />— [Advisor Name]
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <p className="text-xs text-ascend-subtext text-center mb-8">
+              You can edit this message. We've written it to feel personal, not
+              institutional.
+            </p>
+          </div>
+        </div>
+        {/* Sticky footer */}
+        <div className="flex-shrink-0 bg-white border-t border-ascend-border px-6 py-4 flex items-center justify-center">
+          {sent ? (
+            <div className="flex flex-col items-center gap-2 animate-in fade-in duration-300">
+              <div className="w-14 h-14 rounded-full bg-green-100 flex items-center justify-center">
+                <Check className="w-7 h-7 text-green-600" />
+              </div>
+              <p className="font-bold text-ascend-text">Sent to 47 students</p>
+              <p className="text-xs text-ascend-subtext">
+                They'll start receiving this now
               </p>
-              <div className="border-t border-ascend-border pt-4 space-y-3 text-ascend-text leading-relaxed text-sm">
-                <p>Hi [First Name],</p>
-                <p>
-                  A nonprofit team just used AI to write their annual report. They
-                  disagree about whether it captures the real story. They want your
-                  perspective.
-                </p>
-                <p>
-                  Takes 5–7 minutes. You'll get personalized feedback showing superpowers
-                  you might not know you have — with specific evidence from what you just
-                  did.
-                </p>
-                <p>
-                  You can complete this digitally, or visit Room 14B during open hours
-                  for in-person practice.
-                </p>
-                <p>
-                  No grades. No right answers. Just a chance to see what you're capable
-                  of when it matters.
-                </p>
-                <p className="text-ascend-blue font-medium cursor-pointer hover:underline">
-                  [UNIQUE LINK]
-                </p>
-                <p className="text-ascend-subtext text-xs mt-2">
-                  Let me know what you think.
-                  <br />— [Advisor Name]
-                </p>
-              </div>
             </div>
-          </div>
-
-          <p className="text-xs text-ascend-subtext text-center mb-8">
-            You can edit this message. We've written it to feel personal, not
-            institutional.
-          </p>
-
-          <div className="flex justify-center">
-            {sent ? (
-              <div className="flex flex-col items-center gap-2 animate-in fade-in duration-300">
-                <div className="w-14 h-14 rounded-full bg-green-100 flex items-center justify-center">
-                  <Check className="w-7 h-7 text-green-600" />
-                </div>
-                <p className="font-bold text-ascend-text">Sent to 47 students</p>
-                <p className="text-xs text-ascend-subtext">
-                  They'll start receiving this now
-                </p>
-              </div>
-            ) : (
-              <button
-                onClick={handleSendToStudents}
-                disabled={sendingAnimation}
-                className="flex items-center gap-2 bg-ascend-blue hover:bg-indigo-700 text-white font-bold px-8 py-4 rounded-pill shadow-glow transition-all hover:scale-105 text-base disabled:opacity-70 disabled:cursor-wait"
-              >
-                {sendingAnimation ? (
-                  <>
-                    <Loader2 className="w-5 h-5 animate-spin" />
-                    Sending...
-                  </>
-                ) : (
-                  <>
-                    Send to Students
-                    <ArrowRight className="w-5 h-5" />
-                  </>
-                )}
-              </button>
-            )}
-          </div>
+          ) : (
+            <button
+              onClick={handleSendToStudents}
+              disabled={sendingAnimation}
+              className="flex items-center gap-2 bg-ascend-blue hover:bg-indigo-700 text-white font-bold px-8 py-4 rounded-pill shadow-glow transition-all hover:scale-105 text-base disabled:opacity-70 disabled:cursor-wait"
+            >
+              {sendingAnimation ? (
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  Sending...
+                </>
+              ) : (
+                <>
+                  Send to Students
+                  <ArrowRight className="w-5 h-5" />
+                </>
+              )}
+            </button>
+          )}
         </div>
       </div>
     );
@@ -1364,8 +1374,10 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
 
   // ─── Screen 6 ─────────────────────────────────────────────────────────────
   return (
-    <div className="min-h-screen bg-ascend-bg flex flex-col items-center justify-start p-6 lg:p-10 animate-in fade-in slide-in-from-bottom-3 duration-300">
-      <div className="max-w-4xl w-full pt-8">
+    <div className="h-screen bg-ascend-bg flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-3 duration-300">
+      {/* scrollable content */}
+      <div className="flex-1 overflow-y-auto px-6 lg:px-10">
+        <div className="max-w-4xl w-full mx-auto pt-8 pb-4">
         <NavRow onBack={() => setCurrentScreen(5)} onSkip={onComplete} />
         <p className="text-xs font-bold uppercase tracking-wider text-ascend-subtext text-center mb-2">
           Setup Complete
@@ -1543,16 +1555,17 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
             Want to see what their experience looks like?
           </p>
         </div>
-
-        <div className="flex justify-center">
-          <button
-            onClick={onComplete}
-            className="flex items-center gap-2 bg-ascend-blue hover:bg-indigo-700 text-white font-bold px-8 py-4 rounded-pill shadow-glow transition-all hover:scale-105 text-base"
-          >
-            Preview Student Journey
-            <ArrowRight className="w-5 h-5" />
-          </button>
         </div>
+      </div>
+      {/* Sticky footer */}
+      <div className="flex-shrink-0 bg-white border-t border-ascend-border px-6 py-4 flex items-center justify-center">
+        <button
+          onClick={onPreviewJourney ?? onComplete}
+          className="flex items-center gap-2 bg-ascend-blue hover:bg-indigo-700 text-white font-bold px-8 py-4 rounded-pill shadow-glow transition-all hover:scale-105 text-base"
+        >
+          Preview Student Journey
+          <ArrowRight className="w-5 h-5" />
+        </button>
       </div>
     </div>
   );
