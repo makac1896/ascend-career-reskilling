@@ -41,7 +41,7 @@ const initialActions: PendingAction[] = [
   {
     id: 2,
     type: "workshop",
-    title: "Recommend "Finding Your Voice" to 14 students",
+    title: 'Recommend "Finding Your Voice" to 14 students',
     reasoning:
       "14 students completed the Assertive Advocacy simulation in the last 48 hours and scored high on insight but low on participation. This is the exact trigger condition for this workshop.",
     impact: "Predicted attendance rate: 38% vs. current 8% average for untargeted invitations.",
