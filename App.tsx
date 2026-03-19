@@ -8,6 +8,7 @@ import StudentDashboard from "./components/StudentDashboard";
 import LandingPage from "./components/LandingPage";
 import DesignWorkshopModal from "./components/DesignWorkshopModal";
 import AdvisorJourneyDashboard from "./components/AdvisorJourneyDashboard";
+import AdvisorOnboarding from "./components/AdvisorOnboarding";
 import Toast, { ToastProps } from "./components/Toast";
 import {
   Search,
@@ -54,9 +55,9 @@ const SidebarItem: React.FC<{
 );
 
 const App: React.FC = () => {
-  const [viewState, setViewState] = useState<"landing" | "admin" | "student">(
-    "landing",
-  );
+  const [viewState, setViewState] = useState<
+    "landing" | "advisor-onboarding" | "admin" | "student"
+  >("landing");
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isWorkshopOpen, setIsWorkshopOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("Dashboard");
@@ -141,7 +142,7 @@ const App: React.FC = () => {
   };
 
   const handleEnterAdmin = () => {
-    setViewState("admin");
+    setViewState("advisor-onboarding");
   };
 
   const handleEnterStudent = () => {
@@ -197,6 +198,12 @@ const App: React.FC = () => {
         onEnterAdmin={handleEnterAdmin}
         onEnterStudent={handleEnterStudent}
       />
+    );
+  }
+
+  if (viewState === "advisor-onboarding") {
+    return (
+      <AdvisorOnboarding onComplete={() => setViewState("admin")} />
     );
   }
 
