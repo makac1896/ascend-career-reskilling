@@ -229,46 +229,51 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
           </p>
         </div>
 
-        {/* HERO CARD — Active Scenario */}
+        {/* HERO CARD — Active Scenario (blueprint dark) */}
         <div style={{
           borderRadius: "20px",
-          backgroundColor: "#FFFFFF",
-          border: "1px solid #E0E5F2",
-          boxShadow: "0 8px 32px rgba(67,24,255,0.10), 0 2px 8px rgba(0,0,0,0.04)",
+          border: "1px solid rgba(255,255,255,0.14)",
+          backgroundColor: "#152D5E",
+          backgroundImage: [
+            "radial-gradient(circle at 78% 16%, rgba(140,130,255,0.28) 0%, transparent 38%)",
+            "radial-gradient(circle at 92% 12%, rgba(120,100,255,0.20) 0%, transparent 28%)",
+            "linear-gradient(rgba(255,255,255,0.055) 1px, transparent 1px)",
+            "linear-gradient(90deg, rgba(255,255,255,0.055) 1px, transparent 1px)",
+          ].join(", "),
+          backgroundSize: "auto, auto, 28px 28px, 28px 28px",
+          boxShadow: "0 16px 48px rgba(21,45,94,0.32), 0 4px 16px rgba(67,24,255,0.20)",
           overflow: "hidden",
+          padding: "28px 32px",
+          display: "flex",
+          flexDirection: "column",
+          gap: "20px",
         }}>
-          {/* Top accent bar */}
-          <div style={{
-            height: "4px",
-            background: "linear-gradient(90deg, #4318FF 0%, #7C3AED 50%, #C084FC 100%)",
-          }} />
-
-          <div style={{ padding: "28px 32px" }}>
             {/* Header row */}
-            <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: "24px" }}>
+            <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
               <div>
-                <p style={{ margin: "0 0 6px", fontSize: "11px", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#5A6A8A" }}>
+                <p style={{ margin: "0 0 8px", fontSize: "11px", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(255,255,255,0.6)" }}>
                   Active Scenario
                 </p>
-                <h2 style={{ margin: "0 0 4px", fontSize: "26px", fontWeight: 700, color: "#2B3674", letterSpacing: "-0.02em" }}>
+                <h2 style={{ margin: "0 0 5px", fontSize: "28px", fontWeight: 700, color: "#FFFFFF", letterSpacing: "-0.02em" }}>
                   {ACTIVE_SCENARIO.scenarioName}
                 </h2>
-                <p style={{ margin: 0, fontSize: "14px", color: "#5A6A8A" }}>
+                <p style={{ margin: 0, fontSize: "14px", color: "rgba(255,255,255,0.7)" }}>
                   Objective: {ACTIVE_SCENARIO.objective}
                 </p>
               </div>
               <span style={{
-                padding: "5px 12px", borderRadius: "999px",
-                backgroundColor: "#ECFDF5", color: "#059669",
+                padding: "6px 14px", borderRadius: "999px",
+                backgroundColor: "rgba(16,185,129,0.15)",
+                color: "#6EE7B7",
                 fontSize: "12px", fontWeight: 700, flexShrink: 0,
-                border: "1px solid #D1FAE5",
+                border: "1px solid rgba(16,185,129,0.30)",
               }}>
                 In progress
               </span>
             </div>
 
             {/* Stats row */}
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "0", marginBottom: "20px" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "0" }}>
               {[
                 { value: "42%", label: "Complete" },
                 { value: "3", label: "Decisions made" },
@@ -277,12 +282,12 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
                 <div key={stat.label} style={{
                   paddingRight: idx < 2 ? "24px" : 0,
                   paddingLeft: idx > 0 ? "24px" : 0,
-                  borderRight: idx < 2 ? "1px solid #E0E5F2" : "none",
+                  borderRight: idx < 2 ? "1px solid rgba(255,255,255,0.12)" : "none",
                 }}>
-                  <p style={{ margin: "0 0 2px", fontSize: "32px", fontWeight: 700, color: "#2B3674", letterSpacing: "-0.02em" }}>
+                  <p style={{ margin: "0 0 3px", fontSize: "34px", fontWeight: 700, color: "#FFFFFF", letterSpacing: "-0.02em" }}>
                     {stat.value}
                   </p>
-                  <p style={{ margin: 0, fontSize: "12px", color: "#5A6A8A", fontWeight: 500 }}>
+                  <p style={{ margin: 0, fontSize: "12px", color: "rgba(255,255,255,0.6)", fontWeight: 500 }}>
                     {stat.label}
                   </p>
                 </div>
@@ -290,16 +295,17 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
             </div>
 
             {/* Progress bar */}
-            <div style={{ marginBottom: "24px" }}>
-              <div style={{ height: "6px", backgroundColor: "#EEF2FF", borderRadius: "999px", overflow: "hidden" }}>
+            <div>
+              <div style={{ height: "6px", backgroundColor: "rgba(255,255,255,0.15)", borderRadius: "999px", overflow: "hidden" }}>
                 <div style={{
                   width: "42%", height: "100%", borderRadius: "999px",
-                  background: "linear-gradient(90deg, #4318FF, #7C3AED)",
+                  background: "linear-gradient(90deg, #6366F1, #A78BFA)",
+                  boxShadow: "0 0 12px rgba(99,102,241,0.6)",
                 }} />
               </div>
               <div style={{ display: "flex", justifyContent: "space-between", marginTop: "6px" }}>
-                <span style={{ fontSize: "11px", color: "#5A6A8A" }}>Progress</span>
-                <span style={{ fontSize: "11px", fontWeight: 700, color: "#4318FF" }}>42%</span>
+                <span style={{ fontSize: "11px", color: "rgba(255,255,255,0.5)" }}>Progress</span>
+                <span style={{ fontSize: "11px", fontWeight: 700, color: "#A78BFA" }}>42%</span>
               </div>
             </div>
 
@@ -313,15 +319,15 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
                   color: "#FFFFFF", fontSize: "14px", fontWeight: 700,
                   cursor: "pointer", display: "flex", alignItems: "center",
                   justifyContent: "center", gap: "8px",
-                  boxShadow: "0 4px 16px rgba(67,24,255,0.30)",
+                  boxShadow: "0 4px 20px rgba(67,24,255,0.50)",
                   transition: "all 0.2s",
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.boxShadow = "0 6px 24px rgba(67,24,255,0.42)";
+                  e.currentTarget.style.boxShadow = "0 6px 28px rgba(67,24,255,0.65)";
                   e.currentTarget.style.transform = "translateY(-1px)";
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.boxShadow = "0 4px 16px rgba(67,24,255,0.30)";
+                  e.currentTarget.style.boxShadow = "0 4px 20px rgba(67,24,255,0.50)";
                   e.currentTarget.style.transform = "translateY(0)";
                 }}
               >
@@ -332,27 +338,26 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
                 onClick={onJoinCall}
                 style={{
                   padding: "13px 20px", borderRadius: "12px",
-                  border: "1.5px solid #E0E5F2", backgroundColor: "#FFFFFF",
-                  color: "#2B3674", fontSize: "14px", fontWeight: 700,
+                  border: "1px solid rgba(255,255,255,0.22)",
+                  backgroundColor: "rgba(255,255,255,0.08)",
+                  color: "#FFFFFF", fontSize: "14px", fontWeight: 700,
                   cursor: "pointer", display: "flex", alignItems: "center",
                   justifyContent: "center", gap: "8px",
+                  backdropFilter: "blur(8px)",
                   transition: "all 0.2s",
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = "#F4F7FE";
-                  e.currentTarget.style.borderColor = "#4318FF";
-                  e.currentTarget.style.color = "#4318FF";
+                  e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.14)";
+                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.35)";
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = "#FFFFFF";
-                  e.currentTarget.style.borderColor = "#E0E5F2";
-                  e.currentTarget.style.color = "#2B3674";
+                  e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.08)";
+                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.22)";
                 }}
               >
                 Start new
               </button>
             </div>
-          </div>
         </div>
 
         {/* EXPLORE CARDS */}
