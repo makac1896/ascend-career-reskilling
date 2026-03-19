@@ -733,7 +733,7 @@ const WaypointPostSimulation: React.FC<WaypointPostSimulationProps> = ({ onConti
           </div>
 
           {/* Window content — flex row: sidebar + active DM */}
-          <div style={{ flex: 1, minHeight: 0, display: "flex", overflow: "hidden" }}>
+          <div style={{ flex: 1, minHeight: 0, display: "flex", overflow: "hidden", backgroundColor: "#FFFFFF" }}>
 
             {/* Sidebar */}
             <div
