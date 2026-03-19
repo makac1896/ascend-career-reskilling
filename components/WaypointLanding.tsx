@@ -550,14 +550,63 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
           </div>
         </div>
 
-        {/* Footer hint */}
-        <div style={{ marginTop: "32px", padding: "16px", borderRadius: "14px", backgroundColor: "#F4F7FE", border: "1px solid #E0E5F2" }}>
-          <p style={{ margin: "0 0 4px", fontSize: "12px", fontWeight: 700, color: "#4318FF" }}>
-            You're in the top 12%
-          </p>
-          <p style={{ margin: 0, fontSize: "12px", color: "#5A6A8A", lineHeight: 1.5 }}>
-            Resilience under pressure compared to your cohort.
-          </p>
+        {/* Superpowers section */}
+        <div style={{ marginTop: "32px" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "16px" }}>
+            <p style={{ margin: 0, fontSize: "12px", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#2B3674" }}>
+              Your Superpowers
+            </p>
+            <span style={{ fontSize: "11px", color: "#5A6A8A" }}>Top 12% cohort</span>
+          </div>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+            {[
+              { name: "Resilience Under Pressure", level: 87, delta: "+11", color: "#4318FF", stage: "Mastering" },
+              { name: "Critical Thinking", level: 74, delta: "+8", color: "#7C3AED", stage: "Building" },
+              { name: "Assertive Advocacy", level: 52, delta: "+18", color: "#0EA5E9", stage: "Emerging" },
+              { name: "Cultural Awareness", level: 38, delta: "+5", color: "#F59E0B", stage: "Developing" },
+            ].map((sp) => (
+              <div key={sp.name} style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                    <span style={{
+                      fontSize: "11px", fontWeight: 700, color: "#FFFFFF",
+                      backgroundColor: sp.color, padding: "1px 7px",
+                      borderRadius: "999px", letterSpacing: "0.03em",
+                    }}>
+                      {sp.stage}
+                    </span>
+                    <p style={{ margin: 0, fontSize: "12px", fontWeight: 600, color: "#2B3674" }}>
+                      {sp.name}
+                    </p>
+                  </div>
+                  <div style={{ display: "flex", alignItems: "center", gap: "4px", flexShrink: 0 }}>
+                    <span style={{ fontSize: "11px", fontWeight: 700, color: "#10B981" }}>{sp.delta}</span>
+                    <span style={{ fontSize: "12px", fontWeight: 700, color: "#5A6A8A" }}>{sp.level}%</span>
+                  </div>
+                </div>
+                <div style={{ height: "4px", backgroundColor: "#F4F7FE", borderRadius: "999px", overflow: "hidden" }}>
+                  <div style={{
+                    width: `${sp.level}%`, height: "100%",
+                    backgroundColor: sp.color, borderRadius: "999px",
+                    opacity: 0.85,
+                  }} />
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div style={{
+            marginTop: "16px", padding: "12px 14px",
+            borderRadius: "12px", backgroundColor: "#F4F7FE",
+            border: "1px solid #E0E5F2",
+            display: "flex", alignItems: "center", gap: "8px",
+          }}>
+            <div style={{ width: "6px", height: "6px", borderRadius: "50%", backgroundColor: "#10B981", flexShrink: 0 }} />
+            <p style={{ margin: 0, fontSize: "12px", color: "#5A6A8A", lineHeight: 1.4 }}>
+              <span style={{ fontWeight: 700, color: "#2B3674" }}>Resilience</span> is your strongest signal — employers are noticing.
+            </p>
+          </div>
         </div>
       </aside>
     </div>
