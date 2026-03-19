@@ -71,7 +71,10 @@ const WaypointCallChoice: React.FC<WaypointCallChoiceProps> = ({
         style={{
           minHeight: "100vh",
           width: "100%",
-          background: "linear-gradient(180deg, #0D1F3C 0%, #1A3569 100%)",
+          background: [
+            "radial-gradient(ellipse 220px 160px at 0% 0%, rgba(255,255,255,0.96) 0%, rgba(255,255,255,0.55) 40%, rgba(255,255,255,0) 68%)",
+            "linear-gradient(180deg, #0D1F3C 0%, #1A3569 100%)",
+          ].join(", "),
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -81,6 +84,9 @@ const WaypointCallChoice: React.FC<WaypointCallChoiceProps> = ({
           boxSizing: "border-box",
         }}
       >
+        {/* Waypoint logo */}
+        <img src="/waypoint.png" alt="Waypoint" style={{ position: "absolute", top: 16, left: 20, height: 44, width: "auto", zIndex: 10, pointerEvents: "none" }} />
+
         {/* Back button */}
         <button
           onClick={onBack}
