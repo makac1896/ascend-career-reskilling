@@ -436,14 +436,24 @@ const DmThread: React.FC<{
   const [done, setDone] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
   const indexRef = useRef(0);
+  const timeoutsRef = useRef<ReturnType<typeof setTimeout>[]>([]);
 
   useEffect(() => {
-    // Reset when person changes
+    // Cancel any pending timeouts from a previous run (handles React StrictMode double-fire)
+    timeoutsRef.current.forEach(clearTimeout);
+    timeoutsRef.current = [];
+
     setRevealed([]);
     setTyping(false);
     setReplies([]);
     setDone(false);
     indexRef.current = 0;
+
+    const schedule = (fn: () => void, ms: number) => {
+      const id = setTimeout(fn, ms);
+      timeoutsRef.current.push(id);
+      return id;
+    };
 
     const revealNext = () => {
       const i = indexRef.current;
@@ -453,15 +463,20 @@ const DmThread: React.FC<{
       }
       setTyping(true);
       const delay = allMessages[i].resource || allMessages[i].skillCard || allMessages[i].labCard ? 900 : 1100;
-      setTimeout(() => {
+      schedule(() => {
         setTyping(false);
         setRevealed((prev) => [...prev, allMessages[i]]);
         indexRef.current = i + 1;
-        setTimeout(revealNext, allMessages[i].text && allMessages[i].text!.length > 120 ? 600 : 350);
+        schedule(revealNext, allMessages[i].text && allMessages[i].text!.length > 120 ? 600 : 350);
       }, delay);
     };
 
-    setTimeout(revealNext, 500);
+    schedule(revealNext, 500);
+
+    return () => {
+      timeoutsRef.current.forEach(clearTimeout);
+      timeoutsRef.current = [];
+    };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [person]);
 
@@ -611,9 +626,8 @@ const DmThread: React.FC<{
 
 const WaypointPostSimulation: React.FC<WaypointPostSimulationProps> = ({ onContinue }) => {
   const [activeDm, setActiveDm] = useState<"kira" | "dev">("kira");
-
-  // Unread tracking — once you open a DM it's read
   const [read, setRead] = useState<Record<string, boolean>>({ kira: false, dev: false });
+
   const openDm = (person: "kira" | "dev") => {
     setActiveDm(person);
     setRead((prev) => ({ ...prev, [person]: true }));
@@ -635,112 +649,173 @@ const WaypointPostSimulation: React.FC<WaypointPostSimulationProps> = ({ onConti
         }
       `}</style>
 
+      {/* Same dark blue gradient shell as WaypointSimulation */}
       <div
         style={{
-          display: "flex",
+          width: "100vw",
           height: "100vh",
-          width: "100%",
-          backgroundColor: "#FFFFFF",
+          background: "linear-gradient(135deg, #0D1F3C 0%, #1B3A6B 60%, #1A3569 100%)",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
           fontFamily: "'DM Sans', sans-serif",
+          padding: "16px 20px 20px",
+          boxSizing: "border-box",
+          position: "relative",
           overflow: "hidden",
         }}
       >
-        {/* ── Sidebar ── */}
-        <div
-          style={{
-            width: "230px",
-            flexShrink: 0,
-            backgroundColor: "#F4F4F4",
-            borderRight: "1px solid #E8E8E8",
-            display: "flex",
-            flexDirection: "column",
-            overflow: "hidden",
-          }}
-        >
-          {/* Workspace header */}
-          <div style={{ padding: "15px 16px 12px", borderBottom: "1px solid #E8E8E8" }}>
-            <p style={{ fontSize: "15px", fontWeight: 800, color: "#1D1C1D", margin: "0 0 1px" }}>Clearwater</p>
-            <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-              <div style={{ width: 7, height: 7, borderRadius: "50%", backgroundColor: "#22C55E" }} />
-              <span style={{ fontSize: "11px", color: "#868686" }}>Aiyana Yerxa</span>
-            </div>
-          </div>
+        {/* Ambient blobs */}
+        <div style={{ position: "absolute", top: "-80px", left: "-80px", width: "340px", height: "340px", borderRadius: "50%", background: "rgba(99,102,241,0.08)", filter: "blur(60px)", pointerEvents: "none" }} />
+        <div style={{ position: "absolute", bottom: "-60px", right: "-80px", width: "300px", height: "300px", borderRadius: "50%", background: "rgba(79,70,229,0.07)", filter: "blur(50px)", pointerEvents: "none" }} />
 
-          {/* Waypoint logo pill */}
-          <div style={{ padding: "12px 16px 0" }}>
-            <div style={{ padding: "6px 10px", borderRadius: "8px", backgroundColor: "#FFFFFF", border: "1px solid #E8E8E8", display: "inline-block", marginBottom: "12px" }}>
-              <img src="/waypoint.png" alt="Waypoint" style={{ height: 22, width: "auto", display: "block" }} />
-            </div>
-          </div>
-
-          {/* Channels (decorative — read-only) */}
-          <div style={{ padding: "0 10px" }}>
-            <p style={{ fontSize: "11px", fontWeight: 700, color: "#868686", letterSpacing: "0.08em", textTransform: "uppercase", margin: "0 0 4px 8px" }}>Channels</p>
-            {["annual-report-2025", "general", "resources"].map((ch, i) => (
-              <div
-                key={ch}
-                style={{
-                  display: "flex", alignItems: "center", gap: "7px",
-                  padding: "5px 8px", borderRadius: "6px", marginBottom: "1px",
-                  opacity: 0.7, cursor: "default",
-                }}
-              >
-                <span style={{ fontSize: "14px", color: "#868686" }}>#</span>
-                <span style={{ fontSize: "13px", color: "#616061" }}>{ch}</span>
-              </div>
-            ))}
-          </div>
-
-          {/* Direct Messages */}
-          <div style={{ padding: "14px 10px 0" }}>
-            <p style={{ fontSize: "11px", fontWeight: 700, color: "#868686", letterSpacing: "0.08em", textTransform: "uppercase", margin: "0 0 5px 8px" }}>Direct Messages</p>
-            {DMS.map(({ id, name, AvatarComp }) => {
-              const isActive = activeDm === id;
-              const isUnread = !read[id];
-              return (
-                <button
-                  key={id}
-                  onClick={() => openDm(id)}
-                  style={{
-                    display: "flex", alignItems: "center", gap: "8px", width: "100%",
-                    padding: "5px 8px", borderRadius: "6px", marginBottom: "2px",
-                    border: "none", textAlign: "left", cursor: "pointer",
-                    backgroundColor: isActive ? "rgba(99,102,241,0.12)" : "transparent",
-                    transition: "background-color 0.12s",
-                  }}
-                  onMouseEnter={(e) => { if (!isActive) e.currentTarget.style.backgroundColor = "#EBEBEB"; }}
-                  onMouseLeave={(e) => { if (!isActive) e.currentTarget.style.backgroundColor = "transparent"; }}
-                >
-                  <AvatarComp size={18} />
-                  <span style={{ fontSize: "13px", fontWeight: isUnread ? 700 : 400, color: isActive ? "#4F46E5" : isUnread ? "#1D1C1D" : "#616061", flex: 1 }}>
-                    {name.split(" ")[0]}
-                  </span>
-                  {isUnread && (
-                    <div style={{ minWidth: 18, height: 18, borderRadius: "999px", backgroundColor: "#4F46E5", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                      <span style={{ fontSize: "10px", fontWeight: 700, color: "#FFFFFF" }}>!</span>
-                    </div>
-                  )}
-                </button>
-              );
-            })}
-
-            {/* Self (Aiyana) */}
-            <div style={{ display: "flex", alignItems: "center", gap: "8px", padding: "5px 8px", borderRadius: "6px", opacity: 0.6, cursor: "default" }}>
-              <AiyanaAvatar size={18} />
-              <span style={{ fontSize: "13px", color: "#616061" }}>Aiyana (you)</span>
-            </div>
-          </div>
+        {/* Waypoint logo */}
+        <div style={{ position: "absolute", top: 12, left: 16, zIndex: 10, pointerEvents: "none", backgroundColor: "#FFFFFF", borderRadius: "12px", padding: "6px 12px", boxShadow: "0 2px 12px rgba(0,0,0,0.18)" }}>
+          <img src="/waypoint.png" alt="Waypoint" style={{ height: 36, width: "auto", display: "block" }} />
         </div>
 
-        {/* ── Active DM ── */}
-        <DmThread
-          key={activeDm}
-          person={activeDm}
-          AvatarComp={active.AvatarComp}
-          displayName={active.name}
-          allMessages={active.messages}
-          onContinue={onContinue}
-        />
+        {/* Nav row */}
+        <div style={{ width: "min(900px, 88vw)", display: "flex", alignItems: "center", justifyContent: "flex-end", marginBottom: "10px", flexShrink: 0 }}>
+          <button
+            onClick={onContinue}
+            style={{ display: "flex", alignItems: "center", gap: "5px", background: "none", border: "none", color: "rgba(255,255,255,0.3)", fontFamily: "'DM Sans', sans-serif", fontSize: "12px", fontWeight: 500, cursor: "pointer", padding: "4px 2px", transition: "color 0.15s ease" }}
+            onMouseEnter={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.65)"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.3)"; }}
+          >
+            Exit to dashboard
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+        </div>
+
+        {/* macOS window card — exact same size as simulation */}
+        <div
+          style={{
+            width: "min(900px, 88vw)",
+            height: "min(620px, 78vh)",
+            flexShrink: 0,
+            borderRadius: "12px",
+            overflow: "hidden",
+            boxShadow: "0 32px 80px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.06)",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          {/* Titlebar */}
+          <div
+            style={{
+              height: "34px",
+              backgroundColor: "#EBEBEB",
+              borderBottom: "1px solid #D0D0D0",
+              display: "flex",
+              alignItems: "center",
+              padding: "0 14px",
+              gap: "7px",
+              flexShrink: 0,
+              position: "relative",
+            }}
+          >
+            {["#FF5F57", "#FEBC2E", "#28C840"].map((color, i) => (
+              <div key={i} style={{ width: 12, height: 12, borderRadius: "50%", backgroundColor: color, flexShrink: 0 }} />
+            ))}
+            <span
+              style={{
+                position: "absolute", left: 0, right: 0, textAlign: "center",
+                fontSize: "12px", fontWeight: 600, color: "#888888",
+                pointerEvents: "none", whiteSpace: "nowrap", overflow: "hidden",
+                textOverflow: "ellipsis", padding: "0 120px",
+              }}
+            >
+              Slack — Direct Messages — Clearwater
+            </span>
+          </div>
+
+          {/* Window content — flex row: sidebar + active DM */}
+          <div style={{ flex: 1, minHeight: 0, display: "flex", overflow: "hidden" }}>
+
+            {/* Sidebar */}
+            <div
+              style={{
+                width: "216px",
+                flexShrink: 0,
+                backgroundColor: "#F4F4F4",
+                borderRight: "1px solid #E8E8E8",
+                display: "flex",
+                flexDirection: "column",
+                overflow: "hidden",
+              }}
+            >
+              <div style={{ padding: "15px 16px 12px", borderBottom: "1px solid #E8E8E8" }}>
+                <p style={{ fontSize: "15px", fontWeight: 800, color: "#1D1C1D", margin: "0 0 1px" }}>Clearwater</p>
+                <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+                  <div style={{ width: 7, height: 7, borderRadius: "50%", backgroundColor: "#22C55E" }} />
+                  <span style={{ fontSize: "11px", color: "#868686" }}>Aiyana Yerxa</span>
+                </div>
+              </div>
+
+              {/* Channels (decorative) */}
+              <div style={{ padding: "10px 10px 0" }}>
+                <p style={{ fontSize: "11px", fontWeight: 700, color: "#868686", letterSpacing: "0.08em", textTransform: "uppercase", margin: "0 0 4px 8px" }}>Channels</p>
+                {["annual-report-2025", "general", "resources"].map((ch) => (
+                  <div key={ch} style={{ display: "flex", alignItems: "center", gap: "7px", padding: "5px 8px", borderRadius: "6px", marginBottom: "1px", cursor: "default", opacity: 0.65 }}>
+                    <span style={{ fontSize: "14px", color: "#868686" }}>#</span>
+                    <span style={{ fontSize: "13px", color: "#616061" }}>{ch}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Direct Messages */}
+              <div style={{ padding: "14px 10px 0" }}>
+                <p style={{ fontSize: "11px", fontWeight: 700, color: "#868686", letterSpacing: "0.08em", textTransform: "uppercase", margin: "0 0 5px 8px" }}>Direct Messages</p>
+                {DMS.map(({ id, name, AvatarComp }) => {
+                  const isActive = activeDm === id;
+                  const isUnread = !read[id];
+                  return (
+                    <button
+                      key={id}
+                      onClick={() => openDm(id)}
+                      style={{
+                        display: "flex", alignItems: "center", gap: "8px", width: "100%",
+                        padding: "5px 8px", borderRadius: "6px", marginBottom: "2px",
+                        border: "none", textAlign: "left", cursor: "pointer",
+                        backgroundColor: isActive ? "rgba(99,102,241,0.12)" : "transparent",
+                        transition: "background-color 0.12s", fontFamily: "'DM Sans', sans-serif",
+                      }}
+                      onMouseEnter={(e) => { if (!isActive) e.currentTarget.style.backgroundColor = "#EBEBEB"; }}
+                      onMouseLeave={(e) => { if (!isActive) e.currentTarget.style.backgroundColor = "transparent"; }}
+                    >
+                      <AvatarComp size={18} />
+                      <span style={{ fontSize: "13px", fontWeight: isUnread ? 700 : 400, color: isActive ? "#4F46E5" : isUnread ? "#1D1C1D" : "#616061", flex: 1 }}>
+                        {name.split(" ")[0]}
+                      </span>
+                      {isUnread && (
+                        <div style={{ minWidth: 18, height: 18, borderRadius: "999px", backgroundColor: "#4F46E5", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                          <span style={{ fontSize: "10px", fontWeight: 700, color: "#FFFFFF" }}>!</span>
+                        </div>
+                      )}
+                    </button>
+                  );
+                })}
+                <div style={{ display: "flex", alignItems: "center", gap: "8px", padding: "5px 8px", borderRadius: "6px", opacity: 0.55, cursor: "default" }}>
+                  <AiyanaAvatar size={18} />
+                  <span style={{ fontSize: "13px", color: "#616061" }}>Aiyana (you)</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Active DM thread */}
+            <DmThread
+              key={activeDm}
+              person={activeDm}
+              AvatarComp={active.AvatarComp}
+              displayName={active.name}
+              allMessages={active.messages}
+              onContinue={onContinue}
+            />
+          </div>
+        </div>
       </div>
     </>
   );
