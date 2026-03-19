@@ -183,8 +183,6 @@ const resourceMappings = [
     accent: "#F97316",
   },
 ];
-  },
-];
 
 const resourceEngagementData = [
   { name: "Finding Your Voice", current: 11, projected: 38 },
