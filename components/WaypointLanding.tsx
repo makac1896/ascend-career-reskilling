@@ -234,7 +234,7 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
                   padding: "0",
                   border: "none",
                   backgroundColor: "transparent",
-                  color: isActive ? "#FFFFFF" : "rgba(255,255,255,0.7)",
+                  color: isActive ? "#FFFFFF" : "rgba(255,255,255,0.88)",
                   fontSize: "22px",
                   fontWeight: 700,
                   cursor: "pointer",
@@ -252,7 +252,7 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
                 onMouseLeave={(e) => {
                   e.currentTarget.style.color = isActive
                     ? "#FFFFFF"
-                    : "rgba(255,255,255,0.7)";
+                    : "rgba(255,255,255,0.88)";
                   if (!isActive) {
                     e.currentTarget.style.opacity = "1";
                   }
@@ -319,7 +319,7 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
               style={{
                 margin: "2px 0 0",
                 fontSize: "11px",
-                color: "rgba(255,255,255,0.6)",
+                color: "rgba(255,255,255,0.85)",
               }}
             >
               1st year
@@ -355,7 +355,7 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
             <p
               style={{
                 fontSize: "16px",
-                color: "rgba(255,255,255,0.75)",
+                color: "rgba(255,255,255,0.9)",
                 margin: 0,
                 lineHeight: 1.6,
               }}
@@ -405,7 +405,7 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
                   fontWeight: 700,
                   letterSpacing: "0.12em",
                   textTransform: "uppercase",
-                  color: "rgba(255,255,255,0.62)",
+                  color: "rgba(255,255,255,0.85)",
                   margin: "0 0 8px",
                 }}
               >
@@ -468,7 +468,7 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
                   <p
                     style={{
                       margin: "2px 0 0",
-                      color: "rgba(255,255,255,0.65)",
+                      color: "rgba(255,255,255,0.85)",
                       fontSize: "14px",
                       fontWeight: 600,
                     }}
@@ -503,7 +503,7 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
                   margin: "6px 0 0",
                   textAlign: "right",
                   fontSize: "12px",
-                  color: "rgba(255,255,255,0.62)",
+                  color: "rgba(255,255,255,0.85)",
                   fontWeight: 600,
                 }}
               >

@@ -5,6 +5,7 @@ import ObserveDashboard from "./components/ObserveDashboard";
 import CurriculumDashboard from "./components/CurriculumDashboard";
 import ReportsDashboard from "./components/ReportsDashboard";
 import LandingPage from "./components/LandingPage";
+import StudentTopBar from "./components/StudentTopBar";
 import WaypointLanding from "./components/WaypointLanding";
 import WaypointPrepRoom from "./components/WaypointPrepRoomNext";
 import WaypointCallChoice from "./components/WaypointCallChoice";
@@ -217,7 +218,7 @@ const App: React.FC = () => {
   }
 
   if (viewState === "student") {
-    switch (studentViewState) {
+    const studentScreen = (() => { switch (studentViewState) {
       case "waypoint":
         return (
           <WaypointLanding
@@ -273,7 +274,13 @@ const App: React.FC = () => {
             onSkipToDashboard={() => setStudentViewState("waypoint")}
           />
         );
-    }
+    } })();
+    return (
+      <>
+        <StudentTopBar onLogout={() => setViewState("landing")} />
+        {studentScreen}
+      </>
+    );
   }
 
   // Admin View
