@@ -52,7 +52,7 @@ const UNLOCKED_OUTCOMES = [
   {
     id: 1,
     type: "role",
-    title: "Role Match: Product Manager @ Microsoft",
+    title: "Role Match: Community Builder @ Microsoft",
     description:
       "Your profile matches this role perfectly. Critical Thinking (87th percentile) + pressure resilience. Auto-apply now and track with recruiter.",
     cta: "Quick Apply",
@@ -322,7 +322,7 @@ const WaypointLanding: React.FC<WaypointLandingProps> = ({ onJoinCall }) => {
                 color: "rgba(255,255,255,0.6)",
               }}
             >
-              3rd year
+              1st year
             </p>
           </div>
         </div>
