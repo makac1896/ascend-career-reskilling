@@ -431,12 +431,27 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
 
   // Screen 3 carousel
   const [currentCard, setCurrentCard] = useState(0);
+  const [cardVisible, setCardVisible] = useState(true);
   const [cardPaused, setCardPaused] = useState(false);
+
+  const goToCard = React.useCallback((index: number) => {
+    setCardVisible(false);
+    setTimeout(() => {
+      setCurrentCard(index);
+      setCardVisible(true);
+    }, 280);
+  }, []);
+
   React.useEffect(() => {
     if (currentScreen !== 3 || !showConnections || cardPaused) return;
     const t = setInterval(() => {
-      setCurrentCard((c) => (c + 1) % resourceMappings.length);
-    }, 4000);
+      setCurrentCard((c) => {
+        const next = (c + 1) % resourceMappings.length;
+        setCardVisible(false);
+        setTimeout(() => { setCurrentCard(next); setCardVisible(true); }, 280);
+        return c; // hold current until timeout fires
+      });
+    }, 5500);
     return () => clearInterval(t);
   }, [currentScreen, showConnections, cardPaused]);
 
@@ -897,9 +912,13 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
 
                 {/* Card */}
                 <div
-                  className="rounded-card overflow-hidden border border-ascend-border animate-in fade-in duration-300"
-                  key={currentCard}
-                  style={{ boxShadow: "0 8px 40px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06)" }}
+                  className="rounded-card overflow-hidden border border-ascend-border"
+                  style={{
+                    boxShadow: "0 8px 40px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06)",
+                    opacity: cardVisible ? 1 : 0,
+                    transform: cardVisible ? "translateY(0)" : "translateY(10px)",
+                    transition: "opacity 0.35s ease, transform 0.35s ease",
+                  }}
                 >
                   {/* Image */}
                   <div className="relative h-52 overflow-hidden">
@@ -965,7 +984,7 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
                 <div className="flex items-center justify-between mt-4">
                   <button
                     onClick={() => {
-                      setCurrentCard((c) => (c - 1 + resourceMappings.length) % resourceMappings.length);
+                      goToCard((currentCard - 1 + resourceMappings.length) % resourceMappings.length);
                       setCardPaused(true);
                       setTimeout(() => setCardPaused(false), 8000);
                     }}
@@ -978,8 +997,8 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
                     {resourceMappings.map((_, i) => (
                       <button
                         key={i}
-                        onClick={() => { setCurrentCard(i); setCardPaused(true); setTimeout(() => setCardPaused(false), 8000); }}
-                        className="rounded-full transition-all duration-200"
+                        onClick={() => { goToCard(i); setCardPaused(true); setTimeout(() => setCardPaused(false), 8000); }}
+                        className="rounded-full transition-all duration-300"
                         style={{
                           width: i === currentCard ? 20 : 8,
                           height: 8,
@@ -991,7 +1010,7 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
 
                   <button
                     onClick={() => {
-                      setCurrentCard((c) => (c + 1) % resourceMappings.length);
+                      goToCard((currentCard + 1) % resourceMappings.length);
                       setCardPaused(true);
                       setTimeout(() => setCardPaused(false), 8000);
                     }}
