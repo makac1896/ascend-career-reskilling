@@ -206,6 +206,140 @@ const ProgressIndicator: React.FC<{ completed: number }> = ({ completed }) => {
   );
 };
 
+// ─── DropZone component ─────────────────────────────────────────────────────
+
+type BoxId = "workshops" | "rooms" | "other";
+
+interface DropZoneProps {
+  boxId: BoxId;
+  icon: React.ReactNode;
+  label: string;
+  helper: string;
+  placeholder: string;
+  optional?: boolean;
+  items: string[];
+  inputValue: string;
+  isDragOver: boolean;
+  onInputChange: (val: string) => void;
+  onAddItem: (item: string) => void;
+  onRemoveItem: (index: number) => void;
+  onDragOver: (e: React.DragEvent) => void;
+  onDragLeave: () => void;
+  onDrop: (e: React.DragEvent) => void;
+  onChipDragStart: (index: number) => void;
+  onChipDragEnd: () => void;
+}
+
+const DropZone: React.FC<DropZoneProps> = ({
+  icon,
+  label,
+  helper,
+  placeholder,
+  optional,
+  items,
+  inputValue,
+  isDragOver,
+  onInputChange,
+  onAddItem,
+  onRemoveItem,
+  onDragOver,
+  onDragLeave,
+  onDrop,
+  onChipDragStart,
+  onChipDragEnd,
+}) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if ((e.key === "Enter" || e.key === ",") && inputValue.trim()) {
+      e.preventDefault();
+      onAddItem(inputValue.trim().replace(/,$/, ""));
+    }
+  };
+
+  return (
+    <div className={`bg-white rounded-card shadow-crisp transition-all ${optional ? "opacity-80" : ""}`}>
+      <div className="p-5 pb-4">
+        <div className="flex items-center gap-2 mb-3">
+          {icon}
+          <span className="font-bold text-ascend-text text-sm">{label}</span>
+          {optional && (
+            <span className="ml-auto text-xs text-ascend-subtext bg-gray-100 px-2 py-0.5 rounded-full">
+              Optional
+            </span>
+          )}
+        </div>
+
+        {/* Drop zone */}
+        <div
+          onDragOver={onDragOver}
+          onDragLeave={onDragLeave}
+          onDrop={onDrop}
+          className={`min-h-[90px] border-2 border-dashed rounded-xl p-3 transition-all duration-200 ${
+            isDragOver
+              ? "border-ascend-blue bg-indigo-50 scale-[1.01]"
+              : "border-ascend-border bg-ascend-bg/40 hover:border-ascend-blue/40"
+          }`}
+        >
+          {items.length === 0 ? (
+            <div className="flex flex-col items-center justify-center h-16 gap-1.5 pointer-events-none">
+              <Upload className={`w-5 h-5 transition-colors ${isDragOver ? "text-ascend-blue" : "text-ascend-subtext"}`} />
+              <p className={`text-xs text-center transition-colors ${isDragOver ? "text-ascend-blue font-medium" : "text-ascend-subtext"}`}>
+                {isDragOver ? "Drop to add" : "Drag files or items here"}
+              </p>
+            </div>
+          ) : (
+            <div className="flex flex-wrap gap-2">
+              {items.map((item, i) => (
+                <div
+                  key={i}
+                  draggable
+                  onDragStart={() => onChipDragStart(i)}
+                  onDragEnd={onChipDragEnd}
+                  className="flex items-center gap-1.5 bg-indigo-50 border border-indigo-100 text-ascend-blue text-xs font-medium px-3 py-1.5 rounded-full cursor-grab active:cursor-grabbing hover:bg-indigo-100 transition-colors select-none"
+                >
+                  <span className="opacity-40 text-[10px] leading-none">⠿</span>
+                  <span>{item}</span>
+                  <button
+                    onClick={() => onRemoveItem(i)}
+                    className="ml-0.5 w-3.5 h-3.5 flex items-center justify-center text-ascend-blue/50 hover:text-red-400 transition-colors rounded-full leading-none text-base"
+                  >
+                    ×
+                  </button>
+                </div>
+              ))}
+              {isDragOver && (
+                <div className="flex items-center gap-1.5 bg-ascend-blue/10 border border-dashed border-ascend-blue text-ascend-blue text-xs font-medium px-3 py-1.5 rounded-full opacity-60">
+                  + Drop here
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* Text input row */}
+        <div className="flex items-center gap-2 mt-3">
+          <input
+            type="text"
+            value={inputValue}
+            onChange={(e) => onInputChange(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder={placeholder}
+            className="flex-1 border border-ascend-border rounded-xl px-3 py-2 text-xs text-ascend-text placeholder:text-ascend-subtext focus:outline-none focus:ring-2 focus:ring-ascend-blue/20"
+          />
+          <button
+            onClick={() => {
+              if (inputValue.trim()) onAddItem(inputValue.trim());
+            }}
+            className="px-3 py-2 text-xs font-bold bg-ascend-light-blue text-ascend-blue rounded-xl hover:bg-indigo-100 transition-colors whitespace-nowrap"
+          >
+            Add
+          </button>
+        </div>
+        <p className="text-xs text-ascend-subtext mt-2">{helper}</p>
+      </div>
+    </div>
+  );
+};
+
 // ─── Main Component ─────────────────────────────────────────────────────────
 
 const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => {
@@ -214,10 +348,22 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
   // Screen 2
   const [selectedScenario, setSelectedScenario] = useState<string | null>(null);
 
-  // Screen 3
-  const [workshopsText, setWorkshopsText] = useState("");
-  const [roomsText, setRoomsText] = useState("");
-  const [otherText, setOtherText] = useState("");
+  // Screen 3 — drag & drop
+  const [items, setItems] = useState<Record<BoxId, string[]>>({
+    workshops: [],
+    rooms: [],
+    other: [],
+  });
+  const [inputValues, setInputValues] = useState<Record<BoxId, string>>({
+    workshops: "",
+    rooms: "",
+    other: "",
+  });
+  const [dragOverBox, setDragOverBox] = useState<BoxId | null>(null);
+  const [draggingChip, setDraggingChip] = useState<{
+    box: BoxId;
+    index: number;
+  } | null>(null);
   const [loadingStep, setLoadingStep] = useState<number | null>(null);
   const [showConnections, setShowConnections] = useState(false);
 
@@ -229,6 +375,71 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
   const [selectedDeployment, setSelectedDeployment] = useState<string | null>(null);
   const [sendingAnimation, setSendingAnimation] = useState(false);
   const [sent, setSent] = useState(false);
+
+  // Screen 3 handlers
+  const addItem = (box: BoxId, value: string) => {
+    if (!value.trim()) return;
+    setItems((prev) => ({ ...prev, [box]: [...prev[box], value.trim()] }));
+    setInputValues((prev) => ({ ...prev, [box]: "" }));
+  };
+
+  const removeItem = (box: BoxId, index: number) => {
+    setItems((prev) => ({
+      ...prev,
+      [box]: prev[box].filter((_, i) => i !== index),
+    }));
+  };
+
+  const handleBoxDragOver = (e: React.DragEvent, box: BoxId) => {
+    e.preventDefault();
+    setDragOverBox(box);
+  };
+
+  const handleBoxDragLeave = () => {
+    setDragOverBox(null);
+  };
+
+  const handleBoxDrop = (e: React.DragEvent, targetBox: BoxId) => {
+    e.preventDefault();
+    setDragOverBox(null);
+
+    if (draggingChip) {
+      // Move chip from one box to another (or reorder within same box)
+      const { box: sourceBox, index: sourceIndex } = draggingChip;
+      if (sourceBox === targetBox) return;
+      const item = items[sourceBox][sourceIndex];
+      setItems((prev) => ({
+        ...prev,
+        [sourceBox]: prev[sourceBox].filter((_, i) => i !== sourceIndex),
+        [targetBox]: [...prev[targetBox], item],
+      }));
+      setDraggingChip(null);
+      return;
+    }
+
+    // File drop from OS
+    const files = Array.from(e.dataTransfer.files);
+    if (files.length > 0) {
+      setItems((prev) => ({
+        ...prev,
+        [targetBox]: [...prev[targetBox], ...files.map((f) => f.name)],
+      }));
+      return;
+    }
+
+    // Plain text drop (e.g. from another app)
+    const text = e.dataTransfer.getData("text/plain");
+    if (text.trim()) {
+      const entries = text
+        .split(/[\n,]+/)
+        .map((t) => t.trim())
+        .filter(Boolean);
+      setItems((prev) => ({
+        ...prev,
+        [targetBox]: [...prev[targetBox], ...entries],
+      }));
+    }
+  };
 
   const handleShowConnections = () => {
     setLoadingStep(0);
@@ -459,65 +670,75 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
           {!showConnections ? (
             <>
               <div className="space-y-5 mb-8">
-                {/* Box 1 */}
-                <div className="bg-white rounded-card p-6 shadow-crisp">
-                  <div className="flex items-center gap-2 mb-3">
-                    <Upload className="w-4 h-4 text-ascend-blue" />
-                    <span className="font-bold text-ascend-text text-sm">
-                      Your Workshops & Programs
-                    </span>
-                  </div>
-                  <textarea
-                    value={workshopsText}
-                    onChange={(e) => setWorkshopsText(e.target.value)}
-                    rows={3}
-                    placeholder="Finding Your Voice workshop, Cultural Competency seminar, Career counseling schedule..."
-                    className="w-full border border-ascend-border rounded-xl p-3 text-sm text-ascend-text placeholder:text-ascend-subtext resize-none focus:outline-none focus:ring-2 focus:ring-ascend-blue/20"
-                  />
-                  <p className="text-xs text-ascend-subtext mt-2">
-                    Paste your workshop calendar or type descriptions
-                  </p>
-                </div>
+                <DropZone
+                  boxId="workshops"
+                  icon={<Upload className="w-4 h-4 text-ascend-blue" />}
+                  label="Your Workshops & Programs"
+                  helper="Drag files, drop items from another app, or type and press Enter"
+                  placeholder="Finding Your Voice workshop..."
+                  items={items.workshops}
+                  inputValue={inputValues.workshops}
+                  isDragOver={dragOverBox === "workshops"}
+                  onInputChange={(val) =>
+                    setInputValues((prev) => ({ ...prev, workshops: val }))
+                  }
+                  onAddItem={(val) => addItem("workshops", val)}
+                  onRemoveItem={(i) => removeItem("workshops", i)}
+                  onDragOver={(e) => handleBoxDragOver(e, "workshops")}
+                  onDragLeave={handleBoxDragLeave}
+                  onDrop={(e) => handleBoxDrop(e, "workshops")}
+                  onChipDragStart={(i) =>
+                    setDraggingChip({ box: "workshops", index: i })
+                  }
+                  onChipDragEnd={() => setDraggingChip(null)}
+                />
 
-                {/* Box 2 */}
-                <div className="bg-white rounded-card p-6 shadow-crisp">
-                  <div className="flex items-center gap-2 mb-3">
-                    <MapPin className="w-4 h-4 text-ascend-blue" />
-                    <span className="font-bold text-ascend-text text-sm">
-                      Your Available Rooms
-                    </span>
-                  </div>
-                  <textarea
-                    value={roomsText}
-                    onChange={(e) => setRoomsText(e.target.value)}
-                    rows={3}
-                    placeholder="Room 14B — whiteboard, 20 seats, M-W-F 2-5pm..."
-                    className="w-full border border-ascend-border rounded-xl p-3 text-sm text-ascend-text placeholder:text-ascend-subtext resize-none focus:outline-none focus:ring-2 focus:ring-ascend-blue/20"
-                  />
-                  <p className="text-xs text-ascend-subtext mt-2">
-                    Just list what you have. We'll suggest how to use it.
-                  </p>
-                </div>
+                <DropZone
+                  boxId="rooms"
+                  icon={<MapPin className="w-4 h-4 text-ascend-blue" />}
+                  label="Your Available Rooms"
+                  helper="Just list what you have. We'll suggest how to use it."
+                  placeholder="Room 14B — whiteboard, 20 seats, M-W-F 2-5pm..."
+                  items={items.rooms}
+                  inputValue={inputValues.rooms}
+                  isDragOver={dragOverBox === "rooms"}
+                  onInputChange={(val) =>
+                    setInputValues((prev) => ({ ...prev, rooms: val }))
+                  }
+                  onAddItem={(val) => addItem("rooms", val)}
+                  onRemoveItem={(i) => removeItem("rooms", i)}
+                  onDragOver={(e) => handleBoxDragOver(e, "rooms")}
+                  onDragLeave={handleBoxDragLeave}
+                  onDrop={(e) => handleBoxDrop(e, "rooms")}
+                  onChipDragStart={(i) =>
+                    setDraggingChip({ box: "rooms", index: i })
+                  }
+                  onChipDragEnd={() => setDraggingChip(null)}
+                />
 
-                {/* Box 3 — Optional */}
-                <div className="bg-white rounded-card p-6 shadow-crisp opacity-70">
-                  <div className="flex items-center gap-2 mb-3">
-                    <BookOpen className="w-4 h-4 text-ascend-subtext" />
-                    <span className="font-bold text-ascend-subtext text-sm">
-                      Other Resources
-                    </span>
-                    <span className="ml-auto text-xs text-ascend-subtext bg-gray-100 px-2 py-0.5 rounded-full">
-                      Optional
-                    </span>
-                  </div>
-                  <textarea
-                    value={otherText}
-                    onChange={(e) => setOtherText(e.target.value)}
-                    rows={2}
-                    placeholder="Counseling hours, campus events, special resources..."
-                    className="w-full border border-ascend-border rounded-xl p-3 text-sm text-ascend-text placeholder:text-ascend-subtext resize-none focus:outline-none focus:ring-2 focus:ring-ascend-blue/20"
-                  />
-                </div>
+                <DropZone
+                  boxId="other"
+                  icon={<BookOpen className="w-4 h-4 text-ascend-subtext" />}
+                  label="Other Resources"
+                  helper="Counseling hours, events, special resources"
+                  placeholder="Drop-in hours, career fair schedule..."
+                  optional
+                  items={items.other}
+                  inputValue={inputValues.other}
+                  isDragOver={dragOverBox === "other"}
+                  onInputChange={(val) =>
+                    setInputValues((prev) => ({ ...prev, other: val }))
+                  }
+                  onAddItem={(val) => addItem("other", val)}
+                  onRemoveItem={(i) => removeItem("other", i)}
+                  onDragOver={(e) => handleBoxDragOver(e, "other")}
+                  onDragLeave={handleBoxDragLeave}
+                  onDrop={(e) => handleBoxDrop(e, "other")}
+                  onChipDragStart={(i) =>
+                    setDraggingChip({ box: "other", index: i })
+                  }
+                  onChipDragEnd={() => setDraggingChip(null)}
+                />
               </div>
 
               {loadingStep !== null ? (
