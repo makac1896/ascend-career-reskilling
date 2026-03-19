@@ -607,8 +607,14 @@ function useConversationEngine(onComplete: () => void) {
     ]);
     const turn = studentTurnCount + 1;
     setStudentTurnCount(turn);
+
+    // Show micro-question after she sends, while waiting for the agent to reply
+    if (turn === 1) showMicroQuestion("pressure_to_agree");
+    if (turn === 2) showMicroQuestion("clarity_of_point");
+    if (turn === 3) showMicroQuestion("said_what_believed");
+
     if (turn === 3) {
-      queueMessages(RESPONSE_PHASES[3], () => { showNudge("closing"); showMicroQuestion("said_what_believed"); });
+      queueMessages(RESPONSE_PHASES[3], () => { showNudge("closing"); });
     } else if (turn > 3) {
       queueMessages(CLOSING_MESSAGES, () => {
         setConversationEnded(true);
@@ -625,8 +631,6 @@ function useConversationEngine(onComplete: () => void) {
       queueMessages(RESPONSE_PHASES[turn], () => {
         if (disagreed && turn === 2) showNudge("disagree");
         pauseTimerRef.current = setTimeout(() => showNudge("pause"), 10000);
-        if (turn === 1) showMicroQuestion("pressure_to_agree");
-        if (turn === 2) showMicroQuestion("clarity_of_point");
       });
     }
     return true;
