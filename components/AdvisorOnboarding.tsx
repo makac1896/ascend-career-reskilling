@@ -562,38 +562,42 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
               </div>
             </div>
 
-            {/* Source strip + live badge */}
-            <div className="flex items-center gap-3 py-4 border-t border-b border-ascend-border mb-6">
-              <div className="flex items-center gap-1.5 flex-shrink-0">
-                <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-                <span className="text-[11px] font-bold text-ascend-subtext uppercase tracking-wider">Live —</span>
-              </div>
-              <div className="flex items-center gap-2">
+            {/* Source credibility strip */}
+            <div className="pt-4 border-t border-ascend-border mb-5">
+              <p className="text-[11px] text-ascend-subtext mb-3">Data sourced from</p>
+              <div className="flex items-center justify-between">
                 {logoMarks.map((src) => (
-                  <div
-                    key={src.mark}
-                    title={src.title}
-                    style={{
-                      background: src.bg,
-                      color: "#fff",
-                      fontWeight: 800,
-                      fontSize: src.small ? 8 : 11,
-                      borderRadius: 6,
-                      width: 28,
-                      height: 28,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      flexShrink: 0,
-                      letterSpacing: "-0.3px",
-                      cursor: "default",
-                    }}
-                  >
-                    {src.mark}
+                  <div key={src.mark} className="flex flex-col items-center gap-1.5" title={src.title}>
+                    <div
+                      style={{
+                        background: src.bg,
+                        color: "#fff",
+                        fontWeight: 800,
+                        fontSize: src.small ? 9 : 12,
+                        borderRadius: 8,
+                        width: 36,
+                        height: 36,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        letterSpacing: "-0.3px",
+                      }}
+                    >
+                      {src.mark}
+                    </div>
+                    <span className="text-[10px] text-ascend-subtext text-center leading-tight max-w-[56px]">
+                      {src.title.split(" ")[0]}
+                    </span>
                   </div>
                 ))}
+                <div className="flex flex-col items-center gap-1.5 ml-2 pl-4 border-l border-ascend-border">
+                  <div className="flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+                    <span className="text-xs font-bold text-green-700">Live</span>
+                  </div>
+                  <span className="text-[10px] text-ascend-subtext whitespace-nowrap">4 min ago</span>
+                </div>
               </div>
-              <span className="text-[11px] text-ascend-subtext ml-auto flex-shrink-0">Updated 4 min ago</span>
             </div>
 
             {/* CTA */}
