@@ -96,6 +96,53 @@ const NUDGES: Record<string, string> = {
   closing: "They're asking you to make a call. What do you actually think?",
 };
 
+// ─── Micro-questions ──────────────────────────────────────────────────────────
+
+interface MicroQuestion {
+  id: string;
+  question: string;
+  options: { label: string; emoji: string; value: string }[];
+}
+
+const MICRO_QUESTIONS: MicroQuestion[] = [
+  {
+    id: "opening_feeling",
+    question: "How are you feeling stepping into this?",
+    options: [
+      { emoji: "😰", label: "Uncertain", value: "uncertain" },
+      { emoji: "😐", label: "Curious", value: "curious" },
+      { emoji: "💪", label: "Ready", value: "ready" },
+    ],
+  },
+  {
+    id: "pressure_to_agree",
+    question: "Did you feel pressure to take a side just now?",
+    options: [
+      { emoji: "✅", label: "Yes, immediately", value: "yes" },
+      { emoji: "🤔", label: "A little", value: "a_little" },
+      { emoji: "🙅", label: "Not really", value: "no" },
+    ],
+  },
+  {
+    id: "clarity_of_point",
+    question: "How clearly did you state your position?",
+    options: [
+      { emoji: "😬", label: "Vague", value: "vague" },
+      { emoji: "↔️", label: "Somewhat", value: "somewhat" },
+      { emoji: "🎯", label: "Crystal clear", value: "clear" },
+    ],
+  },
+  {
+    id: "said_what_believed",
+    question: "Did you say what you actually believed?",
+    options: [
+      { emoji: "💯", label: "Fully", value: "fully" },
+      { emoji: "🙂", label: "Mostly", value: "mostly" },
+      { emoji: "😶", label: "Held back", value: "held_back" },
+    ],
+  },
+];
+
 // ─── Avatars ──────────────────────────────────────────────────────────────────
 
 const KiraAvatar = ({ size = 32 }: { size?: number }) => (
@@ -355,6 +402,102 @@ const SendIcon = ({ size = 16 }: { size?: number }) => (
     <polygon points='22 2 15 22 11 13 2 9 22 2' />
   </svg>
 );
+
+// ─── Micro Nudge Toast ────────────────────────────────────────────────────────
+
+const MicroNudgeToast: React.FC<{
+  question: MicroQuestion;
+  onAnswer: (questionId: string, value: string) => void;
+  onDismiss: () => void;
+  visible: boolean;
+}> = ({ question, onAnswer, onDismiss, visible }) => {
+  const [answered, setAnswered] = useState<string | null>(null);
+
+  const handleAnswer = (value: string) => {
+    setAnswered(value);
+    onAnswer(question.id, value);
+    setTimeout(onDismiss, 900);
+  };
+
+  return (
+    <div
+      style={{
+        position: "fixed",
+        bottom: 88,
+        left: "50%",
+        transform: `translateX(-50%) translateY(${visible ? 0 : 24}px)`,
+        opacity: visible ? 1 : 0,
+        transition: "opacity 0.35s ease, transform 0.35s cubic-bezier(0.34,1.56,0.64,1)",
+        zIndex: 9999,
+        width: "min(400px, 90vw)",
+        backgroundColor: "#FFFFFF",
+        borderRadius: "16px",
+        boxShadow: "0 8px 40px rgba(0,0,0,0.18), 0 2px 12px rgba(0,0,0,0.08)",
+        border: "1px solid #E0E5F2",
+        overflow: "hidden",
+        fontFamily: "'DM Sans', sans-serif",
+      }}
+    >
+      {/* Progress bar (auto-dismiss indicator) */}
+      <div style={{ height: "3px", backgroundColor: "#EEF2FF", position: "relative" }}>
+        <div
+          style={{
+            position: "absolute", top: 0, left: 0, height: "100%",
+            backgroundColor: "#4318FF", borderRadius: "3px",
+            animation: visible ? "nudge-progress 12s linear forwards" : "none",
+          }}
+        />
+      </div>
+
+      <div style={{ padding: "16px 18px 18px" }}>
+        {/* Header */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "7px" }}>
+            <div style={{ width: "20px", height: "20px", borderRadius: "6px", backgroundColor: "#EEF2FF", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+              <svg width="11" height="11" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8 11L14 29L20 11L26 29L32 11" stroke="#4318FF" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
+            <span style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#4318FF" }}>Quick check-in</span>
+          </div>
+          <button onClick={onDismiss} style={{ background: "none", border: "none", cursor: "pointer", color: "#9EABC0", padding: "2px", lineHeight: 1, fontSize: "16px" }}>×</button>
+        </div>
+
+        {/* Question */}
+        <p style={{ margin: "0 0 14px", fontSize: "14px", fontWeight: 600, color: "#2B3674", lineHeight: 1.4 }}>
+          {question.question}
+        </p>
+
+        {/* Options */}
+        <div style={{ display: "flex", gap: "8px" }}>
+          {question.options.map((opt) => {
+            const isChosen = answered === opt.value;
+            return (
+              <button
+                key={opt.value}
+                onClick={() => !answered && handleAnswer(opt.value)}
+                style={{
+                  flex: 1, padding: "10px 6px", borderRadius: "10px",
+                  border: `1.5px solid ${isChosen ? "#4318FF" : "#E0E5F2"}`,
+                  backgroundColor: isChosen ? "#EEF2FF" : "#FAFBFF",
+                  cursor: answered ? "default" : "pointer",
+                  display: "flex", flexDirection: "column", alignItems: "center", gap: "5px",
+                  transition: "all 0.18s",
+                  transform: isChosen ? "scale(1.04)" : "none",
+                }}
+                onMouseEnter={(e) => { if (!answered) e.currentTarget.style.backgroundColor = "#F4F7FE"; }}
+                onMouseLeave={(e) => { if (!answered && !isChosen) e.currentTarget.style.backgroundColor = "#FAFBFF"; }}
+              >
+                <span style={{ fontSize: "20px", lineHeight: 1 }}>{opt.emoji}</span>
+                <span style={{ fontSize: "11px", fontWeight: 600, color: isChosen ? "#4318FF" : "#5A6A8A" }}>{opt.label}</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+};
 
 // ─── Conversation Engine Hook ─────────────────────────────────────────────────
 

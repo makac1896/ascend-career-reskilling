@@ -81,6 +81,11 @@ const WaypointCallChoice: React.FC<WaypointCallChoiceProps> = ({
           boxSizing: "border-box",
         }}
       >
+        {/* Waypoint logo */}
+        <div style={{ position: "absolute", top: 12, left: 16, zIndex: 10, pointerEvents: "none", backgroundColor: "#FFFFFF", borderRadius: "12px", padding: "6px 12px", boxShadow: "0 2px 12px rgba(0,0,0,0.18)" }}>
+          <img src="/waypoint.png" alt="Waypoint" style={{ height: 36, width: "auto", display: "block" }} />
+        </div>
+
         {/* Back button */}
         <button
           onClick={onBack}

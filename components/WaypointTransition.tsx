@@ -29,8 +29,7 @@ const WaypointTransition: React.FC<WaypointTransitionProps> = ({
       style={{
         width: "100vw",
         height: "100vh",
-        background:
-          "linear-gradient(160deg, #0A0F1E 0%, #0F1829 60%, #0D1520 100%)",
+        background: "linear-gradient(160deg, #0A0F1E 0%, #0F1829 60%, #0D1520 100%)",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -42,6 +41,11 @@ const WaypointTransition: React.FC<WaypointTransitionProps> = ({
         overflow: "hidden",
       }}
     >
+      {/* Waypoint logo */}
+      <div style={{ position: "absolute", top: 12, left: 16, zIndex: 10, pointerEvents: "none", backgroundColor: "#FFFFFF", borderRadius: "12px", padding: "6px 12px", boxShadow: "0 2px 12px rgba(0,0,0,0.18)" }}>
+        <img src="/waypoint.png" alt="Waypoint" style={{ height: 36, width: "auto", display: "block" }} />
+      </div>
+
       {/* Subtle ambient glow */}
       <div
         style={{
