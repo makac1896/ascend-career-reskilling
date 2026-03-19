@@ -22,6 +22,11 @@ import {
   Loader2,
   Upload,
   MapPin,
+  RefreshCw,
+  Database,
+  Globe,
+  FileBarChart,
+  Briefcase,
 } from "lucide-react";
 
 interface AdvisorOnboardingProps {
@@ -478,6 +483,49 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
 
   // ─── Screen 1 ─────────────────────────────────────────────────────────────
   if (currentScreen === 1) {
+    const dataSources = [
+      {
+        icon: Briefcase,
+        name: "LinkedIn Jobs API",
+        type: "Job Postings",
+        detail: "4.2M active listings scanned",
+        color: "text-blue-600",
+        bg: "bg-blue-50",
+      },
+      {
+        icon: Globe,
+        name: "Burning Glass / Lightcast",
+        type: "Labour Market Intelligence",
+        detail: "Real-time skills demand index",
+        color: "text-indigo-600",
+        bg: "bg-indigo-50",
+      },
+      {
+        icon: FileBarChart,
+        name: "BLS Occupational Outlook",
+        type: "Government Report",
+        detail: "2025–2026 release",
+        color: "text-green-600",
+        bg: "bg-green-50",
+      },
+      {
+        icon: Database,
+        name: "Waypoint Student Records",
+        type: "Internal Assessment Data",
+        detail: "47 students · this cohort",
+        color: "text-purple-600",
+        bg: "bg-purple-50",
+      },
+      {
+        icon: FileBarChart,
+        name: "World Economic Forum",
+        type: "Skills Report",
+        detail: "Future of Jobs 2025",
+        color: "text-amber-600",
+        bg: "bg-amber-50",
+      },
+    ];
+
     return (
       <div className="min-h-screen bg-ascend-bg flex flex-col items-center justify-center p-6 lg:p-10 animate-in fade-in duration-500">
         <div className="max-w-3xl w-full">
@@ -486,6 +534,21 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
           </div>
 
           <div className="bg-white rounded-card shadow-soft p-8 lg:p-10">
+
+            {/* Live badge + timestamp */}
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+                <span className="text-xs font-bold text-green-700 bg-green-50 px-3 py-1 rounded-full uppercase tracking-wider">
+                  Live Data
+                </span>
+              </div>
+              <div className="flex items-center gap-1.5 text-xs text-ascend-subtext">
+                <RefreshCw className="w-3.5 h-3.5" />
+                Updated 4 min ago
+              </div>
+            </div>
+
             <p className="text-xs font-bold uppercase tracking-wider text-ascend-subtext mb-2">
               Your Students · Today
             </p>
@@ -493,6 +556,7 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
               Here's what's happening with your students
             </h1>
 
+            {/* Chart */}
             <div style={{ height: 270 }}>
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart
@@ -509,7 +573,7 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
                     type="number"
                     domain={[0, 100]}
                     tickFormatter={(v) => `${v}%`}
-                    tick={{ fontSize: 11, fill: "#A3AED0" }}
+                    tick={{ fontSize: 11, fill: "#5A6A8A" }}
                     axisLine={false}
                     tickLine={false}
                   />
@@ -549,7 +613,37 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
               </ResponsiveContainer>
             </div>
 
-            <p className="text-base text-ascend-subtext text-center mt-6 mb-8 leading-relaxed">
+            {/* Data sources */}
+            <div className="mt-8 pt-6 border-t border-ascend-border">
+              <p className="text-xs font-bold uppercase tracking-wider text-ascend-subtext mb-4">
+                Pulling from {dataSources.length} live sources
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {dataSources.map((src) => {
+                  const Icon = src.icon;
+                  return (
+                    <div
+                      key={src.name}
+                      className="flex items-center gap-3 p-3 rounded-xl bg-ascend-bg border border-ascend-border"
+                    >
+                      <div className={`w-8 h-8 rounded-lg ${src.bg} flex items-center justify-center flex-shrink-0`}>
+                        <Icon className={`w-4 h-4 ${src.color}`} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs font-bold text-ascend-text truncate">{src.name}</p>
+                        <p className="text-xs text-ascend-subtext truncate">{src.detail}</p>
+                      </div>
+                      <span className="text-[10px] font-bold text-ascend-subtext bg-white border border-ascend-border px-2 py-0.5 rounded-full whitespace-nowrap flex-shrink-0">
+                        {src.type}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Tagline + CTA */}
+            <p className="text-base text-ascend-subtext text-center mt-8 mb-6 leading-relaxed">
               You already have what you need to close these gaps.{" "}
               <span className="text-ascend-text font-semibold">
                 Let's connect the pieces.
