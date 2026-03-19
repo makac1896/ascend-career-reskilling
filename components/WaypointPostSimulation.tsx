@@ -39,6 +39,7 @@ interface SlackMessage {
   quote?: string;        // blockquote — sim evidence
   resource?: Resource;
   skillCard?: SkillCard;
+  labCard?: LabCard;
   time: string;
 }
 
@@ -53,6 +54,13 @@ interface SkillCard {
   skills: { name: string; before: number; after: number; color: string }[];
 }
 
+interface LabCard {
+  title: string;
+  date: string;
+  time: string;
+  host: string;
+  spots: number;
+}
 
 // ─── DM data ─────────────────────────────────────────────────────────────────
 
@@ -98,6 +106,18 @@ const KIRA_MESSAGES: SlackMessage[] = [
       cta: "Reserve your spot",
     },
     time: "3:49 PM",
+  },
+  {
+    id: "k7",
+    from: "kira",
+    labCard: {
+      title: "Hold Your Ground — Practice Lab",
+      date: "Friday, March 21",
+      time: "2:00 PM – 3:30 PM",
+      host: "Sarah Okafor · Career Programs",
+      spots: 6,
+    },
+    time: "3:50 PM",
   },
 ];
 
@@ -148,6 +168,18 @@ const DEV_MESSAGES: SlackMessage[] = [
       cta: "Reserve your spot",
     },
     time: "4:04 PM",
+  },
+  {
+    id: "d7",
+    from: "dev",
+    labCard: {
+      title: "The Pressure Test — Practice Lab",
+      date: "Wednesday, March 19",
+      time: "12:00 PM – 1:00 PM",
+      host: "Marcus Tran · Student Success",
+      spots: 4,
+    },
+    time: "4:05 PM",
   },
 ];
 
@@ -220,6 +252,28 @@ const SlackSkillCard: React.FC<{ card: SkillCard }> = ({ card }) => (
 );
 
 
+const SlackLabCard: React.FC<{ card: LabCard }> = ({ card }) => (
+  <div style={{ marginTop: "8px", border: "1px solid #E8E8E8", borderRadius: "8px", backgroundColor: "#FFFFFF", padding: "12px 14px", maxWidth: "360px", boxShadow: "0 1px 4px rgba(0,0,0,0.04)" }}>
+    <div style={{ display: "flex", alignItems: "flex-start", gap: "10px" }}>
+      <div style={{ width: 36, height: 36, borderRadius: "8px", backgroundColor: "#EEF2FF", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4F46E5" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" />
+        </svg>
+      </div>
+      <div style={{ flex: 1 }}>
+        <p style={{ margin: "0 0 2px", fontSize: "11px", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: "#868686" }}>In-person lab</p>
+        <p style={{ margin: "0 0 3px", fontSize: "13px", fontWeight: 700, color: "#1D1C1D" }}>{card.title}</p>
+        <p style={{ margin: "0 0 2px", fontSize: "12px", color: "#616061" }}>{card.date} · {card.time}</p>
+        <p style={{ margin: "0 0 8px", fontSize: "12px", color: "#868686" }}>Hosted by {card.host}</p>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <span style={{ fontSize: "11px", color: card.spots <= 5 ? "#D97706" : "#059669", fontWeight: 600 }}>{card.spots} spots left</span>
+          <button style={{ padding: "5px 12px", borderRadius: "6px", border: "none", backgroundColor: "#4F46E5", color: "#FFFFFF", fontSize: "11px", fontWeight: 700, cursor: "pointer", fontFamily: "'DM Sans', sans-serif", transition: "background-color 0.15s" }} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#4338CA"; }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "#4F46E5"; }}>Reserve</button>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
 // ─── Single DM message row ────────────────────────────────────────────────────
 
 const DmMessageRow: React.FC<{
@@ -282,6 +336,7 @@ const DmMessageRow: React.FC<{
         {/* Embeds */}
         {msg.skillCard && <SlackSkillCard card={msg.skillCard} />}
         {msg.resource && <SlackLinkUnfurl resource={msg.resource} />}
+        {msg.labCard && <SlackLabCard card={msg.labCard} />}
       </div>
     </div>
   );
