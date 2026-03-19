@@ -4,996 +4,743 @@ interface WaypointPostSimulationProps {
   onContinue: () => void;
 }
 
-// ─── Journal Overlay ──────────────────────────────────────────────────────────
+// ─── Avatars (match simulation avatars exactly) ───────────────────────────────
 
-const JournalOverlay: React.FC<{ prompt: string; onClose: () => void }> = ({
-  prompt,
-  onClose,
-}) => {
-  const [text, setText] = useState("");
-  const [visible, setVisible] = useState(false);
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
+const KiraAvatar = ({ size = 36 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 32 32" fill="none">
+    <circle cx="16" cy="16" r="16" fill="#FCA5A5" />
+    <circle cx="16" cy="13" r="5.5" fill="#7F1D1D" />
+    <ellipse cx="16" cy="26" rx="8.5" ry="6" fill="#7F1D1D" />
+  </svg>
+);
 
-  useEffect(() => {
-    requestAnimationFrame(() => setVisible(true));
-    setTimeout(() => textareaRef.current?.focus(), 300);
-  }, []);
+const DevAvatar = ({ size = 36 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 32 32" fill="none">
+    <circle cx="16" cy="16" r="16" fill="#FDE68A" />
+    <circle cx="16" cy="13" r="5.5" fill="#92400E" />
+    <ellipse cx="16" cy="26" rx="8.5" ry="6" fill="#92400E" />
+  </svg>
+);
 
-  const dismiss = () => {
-    setVisible(false);
-    setTimeout(onClose, 350);
-  };
+const AiyanaAvatar = ({ size = 36 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 32 32" fill="none">
+    <circle cx="16" cy="16" r="16" fill="#C7D2FE" />
+    <circle cx="16" cy="13" r="5.5" fill="#3730A3" />
+    <ellipse cx="16" cy="26" rx="8.5" ry="6" fill="#3730A3" />
+  </svg>
+);
+
+// ─── Types ────────────────────────────────────────────────────────────────────
+
+interface SlackMessage {
+  id: string;
+  from: "kira" | "dev" | "aiyana";
+  text?: string;
+  quote?: string;        // blockquote — sim evidence
+  resource?: Resource;
+  skillCard?: SkillCard;
+  labCard?: LabCard;
+  time: string;
+}
+
+interface Resource {
+  domain: string;
+  title: string;
+  description: string;
+  cta: string;
+}
+
+interface SkillCard {
+  skills: { name: string; before: number; after: number; color: string }[];
+}
+
+interface LabCard {
+  title: string;
+  date: string;
+  time: string;
+  host: string;
+  spots: number;
+}
+
+// ─── DM data ─────────────────────────────────────────────────────────────────
+
+const KIRA_MESSAGES: SlackMessage[] = [
+  {
+    id: "k1",
+    from: "kira",
+    text: "Hey Aiyana 👋 Just hopped off the Zoom — wanted to reach out before I lost the thread. That was a really interesting session.",
+    time: "3:47 PM",
+  },
+  {
+    id: "k2",
+    from: "kira",
+    text: "I want to be honest with you — I wasn't sure how you'd handle that disagreement between me and Dev. You walked into the middle of it and you didn't just pick a side. You actually read the document and named what mattered.",
+    time: "3:47 PM",
+  },
+  {
+    id: "k3",
+    from: "kira",
+    quote: "\"The phrase 'target demographics' isn't clunky writing — it signals a fundamental assumption about who this community actually is.\"",
+    text: "You said something close to this — and you were right. That's the kind of critical reading that takes most people years to develop. The fact that you caught it without prompting is significant.",
+    time: "3:48 PM",
+  },
+  {
+    id: "k4",
+    from: "kira",
+    text: "The one thing I'd invite you to sit with: when Dev pushed back on the timeline, you got quieter. Your instinct was right — but you let the pressure of the room pull you back. That's the edge to work on. Not whether you see clearly. Whether you trust what you see when someone with more experience is in the room.",
+    time: "3:48 PM",
+  },
+  {
+    id: "k5",
+    from: "kira",
+    skillCard: {
+      skills: [
+        { name: "Critical Reading", before: 44, after: 62, color: "#059669" },
+        { name: "Assertive Advocacy", before: 34, after: 52, color: "#4318FF" },
+        { name: "Resilience Under Pressure", before: 76, after: 87, color: "#7C3AED" },
+      ],
+    },
+    time: "3:49 PM",
+  },
+  {
+    id: "k6",
+    from: "kira",
+    resource: {
+      domain: "waypoint.app · Workshop",
+      title: "Navigating Conflict in Teams",
+      description: "You held back when challenged by someone more senior. This session specifically practices leading with your insight when the stakes feel high — not retreating into agreement.",
+      cta: "Reserve your spot",
+    },
+    time: "3:49 PM",
+  },
+  {
+    id: "k7",
+    from: "kira",
+    labCard: {
+      title: "In-Person Practice Lab: Hold Your Ground",
+      date: "Friday, March 21",
+      time: "2:00 PM – 3:30 PM",
+      host: "Kira Morningstar",
+      spots: 6,
+    },
+    time: "3:50 PM",
+  },
+];
+
+const DEV_MESSAGES: SlackMessage[] = [
+  {
+    id: "d1",
+    from: "dev",
+    text: "Hey — Dev here. Kira said she was going to DM you, so figured I'd add my take separately since we saw it pretty differently.",
+    time: "4:02 PM",
+  },
+  {
+    id: "d2",
+    from: "dev",
+    text: "I'll be direct — I went into that conversation thinking I was right about the timeline. And I still think the concern was real. But the way you framed what was at stake made me see the document differently. You didn't lecture. You just answered the question and let it land.",
+    time: "4:02 PM",
+  },
+  {
+    id: "d3",
+    from: "dev",
+    quote: "\"I think we need to ask whether the timeline serves the community or just the organization's schedule.\"",
+    text: "That's actually a hard framing to hold when someone pushes back. Most people in your position go quiet or try to make everyone happy. You did something different — you stayed in your own perspective. For a while, at least.",
+    time: "4:03 PM",
+  },
+  {
+    id: "d4",
+    from: "dev",
+    text: "The gap: you checked whether people were okay with what you said. That moment — right after you made your point — you softened. Learn to let things land before you rescue them.",
+    time: "4:03 PM",
+  },
+  {
+    id: "d5",
+    from: "dev",
+    skillCard: {
+      skills: [
+        { name: "Assertive Advocacy", before: 34, after: 52, color: "#4318FF" },
+        { name: "Critical Thinking", before: 66, after: 74, color: "#0EA5E9" },
+      ],
+    },
+    time: "4:04 PM",
+  },
+  {
+    id: "d6",
+    from: "dev",
+    resource: {
+      domain: "waypoint.app · Workshop",
+      title: "Finding Your Voice in Professional Settings",
+      description: "Builds the specific skill of staying in your perspective under social pressure — not abandoning your position the moment you sense discomfort in the room.",
+      cta: "Reserve your spot",
+    },
+    time: "4:04 PM",
+  },
+  {
+    id: "d7",
+    from: "dev",
+    labCard: {
+      title: "In-Person Practice Lab: The Pressure Test",
+      date: "Wednesday, March 19",
+      time: "12:00 PM – 1:00 PM",
+      host: "Dev Sharma",
+      spots: 4,
+    },
+    time: "4:05 PM",
+  },
+];
+
+// ─── Message renderer sub-components ─────────────────────────────────────────
+
+const SlackLinkUnfurl: React.FC<{ resource: Resource }> = ({ resource }) => (
+  <div
+    style={{
+      marginTop: "8px",
+      borderLeft: "3px solid rgba(99,102,241,0.55)",
+      backgroundColor: "#F8F8FF",
+      borderRadius: "0 6px 6px 0",
+      padding: "12px 14px",
+      maxWidth: "420px",
+    }}
+  >
+    <p style={{ margin: "0 0 4px", fontSize: "11px", color: "#868686" }}>{resource.domain}</p>
+    <p style={{ margin: "0 0 5px", fontSize: "14px", fontWeight: 700, color: "#1D1C1D" }}>{resource.title}</p>
+    <p style={{ margin: "0 0 10px", fontSize: "13px", color: "#616061", lineHeight: 1.55 }}>{resource.description}</p>
+    <button
+      style={{
+        padding: "6px 14px",
+        borderRadius: "6px",
+        border: "1px solid rgba(99,102,241,0.40)",
+        backgroundColor: "rgba(99,102,241,0.08)",
+        color: "#4F46E5",
+        fontSize: "12px",
+        fontWeight: 700,
+        cursor: "pointer",
+        fontFamily: "'DM Sans', sans-serif",
+        transition: "background-color 0.15s",
+      }}
+      onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "rgba(99,102,241,0.16)"; }}
+      onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "rgba(99,102,241,0.08)"; }}
+    >
+      {resource.cta} →
+    </button>
+  </div>
+);
+
+const SlackSkillCard: React.FC<{ card: SkillCard }> = ({ card }) => (
+  <div
+    style={{
+      marginTop: "8px",
+      border: "1px solid #E8E8E8",
+      borderRadius: "8px",
+      backgroundColor: "#FAFAFA",
+      padding: "12px 14px",
+      maxWidth: "360px",
+    }}
+  >
+    <p style={{ margin: "0 0 10px", fontSize: "11px", fontWeight: 700, letterSpacing: "0.07em", textTransform: "uppercase", color: "#868686" }}>
+      Skills moved this session
+    </p>
+    {card.skills.map((sk) => (
+      <div key={sk.name} style={{ marginBottom: "10px" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "4px" }}>
+          <span style={{ fontSize: "12px", fontWeight: 600, color: "#1D1C1D" }}>{sk.name}</span>
+          <span style={{ fontSize: "11px", fontWeight: 700, color: sk.color }}>
+            +{sk.after - sk.before} pts · now {sk.after}%
+          </span>
+        </div>
+        <div style={{ height: "5px", backgroundColor: "#E8E8E8", borderRadius: "999px", position: "relative", overflow: "hidden" }}>
+          <div style={{ position: "absolute", left: 0, top: 0, height: "100%", width: `${sk.before}%`, backgroundColor: "#D1D5DB", borderRadius: "999px" }} />
+          <div style={{ position: "absolute", left: 0, top: 0, height: "100%", width: `${sk.after}%`, backgroundColor: sk.color, borderRadius: "999px", opacity: 0.8 }} />
+        </div>
+      </div>
+    ))}
+  </div>
+);
+
+const SlackLabCard: React.FC<{ card: LabCard }> = ({ card }) => (
+  <div
+    style={{
+      marginTop: "8px",
+      border: "1px solid #E8E8E8",
+      borderRadius: "8px",
+      backgroundColor: "#FFFFFF",
+      padding: "12px 14px",
+      maxWidth: "360px",
+      boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
+    }}
+  >
+    <div style={{ display: "flex", alignItems: "flex-start", gap: "10px" }}>
+      <div
+        style={{
+          width: 36, height: 36, borderRadius: "8px",
+          backgroundColor: "#EEF2FF",
+          display: "flex", alignItems: "center", justifyContent: "center",
+          flexShrink: 0,
+        }}
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4F46E5" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="2" />
+          <line x1="16" y1="2" x2="16" y2="6" />
+          <line x1="8" y1="2" x2="8" y2="6" />
+          <line x1="3" y1="10" x2="21" y2="10" />
+        </svg>
+      </div>
+      <div style={{ flex: 1 }}>
+        <p style={{ margin: "0 0 2px", fontSize: "11px", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: "#868686" }}>In-person lab</p>
+        <p style={{ margin: "0 0 3px", fontSize: "13px", fontWeight: 700, color: "#1D1C1D" }}>{card.title}</p>
+        <p style={{ margin: "0 0 2px", fontSize: "12px", color: "#616061" }}>{card.date} · {card.time}</p>
+        <p style={{ margin: "0 0 8px", fontSize: "12px", color: "#868686" }}>Hosted by {card.host}</p>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <span style={{ fontSize: "11px", color: card.spots <= 5 ? "#D97706" : "#059669", fontWeight: 600 }}>
+            {card.spots} spots left
+          </span>
+          <button
+            style={{
+              padding: "5px 12px",
+              borderRadius: "6px",
+              border: "none",
+              backgroundColor: "#4F46E5",
+              color: "#FFFFFF",
+              fontSize: "11px",
+              fontWeight: 700,
+              cursor: "pointer",
+              fontFamily: "'DM Sans', sans-serif",
+              transition: "background-color 0.15s",
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#4338CA"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "#4F46E5"; }}
+          >
+            Reserve
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+// ─── Single DM message row ────────────────────────────────────────────────────
+
+const DmMessageRow: React.FC<{
+  msg: SlackMessage;
+  showHeader: boolean;
+}> = ({ msg, showHeader }) => {
+  const isAiyana = msg.from === "aiyana";
+  const AvatarComp = msg.from === "kira" ? KiraAvatar : msg.from === "dev" ? DevAvatar : AiyanaAvatar;
+  const displayName = msg.from === "kira" ? "Kira Morningstar" : msg.from === "dev" ? "Dev Sharma" : "Aiyana Yerxa";
 
   return (
     <div
-      onClick={dismiss}
       style={{
-        position: "fixed",
-        inset: 0,
-        zIndex: 100,
         display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        backdropFilter: "blur(10px)",
-        WebkitBackdropFilter: "blur(10px)",
-        backgroundColor: "rgba(10,15,30,0.72)",
-        opacity: visible ? 1 : 0,
-        transition: "opacity 0.35s ease",
-        padding: "40px 24px",
-        boxSizing: "border-box",
+        gap: "10px",
+        padding: showHeader ? "12px 0 2px" : "1px 0",
+        alignItems: "flex-start",
       }}
     >
+      {/* Avatar col */}
+      <div style={{ width: 36, flexShrink: 0, paddingTop: showHeader ? 0 : 2 }}>
+        {showHeader ? <AvatarComp size={36} /> : null}
+      </div>
+
+      {/* Content col */}
+      <div style={{ flex: 1, minWidth: 0 }}>
+        {showHeader && (
+          <div style={{ display: "flex", alignItems: "baseline", gap: "8px", marginBottom: "4px" }}>
+            <span style={{ fontSize: "14px", fontWeight: 700, color: isAiyana ? "#4F46E5" : "#1D1C1D" }}>
+              {displayName}
+            </span>
+            <span style={{ fontSize: "11px", color: "#868686" }}>{msg.time}</span>
+          </div>
+        )}
+
+        {/* Quote (sim evidence) */}
+        {msg.quote && (
+          <div
+            style={{
+              borderLeft: "3px solid #D1D5DB",
+              paddingLeft: "12px",
+              marginBottom: "6px",
+              color: "#616061",
+              fontSize: "13px",
+              fontStyle: "italic",
+              lineHeight: 1.55,
+            }}
+          >
+            {msg.quote}
+          </div>
+        )}
+
+        {/* Main text */}
+        {msg.text && (
+          <p style={{ margin: 0, fontSize: "14px", color: "#1D1C1D", lineHeight: 1.65 }}>
+            {msg.text}
+          </p>
+        )}
+
+        {/* Embeds */}
+        {msg.skillCard && <SlackSkillCard card={msg.skillCard} />}
+        {msg.resource && <SlackLinkUnfurl resource={msg.resource} />}
+        {msg.labCard && <SlackLabCard card={msg.labCard} />}
+      </div>
+    </div>
+  );
+};
+
+// ─── Typing indicator ─────────────────────────────────────────────────────────
+
+const TypingIndicator: React.FC<{ name: string; AvatarComp: React.FC<{ size?: number }> }> = ({ name, AvatarComp }) => (
+  <div style={{ display: "flex", gap: "10px", alignItems: "flex-start", padding: "12px 0 2px" }}>
+    <div style={{ width: 36, flexShrink: 0 }}><AvatarComp size={36} /></div>
+    <div>
+      <div style={{ display: "flex", alignItems: "baseline", gap: "8px", marginBottom: "6px" }}>
+        <span style={{ fontSize: "14px", fontWeight: 700, color: "#1D1C1D" }}>{name}</span>
+      </div>
       <div
-        onClick={(e) => e.stopPropagation()}
         style={{
-          width: "100%",
-          maxWidth: "580px",
-          backgroundColor: "#FAFAF9",
-          borderRadius: "16px",
-          padding: "36px 40px 32px",
-          boxShadow: "0 40px 100px rgba(0,0,0,0.4)",
-          transform: visible ? "translateY(0)" : "translateY(20px)",
-          transition: "transform 0.35s ease",
-          fontFamily: "'DM Sans', sans-serif",
-          display: "flex",
-          flexDirection: "column",
-          gap: "22px",
+          display: "flex", gap: "4px", alignItems: "center",
+          padding: "8px 12px",
+          backgroundColor: "#F1F1F1",
+          borderRadius: "18px",
+          width: "fit-content",
         }}
       >
-        {/* Prompt */}
-        <p
-          style={{
-            fontSize: "16px",
-            fontWeight: 600,
-            color: "#1C1C1E",
-            lineHeight: "1.6",
-            margin: 0,
-          }}
-        >
-          {prompt}
-        </p>
+        {[0, 1, 2].map((i) => (
+          <div
+            key={i}
+            style={{
+              width: 7, height: 7,
+              borderRadius: "50%",
+              backgroundColor: "#9CA3AF",
+              animation: `slack-typing 1.3s ${i * 0.2}s ease-in-out infinite`,
+            }}
+          />
+        ))}
+      </div>
+    </div>
+  </div>
+);
 
-        {/* Textarea */}
-        <textarea
-          ref={textareaRef}
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          placeholder='Start typing — or just sit here for a minute.'
-          rows={7}
+// ─── DM Thread Panel ──────────────────────────────────────────────────────────
+
+const DmThread: React.FC<{
+  person: "kira" | "dev";
+  AvatarComp: React.FC<{ size?: number }>;
+  displayName: string;
+  allMessages: SlackMessage[];
+  onContinue: () => void;
+}> = ({ person, AvatarComp, displayName, allMessages, onContinue }) => {
+  const [revealed, setRevealed] = useState<SlackMessage[]>([]);
+  const [typing, setTyping] = useState(false);
+  const [inputValue, setInputValue] = useState("");
+  const [replies, setReplies] = useState<SlackMessage[]>([]);
+  const [done, setDone] = useState(false);
+  const chatEndRef = useRef<HTMLDivElement>(null);
+  const indexRef = useRef(0);
+
+  useEffect(() => {
+    // Reset when person changes
+    setRevealed([]);
+    setTyping(false);
+    setReplies([]);
+    setDone(false);
+    indexRef.current = 0;
+
+    const revealNext = () => {
+      const i = indexRef.current;
+      if (i >= allMessages.length) {
+        setDone(true);
+        return;
+      }
+      setTyping(true);
+      const delay = allMessages[i].resource || allMessages[i].skillCard || allMessages[i].labCard ? 900 : 1100;
+      setTimeout(() => {
+        setTyping(false);
+        setRevealed((prev) => [...prev, allMessages[i]]);
+        indexRef.current = i + 1;
+        setTimeout(revealNext, allMessages[i].text && allMessages[i].text!.length > 120 ? 600 : 350);
+      }, delay);
+    };
+
+    setTimeout(revealNext, 500);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [person]);
+
+  useEffect(() => {
+    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [revealed, typing, replies]);
+
+  const send = () => {
+    const t = inputValue.trim();
+    if (!t) return;
+    setReplies((prev) => [
+      ...prev,
+      { id: `r${Date.now()}`, from: "aiyana", text: t, time: "now" },
+    ]);
+    setInputValue("");
+  };
+
+  const handleKey = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      send();
+    }
+  };
+
+  // Group consecutive messages from same sender to suppress repeated headers
+  const allVisible = [...revealed, ...replies];
+
+  return (
+    <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
+      {/* Channel header */}
+      <div
+        style={{
+          padding: "13px 24px 11px",
+          borderBottom: "1px solid #E8E8E8",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          flexShrink: 0,
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <AvatarComp size={24} />
+          <span style={{ fontSize: "15px", fontWeight: 800, color: "#1D1C1D" }}>{displayName}</span>
+          <div style={{ width: 1, height: 16, backgroundColor: "#E8E8E8" }} />
+          <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+            <div style={{ width: 7, height: 7, borderRadius: "50%", backgroundColor: "#22C55E" }} />
+            <span style={{ fontSize: "12px", color: "#868686" }}>Active now</span>
+          </div>
+        </div>
+        <button
+          onClick={onContinue}
           style={{
-            width: "100%",
-            resize: "none",
-            border: "none",
-            borderTop: "1px solid #EBEBEB",
-            paddingTop: "20px",
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: "15px",
-            color: "#1C1C1E",
-            lineHeight: "1.75",
+            padding: "7px 16px",
+            borderRadius: "7px",
+            border: "1px solid #E8E8E8",
             backgroundColor: "transparent",
-            outline: "none",
-            boxSizing: "border-box",
-            caretColor: "#4F46E5",
+            color: "#616061",
+            fontSize: "12px",
+            fontWeight: 600,
+            cursor: "pointer",
+            fontFamily: "'DM Sans', sans-serif",
+            transition: "all 0.15s",
           }}
-        />
+          onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#F4F4F4"; e.currentTarget.style.color = "#1D1C1D"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = "#616061"; }}
+        >
+          Go to dashboard →
+        </button>
+      </div>
 
-        {/* Footer */}
+      {/* Messages */}
+      <div style={{ flex: 1, overflowY: "auto", padding: "8px 24px 0" }}>
+        {/* DM intro */}
+        <div style={{ padding: "20px 0 8px", borderBottom: "1px solid #E8E8E8", marginBottom: "4px" }}>
+          <div style={{ marginBottom: "8px" }}><AvatarComp size={48} /></div>
+          <p style={{ margin: "0 0 2px", fontSize: "18px", fontWeight: 800, color: "#1D1C1D" }}>{displayName}</p>
+          <p style={{ margin: 0, fontSize: "13px", color: "#868686" }}>
+            This is a direct message between you and {displayName.split(" ")[0]}. Following up on today's Zoom session.
+          </p>
+        </div>
+
+        {allVisible.map((msg, i) => {
+          const prev = allVisible[i - 1];
+          const showHeader = !prev || prev.from !== msg.from;
+          return <DmMessageRow key={msg.id} msg={msg} showHeader={showHeader} />;
+        })}
+
+        {typing && <TypingIndicator name={displayName} AvatarComp={AvatarComp} />}
+        <div ref={chatEndRef} style={{ height: 20 }} />
+      </div>
+
+      {/* Input */}
+      <div style={{ padding: "10px 24px 20px", flexShrink: 0 }}>
         <div
           style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
+            border: "1px solid #D4D4D4",
+            borderRadius: "10px",
+            backgroundColor: "#FFFFFF",
+            overflow: "hidden",
+            transition: "border-color 0.15s",
           }}
+          onFocus={(e) => { (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(99,102,241,0.55)"; }}
+          onBlur={(e) => { (e.currentTarget as HTMLDivElement).style.borderColor = "#D4D4D4"; }}
         >
-          <span
+          <textarea
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            onKeyDown={handleKey}
+            placeholder={`Message ${displayName.split(" ")[0]} — Enter to send`}
+            rows={2}
             style={{
-              fontSize: "11px",
-              color: "#ADADAD",
-              fontStyle: "italic",
-            }}
-          >
-            {text.length > 0
-              ? "Auto-saved"
-              : "Nothing you write here is graded."}
-          </span>
-          <button
-            onClick={dismiss}
-            style={{
-              background: "none",
-              border: "none",
-              fontSize: "13px",
-              fontWeight: 600,
-              color: "#ADADAD",
-              cursor: "pointer",
+              width: "100%", resize: "none", border: "none",
+              padding: "13px 16px 6px",
               fontFamily: "'DM Sans', sans-serif",
-              padding: "4px 0",
-              transition: "color 0.15s ease",
+              fontSize: "14px", color: "#1D1C1D",
+              backgroundColor: "transparent",
+              lineHeight: 1.55, outline: "none",
+              boxSizing: "border-box", caretColor: "#4F46E5",
             }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.color = "#1C1C1E";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.color = "#ADADAD";
-            }}
-          >
-            Close
-          </button>
+          />
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", padding: "6px 12px 10px" }}>
+            <button
+              onClick={send}
+              disabled={!inputValue.trim()}
+              style={{
+                padding: "6px 16px",
+                borderRadius: "6px",
+                border: "none",
+                backgroundColor: inputValue.trim() ? "#4F46E5" : "#E8E8E8",
+                color: inputValue.trim() ? "#FFFFFF" : "#9CA3AF",
+                fontSize: "13px", fontWeight: 700,
+                cursor: inputValue.trim() ? "pointer" : "default",
+                fontFamily: "'DM Sans', sans-serif",
+                transition: "all 0.15s",
+              }}
+            >
+              Send
+            </button>
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-// ─── Shared Avatars ───────────────────────────────────────────────────────────
-
-const KiraAvatar = ({ size = 36 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox='0 0 32 32' fill='none'>
-    <circle cx='16' cy='16' r='16' fill='#FCA5A5' />
-    <circle cx='16' cy='13' r='5.5' fill='#7F1D1D' />
-    <ellipse cx='16' cy='26' rx='8.5' ry='6' fill='#7F1D1D' />
-  </svg>
-);
-
-const DevAvatar = ({ size = 36 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox='0 0 32 32' fill='none'>
-    <circle cx='16' cy='16' r='16' fill='#FDE68A' />
-    <circle cx='16' cy='13' r='5.5' fill='#92400E' />
-    <ellipse cx='16' cy='26' rx='8.5' ry='6' fill='#92400E' />
-  </svg>
-);
-
-// ─── Resource Card ────────────────────────────────────────────────────────────
-
-const ResourceCard: React.FC<{
-  title: string;
-  datetime: string;
-  reason: string;
-}> = ({ title, datetime, reason }) => (
-  <div
-    style={{
-      marginTop: "16px",
-      padding: "14px 16px",
-      backgroundColor: "#F7F7FF",
-      borderRadius: "10px",
-      border: "1px solid #E5E4FF",
-    }}
-  >
-    <p
-      style={{
-        fontSize: "10px",
-        fontWeight: 700,
-        color: "#9CA3AF",
-        letterSpacing: "0.08em",
-        textTransform: "uppercase",
-        margin: "0 0 8px 0",
-      }}
-    >
-      Recommended for you based on this conversation
-    </p>
-    <p
-      style={{
-        fontSize: "14px",
-        fontWeight: 700,
-        color: "#1C1C1E",
-        margin: "0 0 3px 0",
-      }}
-    >
-      {title}
-    </p>
-    <p style={{ fontSize: "12px", color: "#9CA3AF", margin: "0 0 8px 0" }}>
-      {datetime}
-    </p>
-    <p
-      style={{
-        fontSize: "13px",
-        color: "#6B7280",
-        lineHeight: "1.55",
-        margin: "0 0 12px 0",
-      }}
-    >
-      {reason}
-    </p>
-    <button
-      style={{
-        fontSize: "12px",
-        fontWeight: 700,
-        color: "#4F46E5",
-        background: "none",
-        border: "1px solid #C7D2FE",
-        borderRadius: "6px",
-        padding: "5px 12px",
-        cursor: "pointer",
-        fontFamily: "'DM Sans', sans-serif",
-        transition: "background-color 0.15s ease",
-      }}
-      onMouseEnter={(e) => {
-        (e.currentTarget as HTMLButtonElement).style.backgroundColor =
-          "#EEF2FF";
-      }}
-      onMouseLeave={(e) => {
-        (e.currentTarget as HTMLButtonElement).style.backgroundColor =
-          "transparent";
-      }}
-    >
-      See details
-    </button>
-  </div>
-);
-
-// ─── Journal Trigger ──────────────────────────────────────────────────────────
-
-const JournalTrigger: React.FC<{ onOpen: () => void }> = ({ onOpen }) => (
-  <button
-    onClick={onOpen}
-    style={{
-      marginTop: "14px",
-      background: "none",
-      border: "none",
-      padding: 0,
-      cursor: "pointer",
-      display: "inline-flex",
-      alignItems: "center",
-      gap: "6px",
-      fontFamily: "'DM Sans', sans-serif",
-    }}
-  >
-    <span
-      style={{
-        fontSize: "13px",
-        color: "#ADADAD",
-        fontStyle: "italic",
-        borderBottom: "1px solid #DFDEDE",
-        transition: "color 0.15s ease, border-color 0.15s ease",
-      }}
-      onMouseEnter={(e) => {
-        const s = e.currentTarget as HTMLSpanElement;
-        s.style.color = "#6B7280";
-        s.style.borderColor = "#9CA3AF";
-      }}
-      onMouseLeave={(e) => {
-        const s = e.currentTarget as HTMLSpanElement;
-        s.style.color = "#ADADAD";
-        s.style.borderColor = "#DFDEDE";
-      }}
-    >
-      Want to sit with that for a moment?
-    </span>
-  </button>
-);
-
-// ─── Section Divider ──────────────────────────────────────────────────────────
-
-const SectionLabel: React.FC<{
-  label: string;
-  sub?: string;
-}> = ({ label, sub }) => (
-  <div style={{ marginBottom: "20px" }}>
-    <p
-      style={{
-        fontSize: "11px",
-        fontWeight: 700,
-        color: "#ADADAD",
-        letterSpacing: "0.1em",
-        textTransform: "uppercase",
-        margin: "0 0 4px 0",
-      }}
-    >
-      {label}
-    </p>
-    {sub && (
-      <p
-        style={{
-          fontSize: "12px",
-          color: "#ADADAD",
-          margin: 0,
-          fontStyle: "italic",
-          lineHeight: "1.5",
-        }}
-      >
-        {sub}
-      </p>
-    )}
-  </div>
-);
-
 // ─── Main Component ───────────────────────────────────────────────────────────
 
-const WaypointPostSimulation: React.FC<WaypointPostSimulationProps> = ({
-  onContinue,
-}) => {
-  const [journalPrompt, setJournalPrompt] = useState<string | null>(null);
-  const [visible, setVisible] = useState(false);
+const WaypointPostSimulation: React.FC<WaypointPostSimulationProps> = ({ onContinue }) => {
+  const [activeDm, setActiveDm] = useState<"kira" | "dev">("kira");
 
-  useEffect(() => {
-    requestAnimationFrame(() => setVisible(true));
-  }, []);
+  // Unread tracking — once you open a DM it's read
+  const [read, setRead] = useState<Record<string, boolean>>({ kira: false, dev: false });
+  const openDm = (person: "kira" | "dev") => {
+    setActiveDm(person);
+    setRead((prev) => ({ ...prev, [person]: true }));
+  };
 
-  const openJournal = (prompt: string) => setJournalPrompt(prompt);
-  const closeJournal = () => setJournalPrompt(null);
+  const DMS = [
+    { id: "kira" as const, name: "Kira Morningstar", AvatarComp: KiraAvatar, messages: KIRA_MESSAGES },
+    { id: "dev" as const, name: "Dev Sharma", AvatarComp: DevAvatar, messages: DEV_MESSAGES },
+  ];
+
+  const active = DMS.find((d) => d.id === activeDm)!;
 
   return (
     <>
-      {journalPrompt && (
-        <JournalOverlay prompt={journalPrompt} onClose={closeJournal} />
-      )}
+      <style>{`
+        @keyframes slack-typing {
+          0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+          30% { transform: translateY(-5px); opacity: 1; }
+        }
+      `}</style>
 
       <div
         style={{
-          minHeight: "100vh",
-          backgroundColor: "#FAFAF9",
+          display: "flex",
+          height: "100vh",
+          width: "100%",
+          backgroundColor: "#FFFFFF",
           fontFamily: "'DM Sans', sans-serif",
-          padding: "0 24px 80px",
-          boxSizing: "border-box",
-          opacity: visible ? 1 : 0,
-          transition: "opacity 0.6s ease",
+          overflow: "hidden",
         }}
       >
-        {/* Top bar — first Waypoint reveal */}
+        {/* ── Sidebar ── */}
         <div
           style={{
-            maxWidth: "700px",
-            margin: "0 auto",
-            padding: "28px 0 40px",
+            width: "230px",
+            flexShrink: 0,
+            backgroundColor: "#F4F4F4",
+            borderRight: "1px solid #E8E8E8",
             display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
+            flexDirection: "column",
+            overflow: "hidden",
           }}
         >
-          {/* Waypoint wordmark */}
-          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-            <svg
-              width='22'
-              height='22'
-              viewBox='0 0 24 24'
-              fill='none'
-              style={{ flexShrink: 0 }}
-            >
-              <circle
-                cx='12'
-                cy='12'
-                r='10'
-                stroke='#4F46E5'
-                strokeWidth='1.8'
-              />
-              <circle cx='12' cy='12' r='3.5' fill='#4F46E5' />
-            </svg>
-            <span
-              style={{
-                fontSize: "15px",
-                fontWeight: 800,
-                color: "#1C1C1E",
-                letterSpacing: "-0.02em",
-              }}
-            >
-              Waypoint
-            </span>
-          </div>
-        </div>
-
-        {/* ── Content ── */}
-        <div style={{ maxWidth: "700px", margin: "0 auto" }}>
-          {/* ────────────────── Layer 1 — From the team ────────────────── */}
-          <SectionLabel label='From the team' />
-
-          {/* Kira's message */}
-          <div
-            style={{
-              backgroundColor: "#FFFFFF",
-              border: "1px solid #EBEBEB",
-              borderRadius: "14px",
-              padding: "28px 28px 22px",
-              marginBottom: "16px",
-              boxShadow: "0 1px 8px rgba(0,0,0,0.04)",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                alignItems: "flex-start",
-                gap: "12px",
-                marginBottom: "16px",
-              }}
-            >
-              <KiraAvatar size={38} />
-              <div>
-                <p
-                  style={{
-                    fontSize: "14px",
-                    fontWeight: 800,
-                    color: "#1C1C1E",
-                    margin: "0 0 2px 0",
-                  }}
-                >
-                  Kira Morningstar
-                </p>
-                <p
-                  style={{
-                    fontSize: "12px",
-                    color: "#ADADAD",
-                    margin: 0,
-                  }}
-                >
-                  Program Director
-                </p>
-              </div>
+          {/* Workspace header */}
+          <div style={{ padding: "15px 16px 12px", borderBottom: "1px solid #E8E8E8" }}>
+            <p style={{ fontSize: "15px", fontWeight: 800, color: "#1D1C1D", margin: "0 0 1px" }}>Clearwater</p>
+            <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+              <div style={{ width: 7, height: 7, borderRadius: "50%", backgroundColor: "#22C55E" }} />
+              <span style={{ fontSize: "11px", color: "#868686" }}>Aiyana Yerxa</span>
             </div>
-
-            <p
-              style={{
-                fontSize: "14px",
-                color: "#374151",
-                lineHeight: "1.8",
-                margin: 0,
-              }}
-            >
-              I want to be honest with you — I wasn't sure how you'd handle
-              that. You walked into a disagreement between me and a colleague
-              and you didn't just pick a side. You actually read the document
-              and named the thing that mattered. The phrase "target
-              demographics" isn't just clunky writing — it signals a fundamental
-              assumption about who the community is. You got that without me
-              explaining it.
-              <br />
-              <br />
-              What I'd invite you to notice is the moment when Dev pushed back
-              on the timeline. You got quieter. Your instinct was right, but you
-              let the pressure of the situation pull you back. That's the edge
-              to work on — not whether you see clearly, but whether you trust
-              what you see when someone with more experience is in the room.
-            </p>
-
-            <ResourceCard
-              title='Navigating Conflict in Teams'
-              datetime='Friday, March 13 · 2:00 PM'
-              reason='You showed strong critical reading but held back under pressure. This session practices leading with your insight when the stakes feel high.'
-            />
-            <JournalTrigger
-              onOpen={() =>
-                openJournal(
-                  "Kira noticed you knew the answer before you said it. Think about where else in your life you wait for permission to speak.",
-                )
-              }
-            />
           </div>
 
-          {/* Dev's message */}
-          <div
-            style={{
-              backgroundColor: "#FFFFFF",
-              border: "1px solid #EBEBEB",
-              borderRadius: "14px",
-              padding: "28px 28px 22px",
-              marginBottom: "52px",
-              boxShadow: "0 1px 8px rgba(0,0,0,0.04)",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                alignItems: "flex-start",
-                gap: "12px",
-                marginBottom: "16px",
-              }}
-            >
-              <DevAvatar size={38} />
-              <div>
-                <p
-                  style={{
-                    fontSize: "14px",
-                    fontWeight: 800,
-                    color: "#1C1C1E",
-                    margin: "0 0 2px 0",
-                  }}
-                >
-                  Dev Sharma
-                </p>
-                <p
-                  style={{
-                    fontSize: "12px",
-                    color: "#ADADAD",
-                    margin: 0,
-                  }}
-                >
-                  Communications Coordinator
-                </p>
-              </div>
+          {/* Waypoint logo pill */}
+          <div style={{ padding: "12px 16px 0" }}>
+            <div style={{ padding: "6px 10px", borderRadius: "8px", backgroundColor: "#FFFFFF", border: "1px solid #E8E8E8", display: "inline-block", marginBottom: "12px" }}>
+              <img src="/waypoint.png" alt="Waypoint" style={{ height: 22, width: "auto", display: "block" }} />
             </div>
-
-            <p
-              style={{
-                fontSize: "14px",
-                color: "#374151",
-                lineHeight: "1.8",
-                margin: 0,
-              }}
-            >
-              I'll be direct — I went into that conversation thinking I was
-              right. And I still think the timeline concern was real. But the
-              way you framed what was at stake made me see it differently. You
-              didn't lecture. You just answered the question and let it land.
-              <br />
-              <br />
-              That's actually a hard skill. Most people in your position either
-              go quiet or overcorrect and try to make everyone happy. You did
-              something different — you stayed in your own perspective. I think
-              you'd work well in rooms where people disagree. You just need to
-              learn to hold that ground a little longer before you check whether
-              people are okay with what you said.
-            </p>
-
-            <ResourceCard
-              title='Finding Your Voice in Professional Settings'
-              datetime='Wednesday, March 18 · 12:00 PM'
-              reason='You held your position briefly then softened when challenged. This workshop builds the skill of staying in your perspective under social pressure.'
-            />
-            <JournalTrigger
-              onOpen={() =>
-                openJournal(
-                  "Dev said you stayed in your own perspective — but then you checked. What do you think you were looking for when you did that?",
-                )
-              }
-            />
           </div>
 
-          {/* ────────────────── Layer 2 — What showed up ────────────────── */}
-          <SectionLabel
-            label='What showed up'
-            sub='Based on what you said and did — not a quiz. These evolve as you complete more simulations.'
-          />
-
-          {/* Strengths */}
-          <div style={{ marginBottom: "12px" }}>
-            <p
-              style={{
-                fontSize: "12px",
-                fontWeight: 700,
-                color: "#6B7280",
-                margin: "0 0 10px 0",
-                letterSpacing: "0.04em",
-              }}
-            >
-              Strengths demonstrated
-            </p>
-            {[
-              {
-                label: "Critical Reading",
-                evidence:
-                  "You identified the gap between the report's language and the community it represents — before anyone prompted you to.",
-                icon: "◎",
-                color: "#ECFDF5",
-                border: "#A7F3D0",
-                iconColor: "#059669",
-              },
-              {
-                label: "Constructive Positioning",
-                evidence:
-                  "When asked to take a side, you named the underlying tension instead. That reframing shifted the conversation.",
-                icon: "◈",
-                color: "#EFF6FF",
-                border: "#BFDBFE",
-                iconColor: "#2563EB",
-              },
-            ].map(({ label, evidence, icon, color, border, iconColor }) => (
+          {/* Channels (decorative — read-only) */}
+          <div style={{ padding: "0 10px" }}>
+            <p style={{ fontSize: "11px", fontWeight: 700, color: "#868686", letterSpacing: "0.08em", textTransform: "uppercase", margin: "0 0 4px 8px" }}>Channels</p>
+            {["annual-report-2025", "general", "resources"].map((ch, i) => (
               <div
-                key={label}
+                key={ch}
                 style={{
-                  display: "flex",
-                  gap: "14px",
-                  padding: "16px 18px",
-                  backgroundColor: color,
-                  border: `1px solid ${border}`,
-                  borderRadius: "10px",
-                  marginBottom: "8px",
-                  alignItems: "flex-start",
+                  display: "flex", alignItems: "center", gap: "7px",
+                  padding: "5px 8px", borderRadius: "6px", marginBottom: "1px",
+                  opacity: 0.7, cursor: "default",
                 }}
               >
-                <span
-                  style={{
-                    fontSize: "18px",
-                    color: iconColor,
-                    flexShrink: 0,
-                    lineHeight: 1.3,
-                  }}
-                >
-                  {icon}
-                </span>
-                <div>
-                  <p
-                    style={{
-                      fontSize: "13px",
-                      fontWeight: 700,
-                      color: "#1C1C1E",
-                      margin: "0 0 4px 0",
-                    }}
-                  >
-                    {label}
-                  </p>
-                  <p
-                    style={{
-                      fontSize: "13px",
-                      color: "#6B7280",
-                      margin: 0,
-                      lineHeight: "1.55",
-                    }}
-                  >
-                    {evidence}
-                  </p>
-                </div>
+                <span style={{ fontSize: "14px", color: "#868686" }}>#</span>
+                <span style={{ fontSize: "13px", color: "#616061" }}>{ch}</span>
               </div>
             ))}
           </div>
 
-          {/* Growth edges */}
-          <div style={{ marginBottom: "52px" }}>
-            <p
-              style={{
-                fontSize: "12px",
-                fontWeight: 700,
-                color: "#6B7280",
-                margin: "0 0 10px 0",
-                letterSpacing: "0.04em",
-              }}
-            >
-              Growth edges
-            </p>
-            {[
-              {
-                label: "Assertiveness Under Pressure",
-                evidence:
-                  "You softened your position when Dev pushed back on the timeline. Your original point was stronger.",
-                icon: "◇",
-                color: "#FFFBEB",
-                border: "#FDE68A",
-                iconColor: "#D97706",
-              },
-              {
-                label: "Speed of Conviction",
-                evidence:
-                  "There was a gap between when you formed your view and when you shared it. Practice closing that gap.",
-                icon: "◇",
-                color: "#FFFBEB",
-                border: "#FDE68A",
-                iconColor: "#D97706",
-              },
-            ].map(({ label, evidence, icon, color, border, iconColor }) => (
-              <div
-                key={label}
-                style={{
-                  display: "flex",
-                  gap: "14px",
-                  padding: "16px 18px",
-                  backgroundColor: color,
-                  border: `1px solid ${border}`,
-                  borderRadius: "10px",
-                  marginBottom: "8px",
-                  alignItems: "flex-start",
-                }}
-              >
-                <span
-                  style={{
-                    fontSize: "18px",
-                    color: iconColor,
-                    flexShrink: 0,
-                    lineHeight: 1.3,
-                  }}
-                >
-                  {icon}
-                </span>
-                <div>
-                  <p
-                    style={{
-                      fontSize: "13px",
-                      fontWeight: 700,
-                      color: "#1C1C1E",
-                      margin: "0 0 4px 0",
-                    }}
-                  >
-                    {label}
-                  </p>
-                  <p
-                    style={{
-                      fontSize: "13px",
-                      color: "#6B7280",
-                      margin: 0,
-                      lineHeight: "1.55",
-                    }}
-                  >
-                    {evidence}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* ────────────────── Layer 3 — The Way ────────────────── */}
-          <SectionLabel
-            label='The Way'
-            sub='Three things. Based on what you just did.'
-          />
-
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "10px",
-              marginBottom: "60px",
-            }}
-          >
-            {/* Card 1 — Do this week */}
-            <div
-              style={{
-                display: "flex",
-                gap: "16px",
-                padding: "20px 22px",
-                backgroundColor: "#FFFFFF",
-                border: "1px solid #EBEBEB",
-                borderRadius: "12px",
-                alignItems: "flex-start",
-                boxShadow: "0 1px 6px rgba(0,0,0,0.04)",
-              }}
-            >
-              <div
-                style={{
-                  width: 36,
-                  height: 36,
-                  borderRadius: "9px",
-                  backgroundColor: "#EEF2FF",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  flexShrink: 0,
-                }}
-              >
-                <svg
-                  width='16'
-                  height='16'
-                  viewBox='0 0 24 24'
-                  fill='none'
-                  stroke='#4F46E5'
-                  strokeWidth='2.2'
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                >
-                  <rect x='3' y='4' width='18' height='18' rx='2' />
-                  <line x1='16' y1='2' x2='16' y2='6' />
-                  <line x1='8' y1='2' x2='8' y2='6' />
-                  <line x1='3' y1='10' x2='21' y2='10' />
-                </svg>
-              </div>
-              <div>
-                <p
-                  style={{
-                    fontSize: "11px",
-                    fontWeight: 700,
-                    color: "#ADADAD",
-                    letterSpacing: "0.08em",
-                    textTransform: "uppercase",
-                    margin: "0 0 6px 0",
-                  }}
-                >
-                  One thing to do this week
-                </p>
-                <p
-                  style={{
-                    fontSize: "14px",
-                    color: "#374151",
-                    lineHeight: "1.65",
-                    margin: 0,
-                  }}
-                >
-                  Attend <strong>Navigating Conflict in Teams</strong> — Friday
-                  at 2 PM. You held back when Dev challenged you. This session
-                  practices exactly that.
-                </p>
-              </div>
-            </div>
-
-            {/* Card 2 — Reflect */}
-            <div
-              onClick={() =>
-                openJournal(
-                  "Kira noticed you knew the answer before you said it. Think about where else in your life you wait for permission to speak.",
-                )
-              }
-              style={{
-                display: "flex",
-                gap: "16px",
-                padding: "20px 22px",
-                backgroundColor: "#FFFFFF",
-                border: "1px solid #EBEBEB",
-                borderRadius: "12px",
-                alignItems: "flex-start",
-                boxShadow: "0 1px 6px rgba(0,0,0,0.04)",
-                cursor: "pointer",
-                transition: "border-color 0.15s ease",
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLDivElement).style.borderColor =
-                  "#C7D2FE";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLDivElement).style.borderColor =
-                  "#EBEBEB";
-              }}
-            >
-              <div
-                style={{
-                  width: 36,
-                  height: 36,
-                  borderRadius: "9px",
-                  backgroundColor: "#FFF7ED",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  flexShrink: 0,
-                }}
-              >
-                <svg
-                  width='16'
-                  height='16'
-                  viewBox='0 0 24 24'
-                  fill='none'
-                  stroke='#D97706'
-                  strokeWidth='2.2'
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                >
-                  <path d='M12 20h9' />
-                  <path d='M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z' />
-                </svg>
-              </div>
-              <div>
-                <p
-                  style={{
-                    fontSize: "11px",
-                    fontWeight: 700,
-                    color: "#ADADAD",
-                    letterSpacing: "0.08em",
-                    textTransform: "uppercase",
-                    margin: "0 0 6px 0",
-                  }}
-                >
-                  One thing to reflect on
-                </p>
-                <p
-                  style={{
-                    fontSize: "14px",
-                    color: "#374151",
-                    lineHeight: "1.65",
-                    margin: "0 0 8px 0",
-                  }}
-                >
-                  Kira noticed you knew the answer before you said it. Think
-                  about where else in your life you wait for permission to
-                  speak.
-                </p>
-                <span
-                  style={{
-                    fontSize: "12px",
-                    color: "#ADADAD",
-                    fontStyle: "italic",
-                    borderBottom: "1px solid #DFDEDE",
-                  }}
-                >
-                  Tap to open journal
-                </span>
-              </div>
-            </div>
-
-            {/* Card 3 — Try next */}
-            <div
-              style={{
-                display: "flex",
-                gap: "16px",
-                padding: "20px 22px",
-                backgroundColor: "#FFFFFF",
-                border: "1px solid #EBEBEB",
-                borderRadius: "12px",
-                alignItems: "flex-start",
-                boxShadow: "0 1px 6px rgba(0,0,0,0.04)",
-              }}
-            >
-              <div
-                style={{
-                  width: 36,
-                  height: 36,
-                  borderRadius: "9px",
-                  backgroundColor: "#F0FDF4",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  flexShrink: 0,
-                }}
-              >
-                <svg
-                  width='16'
-                  height='16'
-                  viewBox='0 0 24 24'
-                  fill='none'
-                  stroke='#16A34A'
-                  strokeWidth='2.2'
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                >
-                  <polygon points='5 3 19 12 5 21 5 3' />
-                </svg>
-              </div>
-              <div style={{ flex: 1 }}>
-                <p
-                  style={{
-                    fontSize: "11px",
-                    fontWeight: 700,
-                    color: "#ADADAD",
-                    letterSpacing: "0.08em",
-                    textTransform: "uppercase",
-                    margin: "0 0 6px 0",
-                  }}
-                >
-                  One thing to try next
-                </p>
-                <p
-                  style={{
-                    fontSize: "14px",
-                    color: "#374151",
-                    lineHeight: "1.65",
-                    margin: "0 0 14px 0",
-                  }}
-                >
-                  Ready to test yourself in a different scenario? This one puts
-                  you in a team disagreement about project direction — a faster
-                  room, higher stakes.
-                </p>
+          {/* Direct Messages */}
+          <div style={{ padding: "14px 10px 0" }}>
+            <p style={{ fontSize: "11px", fontWeight: 700, color: "#868686", letterSpacing: "0.08em", textTransform: "uppercase", margin: "0 0 5px 8px" }}>Direct Messages</p>
+            {DMS.map(({ id, name, AvatarComp }) => {
+              const isActive = activeDm === id;
+              const isUnread = !read[id];
+              return (
                 <button
-                  onClick={onContinue}
+                  key={id}
+                  onClick={() => openDm(id)}
                   style={{
-                    padding: "9px 20px",
-                    borderRadius: "8px",
-                    border: "none",
-                    backgroundColor: "#4F46E5",
-                    color: "#FFFFFF",
-                    fontFamily: "'DM Sans', sans-serif",
-                    fontSize: "13px",
-                    fontWeight: 700,
-                    cursor: "pointer",
-                    transition: "background-color 0.15s ease",
+                    display: "flex", alignItems: "center", gap: "8px", width: "100%",
+                    padding: "5px 8px", borderRadius: "6px", marginBottom: "2px",
+                    border: "none", textAlign: "left", cursor: "pointer",
+                    backgroundColor: isActive ? "rgba(99,102,241,0.12)" : "transparent",
+                    transition: "background-color 0.12s",
                   }}
-                  onMouseEnter={(e) => {
-                    (
-                      e.currentTarget as HTMLButtonElement
-                    ).style.backgroundColor = "#4338CA";
-                  }}
-                  onMouseLeave={(e) => {
-                    (
-                      e.currentTarget as HTMLButtonElement
-                    ).style.backgroundColor = "#4F46E5";
-                  }}
+                  onMouseEnter={(e) => { if (!isActive) e.currentTarget.style.backgroundColor = "#EBEBEB"; }}
+                  onMouseLeave={(e) => { if (!isActive) e.currentTarget.style.backgroundColor = "transparent"; }}
                 >
-                  Start next scenario
+                  <AvatarComp size={18} />
+                  <span style={{ fontSize: "13px", fontWeight: isUnread ? 700 : 400, color: isActive ? "#4F46E5" : isUnread ? "#1D1C1D" : "#616061", flex: 1 }}>
+                    {name.split(" ")[0]}
+                  </span>
+                  {isUnread && (
+                    <div style={{ minWidth: 18, height: 18, borderRadius: "999px", backgroundColor: "#4F46E5", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                      <span style={{ fontSize: "10px", fontWeight: 700, color: "#FFFFFF" }}>!</span>
+                    </div>
+                  )}
                 </button>
-              </div>
+              );
+            })}
+
+            {/* Self (Aiyana) */}
+            <div style={{ display: "flex", alignItems: "center", gap: "8px", padding: "5px 8px", borderRadius: "6px", opacity: 0.6, cursor: "default" }}>
+              <AiyanaAvatar size={18} />
+              <span style={{ fontSize: "13px", color: "#616061" }}>Aiyana (you)</span>
             </div>
           </div>
         </div>
+
+        {/* ── Active DM ── */}
+        <DmThread
+          key={activeDm}
+          person={activeDm}
+          AvatarComp={active.AvatarComp}
+          displayName={active.name}
+          allMessages={active.messages}
+          onContinue={onContinue}
+        />
       </div>
     </>
   );
