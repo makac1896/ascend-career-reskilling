@@ -22,6 +22,11 @@ import {
   Loader2,
   Upload,
   MapPin,
+  RefreshCw,
+  Database,
+  Globe,
+  FileBarChart,
+  Briefcase,
 } from "lucide-react";
 
 interface AdvisorOnboardingProps {
@@ -478,94 +483,113 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
 
   // ─── Screen 1 ─────────────────────────────────────────────────────────────
   if (currentScreen === 1) {
+    const logoMarks = [
+      { mark: "in", bg: "#0077B5", title: "LinkedIn Jobs API" },
+      { mark: "LC", bg: "#FF6B2B", title: "Lightcast" },
+      { mark: "BLS", bg: "#1B3A6B", title: "BLS Occupational Outlook", small: true },
+      { mark: "W", bg: "#4318FF", title: "Waypoint Student Records" },
+      { mark: "WEF", bg: "#009EDB", title: "WEF Future of Jobs", small: true },
+    ];
+
     return (
-      <div className="min-h-screen bg-ascend-bg flex flex-col items-center justify-center p-6 lg:p-10 animate-in fade-in duration-500">
-        <div className="max-w-3xl w-full">
-          <div className="flex justify-center mb-10">
-            <img src="/waypoint.png" alt="Waypoint" className="h-24 w-auto" />
+      <div className="h-screen bg-ascend-bg flex flex-col items-center justify-center p-6 lg:p-10 animate-in fade-in duration-500 overflow-hidden">
+        <div className="max-w-2xl w-full">
+
+          <div className="flex justify-center mb-6">
+            <img src="/waypoint.png" alt="Waypoint" className="h-14 w-auto" />
           </div>
 
-          <div className="bg-white rounded-card shadow-soft p-8 lg:p-10">
-            <p className="text-xs font-bold uppercase tracking-wider text-ascend-subtext mb-2">
-              Your Students · Today
-            </p>
-            <h1 className="text-3xl font-bold text-ascend-text mb-8 leading-snug">
-              Here's what's happening with your students
-            </h1>
+          <div className="bg-white rounded-card border border-ascend-border px-8 py-7"
+            style={{ boxShadow: "0 8px 40px rgba(67,24,255,0.10), 0 2px 8px rgba(0,0,0,0.06)" }}>
 
-            <div style={{ height: 270 }}>
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart
-                  layout="vertical"
-                  data={skillGapData}
-                  margin={{ top: 0, right: 40, left: 0, bottom: 0 }}
-                >
-                  <CartesianGrid
-                    strokeDasharray="3 3"
-                    horizontal={false}
-                    stroke="#E0E5F2"
-                  />
-                  <XAxis
-                    type="number"
-                    domain={[0, 100]}
-                    tickFormatter={(v) => `${v}%`}
-                    tick={{ fontSize: 11, fill: "#A3AED0" }}
-                    axisLine={false}
-                    tickLine={false}
-                  />
-                  <YAxis
-                    type="category"
-                    dataKey="skill"
-                    width={160}
-                    tick={{ fontSize: 12, fill: "#2B3674", fontWeight: 600 }}
-                    axisLine={false}
-                    tickLine={false}
-                  />
-                  <Tooltip
-                    formatter={(v) => `${v}%`}
-                    contentStyle={{
-                      borderRadius: 12,
-                      border: "none",
-                      boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
-                      fontSize: 12,
-                    }}
-                  />
-                  <Legend wrapperStyle={{ fontSize: 12, paddingTop: 8 }} />
-                  <Bar
-                    dataKey="demand"
-                    name="Market Demand"
-                    fill="#4318FF"
-                    radius={[0, 4, 4, 0]}
-                    barSize={9}
-                  />
-                  <Bar
-                    dataKey="coverage"
-                    name="Your Coverage"
-                    fill="#39B8FF"
-                    radius={[0, 4, 4, 0]}
-                    barSize={9}
-                  />
-                </BarChart>
-              </ResponsiveContainer>
+            {/* Headline */}
+            <div className="mb-6 pl-4 border-l-4 border-ascend-blue">
+              <h1 className="text-2xl font-bold text-ascend-text leading-snug">
+                Your students have 5 skill gaps employers are hiring against right now.
+              </h1>
+              <p className="text-sm text-ascend-subtext mt-2">
+                Here's the gap between what the market needs and what your cohort can demonstrate.
+              </p>
             </div>
 
-            <p className="text-base text-ascend-subtext text-center mt-6 mb-8 leading-relaxed">
-              You already have what you need to close these gaps.{" "}
-              <span className="text-ascend-text font-semibold">
-                Let's connect the pieces.
-              </span>
-            </p>
-
-            <div className="flex flex-col items-center gap-2">
-              <button
-                onClick={() => setCurrentScreen(2)}
-                className="flex items-center gap-2 bg-ascend-blue hover:bg-indigo-700 text-white font-bold px-8 py-4 rounded-pill shadow-glow transition-all hover:scale-105 text-base"
-              >
-                Show me how
-                <ArrowRight className="w-5 h-5" />
-              </button>
-              <p className="text-xs text-ascend-subtext">6 minutes</p>
+            {/* Skill gaps */}
+            <div className="flex flex-col gap-3 mb-6 bg-ascend-bg rounded-xl p-4 border border-ascend-border">
+              {skillGapData.map((row) => {
+                const gap = row.demand - row.coverage;
+                const gapColor = gap >= 60 ? "#EF4444" : gap >= 40 ? "#F97316" : "#EAB308";
+                return (
+                  <div key={row.skill} className="flex items-center gap-3">
+                    <span className="text-xs font-bold text-ascend-text w-36 flex-shrink-0">{row.skill}</span>
+                    <div className="flex-1 h-3 rounded-full bg-white border border-ascend-border overflow-hidden flex"
+                      style={{ boxShadow: "inset 0 1px 3px rgba(0,0,0,0.06)" }}>
+                      <div className="h-full bg-emerald-400 flex-shrink-0" style={{ width: `${row.coverage}%` }} />
+                      <div className="h-full bg-red-300 flex-shrink-0" style={{ width: `${gap}%` }} />
+                    </div>
+                    <div className="flex-shrink-0 w-24 text-right">
+                      <span className="text-sm font-bold" style={{ color: gapColor }}>{gap}%</span>
+                      <span className="text-[11px] text-ascend-subtext block leading-none">not covered</span>
+                    </div>
+                  </div>
+                );
+              })}
+              <div className="flex items-center gap-5 pt-2 border-t border-ascend-border mt-1">
+                <span className="flex items-center gap-1.5 text-[11px] text-ascend-subtext">
+                  <span className="w-3 h-2.5 rounded-sm bg-emerald-400 inline-block" /> Covered
+                </span>
+                <span className="flex items-center gap-1.5 text-[11px] text-ascend-subtext">
+                  <span className="w-3 h-2.5 rounded-sm bg-red-300 inline-block" /> Not covered
+                </span>
+              </div>
             </div>
+
+            {/* Source credibility strip */}
+            <div className="pt-4 border-t border-ascend-border mb-5">
+              <p className="text-[11px] font-bold uppercase tracking-wider text-ascend-subtext mb-3">Data sourced from</p>
+              <div className="flex items-center justify-between">
+                {logoMarks.map((src) => (
+                  <div key={src.mark} className="flex flex-col items-center gap-1.5" title={src.title}>
+                    <div
+                      style={{
+                        background: src.bg,
+                        color: "#fff",
+                        fontWeight: 800,
+                        fontSize: src.small ? 9 : 12,
+                        borderRadius: 10,
+                        width: 40,
+                        height: 40,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        letterSpacing: "-0.3px",
+                        boxShadow: "0 2px 8px rgba(0,0,0,0.18), 0 1px 2px rgba(0,0,0,0.10)",
+                      }}
+                    >
+                      {src.mark}
+                    </div>
+                    <span className="text-[10px] text-ascend-subtext text-center leading-tight max-w-[56px]">
+                      {src.title.split(" ")[0]}
+                    </span>
+                  </div>
+                ))}
+                <div className="flex flex-col items-center gap-1.5 pl-5 border-l border-ascend-border">
+                  <div className="flex items-center gap-1.5 bg-green-50 border border-green-200 px-2.5 py-1 rounded-full">
+                    <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+                    <span className="text-[11px] font-bold text-green-700">Live</span>
+                  </div>
+                  <span className="text-[10px] text-ascend-subtext whitespace-nowrap">4 min ago</span>
+                </div>
+              </div>
+            </div>
+
+            {/* CTA */}
+            <button
+              onClick={() => setCurrentScreen(2)}
+              className="w-full flex items-center justify-center gap-2 bg-ascend-blue hover:bg-indigo-700 text-white font-bold px-6 py-4 rounded-xl transition-all text-base"
+              style={{ boxShadow: "0 4px 20px rgba(67,24,255,0.35), 0 1px 4px rgba(67,24,255,0.2)" }}
+            >
+              Build your first intervention
+              <ArrowRight className="w-5 h-5" />
+            </button>
           </div>
         </div>
       </div>
