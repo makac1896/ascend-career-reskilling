@@ -28,6 +28,8 @@ import {
   FileBarChart,
   Briefcase,
   ChevronLeft,
+  ChevronRight,
+  Zap,
 } from "lucide-react";
 
 interface AdvisorOnboardingProps {
@@ -132,27 +134,55 @@ const rooms = [
 const resourceMappings = [
   {
     superpower: "Assertive Advocacy",
-    detail: "they hesitate to state perspective",
-    resource: '"Finding Your Voice" workshop — Wed 4pm',
-    connection: "Recommended when students show strong insights but hold back",
+    problem: "Students spot the right answer but stay silent",
+    detail: "They hesitate to state their perspective under pressure",
+    resource: "Finding Your Voice",
+    resourceDetail: "Workshop — Wednesdays 4pm · Room 14B",
+    connection: "Auto-recommended after students score high on insight but low on participation",
+    image: "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=1600&q=90&auto=format&fit=crop",
+    accent: "#4318FF",
   },
   {
     superpower: "Cultural Awareness",
-    detail: "they see what AI misses",
-    resource: '"Cultural Competency Seminar" — Fri 2pm',
-    connection: "Recommended when students identify missing human context",
+    problem: "AI misses the human context — students catch it",
+    detail: "They identify what automated content gets wrong about real communities",
+    resource: "Cultural Competency Seminar",
+    resourceDetail: "Seminar — Fridays 2pm · The Commons",
+    connection: "Auto-recommended when students flag missing cultural nuance in AI-generated content",
+    image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1600&q=90&auto=format&fit=crop",
+    accent: "#0EA5E9",
   },
   {
     superpower: "Critical Reading",
-    detail: "they spot gaps in AI content",
-    resource: '"Advanced Reading Seminar"',
-    connection: "Recommended when students demonstrate analytical strength",
+    problem: "Students can read between the lines of AI output",
+    detail: "They spot gaps, assumptions, and missing evidence others overlook",
+    resource: "Advanced Reading Seminar",
+    resourceDetail: "Seminar — Tuesdays 3pm · Room 22",
+    connection: "Auto-recommended when students demonstrate strong source analysis in the simulation",
+    image: "https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?w=1600&q=90&auto=format&fit=crop",
+    accent: "#8B5CF6",
   },
   {
     superpower: "Resilience",
-    detail: "they navigate disagreement",
-    resource: '"Navigating Conflict" workshop',
-    connection: "Recommended when students handle pushback well",
+    problem: "Conflict and pushback break momentum",
+    detail: "Students who navigate disagreement well are rare — and highly valued",
+    resource: "Navigating Conflict",
+    resourceDetail: "Workshop — Thursdays 5pm · Room 14B",
+    connection: "Auto-recommended when students hold their position constructively under challenge",
+    image: "https://images.unsplash.com/photo-1551836022-deb4988cc6c0?w=1600&q=90&auto=format&fit=crop",
+    accent: "#10B981",
+  },
+  {
+    superpower: "Problem-Solving",
+    problem: "Students freeze when data is incomplete or contradictory",
+    detail: "Decision-making under uncertainty is the real-world skill gap employers cite most",
+    resource: "Decision Lab",
+    resourceDetail: "Open lab — Mon & Wed 1–4pm · Room 22",
+    connection: "Auto-recommended when students make confident calls despite ambiguous information",
+    image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1600&q=90&auto=format&fit=crop",
+    accent: "#F97316",
+  },
+];
   },
 ];
 
@@ -400,6 +430,9 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
   // Screen 4
   const [selectedRooms, setSelectedRooms] = useState<Set<string>>(new Set());
   const [skipSpaces, setSkipSpaces] = useState(false);
+
+  // Screen 3 carousel
+  const [currentCard, setCurrentCard] = useState(0);
 
   // Screen 5
   const [selectedDeployment, setSelectedDeployment] = useState<string | null>(null);
@@ -847,50 +880,97 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
           ) : (
             <>
               {/* Connections table */}
-              <div className="bg-white rounded-card shadow-soft overflow-hidden mb-6 animate-in fade-in duration-500">
-                <div className="p-6 border-b border-ascend-border">
+              {/* Resource mapping carousel */}
+              <div className="mb-6 animate-in fade-in duration-500">
+                <div className="flex items-center justify-between mb-4">
                   <h2 className="font-bold text-ascend-text text-lg">
-                    Here's how your existing work supports what students need:
+                    Here's how your existing work connects to student needs
                   </h2>
+                  <span className="text-xs text-ascend-subtext">{currentCard + 1} / {resourceMappings.length}</span>
                 </div>
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="bg-ascend-light-blue">
-                        <th className="text-left p-4 text-xs font-bold text-ascend-subtext uppercase tracking-wide">
-                          When Students Discover This Superpower...
-                        </th>
-                        <th className="text-left p-4 text-xs font-bold text-ascend-subtext uppercase tracking-wide">
-                          You Already Have This Resource
-                        </th>
-                        <th className="text-left p-4 text-xs font-bold text-ascend-subtext uppercase tracking-wide">
-                          How It Connects
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {resourceMappings.map((row, i) => (
-                        <tr
-                          key={i}
-                          className={i % 2 === 0 ? "bg-white" : "bg-ascend-bg/50"}
-                        >
-                          <td className="p-4">
-                            <span className="font-bold text-ascend-text">
-                              {row.superpower}
-                            </span>
-                            <br />
-                            <span className="text-ascend-subtext text-xs">
-                              {row.detail}
-                            </span>
-                          </td>
-                          <td className="p-4 text-ascend-text">{row.resource}</td>
-                          <td className="p-4 text-ascend-subtext text-xs">
-                            {row.connection}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+
+                {/* Card */}
+                <div
+                  className="rounded-card overflow-hidden border border-ascend-border animate-in fade-in duration-300"
+                  key={currentCard}
+                  style={{ boxShadow: "0 8px 40px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06)" }}
+                >
+                  {/* Image */}
+                  <div className="relative h-52 overflow-hidden">
+                    <img
+                      src={resourceMappings[currentCard].image}
+                      alt={resourceMappings[currentCard].superpower}
+                      className="w-full h-full object-cover scale-105"
+                      style={{ filter: "brightness(0.75)" }}
+                    />
+                    <div
+                      className="absolute inset-0"
+                      style={{ background: "linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.1) 60%, transparent 100%)" }}
+                    />
+                    <div className="absolute bottom-0 left-0 p-6">
+                      <span
+                        className="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full mb-2 inline-block"
+                        style={{ background: resourceMappings[currentCard].accent, color: "#fff" }}
+                      >
+                        Student Superpower
+                      </span>
+                      <h3 className="text-2xl font-bold text-white leading-tight">
+                        {resourceMappings[currentCard].superpower}
+                      </h3>
+                      <p className="text-white/80 text-sm mt-1">{resourceMappings[currentCard].detail}</p>
+                    </div>
+                  </div>
+
+                  {/* Content */}
+                  <div className="bg-white p-6 grid grid-cols-2 gap-6">
+                    <div>
+                      <p className="text-[11px] font-bold uppercase tracking-wider text-ascend-subtext mb-2">The Problem</p>
+                      <p className="font-bold text-ascend-text text-sm leading-snug">{resourceMappings[currentCard].problem}</p>
+                    </div>
+                    <div>
+                      <p className="text-[11px] font-bold uppercase tracking-wider text-ascend-subtext mb-2">Your Resource</p>
+                      <p className="font-bold text-ascend-text text-sm">{resourceMappings[currentCard].resource}</p>
+                      <p className="text-xs text-ascend-subtext mt-0.5">{resourceMappings[currentCard].resourceDetail}</p>
+                    </div>
+                    <div className="col-span-2 pt-4 border-t border-ascend-border flex items-start gap-2">
+                      <Zap className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: resourceMappings[currentCard].accent }} />
+                      <p className="text-sm text-ascend-subtext leading-relaxed">{resourceMappings[currentCard].connection}</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Carousel controls */}
+                <div className="flex items-center justify-between mt-4">
+                  <button
+                    onClick={() => setCurrentCard((c) => Math.max(0, c - 1))}
+                    disabled={currentCard === 0}
+                    className="flex items-center gap-1.5 text-xs font-bold text-ascend-subtext hover:text-ascend-text disabled:opacity-30 transition-colors px-3 py-2 rounded-xl hover:bg-ascend-light-blue disabled:hover:bg-transparent"
+                  >
+                    <ChevronLeft className="w-4 h-4" /> Previous
+                  </button>
+
+                  <div className="flex items-center gap-2">
+                    {resourceMappings.map((_, i) => (
+                      <button
+                        key={i}
+                        onClick={() => setCurrentCard(i)}
+                        className="rounded-full transition-all duration-200"
+                        style={{
+                          width: i === currentCard ? 20 : 8,
+                          height: 8,
+                          background: i === currentCard ? resourceMappings[currentCard].accent : "#E0E5F2",
+                        }}
+                      />
+                    ))}
+                  </div>
+
+                  <button
+                    onClick={() => setCurrentCard((c) => Math.min(resourceMappings.length - 1, c + 1))}
+                    disabled={currentCard === resourceMappings.length - 1}
+                    className="flex items-center gap-1.5 text-xs font-bold text-ascend-subtext hover:text-ascend-text disabled:opacity-30 transition-colors px-3 py-2 rounded-xl hover:bg-ascend-light-blue disabled:hover:bg-transparent"
+                  >
+                    Next <ChevronRight className="w-4 h-4" />
+                  </button>
                 </div>
               </div>
 
