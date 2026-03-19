@@ -66,7 +66,7 @@ const MainDashboard: React.FC<MainDashboardProps> = ({
         {statCards.map((card) => {
           const Icon = card.icon;
           return (
-            <div key={card.label} className="bg-white rounded-card shadow-crisp p-6 flex flex-col gap-3">
+            <div key={card.label} className="bg-white rounded-card shadow-crisp p-6 flex flex-col gap-3 hover:-translate-y-0.5 hover:shadow-soft transition-all duration-200 cursor-default">
               <div className="flex items-center justify-between">
                 <div className="w-10 h-10 rounded-xl bg-ascend-light-blue flex items-center justify-center">
                   <Icon className="w-5 h-5 text-ascend-blue" />
@@ -150,7 +150,7 @@ const MainDashboard: React.FC<MainDashboardProps> = ({
               {opportunities.map((opp) => (
                 <div
                   key={opp.id}
-                  className="flex items-center gap-4 p-4 rounded-2xl border border-ascend-border hover:border-ascend-blue/30 hover:shadow-crisp transition-all"
+                  className="flex items-center gap-4 p-4 rounded-2xl border border-ascend-border hover:border-ascend-blue/30 hover:shadow-crisp hover:-translate-y-px transition-all duration-150"
                 >
                   <div className={`w-2 h-10 rounded-full flex-shrink-0 ${
                     opp.urgency === "Critical" ? "bg-red-400" : "bg-amber-400"

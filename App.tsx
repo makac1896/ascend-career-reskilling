@@ -15,6 +15,7 @@ import WaypointPostSimulation from "./components/WaypointPostSimulation";
 import DesignWorkshopModal from "./components/DesignWorkshopModal";
 import AdvisorJourneyDashboard from "./components/AdvisorJourneyDashboard";
 import AdvisorOnboarding from "./components/AdvisorOnboarding";
+import AgentDashboard from "./components/AgentDashboard";
 import Toast, { ToastProps } from "./components/Toast";
 import {
   Search,
@@ -31,6 +32,7 @@ import {
   ChevronRight,
   Eye,
   Compass,
+  Bot,
 } from "lucide-react";
 
 const SidebarItem: React.FC<{
@@ -184,6 +186,8 @@ const App: React.FC = () => {
         return <CurriculumDashboard />;
       case "Reports":
         return <ReportsDashboard />;
+      case "Agent":
+        return <AgentDashboard />;
       default:
         return (
           <div className='flex items-center justify-center h-[60vh] flex-col gap-4 text-center'>
@@ -213,7 +217,19 @@ const App: React.FC = () => {
 
   if (viewState === "advisor-onboarding") {
     return (
-      <AdvisorOnboarding onComplete={() => setViewState("admin")} />
+      <>
+        {/* Persistent branding */}
+        <div style={{ position: "fixed", top: 16, left: 20, zIndex: 200, pointerEvents: "none" }}>
+          <img src="/waypoint.png" alt="Waypoint" style={{ height: 48, width: "auto" }} />
+        </div>
+        <AdvisorOnboarding
+          onComplete={() => setViewState("admin")}
+          onPreviewJourney={() => {
+            setActiveTab("Observation Deck");
+            setViewState("admin");
+          }}
+        />
+      </>
     );
   }
 
@@ -392,6 +408,15 @@ const App: React.FC = () => {
             collapsed={isSidebarCollapsed}
             onClick={() => {
               setActiveTab("Reports");
+            }}
+          />
+          <SidebarItem
+            icon={<Bot />}
+            label='Agent'
+            active={activeTab === "Agent"}
+            collapsed={isSidebarCollapsed}
+            onClick={() => {
+              setActiveTab("Agent");
             }}
           />
         </nav>

@@ -24,7 +24,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
         {/* Login cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-2xl mb-10">
           {/* Student */}
-          <div className="bg-white rounded-card shadow-soft p-8 flex flex-col items-center text-center gap-5">
+          <div className="bg-white rounded-card shadow-soft p-8 flex flex-col items-center text-center gap-5 hover:-translate-y-1 hover:shadow-crisp transition-all duration-200">
             <div className="w-14 h-14 rounded-full bg-indigo-50 flex items-center justify-center">
               <GraduationCap className="w-7 h-7 text-ascend-blue" />
             </div>
@@ -37,7 +37,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
             </div>
             <button
               onClick={onEnterStudent}
-              className="w-full flex items-center justify-center gap-2 bg-ascend-blue hover:bg-indigo-700 text-white font-bold px-6 py-3 rounded-pill shadow-glow transition-all hover:scale-105 text-sm"
+              className="w-full flex items-center justify-center gap-2 bg-ascend-blue hover:bg-indigo-700 text-white font-bold px-6 py-3 rounded-pill shadow-glow transition-all hover:scale-105 active:scale-[0.97] text-sm"
             >
               <svg
                 className="w-4 h-4 flex-shrink-0"
@@ -56,7 +56,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
           </div>
 
           {/* Admin / Advisor */}
-          <div className="bg-white rounded-card shadow-soft p-8 flex flex-col items-center text-center gap-5">
+          <div className="bg-white rounded-card shadow-soft p-8 flex flex-col items-center text-center gap-5 hover:-translate-y-1 hover:shadow-crisp transition-all duration-200">
             <div className="w-14 h-14 rounded-full bg-purple-50 flex items-center justify-center">
               <ShieldCheck className="w-7 h-7 text-purple-600" />
             </div>
@@ -69,7 +69,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
             </div>
             <button
               onClick={onEnterAdmin}
-              className="w-full flex items-center justify-center gap-2 bg-white border-2 border-ascend-blue text-ascend-blue hover:bg-indigo-50 font-bold px-6 py-3 rounded-pill transition-all hover:scale-105 text-sm"
+              className="w-full flex items-center justify-center gap-2 bg-white border-2 border-ascend-blue text-ascend-blue hover:bg-indigo-50 font-bold px-6 py-3 rounded-pill transition-all hover:scale-105 active:scale-[0.97] text-sm"
             >
               <svg
                 className="w-4 h-4 flex-shrink-0"
