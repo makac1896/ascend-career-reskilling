@@ -68,26 +68,20 @@ const KIRA_MESSAGES: SlackMessage[] = [
   {
     id: "k1",
     from: "kira",
-    text: "Hey Aiyana 👋 Just hopped off the Zoom — wanted to reach out before I lost the thread. That was a really interesting session.",
+    text: "Hey Aiyana 👋 Quick follow-up from today.",
     time: "3:47 PM",
   },
   {
     id: "k2",
     from: "kira",
-    text: "I want to be honest with you — I wasn't sure how you'd handle that disagreement between me and Dev. You walked into the middle of it and you didn't just pick a side. You actually read the document and named what mattered.",
+    quote: "\"'Target demographics' isn't clunky writing — it signals who this community actually is.\"",
+    text: "You caught that without prompting. That's the skill. Most people miss it entirely.",
     time: "3:47 PM",
   },
   {
     id: "k3",
     from: "kira",
-    quote: "\"The phrase 'target demographics' isn't clunky writing — it signals a fundamental assumption about who this community actually is.\"",
-    text: "You said something close to this — and you were right. That's the kind of critical reading that takes most people years to develop. The fact that you caught it without prompting is significant.",
-    time: "3:48 PM",
-  },
-  {
-    id: "k4",
-    from: "kira",
-    text: "The one thing I'd invite you to sit with: when Dev pushed back on the timeline, you got quieter. Your instinct was right — but you let the pressure of the room pull you back. That's the edge to work on. Not whether you see clearly. Whether you trust what you see when someone with more experience is in the room.",
+    text: "One thing to watch: when Dev pushed back, you went quiet. Your read was right — but you didn't hold it. That's the edge.",
     time: "3:48 PM",
   },
   {
