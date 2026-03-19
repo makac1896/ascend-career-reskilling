@@ -511,33 +511,53 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
               </p>
             </div>
 
-            {/* Skill gaps — two independent bars per skill */}
-            <div className="flex flex-col gap-4 mb-6">
-              {skillGapData.map((row) => (
-                <div key={row.skill} className="flex items-center gap-3">
-                  <span className="text-xs font-bold text-ascend-text w-40 flex-shrink-0">{row.skill}</span>
-                  <div className="flex-1 flex flex-col gap-1">
-                    <div className="flex items-center gap-2">
-                      <div className="flex-1 h-2 rounded-full bg-gray-100">
-                        <div className="h-full rounded-full bg-ascend-blue" style={{ width: `${row.demand}%` }} />
+            {/* Skill gaps — progress-to-demand bars */}
+            <div className="flex flex-col gap-3 mb-6">
+              {skillGapData.map((row) => {
+                const gap = row.demand - row.coverage;
+                const gapColor = gap >= 60 ? "#EF4444" : gap >= 40 ? "#F97316" : "#EAB308";
+                return (
+                  <div key={row.skill} className="flex items-center gap-3">
+                    <span className="text-xs font-bold text-ascend-text w-36 flex-shrink-0">{row.skill}</span>
+
+                    {/* Track ends at demand%, fill shows coverage% */}
+                    <div className="flex-1 relative h-4 flex items-center">
+                      {/* Outer track — width = demand% of container */}
+                      <div
+                        className="absolute left-0 h-4 rounded-full overflow-hidden"
+                        style={{ width: `${row.demand}%`, background: "#FEE2E2" }}
+                      >
+                        {/* Coverage fill */}
+                        <div
+                          className="h-full rounded-full bg-emerald-400"
+                          style={{ width: `${(row.coverage / row.demand) * 100}%` }}
+                        />
                       </div>
-                      <span className="text-[11px] text-ascend-subtext w-8 text-right">{row.demand}%</span>
+                      {/* Demand end-cap marker */}
+                      <div
+                        className="absolute top-0 bottom-0 w-0.5 rounded-full bg-red-400"
+                        style={{ left: `${row.demand}%` }}
+                      />
                     </div>
-                    <div className="flex items-center gap-2">
-                      <div className="flex-1 h-2 rounded-full bg-gray-100">
-                        <div className="h-full rounded-full bg-indigo-200" style={{ width: `${row.coverage}%` }} />
-                      </div>
-                      <span className="text-[11px] text-ascend-subtext w-8 text-right">{row.coverage}%</span>
+
+                    {/* Numbers */}
+                    <div className="flex items-center gap-2 flex-shrink-0 w-36 justify-end">
+                      <span className="text-[11px] text-emerald-600 font-bold">{row.coverage}% ready</span>
+                      <span className="text-xs font-bold px-2 py-0.5 rounded-full text-white"
+                        style={{ background: gapColor }}>
+                        −{gap}%
+                      </span>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
+
               <div className="flex items-center gap-5 mt-1">
                 <span className="flex items-center gap-1.5 text-[11px] text-ascend-subtext">
-                  <span className="w-3 h-2 rounded-full bg-ascend-blue inline-block" /> Employers need
+                  <span className="w-3 h-2.5 rounded-sm bg-emerald-400 inline-block" /> Students ready
                 </span>
                 <span className="flex items-center gap-1.5 text-[11px] text-ascend-subtext">
-                  <span className="w-3 h-2 rounded-full bg-indigo-200 inline-block" /> Your students have
+                  <span className="w-3 h-2.5 rounded-sm bg-red-200 inline-block" /> Gap to employer demand
                 </span>
               </div>
             </div>
