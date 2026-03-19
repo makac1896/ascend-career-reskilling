@@ -928,19 +928,35 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
                   </div>
 
                   {/* Content */}
-                  <div className="bg-white p-6 grid grid-cols-2 gap-6">
-                    <div>
-                      <p className="text-[11px] font-bold uppercase tracking-wider text-ascend-subtext mb-2">The Problem</p>
+                  <div className="bg-white p-6 grid grid-cols-2 gap-4">
+                    {/* Problem */}
+                    <div className="rounded-xl p-4 border border-red-100 bg-red-50">
+                      <p className="text-[10px] font-bold uppercase tracking-wider text-red-400 mb-2">The Problem</p>
                       <p className="font-bold text-ascend-text text-sm leading-snug">{resourceMappings[currentCard].problem}</p>
                     </div>
-                    <div>
-                      <p className="text-[11px] font-bold uppercase tracking-wider text-ascend-subtext mb-2">Your Resource</p>
+
+                    {/* Solution */}
+                    <div className="rounded-xl p-4 border border-green-100 bg-green-50">
+                      <p className="text-[10px] font-bold uppercase tracking-wider text-green-600 mb-2">Your Solution</p>
                       <p className="font-bold text-ascend-text text-sm">{resourceMappings[currentCard].resource}</p>
-                      <p className="text-xs text-ascend-subtext mt-0.5">{resourceMappings[currentCard].resourceDetail}</p>
+                      <p className="text-xs text-ascend-subtext mt-1">{resourceMappings[currentCard].resourceDetail}</p>
                     </div>
-                    <div className="col-span-2 pt-4 border-t border-ascend-border flex items-start gap-2">
-                      <Zap className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: resourceMappings[currentCard].accent }} />
-                      <p className="text-sm text-ascend-subtext leading-relaxed">{resourceMappings[currentCard].connection}</p>
+
+                    {/* Auto-trigger */}
+                    <div
+                      className="col-span-2 rounded-xl p-4 flex items-start gap-3"
+                      style={{ background: `${resourceMappings[currentCard].accent}12`, border: `1px solid ${resourceMappings[currentCard].accent}30` }}
+                    >
+                      <div
+                        className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
+                        style={{ background: resourceMappings[currentCard].accent }}
+                      >
+                        <Zap className="w-3.5 h-3.5 text-white" />
+                      </div>
+                      <div>
+                        <p className="text-[10px] font-bold uppercase tracking-wider mb-1" style={{ color: resourceMappings[currentCard].accent }}>Auto-triggered when</p>
+                        <p className="text-sm font-medium text-ascend-text leading-snug">{resourceMappings[currentCard].connection}</p>
+                      </div>
                     </div>
                   </div>
                 </div>
