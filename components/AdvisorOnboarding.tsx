@@ -499,10 +499,11 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
             <img src="/waypoint.png" alt="Waypoint" className="h-14 w-auto" />
           </div>
 
-          <div className="bg-white rounded-card shadow-soft px-8 py-7">
+          <div className="bg-white rounded-card border border-ascend-border px-8 py-7"
+            style={{ boxShadow: "0 8px 40px rgba(67,24,255,0.10), 0 2px 8px rgba(0,0,0,0.06)" }}>
 
             {/* Headline */}
-            <div className="mb-6">
+            <div className="mb-6 pl-4 border-l-4 border-ascend-blue">
               <h1 className="text-2xl font-bold text-ascend-text leading-snug">
                 Your students have 5 skill gaps employers are hiring against right now.
               </h1>
@@ -511,22 +512,19 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
               </p>
             </div>
 
-            {/* Skill gaps — progress-to-demand bars */}
-            <div className="flex flex-col gap-3 mb-6">
+            {/* Skill gaps */}
+            <div className="flex flex-col gap-3 mb-6 bg-ascend-bg rounded-xl p-4 border border-ascend-border">
               {skillGapData.map((row) => {
                 const gap = row.demand - row.coverage;
                 const gapColor = gap >= 60 ? "#EF4444" : gap >= 40 ? "#F97316" : "#EAB308";
                 return (
                   <div key={row.skill} className="flex items-center gap-3">
                     <span className="text-xs font-bold text-ascend-text w-36 flex-shrink-0">{row.skill}</span>
-
-                    {/* Full-width track: green = coverage, red = gap, gray = remainder */}
-                    <div className="flex-1 h-3 rounded-full bg-gray-100 overflow-hidden flex">
+                    <div className="flex-1 h-3 rounded-full bg-white border border-ascend-border overflow-hidden flex"
+                      style={{ boxShadow: "inset 0 1px 3px rgba(0,0,0,0.06)" }}>
                       <div className="h-full bg-emerald-400 flex-shrink-0" style={{ width: `${row.coverage}%` }} />
                       <div className="h-full bg-red-300 flex-shrink-0" style={{ width: `${gap}%` }} />
                     </div>
-
-                    {/* Gap label only — bar shows coverage visually */}
                     <div className="flex-shrink-0 w-24 text-right">
                       <span className="text-sm font-bold" style={{ color: gapColor }}>{gap}%</span>
                       <span className="text-[11px] text-ascend-subtext block leading-none">not covered</span>
@@ -534,10 +532,9 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
                   </div>
                 );
               })}
-
-              <div className="flex items-center gap-5 mt-2">
+              <div className="flex items-center gap-5 pt-2 border-t border-ascend-border mt-1">
                 <span className="flex items-center gap-1.5 text-[11px] text-ascend-subtext">
-                  <span className="w-3 h-2.5 rounded-sm bg-emerald-400 inline-block" /> Covered by your students
+                  <span className="w-3 h-2.5 rounded-sm bg-emerald-400 inline-block" /> Covered
                 </span>
                 <span className="flex items-center gap-1.5 text-[11px] text-ascend-subtext">
                   <span className="w-3 h-2.5 rounded-sm bg-red-300 inline-block" /> Not covered
@@ -547,7 +544,7 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
 
             {/* Source credibility strip */}
             <div className="pt-4 border-t border-ascend-border mb-5">
-              <p className="text-[11px] text-ascend-subtext mb-3">Data sourced from</p>
+              <p className="text-[11px] font-bold uppercase tracking-wider text-ascend-subtext mb-3">Data sourced from</p>
               <div className="flex items-center justify-between">
                 {logoMarks.map((src) => (
                   <div key={src.mark} className="flex flex-col items-center gap-1.5" title={src.title}>
@@ -557,13 +554,14 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
                         color: "#fff",
                         fontWeight: 800,
                         fontSize: src.small ? 9 : 12,
-                        borderRadius: 8,
-                        width: 36,
-                        height: 36,
+                        borderRadius: 10,
+                        width: 40,
+                        height: 40,
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
                         letterSpacing: "-0.3px",
+                        boxShadow: "0 2px 8px rgba(0,0,0,0.18), 0 1px 2px rgba(0,0,0,0.10)",
                       }}
                     >
                       {src.mark}
@@ -573,10 +571,10 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
                     </span>
                   </div>
                 ))}
-                <div className="flex flex-col items-center gap-1.5 ml-2 pl-4 border-l border-ascend-border">
-                  <div className="flex items-center gap-1">
+                <div className="flex flex-col items-center gap-1.5 pl-5 border-l border-ascend-border">
+                  <div className="flex items-center gap-1.5 bg-green-50 border border-green-200 px-2.5 py-1 rounded-full">
                     <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-                    <span className="text-xs font-bold text-green-700">Live</span>
+                    <span className="text-[11px] font-bold text-green-700">Live</span>
                   </div>
                   <span className="text-[10px] text-ascend-subtext whitespace-nowrap">4 min ago</span>
                 </div>
@@ -586,7 +584,8 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
             {/* CTA */}
             <button
               onClick={() => setCurrentScreen(2)}
-              className="w-full flex items-center justify-center gap-2 bg-ascend-blue hover:bg-indigo-700 text-white font-bold px-6 py-4 rounded-xl shadow-glow transition-all text-base"
+              className="w-full flex items-center justify-center gap-2 bg-ascend-blue hover:bg-indigo-700 text-white font-bold px-6 py-4 rounded-xl transition-all text-base"
+              style={{ boxShadow: "0 4px 20px rgba(67,24,255,0.35), 0 1px 4px rgba(67,24,255,0.2)" }}
             >
               Build your first intervention
               <ArrowRight className="w-5 h-5" />
