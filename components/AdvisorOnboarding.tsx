@@ -511,37 +511,33 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
               </p>
             </div>
 
-            {/* Skill gaps — CSS bars, no chart library */}
-            <div className="flex flex-col gap-3 mb-6">
-              {skillGapData.map((row) => {
-                const gap = row.demand - row.coverage;
-                return (
-                  <div key={row.skill} className="flex items-center gap-3">
-                    <span className="text-xs font-bold text-ascend-text w-40 flex-shrink-0">{row.skill}</span>
-                    <div className="flex-1 h-2 rounded-full bg-gray-100 relative overflow-hidden">
-                      {/* coverage */}
-                      <div
-                        className="absolute inset-y-0 left-0 rounded-full bg-indigo-200"
-                        style={{ width: `${row.coverage}%` }}
-                      />
-                      {/* demand */}
-                      <div
-                        className="absolute inset-y-0 rounded-full bg-ascend-blue opacity-90"
-                        style={{ left: `${row.coverage}%`, width: `${gap}%` }}
-                      />
+            {/* Skill gaps — two independent bars per skill */}
+            <div className="flex flex-col gap-4 mb-6">
+              {skillGapData.map((row) => (
+                <div key={row.skill} className="flex items-center gap-3">
+                  <span className="text-xs font-bold text-ascend-text w-40 flex-shrink-0">{row.skill}</span>
+                  <div className="flex-1 flex flex-col gap-1">
+                    <div className="flex items-center gap-2">
+                      <div className="flex-1 h-2 rounded-full bg-gray-100">
+                        <div className="h-full rounded-full bg-ascend-blue" style={{ width: `${row.demand}%` }} />
+                      </div>
+                      <span className="text-[11px] text-ascend-subtext w-8 text-right">{row.demand}%</span>
                     </div>
-                    <span className="text-xs font-bold text-red-500 w-14 text-right flex-shrink-0">
-                      {gap}% gap
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <div className="flex-1 h-2 rounded-full bg-gray-100">
+                        <div className="h-full rounded-full bg-indigo-200" style={{ width: `${row.coverage}%` }} />
+                      </div>
+                      <span className="text-[11px] text-ascend-subtext w-8 text-right">{row.coverage}%</span>
+                    </div>
                   </div>
-                );
-              })}
-              <div className="flex items-center gap-4 mt-1">
+                </div>
+              ))}
+              <div className="flex items-center gap-5 mt-1">
                 <span className="flex items-center gap-1.5 text-[11px] text-ascend-subtext">
-                  <span className="w-2.5 h-2 rounded-full bg-indigo-200 inline-block" /> Current coverage
+                  <span className="w-3 h-2 rounded-full bg-ascend-blue inline-block" /> Employers need
                 </span>
                 <span className="flex items-center gap-1.5 text-[11px] text-ascend-subtext">
-                  <span className="w-2.5 h-2 rounded-full bg-ascend-blue inline-block" /> Gap to close
+                  <span className="w-3 h-2 rounded-full bg-indigo-200 inline-block" /> Your students have
                 </span>
               </div>
             </div>
