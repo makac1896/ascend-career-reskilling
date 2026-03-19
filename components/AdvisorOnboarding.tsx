@@ -526,24 +526,21 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
                       <div className="h-full bg-red-300 flex-shrink-0" style={{ width: `${gap}%` }} />
                     </div>
 
-                    {/* Numbers */}
-                    <div className="flex items-center gap-2 flex-shrink-0 w-36 justify-end">
-                      <span className="text-[11px] text-emerald-600 font-bold">{row.coverage}% ready</span>
-                      <span className="text-xs font-bold px-2 py-0.5 rounded-full text-white"
-                        style={{ background: gapColor }}>
-                        −{gap}%
-                      </span>
+                    {/* Gap label only — bar shows coverage visually */}
+                    <div className="flex-shrink-0 w-24 text-right">
+                      <span className="text-sm font-bold" style={{ color: gapColor }}>{gap}%</span>
+                      <span className="text-[11px] text-ascend-subtext block leading-none">not covered</span>
                     </div>
                   </div>
                 );
               })}
 
-              <div className="flex items-center gap-5 mt-1">
+              <div className="flex items-center gap-5 mt-2">
                 <span className="flex items-center gap-1.5 text-[11px] text-ascend-subtext">
-                  <span className="w-3 h-2.5 rounded-sm bg-emerald-400 inline-block" /> Students ready
+                  <span className="w-3 h-2.5 rounded-sm bg-emerald-400 inline-block" /> Covered by your students
                 </span>
                 <span className="flex items-center gap-1.5 text-[11px] text-ascend-subtext">
-                  <span className="w-3 h-2.5 rounded-sm bg-red-200 inline-block" /> Gap to employer demand
+                  <span className="w-3 h-2.5 rounded-sm bg-red-300 inline-block" /> Not covered
                 </span>
               </div>
             </div>
