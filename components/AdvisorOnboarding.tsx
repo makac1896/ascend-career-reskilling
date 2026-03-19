@@ -27,6 +27,7 @@ import {
   Globe,
   FileBarChart,
   Briefcase,
+  ChevronLeft,
 } from "lucide-react";
 
 interface AdvisorOnboardingProps {
@@ -345,6 +346,30 @@ const DropZone: React.FC<DropZoneProps> = ({
   );
 };
 
+// ─── NavRow sub-component ────────────────────────────────────────────────────
+
+const NavRow: React.FC<{ onBack?: () => void; onSkip: () => void }> = ({ onBack, onSkip }) => (
+  <div className="flex items-center justify-between mb-8">
+    {onBack ? (
+      <button
+        onClick={onBack}
+        className="flex items-center gap-1.5 text-xs font-medium text-ascend-subtext hover:text-ascend-text transition-colors group"
+      >
+        <ChevronLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
+        Back
+      </button>
+    ) : (
+      <div />
+    )}
+    <button
+      onClick={onSkip}
+      className="text-xs text-ascend-subtext hover:text-ascend-text transition-colors underline underline-offset-2 decoration-ascend-border hover:decoration-ascend-subtext"
+    >
+      Skip to dashboard
+    </button>
+  </div>
+);
+
 // ─── Main Component ─────────────────────────────────────────────────────────
 
 const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => {
@@ -380,6 +405,16 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
   const [selectedDeployment, setSelectedDeployment] = useState<string | null>(null);
   const [sendingAnimation, setSendingAnimation] = useState(false);
   const [sent, setSent] = useState(false);
+
+  // Screen 1 bar entrance animation
+  const [barsVisible, setBarsVisible] = useState(false);
+  React.useEffect(() => {
+    if (currentScreen === 1) {
+      setBarsVisible(false);
+      const t = setTimeout(() => setBarsVisible(true), 80);
+      return () => clearTimeout(t);
+    }
+  }, [currentScreen]);
 
   // Screen 3 handlers
   const addItem = (box: BoxId, value: string) => {
@@ -492,7 +527,7 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
     ];
 
     return (
-      <div className="h-screen bg-ascend-bg flex flex-col items-center justify-center p-6 lg:p-10 animate-in fade-in duration-500 overflow-hidden">
+      <div className="h-screen bg-ascend-bg flex flex-col items-center justify-center p-6 lg:p-10 animate-in fade-in slide-in-from-bottom-3 duration-300 overflow-hidden">
         <div className="max-w-2xl w-full">
 
           <div className="flex justify-center mb-6">
@@ -501,6 +536,8 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
 
           <div className="bg-white rounded-card border border-ascend-border px-8 py-7"
             style={{ boxShadow: "0 8px 40px rgba(67,24,255,0.10), 0 2px 8px rgba(0,0,0,0.06)" }}>
+
+            <NavRow onSkip={onComplete} />
 
             {/* Headline */}
             <div className="mb-6 pl-4 border-l-4 border-ascend-blue">
@@ -514,18 +551,34 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
 
             {/* Skill gaps */}
             <div className="flex flex-col gap-3 mb-6 bg-ascend-bg rounded-xl p-4 border border-ascend-border">
-              {skillGapData.map((row) => {
+              {skillGapData.map((row, idx) => {
                 const gap = row.demand - row.coverage;
                 const gapColor = gap >= 60 ? "#EF4444" : gap >= 40 ? "#F97316" : "#EAB308";
+                const delay = `${idx * 80}ms`;
                 return (
                   <div key={row.skill} className="flex items-center gap-3">
                     <span className="text-xs font-bold text-ascend-text w-36 flex-shrink-0">{row.skill}</span>
                     <div className="flex-1 h-3 rounded-full bg-white border border-ascend-border overflow-hidden flex"
                       style={{ boxShadow: "inset 0 1px 3px rgba(0,0,0,0.06)" }}>
-                      <div className="h-full bg-emerald-400 flex-shrink-0" style={{ width: `${row.coverage}%` }} />
-                      <div className="h-full bg-red-300 flex-shrink-0" style={{ width: `${gap}%` }} />
+                      <div
+                        className="h-full bg-emerald-400 flex-shrink-0"
+                        style={{
+                          width: barsVisible ? `${row.coverage}%` : "0%",
+                          transition: `width 0.7s ease-out ${delay}`,
+                        }}
+                      />
+                      <div
+                        className="h-full bg-red-300 flex-shrink-0"
+                        style={{
+                          width: barsVisible ? `${gap}%` : "0%",
+                          transition: `width 0.7s ease-out ${delay}`,
+                        }}
+                      />
                     </div>
-                    <div className="flex-shrink-0 w-24 text-right">
+                    <div
+                      className="flex-shrink-0 w-24 text-right"
+                      style={{ opacity: barsVisible ? 1 : 0, transition: `opacity 0.4s ease-out ${delay}` }}
+                    >
                       <span className="text-sm font-bold" style={{ color: gapColor }}>{gap}%</span>
                       <span className="text-[11px] text-ascend-subtext block leading-none">not covered</span>
                     </div>
@@ -599,8 +652,9 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
   // ─── Screen 2 ─────────────────────────────────────────────────────────────
   if (currentScreen === 2) {
     return (
-      <div className="min-h-screen bg-ascend-bg flex flex-col items-center justify-start p-6 lg:p-10 animate-in fade-in duration-500">
+      <div className="min-h-screen bg-ascend-bg flex flex-col items-center justify-start p-6 lg:p-10 animate-in fade-in slide-in-from-bottom-3 duration-300">
         <div className="max-w-4xl w-full pt-8">
+          <NavRow onBack={() => setCurrentScreen(1)} onSkip={onComplete} />
           <ProgressIndicator completed={0} />
 
           <div className="text-center mb-10">
@@ -617,7 +671,7 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
                 <div
                   key={s.id}
                   onClick={() => setSelectedScenario(s.id)}
-                  className={`bg-white rounded-card p-6 cursor-pointer border-2 transition-all duration-300 shadow-crisp ${
+                  className={`bg-white rounded-card p-6 cursor-pointer border-2 transition-all duration-300 shadow-crisp active:scale-[0.97] ${
                     isSelected
                       ? "border-ascend-blue shadow-glow scale-[1.02]"
                       : isFaded
@@ -681,8 +735,9 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
   // ─── Screen 3 ─────────────────────────────────────────────────────────────
   if (currentScreen === 3) {
     return (
-      <div className="min-h-screen bg-ascend-bg flex flex-col items-center justify-start p-6 lg:p-10 animate-in fade-in duration-500">
+      <div className="min-h-screen bg-ascend-bg flex flex-col items-center justify-start p-6 lg:p-10 animate-in fade-in slide-in-from-bottom-3 duration-300">
         <div className="max-w-3xl w-full pt-8">
+          <NavRow onBack={() => setCurrentScreen(2)} onSkip={onComplete} />
           <ProgressIndicator completed={1} />
 
           <div className="text-center mb-10">
@@ -875,8 +930,9 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
   // ─── Screen 4 ─────────────────────────────────────────────────────────────
   if (currentScreen === 4) {
     return (
-      <div className="min-h-screen bg-ascend-bg flex flex-col items-center justify-start p-6 lg:p-10 animate-in fade-in duration-500">
+      <div className="min-h-screen bg-ascend-bg flex flex-col items-center justify-start p-6 lg:p-10 animate-in fade-in slide-in-from-bottom-3 duration-300">
         <div className="max-w-5xl w-full pt-8">
+          <NavRow onBack={() => setCurrentScreen(3)} onSkip={onComplete} />
           <ProgressIndicator completed={2} />
 
           <div className="text-center mb-8">
@@ -1044,8 +1100,9 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
     ];
 
     return (
-      <div className="min-h-screen bg-ascend-bg flex flex-col items-center justify-start p-6 lg:p-10 animate-in fade-in duration-500">
+      <div className="min-h-screen bg-ascend-bg flex flex-col items-center justify-start p-6 lg:p-10 animate-in fade-in slide-in-from-bottom-3 duration-300">
         <div className="max-w-3xl w-full pt-8">
+          <NavRow onBack={() => setCurrentScreen(4)} onSkip={onComplete} />
           <div className="flex justify-center mb-8">
             <img src="/waypoint.png" alt="Waypoint" className="h-20 w-auto" />
           </div>
@@ -1180,8 +1237,9 @@ const AdvisorOnboarding: React.FC<AdvisorOnboardingProps> = ({ onComplete }) => 
 
   // ─── Screen 6 ─────────────────────────────────────────────────────────────
   return (
-    <div className="min-h-screen bg-ascend-bg flex flex-col items-center justify-start p-6 lg:p-10 animate-in fade-in duration-500">
+    <div className="min-h-screen bg-ascend-bg flex flex-col items-center justify-start p-6 lg:p-10 animate-in fade-in slide-in-from-bottom-3 duration-300">
       <div className="max-w-4xl w-full pt-8">
+        <NavRow onBack={() => setCurrentScreen(5)} onSkip={onComplete} />
         <p className="text-xs font-bold uppercase tracking-wider text-ascend-subtext text-center mb-2">
           Setup Complete
         </p>
